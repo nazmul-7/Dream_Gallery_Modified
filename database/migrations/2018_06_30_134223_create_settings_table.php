@@ -16,9 +16,13 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('currencyType')->nullable()->default('BDT');
-            $table->string('unitType')->nullable()->default('Unit');
             $table->string('openingStock')->nullable()->default(0);
             $table->string('openingBalance')->nullable()->default(0);
+            $table->string('companyName')->nullable();
+            $table->string('companyLogo')->nullable();
+            $table->text('companyInfo')->nullable();
+
+
             $table->timestamps();
         });
     }

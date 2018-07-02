@@ -9,26 +9,24 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-/*importing vuex*/
 import store from './store'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css' 
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
 
 /*import lodash*/
 window._ = require('lodash');
 require('es6-promise').polyfill();
 require('es6-object-assign').polyfill();
 Vue.use(iView);
-Vue.use(Vuetify)
+
+// common methods 
+
+/*custom common methods*/
+import common from './common';
+Vue.mixin(common);
+
 
 Vue.component('mainapp', require('./components/mainapp.vue'));
 import router from './router'

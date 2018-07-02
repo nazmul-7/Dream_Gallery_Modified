@@ -15,8 +15,8 @@ class CreateUnitTypesTable extends Migration
     {
         Schema::create('unit_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('unitTitle');
-            $table->string('unitAttribute');
+            $table->string('unitName');
+           
             $table->timestamps();
         });
     }

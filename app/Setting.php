@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     	protected $fillable = [
-        'currencyType', 'unitType', 'openingStock' , 'openingBalance'
+        'companyName','companyLogo','companyInfo','currencyType', 'unitType', 'openingStock' , 'openingBalance'
     ];
 }
