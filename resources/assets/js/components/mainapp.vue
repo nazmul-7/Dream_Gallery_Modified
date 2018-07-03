@@ -4,18 +4,20 @@
  <div class="layout">
         <Layout>
             <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem name="1-1" to="vaasdas">
+                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses" @on-select="goToLink">
+                    <MenuItem name="setting" :to="handleGoToMenu('/setting')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>Setting</span>
+                        <span>Setting</span>              
                     </MenuItem>
-                    <MenuItem name="1-2">
-                        <Icon type="search"></Icon>
-                        <span>Products</span>
+                    
+                    <MenuItem name="group" :to="handleGoToMenu('/group')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>Group</span>              
                     </MenuItem>
-                    <MenuItem name="1-3">
-                        <Icon type="settings"></Icon>
-                        <span>Accounts</span>
+
+                    <MenuItem name="category" :to="handleGoToMenu('/category')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>Category</span>              
                     </MenuItem>
                 </Menu>
             </Sider>
@@ -68,6 +70,13 @@
 		methods: {
 			collapsedSider () {
                 this.$refs.side1.toggleCollapse();
+            },
+            goToLink(url){
+               console.log('okk')
+                this.$router.push(url)
+            },
+            handleGoToMenu(d){
+                return d
             }
 		}
 
@@ -77,9 +86,8 @@
 	}
 </script>
 
-
 <style>
-	.layout{
+    .layout{
         border: 1px solid #d7dde4;
         background: #f5f7f9;
         position: relative;

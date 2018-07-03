@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Group;
-class GroupController extends Controller
+use App\Category;
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $settings=Group::orderBy('id', 'desc')->get();
+        $settings=Category::with('group')->orderBy('id', 'desc')->get();
         return $settings;
     }
 
@@ -24,7 +24,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,11 +35,9 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $created=Group::create($request->all());
-         return response()->json([
-                 'msg' => 'Inserted',
-                 'status' => $created
-            ],200);
+        $created=Category::create($request->all());
+        $settings=Category::where('id', $created->id)->with('group')->first();
+        return $settings;
     }
 
     /**
@@ -73,11 +71,7 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
-        public function groupUpdate(Request $request)
-    {
-        return Group::where('id',$request->id)->update($request->all());
+                return Category::where('id',$request->id)->update($request->all());
     }
 
     /**
@@ -88,7 +82,7 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        $group = Group::where('id','=',$id)
+        $group = Category::where('id','=',$id)
           ->first();
           if($group->count()){
             $group->delete();

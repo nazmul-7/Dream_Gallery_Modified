@@ -91,4 +91,21 @@ class SettingController extends Controller
     {
         //
     }
+
+    // file upload
+
+    public function upload(Request $request)
+    {
+       
+        
+        request()->file('img')->store('uploads');
+        $pic= $request->img->hashName();
+        /*update the profile pic*/
+        Setting::where('id', $request->id)->update([
+            'companyLogo' => $pic
+        ]);
+        return response()->json([
+            'companyLogo'=> $pic
+        ],200);
+    }
 }

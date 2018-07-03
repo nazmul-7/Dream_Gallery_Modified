@@ -6,13 +6,19 @@
 
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem >
-                                <Input type="text" placeholder="Group Name" 
-                                v-model="formValue.groupName"></Input>
+                            <FormItem label="Group">
+                                <Select v-model="formValue.group_id" placeholder="Select group">
+                                    <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
+                                </Select>
                             </FormItem>
+                            <FormItem  label="Category Name">
+                                <Input type="text" placeholder="Category Name" 
+                                v-model="formValue.catName"></Input>
+                            </FormItem >
+                            
                         </Col>
                          <Col class="dream-input-main-button" span="24">
-                            <Button type="success" :loading="loading" @click="groupAdd">
+                            <Button type="success" :loading="loading" @click="categoryAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
                             </Button>
@@ -24,22 +30,27 @@
 
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
+                <Table :columns="columns1" :data="dataCategory"></Table>
             </Col>
         </Row>
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.groupName}}</span>
+            <span> Edit {{UpdateValue.catName}}</span>
         </p>
         <div style="text-align:center">
             <Form>
            <Col span="24">
-                <FormItem >
-                    <Input type="text" placeholder="Group Name" 
-                    v-model="editObj.groupName"></Input>
-                </FormItem>
+           <FormItem label="Group">
+                                <Select v-model="editObj.group_id" placeholder="Select group">
+                                    <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
+                                </Select>
+                            </FormItem>
+                            <FormItem  label="Category Name">
+                                <Input type="text" placeholder="Category Name" 
+                                v-model="editObj.catName"></Input>
+                            </FormItem >
             </Col>
         </Form>
 
@@ -54,10 +65,10 @@
     <Modal v-model="deleteModal" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.groupName}}</span>
+            <span> Delete {{UpdateValue.catName}}</span>
         </p>
         <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.groupName}}
+            Are you sure you want delete {{UpdateValue.catName}}
 
         </div>
         <div slot="footer">
@@ -81,18 +92,24 @@
                 isCollapsed: false,
                 editObj: {
                     id:null,
-                    groupName:'',
+                    catName:'',
+                    group_id:'',
                     
                 },
                 UpdateValue: {
                     indexNumber:null,
-                    groupName:'',
                     id:null,
+                    catName:'',
+                    group_id:'',
                     
                 },
                 columns1: [
                     {
-                        title: 'Name',
+                        title: 'Category Name',
+                        key: 'catName'
+                    },
+                    {
+                        title: 'Group Name',
                         key: 'groupName'
                     },
                     {   
@@ -131,15 +148,17 @@
                         }
                     }
                 ],
-                data1: [
+                dataGroup: [
                     
                   
                     
                 ],
+                dataCategory: [],
 
                 formValue: {
                     id: '',
-                    groupName: '',
+                    catName:'',
+                    group_id:'',
                 },
                 
             }
@@ -163,33 +182,38 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            async groupAdd(){
+            async categoryAdd(){
                 this.loading=true
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/group',
+                        url:'/app/category',
                         data: this.formValue
                     })
-                    this.data1.unshift(data.status)
-                    this.s('Great!','Group has been added successfully!')
+                    data.groupName=data.group.groupName
+                    this.dataCategory.unshift(data)
                     
+                    this.s('Great!','Category has been added successfully!')
                     this.loading=false
+                    this.formValue.catName=''
+                    this.formValue.group_id=null
                 }catch(e){
                     this.loading=false
                     this.e('Oops!','Something went wrong, please try again!')
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.data1[index].id
-                this.editObj.groupName=this.data1[index].groupName
-                this.UpdateValue.groupName=this.data1[index].groupName
+                this.editObj.id=this.dataCategory[index].id
+                this.editObj.catName=this.dataCategory[index].catName
+                this.editObj.group_id=this.dataCategory[index].group_id
+                this.UpdateValue.group_id=this.dataCategory[index].group_id
+                this.UpdateValue.catName=this.dataCategory[index].catName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.groupName=this.data1[index].groupName
-                this.UpdateValue.id=this.data1[index].id
+                this.UpdateValue.catName=this.dataCategory[index].catName
+                this.UpdateValue.id=this.dataCategory[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -197,12 +221,13 @@
                 this.sending=true
                 try{
                     let {data} =await  axios({
-                        method: 'post',
-                        url:'/app/groupUpdate',
+                        method: 'put',
+                        url:`/app/category/${this.UpdateValue.id}`,
                         data: this.editObj
                     })
-                    this.data1[this.UpdateValue.indexNumber].groupName=this.editObj.groupName
-                    this.s('Great!','Group information has been updated successfully!')
+                    this.dataCategory[this.UpdateValue.indexNumber].catName=this.editObj.catName
+                    this.dataCategory[this.UpdateValue.indexNumber].group_id=this.editObj.group_id
+                    this.s('Great!','Category information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false
@@ -217,10 +242,10 @@
                 try{
                     let {data} =await  axios({
                         method: 'delete',
-                        url:`/app/group/${this.UpdateValue.id}`,
+                        url:`/app/category/${this.UpdateValue.id}`,
                     })
-                    this.data1.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Group information has been removed successfully!')
+                    this.dataCategory.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','Category information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false
@@ -242,9 +267,24 @@
                     method: 'get',
                     url:'/app/group'
                 })
-                this.data1=data;
+                this.dataGroup=data;
+                this.lf();
 
-            this.lf();
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/category'
+                })
+                for(let d of data){
+                    d.groupName=d.group.groupName
+                }
+                
+                this.dataCategory=data;
+                this.lf();
 
             }catch(e){
                 this.e('Oops!','Something went wrong, please try again!')

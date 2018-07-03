@@ -20,8 +20,12 @@ Route::get('/', function () {
 Route::post('/app/login','LoginController@login');
 Route::post('/app/settingUpdate','SettingController@updateSetting');
 Route::post('/app/groupUpdate','GroupController@groupUpdate');
+
+Route::resource('/app/category','CategoryController');
 Route::resource('/app/group','GroupController');
+Route::post('/app/setting/upload','SettingController@upload');
 Route::resource('/app/setting','SettingController');
+
 Route::get('/logout', function () {
 	Auth::logout();
    Session::flush();

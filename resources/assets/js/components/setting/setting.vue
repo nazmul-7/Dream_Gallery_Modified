@@ -42,7 +42,29 @@
                     </Row>
                 </Form>
             </Col>
+            <Col class="dream-input-main" span="10" offset="1">
+            <Upload
+                ref="upload"
+                type="drag"
+                name="img"
+                :show-upload-list="listMethod"
+                :with-credentials="true"
+                :headers="crfObj"
+                :data="{id:1}"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png']"
+                :max-size="2048"
+                action="/app/setting/upload">
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>Click or drag image here to upload Logo</p>
+                </div>
+            </Upload>
+
+            <img  class="logo" :src="`/uploads/${logo}`" v-if="logo">
+            </Col>
         </Row>
+
 
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
@@ -57,7 +79,12 @@
         data () {
             return {
                 loading:false,
+                listMethod:true,
                 isCollapsed: false,
+               
+               crfObj: {
+                    'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+               },
                 columns1: [
                     {
                         title: 'Name',
@@ -99,6 +126,7 @@
                     openingBalance: '',
                     companyInfo: '',
                 },
+                logo:''
                 
             }
             
@@ -118,6 +146,11 @@
             }
         },
         methods: {
+
+            handleSuccess(res, file){
+                this.logo=res.companyLogo
+            },
+
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
@@ -146,6 +179,7 @@
         },
         async created()
         {
+          console.log(typeof this.crfObj)
             this.ls();
             try{
                 let {data} =await  axios({
@@ -158,6 +192,7 @@
                 this.data1[2].value=data.currencyType
                 this.data1[3].value=data.openingStock
                 this.data1[4].value=data.openingBalance
+                this.logo=data.companyLogo
             this.lf();
 
             }catch(e){

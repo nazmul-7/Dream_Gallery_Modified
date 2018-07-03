@@ -4,6 +4,7 @@ import login from './components/login.vue'
 import home from './components/home.vue'
 import setting from './components/setting/setting.vue'
 import group from './components/group/group.vue'
+import category from './components/category/category.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -29,6 +30,11 @@ export default new Router({
 	      path: '/group',
 	      name: 'group',
 	      component: group
+	    },
+    	{
+	      path: '/category',
+	      name: 'category',
+	      component: category
 	    },
 	 ]
 })
