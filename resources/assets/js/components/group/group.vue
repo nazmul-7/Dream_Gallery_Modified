@@ -6,7 +6,7 @@
 
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem >
+                            <FormItem label="Group Name">
                                 <Input type="text" placeholder="Group Name" 
                                 v-model="formValue.groupName"></Input>
                             </FormItem>
@@ -172,6 +172,7 @@
                         data: this.formValue
                     })
                     this.data1.unshift(data.status)
+                    this.formValue.groupName=''
                     this.s('Great!','Group has been added successfully!')
                     
                     this.loading=false

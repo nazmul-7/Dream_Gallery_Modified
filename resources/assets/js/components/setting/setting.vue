@@ -6,30 +6,30 @@
 
                     <Row :gutter="16">
                         <Col span="12">
-                            <FormItem >
+                            <FormItem label="Company Name" >
                                 <Input type="text" placeholder="Company Name" 
                                 v-model="formValue.companyName"></Input>
                             </FormItem>
                         </Col>
                         <Col span="12">
-                            <FormItem >
+                            <FormItem label="Currency">
                                 <Input type="text" placeholder="Currency" v-model="formValue.currencyType"></Input>
                             </FormItem>
                         </Col>
                          <Col span="12">
-                            <FormItem >
+                            <FormItem label="Opening Stock Valution">
                                 <Input type="text" placeholder="Opening Stock Valution" v-model="formValue.openingStock"></Input>
                             </FormItem>
                         </Col>
 
                          <Col span="12">
-                            <FormItem >
+                            <FormItem label="Account Opening Balance" >
                                 <Input type="text" placeholder="Account Opening Balance" v-model="formValue.openingBalance"></Input>
                             </FormItem>
                         </Col>
                         
                         <Col span="24">
-                            <FormItem >
+                            <FormItem label="Coumpany Discription">
                                 <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Coumpany Discription" v-model="formValue.companyInfo"></Input>
                             </FormItem>
                         </Col>
@@ -60,8 +60,12 @@
                     <p>Click or drag image here to upload Logo</p>
                 </div>
             </Upload>
-
-            <img  class="logo" :src="`/uploads/${logo}`" v-if="logo">
+            <Card  span="10" offset="1">
+                <div style="text-align:center">
+                    <img :src="`/uploads/${logo}`" v-if="logo">
+                </div>
+            </Card>
+            
             </Col>
         </Row>
 

@@ -18,13 +18,18 @@ Route::get('/', function () {
 
 
 Route::post('/app/login','LoginController@login');
+//update custom functions
 Route::post('/app/settingUpdate','SettingController@updateSetting');
 Route::post('/app/groupUpdate','GroupController@groupUpdate');
-
-Route::resource('/app/category','CategoryController');
-Route::resource('/app/group','GroupController');
-Route::post('/app/setting/upload','SettingController@upload');
+Route::post('/app/categoryUpdate','CategoryController@categoryUpdate');
+Route::post('/app/unitUpdate','UnitController@unitUpdate');
+//resources
 Route::resource('/app/setting','SettingController');
+Route::resource('/app/category','CategoryController');
+Route::resource('/app/unit_type','UnitController');
+Route::resource('/app/group','GroupController');
+
+Route::post('/app/setting/upload','SettingController@upload');
 
 Route::get('/logout', function () {
 	Auth::logout();

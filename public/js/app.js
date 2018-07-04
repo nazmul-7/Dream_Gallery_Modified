@@ -1748,7 +1748,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 indexNumber: null,
                 id: null,
                 catName: '',
-                group_id: ''
+                group_id: '',
+                groupName: ''
 
             },
             columns1: [{
@@ -1892,8 +1893,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _context2.prev = 1;
                                 _context2.next = 4;
                                 return axios({
-                                    method: 'put',
-                                    url: '/app/category/' + this.UpdateValue.id,
+                                    method: 'post',
+                                    url: '/app/categoryUpdate',
                                     data: this.editObj
                                 });
 
@@ -1901,29 +1902,30 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _ref4 = _context2.sent;
                                 data = _ref4.data;
 
-                                this.dataCategory[this.UpdateValue.indexNumber].catName = this.editObj.catName;
-                                this.dataCategory[this.UpdateValue.indexNumber].group_id = this.editObj.group_id;
+                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
+                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
+                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
                                 this.s('Great!', 'Category information has been updated successfully!');
 
                                 this.sending = false;
                                 this.editModal = false;
-                                _context2.next = 18;
+                                _context2.next = 19;
                                 break;
 
-                            case 13:
-                                _context2.prev = 13;
+                            case 14:
+                                _context2.prev = 14;
                                 _context2.t0 = _context2['catch'](1);
 
                                 this.sending = false;
                                 this.editModal = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 18:
+                            case 19:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[1, 13]]);
+                }, _callee2, this, [[1, 14]]);
             }));
 
             function edit() {
@@ -2288,25 +2290,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 data = _ref2.data;
 
                                 this.data1.unshift(data.status);
+                                this.formValue.groupName = '';
                                 this.s('Great!', 'Group has been added successfully!');
 
                                 this.loading = false;
-                                _context.next = 15;
+                                _context.next = 16;
                                 break;
 
-                            case 11:
-                                _context.prev = 11;
+                            case 12:
+                                _context.prev = 12;
                                 _context.t0 = _context['catch'](1);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 15:
+                            case 16:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[1, 11]]);
+                }, _callee, this, [[1, 12]]);
             }));
 
             function groupAdd() {
@@ -2820,6 +2823,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -2988,6 +2995,386 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         function created() {
             return _ref3.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/unit/unit.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            editObj: {
+                id: null,
+                unitName: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                unitName: '',
+                id: null
+
+            },
+            columns1: [{
+                title: 'Name',
+                key: 'unitName'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }],
+            data1: [],
+
+            formValue: {
+                id: '',
+                unitName: ''
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        unitAdd: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.loading = true;
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/unit_type',
+                                    data: this.formValue
+                                });
+
+                            case 4:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.data1.unshift(data.status);
+                                this.formValue.unitName = '';
+                                this.s('Great!', 'Unit has been added successfully!');
+
+                                this.loading = false;
+                                _context.next = 16;
+                                break;
+
+                            case 12:
+                                _context.prev = 12;
+                                _context.t0 = _context['catch'](1);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 16:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[1, 12]]);
+            }));
+
+            function unitAdd() {
+                return _ref.apply(this, arguments);
+            }
+
+            return unitAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.data1[index].id;
+            this.editObj.unitName = this.data1[index].unitName;
+            this.UpdateValue.unitName = this.data1[index].unitName;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.unitName = this.data1[index].unitName;
+            this.UpdateValue.id = this.data1[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.sending = true;
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/unitUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.data1[this.UpdateValue.indexNumber].unitName = this.editObj.unitName;
+                                this.s('Great!', 'Unit information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context2.next = 17;
+                                break;
+
+                            case 12:
+                                _context2.prev = 12;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 12]]);
+            }));
+
+            function edit() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/unit_type/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.data1.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Unit information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context3.next = 17;
+                                break;
+
+                            case 12:
+                                _context3.prev = 12;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+
+    created: function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+            var _ref8, data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            this.ls();
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/unit_type'
+                            });
+
+                        case 4:
+                            _ref8 = _context4.sent;
+                            data = _ref8.data;
+
+                            this.data1 = data;
+
+                            this.lf();
+
+                            _context4.next = 14;
+                            break;
+
+                        case 10:
+                            _context4.prev = 10;
+                            _context4.t0 = _context4['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[1, 10]]);
+        }));
+
+        function created() {
+            return _ref7.apply(this, arguments);
         }
 
         return created;
@@ -78820,7 +79207,14 @@ var render = function() {
             [
               _c("Icon", { attrs: { type: "edit" } }),
               _vm._v(" "),
-              _c("span", [_vm._v(" Edit " + _vm._s(_vm.UpdateValue.catName))])
+              _c("span", [
+                _vm._v(
+                  " Edit " +
+                    _vm._s(_vm.UpdateValue.catName) +
+                    " " +
+                    _vm._s(_vm.editObj.group_id)
+                )
+              ])
             ],
             1
           ),
@@ -79032,6 +79426,7 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
+                            { attrs: { label: "Group Name" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -79278,6 +79673,286 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8592fcd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/unit/unit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "12", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Unit Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Unit Name"
+                                },
+                                model: {
+                                  value: _vm.formValue.unitName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "unitName", $$v)
+                                  },
+                                  expression: "formValue.unitName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        {
+                          staticClass: "dream-input-main-button",
+                          attrs: { span: "24" }
+                        },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", loading: _vm.loading },
+                              on: { click: _vm.unitAdd }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Add")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Edit " + _vm._s(_vm.UpdateValue.unitName))])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "24" } },
+                    [
+                      _c(
+                        "FormItem",
+                        [
+                          _c("Input", {
+                            attrs: { type: "text", placeholder: "Group Name" },
+                            model: {
+                              value: _vm.editObj.unitName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "unitName", $$v)
+                              },
+                              expression: "editObj.unitName"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Delete " + _vm._s(_vm.UpdateValue.unitName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.unitName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8592fcd6", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8da41194\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/home.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -79339,6 +80014,7 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
+                            { attrs: { label: "Company Name" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -79366,6 +80042,7 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
+                            { attrs: { label: "Currency" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -79393,6 +80070,7 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
+                            { attrs: { label: "Opening Stock Valution" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -79420,6 +80098,7 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
+                            { attrs: { label: "Account Opening Balance" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -79451,6 +80130,7 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
+                            { attrs: { label: "Coumpany Discription" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -79548,12 +80228,13 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _vm.logo
-                ? _c("img", {
-                    staticClass: "logo",
-                    attrs: { src: "/uploads/" + _vm.logo }
-                  })
-                : _vm._e()
+              _c("Card", { attrs: { span: "10", offset: "1" } }, [
+                _c("div", { staticStyle: { "text-align": "center" } }, [
+                  _vm.logo
+                    ? _c("img", { attrs: { src: "/uploads/" + _vm.logo } })
+                    : _vm._e()
+                ])
+              ])
             ],
             1
           )
@@ -95181,6 +95862,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/unit/unit.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/unit/unit.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8592fcd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/unit/unit.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\unit\\unit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8592fcd6", Component.options)
+  } else {
+    hotAPI.reload("data-v-8592fcd6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/router.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -95198,6 +95927,9 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_group_group_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_group_group_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_category_category_vue__ = __webpack_require__("./resources/assets/js/components/category/category.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_category_category_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_category_category_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue__ = __webpack_require__("./resources/assets/js/components/unit/unit.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue__);
+
 
 
 
@@ -95229,6 +95961,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/category',
 						name: 'category',
 						component: __WEBPACK_IMPORTED_MODULE_6__components_category_category_vue___default.a
+			}, {
+						path: '/unit',
+						name: 'unit',
+						component: __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue___default.a
 			}]
 }));
 

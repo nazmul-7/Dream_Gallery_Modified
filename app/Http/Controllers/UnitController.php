@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
-class CategoryController extends Controller
+use App\Unit_type;
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $settings=Category::with('group')->orderBy('id', 'desc')->get();
-        return $settings;
+        $unit=Unit_type::orderBy('id', 'desc')->get();
+        return $unit;
     }
 
     /**
@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -35,9 +35,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $created=Category::create($request->all());
-        $settings=Category::where('id', $created->id)->with('group')->first();
-        return $settings;
+        $created=Unit_type::create($request->all());
+         return response()->json([
+                 'msg' => 'Inserted',
+                 'status' => $created
+            ],200);
     }
 
     /**
@@ -71,15 +73,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Category::where('id',$request->id)->update($request->all());
-        $category=Category::where('id',$request->id)->with('group')->first();
-        return $category;
+        //
     }
-    public function categoryUpdate(Request $request)
+    public function unitUpdate(Request $request)
     {
-        Category::where('id',$request->id)->update($request->all());
-        $category=Category::where('id',$request->id)->with('group')->first();
-        return $category;
+        Unit_type::where('id',$request->id)->update($request->all());
+        $unit=Unit_type::where('id',$request->id)->first();
+        return $unit;
     }
 
     /**
@@ -90,13 +90,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $group = Category::where('id','=',$id)
-          ->first();
-          if($group->count()){
-            $group->delete();
-            return response()->json(['msg'=>'success','status'=>$id]);
-          } else {
-            return response()->json(['msg'=>'error','status'=>$id]);
-          }
+        //
     }
 }
