@@ -28,6 +28,10 @@ Route::resource('/app/setting','SettingController');
 Route::resource('/app/category','CategoryController');
 Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');
+Route::resource('/app/product','ProductController');
+//filtered 
+Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
+
 
 Route::post('/app/setting/upload','SettingController@upload');
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Product;
 class ProductController extends Controller
 {
     /**
@@ -13,7 +13,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $product=Product::orderBy('id', 'desc')->get();
+        return $product;
     }
 
     /**
@@ -34,7 +35,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created=Product::create($request->all());
+        $settings=Product::where('id', $created->id)->first();
+        return $settings;
     }
 
     /**

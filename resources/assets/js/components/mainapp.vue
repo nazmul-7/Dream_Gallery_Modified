@@ -19,6 +19,14 @@
                         <Icon type="ios-navigate" ></Icon>
                         <span>Category</span>              
                     </MenuItem>
+                    <MenuItem name="unit" :to="handleGoToMenu('/unit')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>Unit Type</span>              
+                    </MenuItem>
+                    <MenuItem name="product" :to="handleGoToMenu('/product')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>Product</span>              
+                    </MenuItem>
                 </Menu>
             </Sider>
             <Layout>

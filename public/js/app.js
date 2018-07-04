@@ -2699,6 +2699,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2730,6 +2738,642 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     }
   }
 
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/product/product.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            addProductModal: false,
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            formValue: {
+                groupName: '',
+                catName: '',
+                brand: '',
+                unit: '',
+                size: '',
+                color: '',
+                model: '',
+                sellingPrice: '',
+                productImage: ''
+            },
+            formCategory: {},
+            editObj: {
+                id: null,
+                catName: '',
+                group_id: ''
+
+            },
+            dataProduct: [],
+            dataGroup: [],
+            dataCategory: [],
+            dataUnit: [],
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                catName: '',
+                group_id: '',
+                groupName: ''
+
+            },
+            columns1: [{
+                title: 'Model Name',
+                key: 'model'
+            }, {
+                title: 'Group Name',
+                key: 'groupName'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }]
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        changed: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+                var _ref2, data, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.formValue.catName = '';
+                                this.formValue.groupName = k;
+                                this.ls();
+                                _context.prev = 3;
+                                _context.next = 6;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/categoryFiltered/' + this.UpdateValue.group_id
+                                });
+
+                            case 6:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+                                _iteratorNormalCompletion = true;
+                                _didIteratorError = false;
+                                _iteratorError = undefined;
+                                _context.prev = 11;
+
+                                for (_iterator = data[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                                    d = _step.value;
+
+                                    d.groupName = d.group.groupName;
+                                }
+                                _context.next = 19;
+                                break;
+
+                            case 15:
+                                _context.prev = 15;
+                                _context.t0 = _context['catch'](11);
+                                _didIteratorError = true;
+                                _iteratorError = _context.t0;
+
+                            case 19:
+                                _context.prev = 19;
+                                _context.prev = 20;
+
+                                if (!_iteratorNormalCompletion && _iterator.return) {
+                                    _iterator.return();
+                                }
+
+                            case 22:
+                                _context.prev = 22;
+
+                                if (!_didIteratorError) {
+                                    _context.next = 25;
+                                    break;
+                                }
+
+                                throw _iteratorError;
+
+                            case 25:
+                                return _context.finish(22);
+
+                            case 26:
+                                return _context.finish(19);
+
+                            case 27:
+                                this.dataCategory = data;
+                                this.lf();
+                                _context.next = 35;
+                                break;
+
+                            case 31:
+                                _context.prev = 31;
+                                _context.t1 = _context['catch'](3);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 35:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[3, 31], [11, 15, 19, 27], [20,, 22, 26]]);
+            }));
+
+            function changed(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return changed;
+        }(),
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        productAddButton: function productAddButton() {
+            this.addProductModal = true;
+        },
+        productAdd: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.loading = true;
+                                console.log(this.formValue);
+                                _context2.prev = 2;
+                                _context2.next = 5;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/product/',
+                                    data: this.formValue
+                                });
+
+                            case 5:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.dataProduct.unshift(data);
+                                this.s('Great!', 'Category has been added successfully!');
+                                this.loading = false;
+                                this.addProductModal = false;
+                                // this.formValue=null
+                                _context2.next = 17;
+                                break;
+
+                            case 13:
+                                _context2.prev = 13;
+                                _context2.t0 = _context2['catch'](2);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[2, 13]]);
+            }));
+
+            function productAdd() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return productAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.dataCategory[index].id;
+            this.editObj.catName = this.dataCategory[index].catName;
+            this.editObj.group_id = this.dataCategory[index].group_id;
+            this.UpdateValue.group_id = this.dataCategory[index].group_id;
+            this.UpdateValue.catName = this.dataCategory[index].catName;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.catName = this.dataCategory[index].catName;
+            this.UpdateValue.id = this.dataCategory[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/categoryUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
+                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
+                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
+                                this.s('Great!', 'Category information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context3.next = 19;
+                                break;
+
+                            case 14:
+                                _context3.prev = 14;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 19:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 14]]);
+            }));
+
+            function edit() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+                var _ref8, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                this.sending = true;
+                                _context4.prev = 1;
+                                _context4.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/category/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref8 = _context4.sent;
+                                data = _ref8.data;
+
+                                this.dataCategory.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Category information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context4.next = 17;
+                                break;
+
+                            case 12:
+                                _context4.prev = 12;
+                                _context4.t0 = _context4['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref7.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+
+    created: function () {
+        var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+            var _ref10, data, _ref11, _data, _ref12, _data2;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                while (1) {
+                    switch (_context5.prev = _context5.next) {
+                        case 0:
+                            this.ls();
+
+                            _context5.prev = 1;
+                            _context5.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/product'
+                            });
+
+                        case 4:
+                            _ref10 = _context5.sent;
+                            data = _ref10.data;
+
+                            this.dataProduct = data;
+                            this.lf();
+
+                            _context5.next = 14;
+                            break;
+
+                        case 10:
+                            _context5.prev = 10;
+                            _context5.t0 = _context5['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                            _context5.prev = 14;
+                            _context5.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/unit_type'
+                            });
+
+                        case 17:
+                            _ref11 = _context5.sent;
+                            _data = _ref11.data;
+
+                            this.dataUnit = _data;
+                            this.lf();
+
+                            _context5.next = 27;
+                            break;
+
+                        case 23:
+                            _context5.prev = 23;
+                            _context5.t1 = _context5['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 27:
+                            _context5.prev = 27;
+                            _context5.next = 30;
+                            return axios({
+                                method: 'get',
+                                url: '/app/group'
+                            });
+
+                        case 30:
+                            _ref12 = _context5.sent;
+                            _data2 = _ref12.data;
+
+                            this.dataGroup = _data2;
+                            this.lf();
+
+                            _context5.next = 40;
+                            break;
+
+                        case 36:
+                            _context5.prev = 36;
+                            _context5.t2 = _context5['catch'](27);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 40:
+                        case 'end':
+                            return _context5.stop();
+                    }
+                }
+            }, _callee5, this, [[1, 10], [14, 23], [27, 36]]);
+        }));
+
+        function created() {
+            return _ref9.apply(this, arguments);
+        }
+
+        return created;
+    }()
 });
 
 /***/ }),
@@ -78978,6 +79622,35 @@ var render = function() {
                       _c("span", [_vm._v("Category")])
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: { name: "unit", to: _vm.handleGoToMenu("/unit") }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Unit Type")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "product",
+                        to: _vm.handleGoToMenu("/product")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Product")])
+                    ],
+                    1
                   )
                 ],
                 1
@@ -79388,6 +80061,562 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-39cbe456", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-55a3900a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/product/product.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            { staticClass: "dream-input-main ", attrs: { offset: "1" } },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "success", loading: _vm.loading },
+                  on: { click: _vm.productAddButton }
+                },
+                [_vm._v("\n                Add New Product\n            ")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataProduct }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.addProductModal,
+            callback: function($$v) {
+              _vm.addProductModal = $$v
+            },
+            expression: "addProductModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "plus" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Add New Item")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "24" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Group" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              attrs: {
+                                placeholder: "Select group",
+                                "remote-method": _vm.changed
+                              },
+                              model: {
+                                value: _vm.UpdateValue.group_id,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.UpdateValue, "group_id", $$v)
+                                },
+                                expression: "UpdateValue.group_id"
+                              }
+                            },
+                            _vm._l(_vm.dataGroup, function(group, i) {
+                              return _c(
+                                "Option",
+                                { key: i, attrs: { value: group.id } },
+                                [_vm._v(_vm._s(group.groupName))]
+                              )
+                            })
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Category" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              attrs: { placeholder: "Select category" },
+                              model: {
+                                value: _vm.formValue.catName,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.formValue, "catName", $$v)
+                                },
+                                expression: "formValue.catName"
+                              }
+                            },
+                            _vm._l(_vm.dataCategory, function(category, i) {
+                              return _c(
+                                "Option",
+                                { key: i, attrs: { value: category.catName } },
+                                [_vm._v(_vm._s(category.catName))]
+                              )
+                            })
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Unit" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              attrs: { placeholder: "Select unit" },
+                              model: {
+                                value: _vm.formValue.unit,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.formValue, "unit", $$v)
+                                },
+                                expression: "formValue.unit"
+                              }
+                            },
+                            _vm._l(_vm.dataUnit, function(unit, i) {
+                              return _c(
+                                "Option",
+                                { key: i, attrs: { value: unit.unitName } },
+                                [_vm._v(_vm._s(unit.unitName))]
+                              )
+                            })
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Mode" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Product Mode"
+                            },
+                            model: {
+                              value: _vm.formValue.model,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formValue, "model", $$v)
+                              },
+                              expression: "formValue.model"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Brand" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Product Brand"
+                            },
+                            model: {
+                              value: _vm.formValue.brand,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formValue, "brand", $$v)
+                              },
+                              expression: "formValue.brand"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Size" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Product Size"
+                            },
+                            model: {
+                              value: _vm.formValue.size,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formValue, "size", $$v)
+                              },
+                              expression: "formValue.size"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Color" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Product Color"
+                            },
+                            model: {
+                              value: _vm.formValue.color,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formValue, "color", $$v)
+                              },
+                              expression: "formValue.color"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Selling Price" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Selling Price"
+                            },
+                            model: {
+                              value: _vm.formValue.sellingPrice,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formValue, "sellingPrice", $$v)
+                              },
+                              expression: "formValue.sellingPrice"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.productAdd }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  " Edit " +
+                    _vm._s(_vm.UpdateValue.catName) +
+                    " " +
+                    _vm._s(_vm.editObj.group_id)
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "24" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Group" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              attrs: { placeholder: "Select group" },
+                              model: {
+                                value: _vm.UpdateValue.group_id,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.UpdateValue, "group_id", $$v)
+                                },
+                                expression: "UpdateValue.group_id"
+                              }
+                            },
+                            _vm._l(_vm.dataGroup, function(group, i) {
+                              return _c(
+                                "Option",
+                                { key: i, attrs: { value: group.groupName } },
+                                [_vm._v(_vm._s(group.groupName))]
+                              )
+                            })
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Group" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              attrs: { placeholder: "Select group" },
+                              model: {
+                                value: _vm.formValue.groupName,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.formValue, "groupName", $$v)
+                                },
+                                expression: "formValue.groupName"
+                              }
+                            },
+                            _vm._l(_vm.dataGroup, function(group, i) {
+                              return _c(
+                                "Option",
+                                { key: i, attrs: { value: group.groupName } },
+                                [_vm._v(_vm._s(group.groupName))]
+                              )
+                            })
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Category Name" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Category Name"
+                            },
+                            model: {
+                              value: _vm.editObj.catName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "catName", $$v)
+                              },
+                              expression: "editObj.catName"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Delete " + _vm._s(_vm.UpdateValue.catName))])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.catName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-55a3900a", module.exports)
   }
 }
 
@@ -95814,6 +97043,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/product/product.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/product/product.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-55a3900a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/product/product.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\product\\product.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-55a3900a", Component.options)
+  } else {
+    hotAPI.reload("data-v-55a3900a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/setting/setting.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -95929,6 +97206,9 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_category_category_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_category_category_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue__ = __webpack_require__("./resources/assets/js/components/unit/unit.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue__ = __webpack_require__("./resources/assets/js/components/product/product.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_product_product_vue__);
+
 
 
 
@@ -95965,6 +97245,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/unit',
 						name: 'unit',
 						component: __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue___default.a
+			}, {
+						path: '/product',
+						name: 'product',
+						component: __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue___default.a
 			}]
 }));
 

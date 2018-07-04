@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('color')->nullable();
             $table->string('model');
             $table->string('sellingPrice');
+            $table->string('productImage')->nullable();
             $table->timestamps();
         });
     }

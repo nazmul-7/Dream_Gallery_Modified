@@ -13,8 +13,20 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $settings=Category::with('group')->orderBy('id', 'desc')->get();
-        return $settings;
+        $category=Category::with('group')
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return $category;
+    }
+        public function categoryFiltered($id)
+    {
+        $category=Category::where('group_id', $id)
+        ->with('group')
+        ->orderBy('id', 'desc')
+        ->get();
+        
+        return $category;
     }
 
     /**

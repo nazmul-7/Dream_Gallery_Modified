@@ -6,6 +6,7 @@ import setting from './components/setting/setting.vue'
 import group from './components/group/group.vue'
 import category from './components/category/category.vue'
 import unit from './components/unit/unit.vue'
+import product from './components/product/product.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -37,10 +38,15 @@ export default new Router({
 	      name: 'category',
 	      component: category
 	    },
-	        	{
+    	{
 	      path: '/unit',
 	      name: 'unit',
 	      component: unit
+	    },
+    	{
+	      path: '/product',
+	      name: 'product',
+	      component: product
 	    },
 	 ]
 })
