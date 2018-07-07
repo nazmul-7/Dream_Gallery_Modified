@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
-class ProductController extends Controller
+use App\Supplier;
+use App\Category;
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +14,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product=Product::orderBy('id', 'desc')->get();
-        return $product;
+        $supplier=Supplier::orderBy('id', 'desc')
+        ->get();
+        return $supplier;
     }
 
     /**
@@ -35,19 +37,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile('productImage'))
-        {
-            request()->file('productImage')->store('uploads');
-            $pic= $request->productImage->hashName();
-        }
-        $created=Product::create($request->all());
-        //set barcode
-         $barCode=str_pad($created->id, 15, '0', STR_PAD_LEFT);
-         $data=array(
-             'barCode' => $barCode
-          );
-        Product::where('id',$created->id)->update($data);
-        $settings=Product::where('id', $created->id)->first();
+        $created=Supplier::create($request->all());
+        $settings=Supplier::where('id', $created->id)->first();
         return $settings;
     }
 
@@ -82,10 +73,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Product::where('id',$request->id)->update($request->all());
-        $category=Product::where('id',$request->id)->first();
-        return $category;
-
+        //
+    }
+    public function supplierUpdate(Request $request)
+    {
+        Supplier::where('id',$request->id)->update($request->all());
+        $supplier=Supplier::where('id',$request->id)->first();
+        return $supplier;
     }
 
     /**
@@ -96,10 +90,10 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $group = Product::where('id','=',$id)
+        $supplier = Supplier::where('id','=',$id)
           ->first();
-          if($group->count()){
-            $group->delete();
+          if($supplier->count()){
+            $supplier->delete();
             return response()->json(['msg'=>'success','status'=>$id]);
           } else {
             return response()->json(['msg'=>'error','status'=>$id]);

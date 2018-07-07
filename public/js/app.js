@@ -2751,6 +2751,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 //
@@ -2915,8 +2917,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+
+/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
     data: function data() {
         var _this = this;
 
@@ -2941,20 +2956,35 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             formCategory: {},
             editObj: {
                 id: null,
+                groupName: '',
                 catName: '',
-                group_id: ''
+                brand: '',
+                unit: '',
+                size: '',
+                color: '',
+                model: '',
+                sellingPrice: '',
+                productImage: ''
 
             },
             dataProduct: [],
             dataGroup: [],
             dataCategory: [],
+            groupFilter: [],
             dataUnit: [],
             UpdateValue: {
                 indexNumber: null,
                 id: null,
-                catName: '',
+                groupName: '',
                 group_id: '',
-                groupName: ''
+                catName: '',
+                brand: '',
+                unit: '',
+                size: '',
+                color: '',
+                model: '',
+                sellingPrice: '',
+                productImage: ''
 
             },
             columns1: [{
@@ -2963,6 +2993,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }, {
                 title: 'Group Name',
                 key: 'groupName'
+            }, {
+                title: 'Category Name',
+                key: 'catName'
+            }, {
+                title: 'Size',
+                key: 'size'
+            }, {
+                title: 'Color',
+                key: 'color'
+            }, {
+                title: 'Selling Price',
+                key: 'sellingPrice'
             }, {
                 title: 'Action',
                 key: 'action',
@@ -3016,81 +3058,82 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
+                                this.ls();
                                 this.formValue.catName = '';
                                 this.formValue.groupName = k;
-                                this.ls();
-                                _context.prev = 3;
-                                _context.next = 6;
+                                this.editObj.groupName = k;
+                                _context.prev = 4;
+                                _context.next = 7;
                                 return axios({
                                     method: 'get',
                                     url: '/app/categoryFiltered/' + this.UpdateValue.group_id
                                 });
 
-                            case 6:
+                            case 7:
                                 _ref2 = _context.sent;
                                 data = _ref2.data;
                                 _iteratorNormalCompletion = true;
                                 _didIteratorError = false;
                                 _iteratorError = undefined;
-                                _context.prev = 11;
+                                _context.prev = 12;
 
                                 for (_iterator = data[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                                     d = _step.value;
 
                                     d.groupName = d.group.groupName;
                                 }
-                                _context.next = 19;
+                                _context.next = 20;
                                 break;
 
-                            case 15:
-                                _context.prev = 15;
-                                _context.t0 = _context['catch'](11);
+                            case 16:
+                                _context.prev = 16;
+                                _context.t0 = _context['catch'](12);
                                 _didIteratorError = true;
                                 _iteratorError = _context.t0;
 
-                            case 19:
-                                _context.prev = 19;
+                            case 20:
                                 _context.prev = 20;
+                                _context.prev = 21;
 
                                 if (!_iteratorNormalCompletion && _iterator.return) {
                                     _iterator.return();
                                 }
 
-                            case 22:
-                                _context.prev = 22;
+                            case 23:
+                                _context.prev = 23;
 
                                 if (!_didIteratorError) {
-                                    _context.next = 25;
+                                    _context.next = 26;
                                     break;
                                 }
 
                                 throw _iteratorError;
 
-                            case 25:
-                                return _context.finish(22);
-
                             case 26:
-                                return _context.finish(19);
+                                return _context.finish(23);
 
                             case 27:
+                                return _context.finish(20);
+
+                            case 28:
                                 this.dataCategory = data;
                                 this.lf();
-                                _context.next = 35;
+                                _context.next = 36;
                                 break;
 
-                            case 31:
-                                _context.prev = 31;
-                                _context.t1 = _context['catch'](3);
+                            case 32:
+                                _context.prev = 32;
+                                _context.t1 = _context['catch'](4);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
-                            case 35:
+                            case 36:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[3, 31], [11, 15, 19, 27], [20,, 22, 26]]);
+                }, _callee, this, [[4, 32], [12, 16, 20, 28], [21,, 23, 27]]);
             }));
 
             function changed(_x) {
@@ -3157,19 +3200,28 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             return productAdd;
         }(),
         showEdit: function showEdit(index) {
-            this.editObj.id = this.dataCategory[index].id;
-            this.editObj.catName = this.dataCategory[index].catName;
-            this.editObj.group_id = this.dataCategory[index].group_id;
-            this.UpdateValue.group_id = this.dataCategory[index].group_id;
-            this.UpdateValue.catName = this.dataCategory[index].catName;
+            this.groupNameToId(this.dataProduct[index].groupName);
+            this.changed(this.dataProduct[index].groupName);
+            this.editObj.id = this.dataProduct[index].id;
+            this.editObj.groupName = this.dataProduct[index].groupName;
+            this.editObj.catName = this.dataProduct[index].catName;
+            this.editObj.brand = this.dataProduct[index].brand;
+            this.editObj.unit = this.dataProduct[index].unit;
+            this.editObj.size = this.dataProduct[index].size;
+            this.editObj.color = this.dataProduct[index].color;
+            this.editObj.model = this.dataProduct[index].model;
+            this.editObj.sellingPrice = this.dataProduct[index].sellingPrice;
+            this.editObj.productImage = this.dataProduct[index].productImage;
+            this.UpdateValue.id = this.dataProduct[index].id;
+            this.UpdateValue.model = this.dataProduct[index].model;
             this.UpdateValue.indexNumber = index;
             this.editModal = true;
         },
         showRemove: function showRemove(index) {
-            this.UpdateValue.catName = this.dataCategory[index].catName;
-            this.UpdateValue.id = this.dataCategory[index].id;
-            this.UpdateValue.indexNumber = index;
             this.deleteModal = true;
+            this.UpdateValue.model = this.dataProduct[index].model;
+            this.UpdateValue.id = this.dataProduct[index].id;
+            this.UpdateValue.indexNumber = index;
         },
         edit: function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
@@ -3184,7 +3236,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _context3.next = 4;
                                 return axios({
                                     method: 'post',
-                                    url: '/app/categoryUpdate',
+                                    url: '/app/productUpdate',
                                     data: this.editObj
                                 });
 
@@ -3192,30 +3244,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _ref6 = _context3.sent;
                                 data = _ref6.data;
 
-                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
-                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
-                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
+                                this.dataProduct[this.UpdateValue.indexNumber].groupName = data.groupName;
+                                this.dataProduct[this.UpdateValue.indexNumber].catName = data.catName;
+                                this.dataProduct[this.UpdateValue.indexNumber].brand = data.brand;
+                                this.dataProduct[this.UpdateValue.indexNumber].unit = data.unit;
+                                this.dataProduct[this.UpdateValue.indexNumber].size = data.size;
+                                this.dataProduct[this.UpdateValue.indexNumber].color = data.color;
+                                this.dataProduct[this.UpdateValue.indexNumber].model = data.model;
+                                this.dataProduct[this.UpdateValue.indexNumber].sellingPrice = data.sellingPrice;
+                                this.dataProduct[this.UpdateValue.indexNumber].productImage = data.productImage;
                                 this.s('Great!', 'Category information has been updated successfully!');
 
                                 this.sending = false;
                                 this.editModal = false;
-                                _context3.next = 19;
+                                _context3.next = 25;
                                 break;
 
-                            case 14:
-                                _context3.prev = 14;
+                            case 20:
+                                _context3.prev = 20;
                                 _context3.t0 = _context3['catch'](1);
 
                                 this.sending = false;
                                 this.editModal = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 19:
+                            case 25:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 14]]);
+                }, _callee3, this, [[1, 20]]);
             }));
 
             function edit() {
@@ -3237,15 +3295,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _context4.next = 4;
                                 return axios({
                                     method: 'delete',
-                                    url: '/app/category/' + this.UpdateValue.id
+                                    url: '/app/product/' + this.UpdateValue.id
                                 });
 
                             case 4:
                                 _ref8 = _context4.sent;
                                 data = _ref8.data;
 
-                                this.dataCategory.splice(this.UpdateValue.indexNumber, 1);
-                                this.s('Great!', 'Category information has been removed successfully!');
+                                this.dataProduct.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Product information has been removed successfully!');
 
                                 this.sending = false;
                                 this.deleteModal = false;
@@ -3273,7 +3331,17 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             return remove;
-        }()
+        }(),
+        groupNameToId: function groupNameToId(name) {
+            var i = 0;
+
+            while (i < this.dataProduct.length) {
+                if (this.dataProduct[i].groupName == name) {
+                    this.UpdateValue.group_id = this.dataProduct[i].id;
+                }
+                i++;
+            }
+        }
     },
 
     created: function () {
@@ -3374,7 +3442,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         return created;
     }()
-});
+}, 'computed', {}));
 
 /***/ }),
 
@@ -3639,6 +3707,434 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         function created() {
             return _ref3.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/supplier/supplier.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            editObj: {
+                id: null,
+                supplierName: '',
+                contact: '',
+                address: '',
+                email: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                supplierName: '',
+                contact: '',
+                address: '',
+                email: ''
+
+            },
+            columns1: [{
+                title: 'Supplier Name',
+                key: 'supplierName'
+            }, {
+                title: 'Balance',
+                key: 'balance'
+            }, {
+                title: 'Contact Number',
+                key: 'contact'
+            }, {
+                title: 'Email',
+                key: 'email'
+            }, {
+                title: 'Address',
+                key: 'address'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }],
+            dataSupplier: [],
+
+            formValue: {
+                id: '',
+                supplierName: '',
+                contact: '',
+                email: '',
+                address: ''
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        supplierAdd: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.loading = true;
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/supplier',
+                                    data: this.formValue
+                                });
+
+                            case 4:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.dataSupplier.unshift(data);
+                                this.s('Great!', 'Category has been added successfully!');
+                                this.loading = false;
+                                _context.next = 15;
+                                break;
+
+                            case 11:
+                                _context.prev = 11;
+                                _context.t0 = _context['catch'](1);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 15:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[1, 11]]);
+            }));
+
+            function supplierAdd() {
+                return _ref.apply(this, arguments);
+            }
+
+            return supplierAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.dataSupplier[index].id;
+            this.editObj.supplierName = this.dataSupplier[index].supplierName;
+            this.editObj.address = this.dataSupplier[index].address;
+            this.editObj.contact = this.dataSupplier[index].contact;
+            this.editObj.email = this.dataSupplier[index].email;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.supplierName = this.dataSupplier[index].supplierName;
+            this.UpdateValue.id = this.dataSupplier[index].id;
+            this.UpdateValue.indexNumber = index;
+
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.sending = true;
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/supplierUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                console.log(data);
+                                this.dataSupplier[this.UpdateValue.indexNumber].supplierName = data.supplierName;
+                                this.dataSupplier[this.UpdateValue.indexNumber].contact = data.contact;
+                                this.dataSupplier[this.UpdateValue.indexNumber].address = data.address;
+                                this.dataSupplier[this.UpdateValue.indexNumber].email = data.email;
+                                this.s('Great!', 'Supplier information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context2.next = 21;
+                                break;
+
+                            case 16:
+                                _context2.prev = 16;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 21:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 16]]);
+            }));
+
+            function edit() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/supplier/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.dataSupplier.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Supplier information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context3.next = 17;
+                                break;
+
+                            case 12:
+                                _context3.prev = 12;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+    created: function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+            var _ref8, data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            this.ls();
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/supplier'
+                            });
+
+                        case 4:
+                            _ref8 = _context4.sent;
+                            data = _ref8.data;
+
+                            this.dataSupplier = data;
+                            this.lf();
+
+                            _context4.next = 14;
+                            break;
+
+                        case 10:
+                            _context4.prev = 10;
+                            _context4.t0 = _context4['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[1, 10]]);
+        }));
+
+        function created() {
+            return _ref7.apply(this, arguments);
         }
 
         return created;
@@ -79719,6 +80215,422 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-286694d6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/supplier/supplier.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "12", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "SupplierName Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "SupplierName Name"
+                                },
+                                model: {
+                                  value: _vm.formValue.supplierName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "supplierName", $$v)
+                                  },
+                                  expression: "formValue.supplierName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Contact Number" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Contact Number"
+                                },
+                                model: {
+                                  value: _vm.formValue.contact,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "contact", $$v)
+                                  },
+                                  expression: "formValue.contact"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Email" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Supplier's Email"
+                                },
+                                model: {
+                                  value: _vm.formValue.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "email", $$v)
+                                  },
+                                  expression: "formValue.email"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Address" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "textarea",
+                                  autosize: { minRows: 4, maxRows: 5 },
+                                  placeholder: "Address"
+                                },
+                                model: {
+                                  value: _vm.formValue.address,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "address", $$v)
+                                  },
+                                  expression: "formValue.address"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        {
+                          staticClass: "dream-input-main-button",
+                          attrs: { span: "24" }
+                        },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", loading: _vm.loading },
+                              on: { click: _vm.supplierAdd }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Add")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataSupplier }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Edit " + _vm._s(_vm.UpdateValue.supplierName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "24" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "SupplierName Name" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "SupplierName Name"
+                            },
+                            model: {
+                              value: _vm.editObj.supplierName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "supplierName", $$v)
+                              },
+                              expression: "editObj.supplierName"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Contact Number" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Contact Number"
+                            },
+                            model: {
+                              value: _vm.editObj.contact,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "contact", $$v)
+                              },
+                              expression: "editObj.contact"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Email" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Supplier's Email"
+                            },
+                            model: {
+                              value: _vm.editObj.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "email", $$v)
+                              },
+                              expression: "editObj.email"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Address" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "textarea",
+                              autosize: { minRows: 4, maxRows: 5 },
+                              placeholder: "Address"
+                            },
+                            model: {
+                              value: _vm.editObj.address,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "address", $$v)
+                              },
+                              expression: "editObj.address"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Delete " + _vm._s(_vm.UpdateValue.supplierName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.supplierName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-286694d6", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-39cbe456\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/category/category.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80086,10 +80998,10 @@ var render = function() {
               _c(
                 "Button",
                 {
-                  attrs: { type: "success", loading: _vm.loading },
+                  attrs: { type: "success" },
                   on: { click: _vm.productAddButton }
                 },
-                [_vm._v("\n                Add New Product\n            ")]
+                [_vm._v("\n                Add New Product \n            ")]
               )
             ],
             1
@@ -80121,7 +81033,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: { width: "360" },
+          attrs: { width: "600" },
           model: {
             value: _vm.addProductModal,
             callback: function($$v) {
@@ -80142,6 +81054,339 @@ var render = function() {
               _c("Icon", { attrs: { type: "plus" } }),
               _vm._v(" "),
               _c("span", [_vm._v(" Add New Item")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Group" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: {
+                                    placeholder: "Select group",
+                                    "remote-method": _vm.changed
+                                  },
+                                  model: {
+                                    value: _vm.UpdateValue.group_id,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.UpdateValue, "group_id", $$v)
+                                    },
+                                    expression: "UpdateValue.group_id"
+                                  }
+                                },
+                                _vm._l(_vm.dataGroup, function(group, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: group.id } },
+                                    [_vm._v(_vm._s(group.groupName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Category" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Select category" },
+                                  model: {
+                                    value: _vm.formValue.catName,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formValue, "catName", $$v)
+                                    },
+                                    expression: "formValue.catName"
+                                  }
+                                },
+                                _vm._l(_vm.dataCategory, function(category, i) {
+                                  return _c(
+                                    "Option",
+                                    {
+                                      key: i,
+                                      attrs: { value: category.catName }
+                                    },
+                                    [_vm._v(_vm._s(category.catName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Unit" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Select unit" },
+                                  model: {
+                                    value: _vm.formValue.unit,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formValue, "unit", $$v)
+                                    },
+                                    expression: "formValue.unit"
+                                  }
+                                },
+                                _vm._l(_vm.dataUnit, function(unit, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: unit.unitName } },
+                                    [_vm._v(_vm._s(unit.unitName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Mode" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Product Mode"
+                                },
+                                model: {
+                                  value: _vm.formValue.model,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "model", $$v)
+                                  },
+                                  expression: "formValue.model"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Brand" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Product Brand"
+                                },
+                                model: {
+                                  value: _vm.formValue.brand,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "brand", $$v)
+                                  },
+                                  expression: "formValue.brand"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Size" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Product Size"
+                                },
+                                model: {
+                                  value: _vm.formValue.size,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "size", $$v)
+                                  },
+                                  expression: "formValue.size"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Color" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Product Color"
+                                },
+                                model: {
+                                  value: _vm.formValue.color,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "color", $$v)
+                                  },
+                                  expression: "formValue.color"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Selling Price" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Selling Price"
+                                },
+                                model: {
+                                  value: _vm.formValue.sellingPrice,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "sellingPrice", $$v)
+                                  },
+                                  expression: "formValue.sellingPrice"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [_c("FormItem", { attrs: { label: "Image" } })],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.loading
+                  },
+                  on: { click: _vm.productAdd }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Add")])
+                    : _c("span", [_vm._v("Adding...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Edit " + _vm._s(_vm.editObj.model))])
             ],
             1
           ),
@@ -80197,11 +81442,11 @@ var render = function() {
                             {
                               attrs: { placeholder: "Select category" },
                               model: {
-                                value: _vm.formValue.catName,
+                                value: _vm.editObj.catName,
                                 callback: function($$v) {
-                                  _vm.$set(_vm.formValue, "catName", $$v)
+                                  _vm.$set(_vm.editObj, "catName", $$v)
                                 },
-                                expression: "formValue.catName"
+                                expression: "editObj.catName"
                               }
                             },
                             _vm._l(_vm.dataCategory, function(category, i) {
@@ -80225,11 +81470,11 @@ var render = function() {
                             {
                               attrs: { placeholder: "Select unit" },
                               model: {
-                                value: _vm.formValue.unit,
+                                value: _vm.editObj.unit,
                                 callback: function($$v) {
-                                  _vm.$set(_vm.formValue, "unit", $$v)
+                                  _vm.$set(_vm.editObj, "unit", $$v)
                                 },
-                                expression: "formValue.unit"
+                                expression: "editObj.unit"
                               }
                             },
                             _vm._l(_vm.dataUnit, function(unit, i) {
@@ -80254,11 +81499,11 @@ var render = function() {
                               placeholder: "Product Mode"
                             },
                             model: {
-                              value: _vm.formValue.model,
+                              value: _vm.editObj.model,
                               callback: function($$v) {
-                                _vm.$set(_vm.formValue, "model", $$v)
+                                _vm.$set(_vm.editObj, "model", $$v)
                               },
-                              expression: "formValue.model"
+                              expression: "editObj.model"
                             }
                           })
                         ],
@@ -80275,11 +81520,11 @@ var render = function() {
                               placeholder: "Product Brand"
                             },
                             model: {
-                              value: _vm.formValue.brand,
+                              value: _vm.editObj.brand,
                               callback: function($$v) {
-                                _vm.$set(_vm.formValue, "brand", $$v)
+                                _vm.$set(_vm.editObj, "brand", $$v)
                               },
-                              expression: "formValue.brand"
+                              expression: "editObj.brand"
                             }
                           })
                         ],
@@ -80296,11 +81541,11 @@ var render = function() {
                               placeholder: "Product Size"
                             },
                             model: {
-                              value: _vm.formValue.size,
+                              value: _vm.editObj.size,
                               callback: function($$v) {
-                                _vm.$set(_vm.formValue, "size", $$v)
+                                _vm.$set(_vm.editObj, "size", $$v)
                               },
-                              expression: "formValue.size"
+                              expression: "editObj.size"
                             }
                           })
                         ],
@@ -80317,196 +81562,26 @@ var render = function() {
                               placeholder: "Product Color"
                             },
                             model: {
-                              value: _vm.formValue.color,
+                              value: _vm.editObj.color,
                               callback: function($$v) {
-                                _vm.$set(_vm.formValue, "color", $$v)
+                                _vm.$set(_vm.editObj, "color", $$v)
                               },
-                              expression: "formValue.color"
+                              expression: "editObj.color"
                             }
                           })
                         ],
                         1
                       ),
                       _vm._v(" "),
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Selling Price" } },
-                        [
-                          _c("Input", {
-                            attrs: {
-                              type: "text",
-                              placeholder: "Selling Price"
-                            },
-                            model: {
-                              value: _vm.formValue.sellingPrice,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formValue, "sellingPrice", $$v)
-                              },
-                              expression: "formValue.sellingPrice"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { attrs: { slot: "footer" }, slot: "footer" },
-            [
-              _c(
-                "Button",
-                {
-                  attrs: {
-                    type: "primary",
-                    size: "large",
-                    long: "",
-                    loading: _vm.sending
-                  },
-                  on: { click: _vm.productAdd }
-                },
-                [
-                  !_vm.loading
-                    ? _c("span", [_vm._v("Update")])
-                    : _c("span", [_vm._v("Updating...")])
-                ]
-              )
-            ],
-            1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "Modal",
-        {
-          attrs: { width: "360" },
-          model: {
-            value: _vm.editModal,
-            callback: function($$v) {
-              _vm.editModal = $$v
-            },
-            expression: "editModal"
-          }
-        },
-        [
-          _c(
-            "p",
-            {
-              staticStyle: { color: "#369", "text-align": "center" },
-              attrs: { slot: "header" },
-              slot: "header"
-            },
-            [
-              _c("Icon", { attrs: { type: "edit" } }),
-              _vm._v(" "),
-              _c("span", [
-                _vm._v(
-                  " Edit " +
-                    _vm._s(_vm.UpdateValue.catName) +
-                    " " +
-                    _vm._s(_vm.editObj.group_id)
-                )
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticStyle: { "text-align": "center" } },
-            [
-              _c(
-                "Form",
-                [
-                  _c(
-                    "Col",
-                    { attrs: { span: "24" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Group" } },
-                        [
-                          _c(
-                            "Select",
-                            {
-                              attrs: { placeholder: "Select group" },
-                              model: {
-                                value: _vm.UpdateValue.group_id,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.UpdateValue, "group_id", $$v)
-                                },
-                                expression: "UpdateValue.group_id"
-                              }
-                            },
-                            _vm._l(_vm.dataGroup, function(group, i) {
-                              return _c(
-                                "Option",
-                                { key: i, attrs: { value: group.groupName } },
-                                [_vm._v(_vm._s(group.groupName))]
-                              )
-                            })
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Group" } },
-                        [
-                          _c(
-                            "Select",
-                            {
-                              attrs: { placeholder: "Select group" },
-                              model: {
-                                value: _vm.formValue.groupName,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formValue, "groupName", $$v)
-                                },
-                                expression: "formValue.groupName"
-                              }
-                            },
-                            _vm._l(_vm.dataGroup, function(group, i) {
-                              return _c(
-                                "Option",
-                                { key: i, attrs: { value: group.groupName } },
-                                [_vm._v(_vm._s(group.groupName))]
-                              )
-                            })
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Category Name" } },
-                        [
-                          _c("Input", {
-                            attrs: {
-                              type: "text",
-                              placeholder: "Category Name"
-                            },
-                            model: {
-                              value: _vm.editObj.catName,
-                              callback: function($$v) {
-                                _vm.$set(_vm.editObj, "catName", $$v)
-                              },
-                              expression: "editObj.catName"
-                            }
-                          })
-                        ],
-                        1
-                      )
+                      _c("FormItem", { attrs: { label: "Selling Price" } }, [
+                        _c("input", {
+                          attrs: {
+                            type: "file",
+                            placeholder: "Selling Price",
+                            id: "fileName"
+                          }
+                        })
+                      ])
                     ],
                     1
                   )
@@ -80567,7 +81642,9 @@ var render = function() {
             [
               _c("Icon", { attrs: { type: "close" } }),
               _vm._v(" "),
-              _c("span", [_vm._v(" Delete " + _vm._s(_vm.UpdateValue.catName))])
+              _c("span", [
+                _vm._v(' Delete "' + _vm._s(_vm.UpdateValue.productName) + '"')
+              ])
             ],
             1
           ),
@@ -80575,7 +81652,7 @@ var render = function() {
           _c("div", { staticStyle: { "text-align": "center" } }, [
             _vm._v(
               "\n        Are you sure you want delete " +
-                _vm._s(_vm.UpdateValue.catName) +
+                _vm._s(_vm.UpdateValue.productName) +
                 "\n\n    "
             )
           ]),
@@ -97139,6 +98216,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/supplier/supplier.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/supplier/supplier.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-286694d6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/supplier/supplier.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\supplier\\supplier.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-286694d6", Component.options)
+  } else {
+    hotAPI.reload("data-v-286694d6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/unit/unit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -97208,6 +98333,9 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_unit_unit_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue__ = __webpack_require__("./resources/assets/js/components/product/product.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_product_product_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue__ = __webpack_require__("./resources/assets/js/components/supplier/supplier.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue__);
+
 
 
 
@@ -97249,6 +98377,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/product',
 						name: 'product',
 						component: __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue___default.a
+			}, {
+						path: '/supplier',
+						name: 'supplier',
+						component: __WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue___default.a
 			}]
 }));
 

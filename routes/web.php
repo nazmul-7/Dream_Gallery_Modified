@@ -23,12 +23,14 @@ Route::post('/app/settingUpdate','SettingController@updateSetting');
 Route::post('/app/groupUpdate','GroupController@groupUpdate');
 Route::post('/app/categoryUpdate','CategoryController@categoryUpdate');
 Route::post('/app/unitUpdate','UnitController@unitUpdate');
+Route::post('/app/supplierUpdate','SupplierController@supplierUpdate');
 //resources
 Route::resource('/app/setting','SettingController');
 Route::resource('/app/category','CategoryController');
 Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');
 Route::resource('/app/product','ProductController');
+Route::resource('/app/supplier','SupplierController');
 //filtered 
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 

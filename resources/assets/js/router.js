@@ -7,6 +7,7 @@ import group from './components/group/group.vue'
 import category from './components/category/category.vue'
 import unit from './components/unit/unit.vue'
 import product from './components/product/product.vue'
+import supplier from './components/supplier/supplier.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -47,6 +48,11 @@ export default new Router({
 	      path: '/product',
 	      name: 'product',
 	      component: product
+	    },
+    	{
+	      path: '/supplier',
+	      name: 'supplier',
+	      component: supplier
 	    },
 	 ]
 })

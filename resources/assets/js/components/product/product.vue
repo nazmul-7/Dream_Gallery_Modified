@@ -2,8 +2,8 @@
     <div>
         <Row>
             <Col class="dream-input-main "  offset="1" >
-                <Button type="success" :loading="loading" @click="productAddButton">
-                    Add New Product
+                <Button type="success" @click="productAddButton">
+                    Add New Product 
                 </Button>
             </Col>
         </Row>
@@ -13,20 +13,87 @@
                 <Table :columns="columns1" :data="dataProduct"></Table>
             </Col>
         </Row>
-
-
-
-
-
-
-
-
-
-      <Modal v-model="addProductModal" width="360">
+      <Modal v-model="addProductModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="plus"></Icon>
             <span> Add New Item</span>
 
+        </p>
+        <div style="text-align:center">
+            <Form>
+                <Row :gutter="24">
+                    <Col span="24">
+                        <FormItem label="Group">
+                            <Select v-model="UpdateValue.group_id" placeholder="Select group" 
+                             :remote-method="changed">
+                                    <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
+                                </Select>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="Category">
+                            <Select v-model="formValue.catName" placeholder="Select category" 
+                             >
+                                    <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{category.catName}}</Option>
+                                </Select>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="Unit">
+                            <Select v-model="formValue.unit" placeholder="Select unit" >
+                                    <Option v-for="(unit,i) in dataUnit" :value="unit.unitName" :key="i">{{unit.unitName}}</Option>
+                                </Select>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Mode">
+                            <Input type="text" placeholder="Product Mode" 
+                            v-model="formValue.model"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Brand">
+                            <Input type="text" placeholder="Product Brand" 
+                            v-model="formValue.brand"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Size">
+                            <Input type="text" placeholder="Product Size" 
+                            v-model="formValue.size"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Color">
+                            <Input type="text" placeholder="Product Color" 
+                            v-model="formValue.color"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Selling Price">
+                            <Input type="text" placeholder="Selling Price" 
+                            v-model="formValue.sellingPrice"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Image">
+                        </FormItem >
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+        <div slot="footer">
+            <Button type="primary" size="large" long  :loading="loading" @click="productAdd">
+                <span v-if="!loading">Add</span>
+                <span v-else>Adding...</span>
+            </Button>
+        </div>
+    </Modal>
+
+      <Modal v-model="editModal" width="360">
+        <p slot="header" style="color:#369;text-align:center">
+            <Icon type="edit"></Icon>
+            <span> Edit {{editObj.model}}</span>
         </p>
         <div style="text-align:center">
             <Form>
@@ -40,96 +107,41 @@
                     </FormItem>
 
                     <FormItem label="Category">
-                        <Select v-model="formValue.catName" placeholder="Select category" 
+                        <Select v-model="editObj.catName" placeholder="Select category" 
                          >
                                 <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{category.catName}}</Option>
                             </Select>
                     </FormItem>
 
                     <FormItem label="Unit">
-                        <Select v-model="formValue.unit" placeholder="Select unit" >
+                        <Select v-model="editObj.unit" placeholder="Select unit" >
                                 <Option v-for="(unit,i) in dataUnit" :value="unit.unitName" :key="i">{{unit.unitName}}</Option>
                             </Select>
                     </FormItem>
 
                     <FormItem  label="Mode">
                         <Input type="text" placeholder="Product Mode" 
-                        v-model="formValue.model"></Input>
+                        v-model="editObj.model"></Input>
                     </FormItem >
 
                     <FormItem  label="Brand">
                         <Input type="text" placeholder="Product Brand" 
-                        v-model="formValue.brand"></Input>
+                        v-model="editObj.brand"></Input>
                     </FormItem >
 
                     <FormItem  label="Size">
                         <Input type="text" placeholder="Product Size" 
-                        v-model="formValue.size"></Input>
+                        v-model="editObj.size"></Input>
                     </FormItem >
 
                     <FormItem  label="Color">
                         <Input type="text" placeholder="Product Color" 
-                        v-model="formValue.color"></Input>
+                        v-model="editObj.color"></Input>
                     </FormItem >
                     <FormItem  label="Selling Price">
-                        <Input type="text" placeholder="Selling Price" 
-                        v-model="formValue.sellingPrice"></Input>
+                        <input type="file" placeholder="Selling Price" id="fileName"></input>
                     </FormItem >
 
-                </Col>
-            </Form>
-        </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="productAdd">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
-        </div>
-    </Modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-                <Col span="24">
-                    <FormItem label="Group">
-                        <Select v-model="UpdateValue.group_id" placeholder="Select group" >
-                            <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
-                        </Select>
-                    </FormItem>
-                    <FormItem label="Group">
-                        <Select v-model="formValue.groupName" placeholder="Select group" >
-                            <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
-                        </Select>
-                    </FormItem>
-                    <FormItem  label="Category Name">
-                        <Input type="text" placeholder="Category Name" 
-                        v-model="editObj.catName"></Input>
-                    </FormItem >
                 </Col>
             </Form>
         </div>
@@ -144,10 +156,10 @@
     <Modal v-model="deleteModal" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.catName}}</span>
+            <span> Delete "{{UpdateValue.productName}}"</span>
         </p>
         <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.catName}}
+            Are you sure you want delete {{UpdateValue.productName}}
 
         </div>
         <div slot="footer">
@@ -161,6 +173,7 @@
 </template>
 
 <script>
+
     export default {
         data () {
             return {
@@ -186,20 +199,35 @@
                 },
                 editObj: {
                     id:null,
+                    groupName:'',
                     catName:'',
-                    group_id:'',
+                    brand: '',
+                    unit:'',
+                    size:'',
+                    color: '',
+                    model:'',
+                    sellingPrice:'',
+                    productImage:'',
                     
                 },
                 dataProduct: [],
                 dataGroup: [],
                 dataCategory: [],
+                groupFilter: [],
                 dataUnit: [],
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
-                    catName:'',
-                    group_id:'',
                     groupName:'',
+                    group_id:'',
+                    catName:'',
+                    brand: '',
+                    unit:'',
+                    size:'',
+                    color: '',
+                    model:'',
+                    sellingPrice:'',
+                    productImage:'',
                     
                 },
                 columns1: [
@@ -210,6 +238,22 @@
                     {
                         title: 'Group Name',
                         key: 'groupName'
+                    },
+                                        {
+                        title: 'Category Name',
+                        key: 'catName'
+                    },
+                                        {
+                        title: 'Size',
+                        key: 'size'
+                    },
+                                        {
+                        title: 'Color',
+                        key: 'color'
+                    },
+                                        {
+                        title: 'Selling Price',
+                        key: 'sellingPrice'
                     },
                     {   
                         title: 'Action',
@@ -270,9 +314,10 @@
         },
         methods: {
             async changed (k) {
+                this.ls();
                 this.formValue.catName=''
                 this.formValue.groupName=k
-                this.ls();
+                this.editObj.groupName=k
                 try{
                 let {data} =await  axios({
                     method: 'get',
@@ -314,31 +359,47 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.dataCategory[index].id
-                this.editObj.catName=this.dataCategory[index].catName
-                this.editObj.group_id=this.dataCategory[index].group_id
-                this.UpdateValue.group_id=this.dataCategory[index].group_id
-                this.UpdateValue.catName=this.dataCategory[index].catName
+                this.groupNameToId(this.dataProduct[index].groupName)
+                this.changed(this.dataProduct[index].groupName)
+                this.editObj.id=this.dataProduct[index].id
+                this.editObj.groupName=this.dataProduct[index].groupName
+                this.editObj.catName=this.dataProduct[index].catName
+                this.editObj.brand=this.dataProduct[index].brand
+                this.editObj.unit=this.dataProduct[index].unit
+                this.editObj.size=this.dataProduct[index].size
+                this.editObj.color=this.dataProduct[index].color
+                this.editObj.model=this.dataProduct[index].model
+                this.editObj.sellingPrice=this.dataProduct[index].sellingPrice
+                this.editObj.productImage=this.dataProduct[index].productImage
+                this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.model=this.dataProduct[index].model
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
+
             },
             showRemove (index) {
-                this.UpdateValue.catName=this.dataCategory[index].catName
-                this.UpdateValue.id=this.dataCategory[index].id
-                this.UpdateValue.indexNumber=index
                 this.deleteModal=true
+                this.UpdateValue.model=this.dataProduct[index].model
+                this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.indexNumber=index
             },
             async edit(){
                 this.sending=true
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/categoryUpdate',
+                        url:'/app/productUpdate',
                         data: this.editObj
                     })
-                    this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
-                    this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
-                    this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
+                    this.dataProduct[this.UpdateValue.indexNumber].groupName=data.groupName
+                    this.dataProduct[this.UpdateValue.indexNumber].catName=data.catName
+                    this.dataProduct[this.UpdateValue.indexNumber].brand=data.brand
+                    this.dataProduct[this.UpdateValue.indexNumber].unit=data.unit
+                    this.dataProduct[this.UpdateValue.indexNumber].size=data.size
+                    this.dataProduct[this.UpdateValue.indexNumber].color=data.color
+                    this.dataProduct[this.UpdateValue.indexNumber].model=data.model
+                    this.dataProduct[this.UpdateValue.indexNumber].sellingPrice=data.sellingPrice
+                    this.dataProduct[this.UpdateValue.indexNumber].productImage=data.productImage
                     this.s('Great!','Category information has been updated successfully!')
                     
                     this.sending=false
@@ -354,10 +415,10 @@
                 try{
                     let {data} =await  axios({
                         method: 'delete',
-                        url:`/app/category/${this.UpdateValue.id}`,
+                        url:`/app/product/${this.UpdateValue.id}`,
                     })
-                    this.dataCategory.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Category information has been removed successfully!')
+                    this.dataProduct.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','Product information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false
@@ -366,10 +427,21 @@
                     this.deleteModal=false
                     this.e('Oops!','Something went wrong, please try again!')
                 }
-            }
+            },
+        groupNameToId(name)
+            {
+                var i=0
+
+                while (i < this.dataProduct.length) {
+                    if (this.dataProduct[i].groupName == name) {
+                        this.UpdateValue.group_id=this.dataProduct[i].id
+                    }
+                    i++;
+                }
+                
+            },
+
         },
-
-
 
         async created()
         {
@@ -414,7 +486,11 @@
             this.le();
             }
 
-        }
+        },
+
+        computed: {
+
+          }
 
     }
 </script>
