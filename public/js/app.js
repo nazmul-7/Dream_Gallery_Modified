@@ -2106,6 +2106,880 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/customer/customer.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            editObj: {
+                id: null,
+                customerName: '',
+                address: '',
+                contact: '',
+                email: '',
+                zone: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                customerName: '',
+                address: '',
+                contact: '',
+                email: '',
+                zone: ''
+
+            },
+            columns1: [{
+                title: 'Customer Name',
+                key: 'customerName'
+            }, {
+                title: 'Address',
+                key: 'address'
+            }, {
+                title: 'Contact',
+                key: 'contact'
+            }, {
+                title: 'Zone',
+                key: 'zone'
+            }, {
+                title: 'Email',
+                key: 'email'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }],
+            dataZone: [],
+            dataCustomer: [],
+
+            formValue: {
+                customerName: '',
+                address: '',
+                contact: '',
+                email: '',
+                zone: ''
+
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        customerAdd: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.loading = true;
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/customer',
+                                    data: this.formValue
+                                });
+
+                            case 4:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.dataCustomer.unshift(data.status);
+
+                                this.s('Great!', 'Customer has been added successfully!');
+                                this.loading = false;
+                                this.formValue.customerName = '';
+                                this.formValue.address = '';
+                                this.formValue.contact = '';
+                                this.formValue.email = '';
+                                this.formValue.zone = '';
+                                _context.next = 20;
+                                break;
+
+                            case 16:
+                                _context.prev = 16;
+                                _context.t0 = _context['catch'](1);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 20:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[1, 16]]);
+            }));
+
+            function customerAdd() {
+                return _ref.apply(this, arguments);
+            }
+
+            return customerAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.dataCustomer[index].id;
+            this.editObj.customerName = this.dataCustomer[index].customerName;
+            this.editObj.address = this.dataCustomer[index].address;
+            this.editObj.contact = this.dataCustomer[index].contact;
+            this.editObj.email = this.dataCustomer[index].email;
+            this.editObj.zone = this.dataCustomer[index].zone;
+            this.UpdateValue.customerName = this.dataCustomer[index].customerName;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.customerName = this.dataCustomer[index].customerName;
+            this.UpdateValue.id = this.dataCustomer[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.sending = true;
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/customerUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+
+                                console.log(this.UpdateValue.indexNumber);
+                                console.log(data);
+                                this.dataCustomer[this.UpdateValue.indexNumber].customerName = data.customerName;
+                                this.dataCustomer[this.UpdateValue.indexNumber].address = data.address;
+                                this.dataCustomer[this.UpdateValue.indexNumber].contact = data.contact;
+                                this.dataCustomer[this.UpdateValue.indexNumber].email = data.email;
+                                this.dataCustomer[this.UpdateValue.indexNumber].zone = data.zone;
+                                this.s('Great!', 'Customer information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context2.next = 23;
+                                break;
+
+                            case 18:
+                                _context2.prev = 18;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 23:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 18]]);
+            }));
+
+            function edit() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/customer/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.dataCustomer.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Customer information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context3.next = 17;
+                                break;
+
+                            case 12:
+                                _context3.prev = 12;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+    created: function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+            var _ref8, data, _ref9, _data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            this.ls();
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/zone'
+                            });
+
+                        case 4:
+                            _ref8 = _context4.sent;
+                            data = _ref8.data;
+
+                            this.dataZone = data;
+                            this.lf();
+
+                            _context4.next = 14;
+                            break;
+
+                        case 10:
+                            _context4.prev = 10;
+                            _context4.t0 = _context4['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                            _context4.prev = 14;
+                            _context4.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/customer'
+                            });
+
+                        case 17:
+                            _ref9 = _context4.sent;
+                            _data = _ref9.data;
+
+
+                            this.dataCustomer = _data;
+                            this.lf();
+
+                            _context4.next = 27;
+                            break;
+
+                        case 23:
+                            _context4.prev = 23;
+                            _context4.t1 = _context4['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 27:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[1, 10], [14, 23]]);
+        }));
+
+        function created() {
+            return _ref7.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/customer/zone.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            editObj: {
+                id: null,
+                zoneName: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                zoneName: '',
+                id: null
+
+            },
+            columns1: [{
+                title: 'Name',
+                key: 'zoneName'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }],
+            data1: [],
+
+            formValue: {
+                zoneName: ''
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        zoneAdd: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.loading = true;
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/zone',
+                                    data: this.formValue
+                                });
+
+                            case 4:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.data1.unshift(data.status);
+                                this.formValue.zoneName = '';
+                                this.s('Great!', 'Zone has been added successfully!');
+
+                                this.loading = false;
+                                _context.next = 16;
+                                break;
+
+                            case 12:
+                                _context.prev = 12;
+                                _context.t0 = _context['catch'](1);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 16:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[1, 12]]);
+            }));
+
+            function zoneAdd() {
+                return _ref.apply(this, arguments);
+            }
+
+            return zoneAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.data1[index].id;
+            this.editObj.zoneName = this.data1[index].zoneName;
+            this.UpdateValue.zoneName = this.data1[index].zoneName;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.zoneName = this.data1[index].zoneName;
+            this.UpdateValue.id = this.data1[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.sending = true;
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/zoneUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.data1[this.UpdateValue.indexNumber].zoneName = this.editObj.zoneName;
+                                this.s('Great!', 'Zone information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context2.next = 17;
+                                break;
+
+                            case 12:
+                                _context2.prev = 12;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 12]]);
+            }));
+
+            function edit() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/zone/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.data1.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Zone information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context3.next = 17;
+                                break;
+
+                            case 12:
+                                _context3.prev = 12;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+
+    created: function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+            var _ref8, data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            this.ls();
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/zone'
+                            });
+
+                        case 4:
+                            _ref8 = _context4.sent;
+                            data = _ref8.data;
+
+                            this.data1 = data;
+
+                            this.lf();
+
+                            _context4.next = 14;
+                            break;
+
+                        case 10:
+                            _context4.prev = 10;
+                            _context4.t0 = _context4['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[1, 10]]);
+        }));
+
+        function created() {
+            return _ref7.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/group/group.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2929,6 +3803,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
@@ -3050,6 +3925,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }
     },
     methods: {
+        onFileChange: function onFileChange() {
+            var files = this.$refs.image.files;
+            var data = new FormData();
+            // data.append('logo', files[0])
+            // console.log(data)
+            // console.log(files[0])
+            this.formValue.productImage = files[0];
+        },
         changed: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
                 var _ref2, data, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
@@ -4515,6 +5398,949 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         function created() {
             return _ref7.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/voucher/ledgerhead.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            editObj: {
+                id: null,
+                ledgerName: '',
+                type: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                ledgerName: '',
+                type: ''
+
+            },
+            columns1: [{
+                title: 'Ledger Head',
+                key: 'ledgerName'
+            }, {
+                title: 'Type',
+                key: 'type'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }],
+            data1: [],
+
+            formValue: {
+                ledgerName: '',
+                type: ''
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        ledgerAdd: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.loading = true;
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/ledger',
+                                    data: this.formValue
+                                });
+
+                            case 4:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.data1.unshift(data.status);
+                                this.formValue.ledgerName = '';
+                                this.s('Great!', 'ledger has been added successfully!');
+
+                                this.loading = false;
+                                _context.next = 16;
+                                break;
+
+                            case 12:
+                                _context.prev = 12;
+                                _context.t0 = _context['catch'](1);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 16:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[1, 12]]);
+            }));
+
+            function ledgerAdd() {
+                return _ref.apply(this, arguments);
+            }
+
+            return ledgerAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.data1[index].id;
+            this.editObj.ledgerName = this.data1[index].ledgerName;
+            this.editObj.type = this.data1[index].type;
+            this.UpdateValue.ledgerName = this.data1[index].ledgerName;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.ledgerName = this.data1[index].ledgerName;
+            this.UpdateValue.id = this.data1[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.sending = true;
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/ledgerUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.data1[this.UpdateValue.indexNumber].ledgerName = this.editObj.ledgerName;
+                                this.data1[this.UpdateValue.indexNumber].type = this.editObj.type;
+                                this.s('Great!', 'Ledger information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context2.next = 18;
+                                break;
+
+                            case 13:
+                                _context2.prev = 13;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 18:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 13]]);
+            }));
+
+            function edit() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/ledger/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.data1.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Ledger information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context3.next = 17;
+                                break;
+
+                            case 12:
+                                _context3.prev = 12;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+
+    created: function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+            var _ref8, data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            this.ls();
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/ledger'
+                            });
+
+                        case 4:
+                            _ref8 = _context4.sent;
+                            data = _ref8.data;
+
+                            this.data1 = data;
+
+                            this.lf();
+
+                            _context4.next = 14;
+                            break;
+
+                        case 10:
+                            _context4.prev = 10;
+                            _context4.t0 = _context4['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[1, 10]]);
+        }));
+
+        function created() {
+            return _ref7.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/voucher/voucher.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        var _this = this;
+
+        return {
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            editObj: {
+                id: null,
+                customerName: '',
+                address: '',
+                contact: '',
+                email: '',
+                zone: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                customerName: '',
+                address: '',
+                contact: '',
+                email: '',
+                zone: ''
+
+            },
+            columns1: [{
+                title: 'Customer Name',
+                key: 'customerName'
+            }, {
+                title: 'Address',
+                key: 'address'
+            }, {
+                title: 'Contact',
+                key: 'contact'
+            }, {
+                title: 'Zone',
+                key: 'zone'
+            }, {
+                title: 'Email',
+                key: 'email'
+            }, {
+                title: 'Action',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: function render(h, params) {
+                    return h('div', [h('Button', {
+                        props: {
+                            type: 'primary',
+                            size: 'small'
+                        },
+                        style: {
+                            marginRight: '5px'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showEdit(params.index);
+                            }
+                        }
+                    }, 'Edit'), h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: function click() {
+                                _this.showRemove(params.index);
+                            }
+                        }
+                    }, 'Delete')]);
+                }
+            }],
+            dataVoucher: [],
+            dataLedger: [],
+
+            formValue: {
+                type: '',
+                ledgerName: '',
+                amount: '',
+                date: '',
+                remarks: ''
+
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        }
+    },
+    methods: {
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        changed: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                this.ls();
+                                this.formValue.type = k;
+                                this.editObj.type = k;
+                                _context.prev = 3;
+                                _context.next = 6;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/ledgerFiltered/' + this.formValue.type
+                                });
+
+                            case 6:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.dataLedger = data;
+                                this.lf();
+                                _context.next = 16;
+                                break;
+
+                            case 12:
+                                _context.prev = 12;
+                                _context.t0 = _context['catch'](3);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 16:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[3, 12]]);
+            }));
+
+            function changed(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return changed;
+        }(),
+        voucherAdd: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.loading = true;
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/voucher',
+                                    data: this.formValue
+                                });
+
+                            case 4:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.dataCustomer.unshift(data.status);
+
+                                this.s('Great!', 'Customer has been added successfully!');
+                                this.loading = false;
+                                this.formValue.ledgerName = '';
+                                this.formValue.type = '';
+                                this.formValue.date = '';
+                                this.formValue.remarks = '';
+                                _context2.next = 19;
+                                break;
+
+                            case 15:
+                                _context2.prev = 15;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 19:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 15]]);
+            }));
+
+            function voucherAdd() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return voucherAdd;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.dataCustomer[index].id;
+            this.editObj.customerName = this.dataCustomer[index].customerName;
+            this.editObj.address = this.dataCustomer[index].address;
+            this.editObj.contact = this.dataCustomer[index].contact;
+            this.editObj.email = this.dataCustomer[index].email;
+            this.editObj.zone = this.dataCustomer[index].zone;
+            this.UpdateValue.customerName = this.dataCustomer[index].customerName;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.customerName = this.dataCustomer[index].customerName;
+            this.UpdateValue.id = this.dataCustomer[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/customerUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+
+                                console.log(this.UpdateValue.indexNumber);
+                                console.log(data);
+                                this.dataCustomer[this.UpdateValue.indexNumber].customerName = data.customerName;
+                                this.dataCustomer[this.UpdateValue.indexNumber].address = data.address;
+                                this.dataCustomer[this.UpdateValue.indexNumber].contact = data.contact;
+                                this.dataCustomer[this.UpdateValue.indexNumber].email = data.email;
+                                this.dataCustomer[this.UpdateValue.indexNumber].zone = data.zone;
+                                this.s('Great!', 'Customer information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context3.next = 23;
+                                break;
+
+                            case 18:
+                                _context3.prev = 18;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 23:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 18]]);
+            }));
+
+            function edit() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+                var _ref8, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                this.sending = true;
+                                _context4.prev = 1;
+                                _context4.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/customer/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref8 = _context4.sent;
+                                data = _ref8.data;
+
+                                this.dataCustomer.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Customer information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context4.next = 17;
+                                break;
+
+                            case 12:
+                                _context4.prev = 12;
+                                _context4.t0 = _context4['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref7.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+    created: function () {
+        var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+            var _ref10, data, _ref11, _data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                while (1) {
+                    switch (_context5.prev = _context5.next) {
+                        case 0:
+                            this.ls();
+                            _context5.prev = 1;
+                            _context5.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/zone'
+                            });
+
+                        case 4:
+                            _ref10 = _context5.sent;
+                            data = _ref10.data;
+
+                            this.dataZone = data;
+                            this.lf();
+
+                            _context5.next = 14;
+                            break;
+
+                        case 10:
+                            _context5.prev = 10;
+                            _context5.t0 = _context5['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                            _context5.prev = 14;
+                            _context5.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/customer'
+                            });
+
+                        case 17:
+                            _ref11 = _context5.sent;
+                            _data = _ref11.data;
+
+
+                            this.dataCustomer = _data;
+                            this.lf();
+
+                            _context5.next = 27;
+                            break;
+
+                        case 23:
+                            _context5.prev = 23;
+                            _context5.t1 = _context5['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 27:
+                        case 'end':
+                            return _context5.stop();
+                    }
+                }
+            }, _callee5, this, [[1, 10], [14, 23]]);
+        }));
+
+        function created() {
+            return _ref9.apply(this, arguments);
         }
 
         return created;
@@ -80035,6 +81861,353 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1d2930ce\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/voucher/ledgerhead.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "12", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Ledger Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Ledger Name"
+                                },
+                                model: {
+                                  value: _vm.formValue.ledgerName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "ledgerName", $$v)
+                                  },
+                                  expression: "formValue.ledgerName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Type" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Select Type" },
+                                  model: {
+                                    value: _vm.formValue.type,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formValue, "type", $$v)
+                                    },
+                                    expression: "formValue.type"
+                                  }
+                                },
+                                [
+                                  _c("Option", { attrs: { value: "Income" } }, [
+                                    _vm._v("Income")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "Option",
+                                    { attrs: { value: "Expence" } },
+                                    [_vm._v("Expence")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        {
+                          staticClass: "dream-input-main-button",
+                          attrs: { span: "24" }
+                        },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", loading: _vm.loading },
+                              on: { click: _vm.ledgerAdd }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Add")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Edit " + _vm._s(_vm.UpdateValue.ledgerName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "24" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Ledger Name" } },
+                        [
+                          _c("Input", {
+                            attrs: { type: "text", placeholder: "Ledger Name" },
+                            model: {
+                              value: _vm.editObj.ledgerName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "ledgerName", $$v)
+                              },
+                              expression: "editObj.ledgerName"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Type" } },
+                        [
+                          _c(
+                            "Select",
+                            {
+                              attrs: { placeholder: "Select Type" },
+                              model: {
+                                value: _vm.editObj.type,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.editObj, "type", $$v)
+                                },
+                                expression: "editObj.type"
+                              }
+                            },
+                            [
+                              _c("Option", { attrs: { value: "Income" } }, [
+                                _vm._v("Income")
+                              ]),
+                              _vm._v(" "),
+                              _c("Option", { attrs: { value: "Expence" } }, [
+                                _vm._v("Expence")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Delete " + _vm._s(_vm.UpdateValue.ledgerName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.ledgerName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1d2930ce", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-24bb2e7e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/mainapp.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -81323,7 +83496,15 @@ var render = function() {
                       _c(
                         "Col",
                         { attrs: { span: "12" } },
-                        [_c("FormItem", { attrs: { label: "Image" } })],
+                        [
+                          _c("FormItem", { attrs: { label: "Image X" } }, [
+                            _c("input", {
+                              ref: "image",
+                              attrs: { type: "file", placeholder: "Upload" },
+                              on: { change: _vm.onFileChange }
+                            })
+                          ])
+                        ],
                         1
                       )
                     ],
@@ -81575,11 +83756,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("FormItem", { attrs: { label: "Selling Price" } }, [
                         _c("input", {
-                          attrs: {
-                            type: "file",
-                            placeholder: "Selling Price",
-                            id: "fileName"
-                          }
+                          attrs: { type: "text", placeholder: "Selling Price" }
                         })
                       ])
                     ],
@@ -81979,6 +84156,521 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-584d6c56\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/customer/customer.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "12", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Customer Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Customer Name"
+                                },
+                                model: {
+                                  value: _vm.formValue.customerName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "customerName", $$v)
+                                  },
+                                  expression: "formValue.customerName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Contact Number" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Number" },
+                                model: {
+                                  value: _vm.formValue.contact,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "contact", $$v)
+                                  },
+                                  expression: "formValue.contact"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Email" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Email" },
+                                model: {
+                                  value: _vm.formValue.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "email", $$v)
+                                  },
+                                  expression: "formValue.email"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Address" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Address" },
+                                model: {
+                                  value: _vm.formValue.address,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "address", $$v)
+                                  },
+                                  expression: "formValue.address"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Zone" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Select group" },
+                                  model: {
+                                    value: _vm.formValue.zone,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formValue, "zone", $$v)
+                                    },
+                                    expression: "formValue.zone"
+                                  }
+                                },
+                                _vm._l(_vm.dataZone, function(zone, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: zone.zoneName } },
+                                    [_vm._v(_vm._s(zone.zoneName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        {
+                          staticClass: "dream-input-main-button",
+                          attrs: { span: "24" }
+                        },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", loading: _vm.loading },
+                              on: { click: _vm.customerAdd }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Add")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataCustomer }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "600" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Edit " + _vm._s(_vm.UpdateValue.customerName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Customer Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Customer Name"
+                                },
+                                model: {
+                                  value: _vm.editObj.customerName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "customerName", $$v)
+                                  },
+                                  expression: "editObj.customerName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Contact Number" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Number" },
+                                model: {
+                                  value: _vm.editObj.contact,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "contact", $$v)
+                                  },
+                                  expression: "editObj.contact"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Email" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Email" },
+                                model: {
+                                  value: _vm.editObj.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "email", $$v)
+                                  },
+                                  expression: "editObj.email"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Address" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Address" },
+                                model: {
+                                  value: _vm.editObj.address,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "address", $$v)
+                                  },
+                                  expression: "editObj.address"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Zone" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Select group" },
+                                  model: {
+                                    value: _vm.editObj.zone,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.editObj, "zone", $$v)
+                                    },
+                                    expression: "editObj.zone"
+                                  }
+                                },
+                                _vm._l(_vm.dataZone, function(zone, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: zone.zoneName } },
+                                    [_vm._v(_vm._s(zone.zoneName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Delete " + _vm._s(_vm.UpdateValue.customerName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.customerName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-584d6c56", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8592fcd6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/unit/unit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82287,6 +84979,550 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8f71c50e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/voucher/voucher.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "12", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Type" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: {
+                                    placeholder: "Type",
+                                    "remote-method": _vm.changed
+                                  },
+                                  model: {
+                                    value: _vm.formValue.type,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formValue, "type", $$v)
+                                    },
+                                    expression: "formValue.type"
+                                  }
+                                },
+                                [
+                                  _c("Option", { attrs: { value: "Income" } }, [
+                                    _vm._v("Income")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "Option",
+                                    { attrs: { value: "Expence" } },
+                                    [_vm._v("Expence")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Zone" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Ledger Head" },
+                                  model: {
+                                    value: _vm.formValue.ledgerName,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formValue, "ledgerName", $$v)
+                                    },
+                                    expression: "formValue.ledgerName"
+                                  }
+                                },
+                                _vm._l(_vm.dataLedger, function(ledger, i) {
+                                  return _c(
+                                    "Option",
+                                    {
+                                      key: i,
+                                      attrs: { value: ledger.ledgerName }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(ledger.ledgerName) +
+                                          " (" +
+                                          _vm._s(ledger.type) +
+                                          ")"
+                                      )
+                                    ]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Voucher Date" } },
+                            [
+                              _c("DatePicker", {
+                                attrs: {
+                                  type: "date",
+                                  format: "date",
+                                  placeholder: "Select date"
+                                },
+                                model: {
+                                  value: _vm.formValue.date,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "date", $$v)
+                                  },
+                                  expression: "formValue.date"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Amount" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Amount" },
+                                model: {
+                                  value: _vm.formValue.amount,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "amount", $$v)
+                                  },
+                                  expression: "formValue.amount"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Remarks" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Remarks" },
+                                model: {
+                                  value: _vm.formValue.remarks,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "remarks", $$v)
+                                  },
+                                  expression: "formValue.remarks"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        {
+                          staticClass: "dream-input-main-button",
+                          attrs: { span: "24" }
+                        },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", loading: _vm.loading },
+                              on: { click: _vm.voucherAdd }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Add")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataCustomer }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "600" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Edit " + _vm._s(_vm.UpdateValue.customerName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Customer Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Customer Name"
+                                },
+                                model: {
+                                  value: _vm.editObj.customerName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "customerName", $$v)
+                                  },
+                                  expression: "editObj.customerName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Contact Number" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Number" },
+                                model: {
+                                  value: _vm.editObj.contact,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "contact", $$v)
+                                  },
+                                  expression: "editObj.contact"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Email" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Email" },
+                                model: {
+                                  value: _vm.editObj.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "email", $$v)
+                                  },
+                                  expression: "editObj.email"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Address" } },
+                            [
+                              _c("Input", {
+                                attrs: { type: "text", placeholder: "Address" },
+                                model: {
+                                  value: _vm.editObj.address,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.editObj, "address", $$v)
+                                  },
+                                  expression: "editObj.address"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Zone" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: { placeholder: "Select group" },
+                                  model: {
+                                    value: _vm.editObj.zone,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.editObj, "zone", $$v)
+                                    },
+                                    expression: "editObj.zone"
+                                  }
+                                },
+                                _vm._l(_vm.dataZone, function(zone, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: zone.zoneName } },
+                                    [_vm._v(_vm._s(zone.zoneName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Delete " + _vm._s(_vm.UpdateValue.customerName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.customerName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8f71c50e", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bb29ce86\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/setting/setting.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82576,6 +85812,286 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-bb29ce86", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ce4343ba\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/customer/zone.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "12", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "24" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Zone Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Zone Name"
+                                },
+                                model: {
+                                  value: _vm.formValue.zoneName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "zoneName", $$v)
+                                  },
+                                  expression: "formValue.zoneName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        {
+                          staticClass: "dream-input-main-button",
+                          attrs: { span: "24" }
+                        },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "success", loading: _vm.loading },
+                              on: { click: _vm.zoneAdd }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Add")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Edit " + _vm._s(_vm.UpdateValue.zoneName))])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "24" } },
+                    [
+                      _c(
+                        "FormItem",
+                        [
+                          _c("Input", {
+                            attrs: { type: "text", placeholder: "Zone Name" },
+                            model: {
+                              value: _vm.editObj.zoneName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "zoneName", $$v)
+                              },
+                              expression: "editObj.zoneName"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(" Delete " + _vm._s(_vm.UpdateValue.zoneName))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v(
+              "\n        Are you sure you want delete " +
+                _vm._s(_vm.UpdateValue.zoneName) +
+                "\n\n    "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ce4343ba", module.exports)
   }
 }
 
@@ -97924,6 +101440,102 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/customer/customer.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/customer/customer.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-584d6c56\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/customer/customer.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\customer\\customer.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-584d6c56", Component.options)
+  } else {
+    hotAPI.reload("data-v-584d6c56", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/customer/zone.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/customer/zone.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ce4343ba\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/customer/zone.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\customer\\zone.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ce4343ba", Component.options)
+  } else {
+    hotAPI.reload("data-v-ce4343ba", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/group/group.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98312,6 +101924,102 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/voucher/ledgerhead.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/voucher/ledgerhead.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1d2930ce\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/voucher/ledgerhead.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\voucher\\ledgerhead.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1d2930ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-1d2930ce", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/voucher/voucher.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/voucher/voucher.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8f71c50e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/voucher/voucher.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\voucher\\voucher.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8f71c50e", Component.options)
+  } else {
+    hotAPI.reload("data-v-8f71c50e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/router.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -98335,6 +102043,18 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_product_product_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_product_product_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue__ = __webpack_require__("./resources/assets/js/components/supplier/supplier.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_customer_zone_vue__ = __webpack_require__("./resources/assets/js/components/customer/zone.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_customer_zone_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_customer_zone_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_customer_customer_vue__ = __webpack_require__("./resources/assets/js/components/customer/customer.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_customer_customer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_customer_customer_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_voucher_voucher_vue__ = __webpack_require__("./resources/assets/js/components/voucher/voucher.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_voucher_voucher_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_voucher_voucher_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_voucher_ledgerhead_vue__ = __webpack_require__("./resources/assets/js/components/voucher/ledgerhead.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_voucher_ledgerhead_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_voucher_ledgerhead_vue__);
+
+
+
+
 
 
 
@@ -98381,6 +102101,22 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/supplier',
 						name: 'supplier',
 						component: __WEBPACK_IMPORTED_MODULE_9__components_supplier_supplier_vue___default.a
+			}, {
+						path: '/customer',
+						name: 'customer',
+						component: __WEBPACK_IMPORTED_MODULE_11__components_customer_customer_vue___default.a
+			}, {
+						path: '/zone',
+						name: 'zone',
+						component: __WEBPACK_IMPORTED_MODULE_10__components_customer_zone_vue___default.a
+			}, {
+						path: '/voucher',
+						name: 'voucher',
+						component: __WEBPACK_IMPORTED_MODULE_12__components_voucher_voucher_vue___default.a
+			}, {
+						path: '/ledgerhead',
+						name: 'ledgerhead',
+						component: __WEBPACK_IMPORTED_MODULE_13__components_voucher_ledgerhead_vue___default.a
 			}]
 }));
 

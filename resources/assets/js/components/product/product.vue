@@ -76,7 +76,8 @@
                         </FormItem >
                     </Col>
                     <Col span="12">
-                        <FormItem  label="Image">
+                        <FormItem  label="Image X">
+                            <input type="file" ref="image" placeholder="Upload"  @change="onFileChange"></input>
                         </FormItem >
                     </Col>
                 </Row>
@@ -139,7 +140,7 @@
                         v-model="editObj.color"></Input>
                     </FormItem >
                     <FormItem  label="Selling Price">
-                        <input type="file" placeholder="Selling Price" id="fileName"></input>
+                        <input type="text" placeholder="Selling Price"></input>
                     </FormItem >
 
                 </Col>
@@ -313,6 +314,14 @@
             }
         },
         methods: {
+            onFileChange() {
+                const files = this.$refs.image.files
+                const data = new FormData()
+                // data.append('logo', files[0])
+                // console.log(data)
+                // console.log(files[0])
+                this.formValue.productImage=files[0]
+            },
             async changed (k) {
                 this.ls();
                 this.formValue.catName=''

@@ -24,6 +24,10 @@ Route::post('/app/groupUpdate','GroupController@groupUpdate');
 Route::post('/app/categoryUpdate','CategoryController@categoryUpdate');
 Route::post('/app/unitUpdate','UnitController@unitUpdate');
 Route::post('/app/supplierUpdate','SupplierController@supplierUpdate');
+Route::post('/app/customerUpdate','CustomerController@customerUpdate');
+Route::post('/app/zoneUpdate','ZoneController@zoneUpdate');
+Route::post('/app/ledgerUpdate','LedgerController@ledgerUpdate');
+Route::post('/app/voucherUpdate','VoucherController@voucherUpdate');
 //resources
 Route::resource('/app/setting','SettingController');
 Route::resource('/app/category','CategoryController');
@@ -31,8 +35,13 @@ Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');
 Route::resource('/app/product','ProductController');
 Route::resource('/app/supplier','SupplierController');
+Route::resource('/app/customer','CustomerController');
+Route::resource('/app/zone','ZoneController');
+Route::resource('/app/ledger','LedgerController');
+Route::resource('/app/voucher','VoucherController');
 //filtered 
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
+Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
 
 
 Route::post('/app/setting/upload','SettingController@upload');
