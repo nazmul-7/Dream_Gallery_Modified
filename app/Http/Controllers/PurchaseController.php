@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
-class ProductController extends Controller
+class PurchaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product=Product::orderBy('id', 'desc')->get();
-        return $product;
+        //
     }
 
     /**
@@ -35,20 +34,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile('productImage'))
-        {
-            request()->file('productImage')->store('uploads');
-            $pic= $request->productImage->hashName();
-        }
-        $created=Product::create($request->all());
-        //set barcode
-         $barCode=str_pad($created->id, 15, '0', STR_PAD_LEFT);
-         $data=array(
-             'barCode' => $barCode
-          );
-        Product::where('id',$created->id)->update($data);
-        $settings=Product::where('id', $created->id)->first();
-        return $settings;
+        //
     }
 
     /**
@@ -82,15 +68,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
-    }
-        public function productUpdate(Request $request)
-    {
-        Product::where('id',$request->id)->update($request->all());
-        $update=Product::where('id',$request->id)->first();
-        return $update;
-
+        //
     }
 
     /**
@@ -101,13 +79,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $group = Product::where('id','=',$id)
-          ->first();
-          if($group->count()){
-            $group->delete();
-            return response()->json(['msg'=>'success','status'=>$id]);
-          } else {
-            return response()->json(['msg'=>'error','status'=>$id]);
-          }
+        //
     }
+    public function searchProduct($search)
+    {
+        $product=Product::where('model','LIKE','%'.$search.'%')
+        ->get();
+        return $product;
+    }
+
 }

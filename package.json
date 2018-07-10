@@ -18,9 +18,10 @@
         "lodash": "^4.17.4",
         "material-design-icons-iconfont": "^3.0.3",
         "popper.js": "^1.12",
-        "vue": "^2.5.7"
+        "vue": "^2.5.16"
     },
     "dependencies": {
+        "@xkeshi/vue-barcode": "^1.0.0",
         "es6-object-assign": "^1.1.0",
         "es6-promise": "^4.2.4",
         "iview": "^2.14.3",

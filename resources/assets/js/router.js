@@ -7,6 +7,7 @@ import group from './components/group/group.vue'
 import category from './components/category/category.vue'
 import unit from './components/unit/unit.vue'
 import product from './components/product/product.vue'
+import purchase from './components/product/purchase.vue'
 import supplier from './components/supplier/supplier.vue'
 import zone from './components/customer/zone.vue'
 import customer from './components/customer/customer.vue'
@@ -77,6 +78,11 @@ export default new Router({
 	      path: '/ledgerhead',
 	      name: 'ledgerhead',
 	      component: ledgerhead
+	    },
+    	{
+	      path: '/purchase',
+	      name: 'purchase',
+	      component: purchase
 	    },
 	 ]
 })

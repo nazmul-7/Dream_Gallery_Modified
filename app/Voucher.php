@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Voucher extends Model
 {
     protected $fillable = [
-        'headName','amount','date','remarks',
+        'ledgerName','amount','type','date','remarks',
     ];
 }

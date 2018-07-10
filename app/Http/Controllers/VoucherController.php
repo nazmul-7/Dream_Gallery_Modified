@@ -14,7 +14,8 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        //
+        $data=Voucher::orderBy('id', 'desc')->get();
+        return $data;
     }
 
     /**
@@ -35,7 +36,12 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created=Voucher::create($request->all());
+         return response()->json([
+                 'msg' => 'Inserted',
+                 'status' => $created
+            ],200);
+
     }
 
     /**
@@ -72,6 +78,12 @@ class VoucherController extends Controller
         //
     }
 
+    public function voucherUpdate(Request $request)
+    {
+        Voucher::where('id',$request->id)->update($request->all());
+        $data=Voucher::where('id',$request->id)->first();
+        return $data;
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -80,14 +92,21 @@ class VoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $destroy = Voucher::where('id','=',$id)
+          ->first();
+          if($destroy->count()){
+            $destroy->delete();
+            return response()->json(['msg'=>'success','status'=>$id]);
+          } else {
+            return response()->json(['msg'=>'error','status'=>$id]);
+          }
     }
         public function ledgerFiltered($id)
     {
-        $category=LedgerHead::where('type', $id)
+        $data=LedgerHead::where('type', $id)
         ->orderBy('id', 'desc')
         ->get();
         
-        return $category;
+        return $data;
     }
 }

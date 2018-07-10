@@ -15,10 +15,10 @@ class CreateVouchersTable extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('headName');
+            $table->string('ledgerName');
             $table->string('type');
             $table->integer('amount')->nullable();
-            $table->date('date')->nullable();
+            $table->timestamp('date')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
         });

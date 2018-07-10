@@ -47,7 +47,7 @@
                     </Col>
                     <Col span="12">
                         <FormItem  label="Mode">
-                            <Input type="text" placeholder="Product Mode" 
+                            <Input type="text" placeholder="Product Model" 
                             v-model="formValue.model"></Input>
                         </FormItem >
                     </Col>
@@ -77,7 +77,6 @@
                     </Col>
                     <Col span="12">
                         <FormItem  label="Image X">
-                            <input type="file" ref="image" placeholder="Upload"  @change="onFileChange"></input>
                         </FormItem >
                     </Col>
                 </Row>
@@ -99,50 +98,62 @@
         <div style="text-align:center">
             <Form>
                 <Col span="24">
-
                     <FormItem label="Group">
                         <Select v-model="UpdateValue.group_id" placeholder="Select group" 
                          :remote-method="changed">
                                 <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
                             </Select>
                     </FormItem>
-
+                </Col>
+                <Col span="12">
                     <FormItem label="Category">
                         <Select v-model="editObj.catName" placeholder="Select category" 
                          >
                                 <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{category.catName}}</Option>
                             </Select>
                     </FormItem>
-
+                </Col>
+                <Col span="12">
                     <FormItem label="Unit">
                         <Select v-model="editObj.unit" placeholder="Select unit" >
                                 <Option v-for="(unit,i) in dataUnit" :value="unit.unitName" :key="i">{{unit.unitName}}</Option>
                             </Select>
                     </FormItem>
-
+                </Col>
+                <Col span="12">
                     <FormItem  label="Mode">
                         <Input type="text" placeholder="Product Mode" 
                         v-model="editObj.model"></Input>
                     </FormItem >
-
+                </Col>
+                <Col span="12">
                     <FormItem  label="Brand">
                         <Input type="text" placeholder="Product Brand" 
                         v-model="editObj.brand"></Input>
                     </FormItem >
-
+                </Col>
+                <Col span="12">
                     <FormItem  label="Size">
                         <Input type="text" placeholder="Product Size" 
                         v-model="editObj.size"></Input>
                     </FormItem >
-
+                </Col>
+                <Col span="12">
                     <FormItem  label="Color">
                         <Input type="text" placeholder="Product Color" 
                         v-model="editObj.color"></Input>
                     </FormItem >
+                </Col>
+                <Col span="12">
                     <FormItem  label="Selling Price">
-                        <input type="text" placeholder="Selling Price"></input>
+                        <Input type="text" placeholder="Selling Price" 
+                        v-model="editObj.sellingPrice"></Input>
                     </FormItem >
-
+                </Col>
+                <Col span="12">
+                    <FormItem  label="Image X">
+                        
+                    </FormItem >
                 </Col>
             </Form>
         </div>
@@ -170,6 +181,22 @@
             </Button>
         </div>
     </Modal>
+
+    <Modal v-model="barcodeModal" width="600">
+        <p slot="header" style="color:#19be6b;text-align:center">
+            <span> Barcode </span>
+        </p>
+        <div style="text-align:center">
+            <barcode v-model="UpdateValue.barCode" :options="{ displayValue: true }"></barcode>
+        </div>
+        <div slot="footer">
+            <Button type="success" size="large" long :loading="sending" @click="barcodeModal=false">
+                <span v-if="!loading">Close</span>
+                <span v-else>Loading...</span>
+            </Button>
+        </div>
+    </Modal>
+
     </div>
 </template>
 
@@ -178,6 +205,7 @@
     export default {
         data () {
             return {
+                barcodeModal:false,
                 addProductModal:false,
                 editModal:false,
                 deleteModal:false,
@@ -229,6 +257,7 @@
                     model:'',
                     sellingPrice:'',
                     productImage:'',
+                    barCode:'',
                     
                 },
                 columns1: [
@@ -259,10 +288,24 @@
                     {   
                         title: 'Action',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showBarcode(params.index)
+                                        }
+                                    }
+                                }, 'Barcode'),
                                 h('Button', {
                                     props: {
                                         type: 'primary',
@@ -372,6 +415,7 @@
                 this.changed(this.dataProduct[index].groupName)
                 this.editObj.id=this.dataProduct[index].id
                 this.editObj.groupName=this.dataProduct[index].groupName
+                this.editObj.group_id=this.dataProduct[index].group_id
                 this.editObj.catName=this.dataProduct[index].catName
                 this.editObj.brand=this.dataProduct[index].brand
                 this.editObj.unit=this.dataProduct[index].unit
@@ -390,6 +434,13 @@
                 this.deleteModal=true
                 this.UpdateValue.model=this.dataProduct[index].model
                 this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.indexNumber=index
+            },
+            showBarcode (index) {
+                this.UpdateValue.barCode=this.dataProduct[index].barCode
+                this.barcodeModal=true
+                this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.model=this.dataProduct[index].model
                 this.UpdateValue.indexNumber=index
             },
             async edit(){
@@ -437,7 +488,7 @@
                     this.e('Oops!','Something went wrong, please try again!')
                 }
             },
-        groupNameToId(name)
+            groupNameToId(name)
             {
                 var i=0
 
@@ -449,6 +500,8 @@
                 }
                 
             },
+
+
 
         },
 

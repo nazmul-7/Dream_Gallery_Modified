@@ -8,13 +8,12 @@
                             <FormItem label="Type">
                                 <Select v-model="formValue.type" placeholder="Type"
                                 :remote-method="changed">
-                                    <Option value="Income" >Income</Option>
-                                    <Option value="Expence" >Expence</Option>
+                                    <Option v-for="(type,i) in voucherType" :value="type.value" :key="i">{{ type.label }}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col span="12">
-                            <FormItem label="Zone">
+                            <FormItem label="Ledger Head">
                                 <Select v-model="formValue.ledgerName" placeholder="Ledger Head">
                                     <Option v-for="(ledger,i) in dataLedger" :value="ledger.ledgerName" :key="i">{{ledger.ledgerName}} ({{ledger.type}})</Option>
                                 </Select>
@@ -22,7 +21,7 @@
                         </Col>
                         <Col span="12">
                             <FormItem  label="Voucher Date">
-                            <DatePicker type="date" format="date" v-model="formValue.date" placeholder="Select date"></DatePicker>
+                                <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                             </FormItem >
                         </Col>
                         <Col span="12">
@@ -50,48 +49,49 @@
 
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataCustomer"></Table>
+                <Table :columns="columns1" :data="dataVoucher"></Table>
             </Col>
         </Row>
 
       <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.customerName}}</span>
+            <span> Edit</span>
         </p>
         <div style="text-align:center">
             <Form>
                 <Row :gutter="24">
                     <Col span="24">
-                        <FormItem  label="Customer Name">
-                            <Input type="text" placeholder="Customer Name" 
-                            v-model="editObj.customerName"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Contact Number">
-                        <Input type="text" placeholder="Number" 
-                        v-model="editObj.contact"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Email">
-                            <Input type="text" placeholder="Email" 
-                            v-model="editObj.email"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Address">
-                            <Input type="text" placeholder="Address" 
-                            v-model="editObj.address"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="Zone">
-                            <Select v-model="editObj.zone" placeholder="Select group">
-                                <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
+                        <FormItem label="Type">
+                            <Select v-model="editObj.type" placeholder="Type"
+                            :remote-method="changed">
+                                <Option v-for="(type,i) in voucherType" :value="type.value" :key="i">{{ type.label }}</Option>
                             </Select>
                         </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="Ledger Head">
+                            <Select v-model="editObj.ledgerName" placeholder="Ledger Head">
+                                <Option v-for="(ledger,i) in dataLedger" :value="ledger.ledgerName" :key="i">{{ledger.ledgerName}} ({{ledger.type}})</Option>
+                            </Select>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Voucher Date">
+                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Amount">
+                            <Input type="text" placeholder="Amount" 
+                            v-model="editObj.amount"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Remarks">
+                            <Input type="text" placeholder="Remarks" 
+                            v-model="editObj.remarks"></Input>
+                        </FormItem >
                     </Col>
                 </Row>
             </Form>
@@ -134,46 +134,46 @@
                 isCollapsed: false,
                 editObj: {
                     id:null,
-                    customerName:'',
-                    address:'',
-                    contact:'',
-                    email:'',
-                    zone:'',
+                    type:'',
+                    ledgerName:'',
+                    amount:'',
+                    date:'',
+                    remarks:'',
 
                     
                 },
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
-                    customerName:'',
-                    address:'',
-                    contact:'',
-                    email:'',
-                    zone:'',
+                    type:'',
+                    ledgerName:'',
+                    amount:'',
+                    date:'',
+                    remarks:'',
 
 
                     
                 },
                 columns1: [
                     {
-                        title: 'Customer Name',
-                        key: 'customerName'
+                        title: 'Type',
+                        key: 'type'
                     },
                     {
-                        title: 'Address',
-                        key: 'address'
+                        title: 'Ledger',
+                        key: 'ledgerName'
                     },
                     {
-                        title: 'Contact',
-                        key: 'contact'
+                        title: 'Amount',
+                        key: 'amount'
                     },
                     {
-                        title: 'Zone',
-                        key: 'zone'
+                        title: 'Date',
+                        key: 'date'
                     },
                     {
-                        title: 'Email',
-                        key: 'email'
+                        title: 'Remarks',
+                        key: 'remarks'
                     },
                     {   
                         title: 'Action',
@@ -215,14 +215,25 @@
                 dataLedger: [],
 
                 formValue: {
-                    type:'',
                     ledgerName:'',
+                    type:'',
                     amount:'',
                     date:'',
                     remarks:'',
 
 
                 },
+                voucherType: [
+                    {
+                        value: 'Income',
+                        label: 'Income'
+                    },
+                    {
+                        value: 'Expence',
+                        label: 'Expence'
+                    },
+                    
+                ],
                 
             }
             
@@ -242,6 +253,13 @@
             }
         },
         methods: {
+            dateConverter(key)
+            {
+                console.log(key)
+                this.formValue.date=key
+                this.editObj.date=key
+
+            },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
@@ -252,7 +270,7 @@
                 try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:`/app/ledgerFiltered/${this.formValue.type}`
+                    url:`/app/ledgerFiltered/${k}`
                 })
                 this.dataLedger=data
                 this.lf();
@@ -264,12 +282,13 @@
             async voucherAdd(){
                 this.loading=true
                 try{
+                    console.log(this.formValue)
                     let {data} =await  axios({
                         method: 'post',
                         url:'/app/voucher',
                         data: this.formValue
                     })
-                    this.dataCustomer.unshift(data.status)
+                    this.dataVoucher.unshift(data.status)
                     
                     this.s('Great!','Customer has been added successfully!')
                     this.loading=false
@@ -283,19 +302,19 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.dataCustomer[index].id
-                this.editObj.customerName=this.dataCustomer[index].customerName
-                this.editObj.address=this.dataCustomer[index].address
-                this.editObj.contact=this.dataCustomer[index].contact
-                this.editObj.email=this.dataCustomer[index].email
-                this.editObj.zone=this.dataCustomer[index].zone
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
+                this.editObj.id=this.dataVoucher[index].id
+                this.editObj.type=this.dataVoucher[index].type
+                this.editObj.ledgerName=this.dataVoucher[index].ledgerName
+                this.editObj.date=this.dataVoucher[index].date
+                this.editObj.amount=this.dataVoucher[index].amount
+                this.editObj.remarks=this.dataVoucher[index].remarks
+                this.UpdateValue.ledgerName=this.dataVoucher[index].ledgerName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
-                this.UpdateValue.id=this.dataCustomer[index].id
+                this.UpdateValue.ledgerName=this.dataVoucher[index].ledgerName
+                this.UpdateValue.id=this.dataVoucher[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -304,18 +323,18 @@
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/customerUpdate',
+                        url:'/app/voucherUpdate',
                         data: this.editObj
                     })
 
                     console.log(this.UpdateValue.indexNumber)
                     console.log(data)
-                    this.dataCustomer[this.UpdateValue.indexNumber].customerName=data.customerName
-                    this.dataCustomer[this.UpdateValue.indexNumber].address=data.address
-                    this.dataCustomer[this.UpdateValue.indexNumber].contact=data.contact
-                    this.dataCustomer[this.UpdateValue.indexNumber].email=data.email
-                    this.dataCustomer[this.UpdateValue.indexNumber].zone=data.zone
-                    this.s('Great!','Customer information has been updated successfully!')
+                    this.dataVoucher[this.UpdateValue.indexNumber].type=data.type
+                    this.dataVoucher[this.UpdateValue.indexNumber].ledgerName=data.ledgerName
+                    this.dataVoucher[this.UpdateValue.indexNumber].date=data.date
+                    this.dataVoucher[this.UpdateValue.indexNumber].amount=data.amount
+                    this.dataVoucher[this.UpdateValue.indexNumber].remarks=data.remarks
+                    this.s('Great!','Voucher information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false
@@ -330,10 +349,10 @@
                 try{
                     let {data} =await  axios({
                         method: 'delete',
-                        url:`/app/customer/${this.UpdateValue.id}`,
+                        url:`/app/voucher/${this.UpdateValue.id}`,
                     })
-                    this.dataCustomer.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Customer information has been removed successfully!')
+                    this.dataVoucher.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','Voucher information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false
@@ -346,26 +365,26 @@
         },
         async created()
         {
-            this.ls();
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/zone'
-                })
-                this.dataZone=data;
-                this.lf();
+             this.ls();
+            // try{
+            //     let {data} =await  axios({
+            //         method: 'get',
+            //         url:'/app/ledgerhead'
+            //     })
+            //     this.dataLedger=data;
+            //     this.lf();
 
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
+            // }catch(e){
+            //     this.e('Oops!','Something went wrong, please try again!')
+            // this.le();
+            // }
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/customer'
+                    url:'/app/voucher'
                 })
                 
-                this.dataCustomer=data;
+                this.dataVoucher=data;
                 this.lf();
 
             }catch(e){
