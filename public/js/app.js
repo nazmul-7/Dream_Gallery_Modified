@@ -7074,6 +7074,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -7082,11 +7108,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         return {
             index: 0,
             searchValue: '',
+            clearModel: false,
             editModal: false,
             deleteModal: false,
             loading: false,
             sending: false,
             isCollapsed: false,
+            dataSupplier: [],
+            dataSearch: [],
+            dataCategory: [],
+            dataInvoice: [],
+            formInvoice: {
+                type: 'purchase'
+
+            },
+            formValue: [],
             editObj: {
                 id: null,
                 catName: '',
@@ -7138,15 +7174,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         }
                     }, 'Delete')]);
                 }
-            }],
-            dataVoucher: {
-                supplier_id: ''
-            },
-            dataSupplier: [],
-            dataSearch: [],
-            dataCategory: [],
-            dataInvoide: [],
-            formValue: []
+            }]
 
         };
     },
@@ -7161,9 +7189,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         totalPrice: function totalPrice() {
             var totalPrice = 0;
             for (var i = 0; i < this.formValue.length; i++) {
+
                 totalPrice += this.formValue[i].stock * this.formValue[i].buyingPrice;
             }
-
             return totalPrice;
         },
         totalQuantity: function totalQuantity() {
@@ -7171,21 +7199,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             for (var i = 0; i < this.formValue.length; i++) {
                 total += this.formValue[i].stock * 1;
             }
-
             return total;
         }
     },
     methods: {
+        showClear: function showClear() {
+            this.clearModel = true;
+        },
+        clearForm: function clearForm() {
+            this.formValue = [];
+            this.clearModel = false;
+        },
         dateConverter: function dateConverter(key) {
-            console.log(key);
-            this.dataInvoide.date = key;
+            this.formInvoice.date = key;
         },
         addProduct: function addProduct(k) {
             if (this.searchValue) {
                 this.formValue.push(this.dataSearch[k]);
-
-                this.index++;
-                console.log(this.index);
             }
             this.searchValue = '';
         },
@@ -7238,7 +7268,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         collapsedSider: function collapsedSider() {
             this.$refs.side1.toggleCollapse();
         },
-        categoryAdd: function () {
+        makePurchase: function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
                 var _ref4, data;
 
@@ -7246,49 +7276,66 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
+                                //invoice added
+                                this.formInvoice.totalPrice = this.totalPrice;
+                                this.formInvoice.totalQuantity = this.totalQuantity;
+
+                                if (!(!this.totalQuantity || !this.totalPrice)) {
+                                    _context2.next = 7;
+                                    break;
+                                }
+
+                                this.loading = false;
+                                this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
+
+                                _context2.next = 22;
+                                break;
+
+                            case 7:
+                                this.s('Oops!', 'Something went wrong, please try again!');
                                 this.loading = true;
-                                _context2.prev = 1;
-                                _context2.next = 4;
+                                _context2.prev = 9;
+                                _context2.next = 12;
                                 return axios({
                                     method: 'post',
-                                    url: '/app/category',
-                                    data: this.formValue
+                                    url: '/app/purchaseInvoice',
+                                    data: this.formInvoice
                                 });
 
-                            case 4:
+                            case 12:
                                 _ref4 = _context2.sent;
                                 data = _ref4.data;
 
-                                data.groupName = data.group.groupName;
-                                this.dataCategory.unshift(data);
+                                // data.groupName=data.group.groupName
+                                // this.dataCategory.unshift(data)
 
                                 this.s('Great!', 'Category has been added successfully!');
                                 this.loading = false;
-                                this.formValue.catName = '';
-                                this.formValue.group_id = null;
-                                _context2.next = 18;
+                                // this.formValue.catName=''
+                                // this.formValue.group_id=null
+                                _context2.next = 22;
                                 break;
 
-                            case 14:
-                                _context2.prev = 14;
-                                _context2.t0 = _context2['catch'](1);
+                            case 18:
+                                _context2.prev = 18;
+                                _context2.t0 = _context2['catch'](9);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 18:
+                            case 22:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[1, 14]]);
+                }, _callee2, this, [[9, 18]]);
             }));
 
-            function categoryAdd() {
+            function makePurchase() {
                 return _ref3.apply(this, arguments);
             }
 
-            return categoryAdd;
+            return makePurchase;
         }(),
         showEdit: function showEdit(index) {
             this.editObj.id = this.dataCategory[index].id;
@@ -7419,37 +7466,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     switch (_context5.prev = _context5.next) {
                         case 0:
                             this.ls();
-                            console.log(this.searchValue);
-                            _context5.prev = 2;
-                            _context5.next = 5;
+                            _context5.prev = 1;
+                            _context5.next = 4;
                             return axios({
                                 method: 'get',
                                 url: '/app/supplier'
                             });
 
-                        case 5:
+                        case 4:
                             _ref10 = _context5.sent;
                             data = _ref10.data;
 
                             this.dataSupplier = data;
                             this.lf();
 
-                            _context5.next = 15;
+                            _context5.next = 14;
                             break;
 
-                        case 11:
-                            _context5.prev = 11;
-                            _context5.t0 = _context5['catch'](2);
+                        case 10:
+                            _context5.prev = 10;
+                            _context5.t0 = _context5['catch'](1);
 
                             this.e('Oops!', 'Something went wrong, please try again!');
                             this.le();
 
-                        case 15:
+                        case 14:
                         case 'end':
                             return _context5.stop();
                     }
                 }
-            }, _callee5, this, [[2, 11]]);
+            }, _callee5, this, [[1, 10]]);
         }));
 
         function created() {
@@ -85996,15 +86042,15 @@ var render = function() {
                                     filterable: ""
                                   },
                                   model: {
-                                    value: _vm.dataVoucher.supplier_id,
+                                    value: _vm.formInvoice.supplier_id,
                                     callback: function($$v) {
                                       _vm.$set(
-                                        _vm.dataVoucher,
+                                        _vm.formInvoice,
                                         "supplier_id",
                                         $$v
                                       )
                                     },
-                                    expression: "dataVoucher.supplier_id"
+                                    expression: "formInvoice.supplier_id"
                                   }
                                 },
                                 _vm._l(_vm.dataSupplier, function(suppier, i) {
@@ -86182,7 +86228,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("h2", [_vm._v("Basic HTML Table")]),
+              _c("h2", [_vm._v("Product List")]),
               _vm._v(" "),
               _c(
                 "table",
@@ -86218,7 +86264,7 @@ var render = function() {
                               expression: "data.stock"
                             }
                           ],
-                          attrs: { type: "text" },
+                          attrs: { type: "number" },
                           domProps: { value: data.stock },
                           on: {
                             input: function($event) {
@@ -86241,7 +86287,7 @@ var render = function() {
                               expression: "data.buyingPrice"
                             }
                           ],
-                          attrs: { type: "text" },
+                          attrs: { type: "number" },
                           domProps: { value: data.buyingPrice },
                           on: {
                             input: function($event) {
@@ -86263,7 +86309,7 @@ var render = function() {
                         staticStyle: { "text-align": "right" },
                         attrs: { colspan: "3" }
                       },
-                      [_vm._v("Total")]
+                      [_vm._v("Total ")]
                     ),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
@@ -86272,6 +86318,39 @@ var render = function() {
                   ])
                 ],
                 2
+              ),
+              _vm._v(" "),
+              _c(
+                "Col",
+                { attrs: { span: "4", offset: "20" } },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "error", size: "large" },
+                      on: { click: _vm.showClear }
+                    },
+                    [_vm._v("\n                    Clear\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: {
+                        type: "primary",
+                        size: "large",
+                        loading: _vm.sending
+                      },
+                      on: { click: _vm.makePurchase }
+                    },
+                    [
+                      !_vm.loading
+                        ? _c("span", [_vm._v("Purchase")])
+                        : _c("span", [_vm._v("Loading...")])
+                    ]
+                  )
+                ],
+                1
               )
             ],
             1
@@ -86291,7 +86370,7 @@ var render = function() {
             },
             [
               _c("Table", {
-                attrs: { columns: _vm.columns1, data: _vm.dataInvoide }
+                attrs: { columns: _vm.columns1, data: _vm.dataInvoice }
               })
             ],
             1
@@ -86424,6 +86503,65 @@ var render = function() {
                   !_vm.loading
                     ? _c("span", [_vm._v("Delete")])
                     : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.clearModel,
+            callback: function($$v) {
+              _vm.clearModel = $$v
+            },
+            expression: "clearModel"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Clear ")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v("\n        Are you sure you want clear invoice\n\n    ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.clearForm }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Clear")])
+                    : _c("span", [_vm._v("Loading...")])
                 ]
               )
             ],

@@ -7,7 +7,7 @@
                     <Row :gutter="24">
                         <Col span="11" offset="1">
                             <FormItem label="Supplier">
-                                <Select v-model="dataVoucher.supplier_id" placeholder="Supplier" filterable>
+                                <Select v-model="formInvoice.supplier_id" placeholder="Supplier" filterable>
                                     <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
@@ -46,7 +46,7 @@
                         </Col>
                     </Row>
                 </Form>
-                <h2>Basic HTML Table</h2>
+                <h2>Product List</h2>
 
                 <table style="width:100%">
                   <tr>
@@ -60,24 +60,34 @@
                     <td >{{data.model}}</td>
                     <td >{{data.color}}</td>
                     <td>{{data.size}}</td>
-                    <td><input type="text" v-model="data.stock"></input></td>
-                    <td><input type="text" v-model="data.buyingPrice"></input></td>
+                    <td><input type="number" v-model="data.stock"></input></td>
+                    <td><input type="number" v-model="data.buyingPrice"></input></td>
                   </tr>
                   <tr >
-                    <td colspan="3" style="text-align:right">Total</td>
+                    <td colspan="3" style="text-align:right">Total </td>
                     <td >{{totalQuantity}}</td>
                     <td >{{totalPrice}}</td>
                     
                   </tr>
-                </table>
 
+                </table>
+                <Col span="4"  offset="20">
+                    <Button type="error" size="large"  @click="showClear">
+                        Clear
+                    </Button>
+
+                    <Button type="primary" size="large" :loading="sending" @click="makePurchase">
+                        <span v-if="!loading">Purchase</span>
+                        <span v-else>Loading...</span>
+                    </Button>
+                </Col>
 
             </Col>
         </Row>
 
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataInvoide"></Table>
+                <Table :columns="columns1" :data="dataInvoice"></Table>
             </Col>
         </Row>
 
@@ -115,6 +125,22 @@
             </Button>
         </div>
     </Modal>
+     <Modal v-model="clearModel" width="360">
+        <p slot="header" style="color:#f60;text-align:center">
+            <Icon type="close"></Icon>
+            <span> Clear </span>
+        </p>
+        <div style="text-align:center">
+            Are you sure you want clear invoice
+
+        </div>
+        <div slot="footer">
+            <Button type="error" size="large" long :loading="sending" @click="clearForm">
+                <span v-if="!loading">Clear</span>
+                <span v-else>Loading...</span>
+            </Button>
+        </div>
+    </Modal>
     </div>
 </template>
 
@@ -124,11 +150,23 @@
             return {
                 index:0,
                 searchValue:'',
+                clearModel:false,
                 editModal:false,
                 deleteModal:false,
                 loading:false,
                 sending:false,
                 isCollapsed: false,
+                dataSupplier: [],
+                dataSearch:[],
+                dataCategory: [],
+                dataInvoice: 
+                [],
+                formInvoice:
+                {
+                    type:'purchase',
+
+                },
+                formValue: [],
                 editObj: {
                     id:null,
                     catName:'',
@@ -188,19 +226,13 @@
                         }
                     }
                 ],
-                dataVoucher:{
-                    supplier_id:'',
-                },
-                dataSupplier: [],
-                dataSearch:[],
-                dataCategory: [],
-                dataInvoide: [],
-                formValue: [],
+
                 
             }
             
         },
         computed: {
+
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -217,9 +249,9 @@
             {
                 var totalPrice=0
                 for ( var i = 0; i < this.formValue.length; i++) {
+                  
                         totalPrice+=this.formValue[i].stock*this.formValue[i].buyingPrice
                     }
-
                 return totalPrice;
                 
             },
@@ -227,28 +259,32 @@
             {
                 var total=0
                 for ( var i = 0; i < this.formValue.length; i++) {
-                        total+=this.formValue[i].stock*1
+                        total+=this.formValue[i].stock*1   
                     }
-
-                return total;
-                
+                    return total   
             },
 
         },
         methods: {
+            showClear()
+            {
+                this.clearModel=true
+            },
+            clearForm()
+            {
+                this.formValue= []
+                this.clearModel=false
+
+            },
             dateConverter(key)
             {
-                console.log(key)
-                this.dataInvoide.date=key
+                this.formInvoice.date=key
 
             },
             addProduct(k){
                 if(this.searchValue)
                 {
                 this.formValue.push(this.dataSearch[k])
-
-                this.index++
-                console.log(this.index)
                 }
                 this.searchValue=''
                 
@@ -271,25 +307,40 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            async categoryAdd(){
-                this.loading=true
-                try{
-                    let {data} =await  axios({
-                        method: 'post',
-                        url:'/app/category',
-                        data: this.formValue
-                    })
-                    data.groupName=data.group.groupName
-                    this.dataCategory.unshift(data)
-                    
-                    this.s('Great!','Category has been added successfully!')
+            async makePurchase(){
+                //invoice added
+                this.formInvoice.totalPrice=this.totalPrice
+                this.formInvoice.totalQuantity=this.totalQuantity
+                if( !this.totalQuantity || !this.totalPrice)
+                {
                     this.loading=false
-                    this.formValue.catName=''
-                    this.formValue.group_id=null
-                }catch(e){
-                    this.loading=false
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('Oops!','You nedd to enter Stock and Price in All Fields')
+
                 }
+                else
+                {
+                    this.s('Oops!','Something went wrong, please try again!')
+                    this.loading=true
+                    try{
+                        let {data} =await  axios({
+                            method: 'post',
+                            url:'/app/purchaseInvoice',
+                            data: this.formInvoice
+                        })
+                        // data.groupName=data.group.groupName
+                        // this.dataCategory.unshift(data)
+                        
+                        this.s('Great!','Category has been added successfully!')
+                        this.loading=false
+                        // this.formValue.catName=''
+                        // this.formValue.group_id=null
+                    }catch(e){
+                        this.loading=false
+                        this.e('Oops!','Something went wrong, please try again!')
+                    }
+
+                }
+                
             },
             showEdit (index) {
                 this.editObj.id=this.dataCategory[index].id
@@ -352,7 +403,6 @@
         async created()
         {
             this.ls();
-            console.log(this.searchValue);
             try{
                 let {data} =await  axios({
                     method: 'get',
@@ -365,6 +415,21 @@
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
+
+            // this.ls();
+            // try{
+            //     let {data} =await  axios({
+            //         method: 'get',
+            //         url:'/app/invoice/1' //1=purchases
+
+            //     })
+            //     this.dataInvoice=data;
+            //     this.lf();
+
+            // }catch(e){
+            //     this.e('Oops!','Something went wrong, please try again!')
+            // this.le();
+            // }
 
             
         }

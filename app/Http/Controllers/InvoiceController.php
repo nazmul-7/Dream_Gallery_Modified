@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
-use App\Purchase;
-use App\Invoice;
 
-class PurchaseController extends Controller
+class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +34,7 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
@@ -84,21 +81,4 @@ class PurchaseController extends Controller
     {
         //
     }
-    public function searchProduct($search)
-    {
-        $product=Product::where('model','LIKE','%'.$search.'%')
-        ->get();
-        return $product;
-    }
-    public function purchaseInvoice(Request $request)
-    {
-        $created=Invoice::create($request->all());
-         return response()->json([
-                 'msg' => 'Inserted',
-                 'status' => $created
-            ],200);
-        
-    }
-    
-
 }

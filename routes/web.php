@@ -40,12 +40,17 @@ Route::resource('/app/customer','CustomerController');
 Route::resource('/app/zone','ZoneController');
 Route::resource('/app/ledger','LedgerController');
 Route::resource('/app/voucher','VoucherController');
+Route::resource('/app/purchase','PurchaseController');
 //filtered 
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
 Route::get('/app/searchProduct/{id}','PurchaseController@searchProduct');
 
+//uploads
 Route::post('/app/setting/upload','SettingController@upload');
+
+//purchase
+Route::post('/app/purchaseInvoice','PurchaseController@purchaseInvoice');
 
 Route::get('/logout', function () {
 	Auth::logout();
