@@ -16,13 +16,13 @@
       <Modal v-model="addProductModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="plus"></Icon>
-            <span> Add New Item</span>
+            <span> Add New Product</span>
 
         </p>
         <div style="text-align:center">
             <Form>
                 <Row :gutter="24">
-                    <Col span="24">
+                    <Col span="12">
                         <FormItem label="Group">
                             <Select v-model="UpdateValue.group_id" placeholder="Select group" 
                              :remote-method="changed">
@@ -46,7 +46,13 @@
                         </FormItem>
                     </Col>
                     <Col span="12">
-                        <FormItem  label="Mode">
+                        <FormItem  label="Product Name">
+                            <Input type="text" placeholder="Product Name" 
+                            v-model="formValue.productName"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Model">
                             <Input type="text" placeholder="Product Model" 
                             v-model="formValue.model"></Input>
                         </FormItem >
@@ -90,14 +96,14 @@
         </div>
     </Modal>
 
-      <Modal v-model="editModal" width="360">
+      <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
             <span> Edit {{editObj.model}}</span>
         </p>
         <div style="text-align:center">
             <Form>
-                <Col span="24">
+                <Col span="12">
                     <FormItem label="Group">
                         <Select v-model="UpdateValue.group_id" placeholder="Select group" 
                          :remote-method="changed">
@@ -119,6 +125,12 @@
                                 <Option v-for="(unit,i) in dataUnit" :value="unit.unitName" :key="i">{{unit.unitName}}</Option>
                             </Select>
                     </FormItem>
+                </Col>
+                <Col span="12">
+                    <FormItem  label="Product Name">
+                        <Input type="text" placeholder="Product Name" 
+                        v-model="editObj.productName"></Input>
+                    </FormItem >
                 </Col>
                 <Col span="12">
                     <FormItem  label="Mode">
@@ -165,7 +177,7 @@
         </div>
     </Modal>
 
-    <Modal v-model="deleteModal" width="360">
+    <Modal v-model="deleteModal" width="600">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="close"></Icon>
             <span> Delete "{{UpdateValue.productName}}"</span>
@@ -184,10 +196,12 @@
 
     <Modal v-model="barcodeModal" width="600">
         <p slot="header" style="color:#19be6b;text-align:center">
-            <span> Barcode </span>
+            <span>Barcode </span>
         </p>
         <div style="text-align:center">
-            <barcode v-model="UpdateValue.barCode" :options="{ displayValue: true }"></barcode>
+            <barcode v-bind:value="UpdateValue.barCode">
+                Sorry Cant Load now
+            </barcode>
         </div>
         <div slot="footer">
             <Button type="success" size="large" long :loading="sending" @click="barcodeModal=false">
@@ -213,6 +227,7 @@
                 sending:false,
                 isCollapsed: false,
                 formValue: {
+                    productName:'',
                     groupName:'',
                     catName:'',
                     brand: '',
@@ -228,6 +243,7 @@
                 },
                 editObj: {
                     id:null,
+                    productName:'',
                     groupName:'',
                     catName:'',
                     brand: '',
@@ -247,6 +263,7 @@
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
+                    productName:'',
                     groupName:'',
                     group_id:'',
                     catName:'',
@@ -257,10 +274,14 @@
                     model:'',
                     sellingPrice:'',
                     productImage:'',
-                    barCode:'',
+                    barCode:null,
                     
                 },
                 columns1: [
+                    {
+                        title: 'Product Name',
+                        key: 'productName'
+                    },
                     {
                         title: 'Model Name',
                         key: 'model'
@@ -414,6 +435,7 @@
                 this.groupNameToId(this.dataProduct[index].groupName)
                 this.changed(this.dataProduct[index].groupName)
                 this.editObj.id=this.dataProduct[index].id
+                this.editObj.productName=this.dataProduct[index].productName
                 this.editObj.groupName=this.dataProduct[index].groupName
                 this.editObj.group_id=this.dataProduct[index].group_id
                 this.editObj.catName=this.dataProduct[index].catName
@@ -425,22 +447,22 @@
                 this.editObj.sellingPrice=this.dataProduct[index].sellingPrice
                 this.editObj.productImage=this.dataProduct[index].productImage
                 this.UpdateValue.id=this.dataProduct[index].id
-                this.UpdateValue.model=this.dataProduct[index].model
+                this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
 
             },
             showRemove (index) {
                 this.deleteModal=true
-                this.UpdateValue.model=this.dataProduct[index].model
+                this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.id=this.dataProduct[index].id
                 this.UpdateValue.indexNumber=index
             },
             showBarcode (index) {
-                this.UpdateValue.barCode=this.dataProduct[index].barCode
+                this.UpdateValue.barCode= parseInt(this.dataProduct[index].barCode)
                 this.barcodeModal=true
                 this.UpdateValue.id=this.dataProduct[index].id
-                this.UpdateValue.model=this.dataProduct[index].model
+                this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index
             },
             async edit(){
@@ -451,6 +473,7 @@
                         url:'/app/productUpdate',
                         data: this.editObj
                     })
+                    this.dataProduct[this.UpdateValue.indexNumber].productName=data.productName
                     this.dataProduct[this.UpdateValue.indexNumber].groupName=data.groupName
                     this.dataProduct[this.UpdateValue.indexNumber].catName=data.catName
                     this.dataProduct[this.UpdateValue.indexNumber].brand=data.brand

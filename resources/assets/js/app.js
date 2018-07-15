@@ -13,6 +13,7 @@ import store from './store'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import Vue from 'vue'
+// import VueBarcode from 'vue-barcode';
 import VueBarcode from '@xkeshi/vue-barcode';
 
 //barcode source https://github.com/xkeshi/vue-barcode
@@ -22,7 +23,7 @@ window._ = require('lodash');
 require('es6-promise').polyfill();
 require('es6-object-assign').polyfill();
 Vue.use(iView);
-Vue.component(VueBarcode.name, VueBarcode);
+ Vue.component(VueBarcode.name, VueBarcode);
 
 // common methods 
 

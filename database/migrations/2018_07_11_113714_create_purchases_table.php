@@ -15,11 +15,11 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
-            $table->integer('invoice_id');
+            $table->integer('admin_id');
+            $table->integer('invoice_id')->unsigned();
             $table->integer('product_id');
             $table->integer('quantity');
-            $table->integer('unitPrice');
+            $table->float('unitPrice');
             $table->integer('hasReturned')->default(0);
             $table->timestamps();
         });

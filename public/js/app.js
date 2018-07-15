@@ -6395,6 +6395,20 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
@@ -6410,6 +6424,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             sending: false,
             isCollapsed: false,
             formValue: {
+                productName: '',
                 groupName: '',
                 catName: '',
                 brand: '',
@@ -6423,6 +6438,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             formCategory: {},
             editObj: {
                 id: null,
+                productName: '',
                 groupName: '',
                 catName: '',
                 brand: '',
@@ -6442,6 +6458,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             UpdateValue: {
                 indexNumber: null,
                 id: null,
+                productName: '',
                 groupName: '',
                 group_id: '',
                 catName: '',
@@ -6452,10 +6469,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 model: '',
                 sellingPrice: '',
                 productImage: '',
-                barCode: ''
+                barCode: null
 
             },
             columns1: [{
+                title: 'Product Name',
+                key: 'productName'
+            }, {
                 title: 'Model Name',
                 key: 'model'
             }, {
@@ -6692,6 +6712,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.groupNameToId(this.dataProduct[index].groupName);
             this.changed(this.dataProduct[index].groupName);
             this.editObj.id = this.dataProduct[index].id;
+            this.editObj.productName = this.dataProduct[index].productName;
             this.editObj.groupName = this.dataProduct[index].groupName;
             this.editObj.group_id = this.dataProduct[index].group_id;
             this.editObj.catName = this.dataProduct[index].catName;
@@ -6703,21 +6724,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.editObj.sellingPrice = this.dataProduct[index].sellingPrice;
             this.editObj.productImage = this.dataProduct[index].productImage;
             this.UpdateValue.id = this.dataProduct[index].id;
-            this.UpdateValue.model = this.dataProduct[index].model;
+            this.UpdateValue.productName = this.dataProduct[index].productName;
             this.UpdateValue.indexNumber = index;
             this.editModal = true;
         },
         showRemove: function showRemove(index) {
             this.deleteModal = true;
-            this.UpdateValue.model = this.dataProduct[index].model;
+            this.UpdateValue.productName = this.dataProduct[index].productName;
             this.UpdateValue.id = this.dataProduct[index].id;
             this.UpdateValue.indexNumber = index;
         },
         showBarcode: function showBarcode(index) {
-            this.UpdateValue.barCode = this.dataProduct[index].barCode;
+            this.UpdateValue.barCode = parseInt(this.dataProduct[index].barCode);
             this.barcodeModal = true;
             this.UpdateValue.id = this.dataProduct[index].id;
-            this.UpdateValue.model = this.dataProduct[index].model;
+            this.UpdateValue.productName = this.dataProduct[index].productName;
             this.UpdateValue.indexNumber = index;
         },
         edit: function () {
@@ -6741,6 +6762,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _ref6 = _context3.sent;
                                 data = _ref6.data;
 
+                                this.dataProduct[this.UpdateValue.indexNumber].productName = data.productName;
                                 this.dataProduct[this.UpdateValue.indexNumber].groupName = data.groupName;
                                 this.dataProduct[this.UpdateValue.indexNumber].catName = data.catName;
                                 this.dataProduct[this.UpdateValue.indexNumber].brand = data.brand;
@@ -6754,23 +6776,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.sending = false;
                                 this.editModal = false;
-                                _context3.next = 25;
+                                _context3.next = 26;
                                 break;
 
-                            case 20:
-                                _context3.prev = 20;
+                            case 21:
+                                _context3.prev = 21;
                                 _context3.t0 = _context3['catch'](1);
 
                                 this.sending = false;
                                 this.editModal = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 25:
+                            case 26:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[1, 20]]);
+                }, _callee3, this, [[1, 21]]);
             }));
 
             function edit() {
@@ -7122,7 +7144,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 type: 'purchase'
 
             },
-            formValue: [],
+            formValue: {
+                type: 'purchase',
+                date: '',
+                supplier_id: '',
+                productDetails: []
+            },
             editObj: {
                 id: null,
                 catName: '',
@@ -7139,10 +7166,19 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             },
             columns1: [{
                 title: 'Invoice ID',
-                key: 'catName'
+                key: 'id'
+            }, {
+                title: 'Supplier',
+                key: 'supplier.supplierName'
+            }, {
+                title: 'Total Quantity',
+                key: 'totalQuantity'
+            }, {
+                title: 'Total Price',
+                key: 'totalPrice'
             }, {
                 title: 'Date',
-                key: 'groupName'
+                key: 'date'
             }, {
                 title: 'Action',
                 key: 'action',
@@ -7188,16 +7224,16 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         totalPrice: function totalPrice() {
             var totalPrice = 0;
-            for (var i = 0; i < this.formValue.length; i++) {
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
 
-                totalPrice += this.formValue[i].stock * this.formValue[i].buyingPrice;
+                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].unitPrice;
             }
             return totalPrice;
         },
         totalQuantity: function totalQuantity() {
             var total = 0;
-            for (var i = 0; i < this.formValue.length; i++) {
-                total += this.formValue[i].stock * 1;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+                total += parseInt(this.formValue.productDetails[i].quantity);
             }
             return total;
         }
@@ -7211,11 +7247,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.clearModel = false;
         },
         dateConverter: function dateConverter(key) {
-            this.formInvoice.date = key;
+            this.formValue.date = key;
         },
         addProduct: function addProduct(k) {
             if (this.searchValue) {
-                this.formValue.push(this.dataSearch[k]);
+                this.formValue.productDetails.push(this.dataSearch[k]);
             }
             this.searchValue = '';
         },
@@ -7270,15 +7306,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         makePurchase: function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var _ref4, data;
+                var invoiceId, _ref4, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 //invoice added
-                                this.formInvoice.totalPrice = this.totalPrice;
-                                this.formInvoice.totalQuantity = this.totalQuantity;
+                                this.formValue.totalPrice = this.totalPrice;
+                                this.formValue.totalQuantity = this.totalQuantity;
 
                                 if (!(!this.totalQuantity || !this.totalPrice)) {
                                     _context2.next = 7;
@@ -7288,24 +7324,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.loading = false;
                                 this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
 
-                                _context2.next = 22;
+                                _context2.next = 23;
                                 break;
 
                             case 7:
-                                this.s('Oops!', 'Something went wrong, please try again!');
+                                invoiceId = 0;
+
                                 this.loading = true;
                                 _context2.prev = 9;
                                 _context2.next = 12;
                                 return axios({
                                     method: 'post',
-                                    url: '/app/purchaseInvoice',
-                                    data: this.formInvoice
+                                    url: '/app/purchase',
+                                    data: this.formValue
                                 });
 
                             case 12:
                                 _ref4 = _context2.sent;
                                 data = _ref4.data;
 
+                                invoiceId = data.id;
                                 // data.groupName=data.group.groupName
                                 // this.dataCategory.unshift(data)
 
@@ -7313,22 +7351,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.loading = false;
                                 // this.formValue.catName=''
                                 // this.formValue.group_id=null
-                                _context2.next = 22;
+                                _context2.next = 23;
                                 break;
 
-                            case 18:
-                                _context2.prev = 18;
+                            case 19:
+                                _context2.prev = 19;
                                 _context2.t0 = _context2['catch'](9);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 22:
+                            case 23:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[9, 18]]);
+                }, _callee2, this, [[9, 19]]);
             }));
 
             function makePurchase() {
@@ -7338,17 +7376,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             return makePurchase;
         }(),
         showEdit: function showEdit(index) {
-            this.editObj.id = this.dataCategory[index].id;
-            this.editObj.catName = this.dataCategory[index].catName;
-            this.editObj.group_id = this.dataCategory[index].group_id;
-            this.UpdateValue.group_id = this.dataCategory[index].group_id;
-            this.UpdateValue.catName = this.dataCategory[index].catName;
+            this.editObj.id = this.dataInvoice[index].id;
+            this.editObj.invoice_id = this.dataInvoice[index].invoice_id;
+            this.editObj.product_id = this.dataInvoice[index].product_id;
             this.UpdateValue.indexNumber = index;
             this.editModal = true;
         },
         showRemove: function showRemove(index) {
-            this.UpdateValue.catName = this.dataCategory[index].catName;
-            this.UpdateValue.id = this.dataCategory[index].id;
+            this.UpdateValue.id = this.dataInvoice[index].id;
             this.UpdateValue.indexNumber = index;
             this.deleteModal = true;
         },
@@ -7418,15 +7453,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _context4.next = 4;
                                 return axios({
                                     method: 'delete',
-                                    url: '/app/category/' + this.UpdateValue.id
+                                    url: '/app/invoice/' + this.UpdateValue.id
                                 });
 
                             case 4:
                                 _ref8 = _context4.sent;
                                 data = _ref8.data;
 
-                                this.dataCategory.splice(this.UpdateValue.indexNumber, 1);
-                                this.s('Great!', 'Category information has been removed successfully!');
+                                this.dataInvoice.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Invoice information has been removed successfully!');
 
                                 this.sending = false;
                                 this.deleteModal = false;
@@ -7459,7 +7494,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     created: function () {
         var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
-            var _ref10, data;
+            var _ref10, data, _ref11, _data;
 
             return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
                 while (1) {
@@ -7491,11 +7526,38 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             this.le();
 
                         case 14:
+                            _context5.prev = 14;
+                            _context5.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/getinvoice/purchase' //1=purchases
+
+                            });
+
+                        case 17:
+                            _ref11 = _context5.sent;
+                            _data = _ref11.data;
+
+                            console.log(_data);
+                            this.dataInvoice = _data;
+                            this.lf();
+
+                            _context5.next = 28;
+                            break;
+
+                        case 24:
+                            _context5.prev = 24;
+                            _context5.t1 = _context5['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 28:
                         case 'end':
                             return _context5.stop();
                     }
                 }
-            }, _callee5, this, [[1, 10]]);
+            }, _callee5, this, [[1, 10], [14, 24]]);
         }));
 
         function created() {
@@ -86042,15 +86104,15 @@ var render = function() {
                                     filterable: ""
                                   },
                                   model: {
-                                    value: _vm.formInvoice.supplier_id,
+                                    value: _vm.formValue.supplier_id,
                                     callback: function($$v) {
                                       _vm.$set(
-                                        _vm.formInvoice,
+                                        _vm.formValue,
                                         "supplier_id",
                                         $$v
                                       )
                                     },
-                                    expression: "formInvoice.supplier_id"
+                                    expression: "formValue.supplier_id"
                                   }
                                 },
                                 _vm._l(_vm.dataSupplier, function(suppier, i) {
@@ -86246,7 +86308,7 @@ var render = function() {
                     _c("th", [_vm._v("Buying Price")])
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.formValue, function(data, i) {
+                  _vm._l(_vm.formValue.productDetails, function(data, i) {
                     return _c("tr", { key: i }, [
                       _c("td", [_vm._v(_vm._s(data.model))]),
                       _vm._v(" "),
@@ -86260,18 +86322,18 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: data.stock,
-                              expression: "data.stock"
+                              value: data.quantity,
+                              expression: "data.quantity"
                             }
                           ],
                           attrs: { type: "number" },
-                          domProps: { value: data.stock },
+                          domProps: { value: data.quantity },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(data, "stock", $event.target.value)
+                              _vm.$set(data, "quantity", $event.target.value)
                             }
                           }
                         })
@@ -86283,18 +86345,18 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: data.buyingPrice,
-                              expression: "data.buyingPrice"
+                              value: data.unitPrice,
+                              expression: "data.unitPrice"
                             }
                           ],
                           attrs: { type: "number" },
-                          domProps: { value: data.buyingPrice },
+                          domProps: { value: data.unitPrice },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(data, "buyingPrice", $event.target.value)
+                              _vm.$set(data, "unitPrice", $event.target.value)
                             }
                           }
                         })
@@ -86471,17 +86533,13 @@ var render = function() {
             [
               _c("Icon", { attrs: { type: "close" } }),
               _vm._v(" "),
-              _c("span", [_vm._v(" Delete " + _vm._s(_vm.UpdateValue.catName))])
+              _c("span", [_vm._v(" Delete")])
             ],
             1
           ),
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
-            _vm._v(
-              "\n        Are you sure you want delete " +
-                _vm._s(_vm.UpdateValue.catName) +
-                "\n\n    "
-            )
+            _vm._v("\n        Are you sure you want delete\n\n    ")
           ]),
           _vm._v(" "),
           _c(
@@ -87007,7 +87065,7 @@ var render = function() {
             [
               _c("Icon", { attrs: { type: "plus" } }),
               _vm._v(" "),
-              _c("span", [_vm._v(" Add New Item")])
+              _c("span", [_vm._v(" Add New Product")])
             ],
             1
           ),
@@ -87025,7 +87083,7 @@ var render = function() {
                     [
                       _c(
                         "Col",
-                        { attrs: { span: "24" } },
+                        { attrs: { span: "12" } },
                         [
                           _c(
                             "FormItem",
@@ -87140,7 +87198,35 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Mode" } },
+                            { attrs: { label: "Product Name" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Product Name"
+                                },
+                                model: {
+                                  value: _vm.formValue.productName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "productName", $$v)
+                                  },
+                                  expression: "formValue.productName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "12" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Model" } },
                             [
                               _c("Input", {
                                 attrs: {
@@ -87320,7 +87406,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: { width: "360" },
+          attrs: { width: "600" },
           model: {
             value: _vm.editModal,
             callback: function($$v) {
@@ -87354,7 +87440,7 @@ var render = function() {
                 [
                   _c(
                     "Col",
-                    { attrs: { span: "24" } },
+                    { attrs: { span: "12" } },
                     [
                       _c(
                         "FormItem",
@@ -87453,6 +87539,34 @@ var render = function() {
                               )
                             })
                           )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Col",
+                    { attrs: { span: "12" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Product Name" } },
+                        [
+                          _c("Input", {
+                            attrs: {
+                              type: "text",
+                              placeholder: "Product Name"
+                            },
+                            model: {
+                              value: _vm.editObj.productName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "productName", $$v)
+                              },
+                              expression: "editObj.productName"
+                            }
+                          })
                         ],
                         1
                       )
@@ -87643,7 +87757,7 @@ var render = function() {
       _c(
         "Modal",
         {
-          attrs: { width: "360" },
+          attrs: { width: "600" },
           model: {
             value: _vm.deleteModal,
             callback: function($$v) {
@@ -87725,23 +87839,16 @@ var render = function() {
               attrs: { slot: "header" },
               slot: "header"
             },
-            [_c("span", [_vm._v(" Barcode ")])]
+            [_c("span", [_vm._v("Barcode ")])]
           ),
           _vm._v(" "),
           _c(
             "div",
             { staticStyle: { "text-align": "center" } },
             [
-              _c("barcode", {
-                attrs: { options: { displayValue: true } },
-                model: {
-                  value: _vm.UpdateValue.barCode,
-                  callback: function($$v) {
-                    _vm.$set(_vm.UpdateValue, "barCode", $$v)
-                  },
-                  expression: "UpdateValue.barCode"
-                }
-              })
+              _c("barcode", { attrs: { value: _vm.UpdateValue.barCode } }, [
+                _vm._v("\n            Sorry Cant Load now\n        ")
+              ])
             ],
             1
           ),
@@ -105205,6 +105312,7 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 
 
+// import VueBarcode from 'vue-barcode';
 
 
 //barcode source https://github.com/xkeshi/vue-barcode

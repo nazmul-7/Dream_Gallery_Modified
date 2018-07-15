@@ -41,6 +41,7 @@ Route::resource('/app/zone','ZoneController');
 Route::resource('/app/ledger','LedgerController');
 Route::resource('/app/voucher','VoucherController');
 Route::resource('/app/purchase','PurchaseController');
+Route::resource('/app/invoice','InvoiceController');
 //filtered 
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
@@ -51,6 +52,7 @@ Route::post('/app/setting/upload','SettingController@upload');
 
 //purchase
 Route::post('/app/purchaseInvoice','PurchaseController@purchaseInvoice');
+Route::get('/app/getinvoice/{id}','InvoiceController@getInvoice');
 
 Route::get('/logout', function () {
 	Auth::logout();
@@ -59,7 +61,7 @@ Route::get('/logout', function () {
 	return redirect("/");
     
 });
-
+Auth::routes();
 Route::any('{slug}', [
    'uses' => 'StatusController@index',
 ])->where('slug', '([A-z\d-\/_.]+)?');

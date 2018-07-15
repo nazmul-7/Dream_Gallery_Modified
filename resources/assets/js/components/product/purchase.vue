@@ -7,7 +7,7 @@
                     <Row :gutter="24">
                         <Col span="11" offset="1">
                             <FormItem label="Supplier">
-                                <Select v-model="formInvoice.supplier_id" placeholder="Supplier" filterable>
+                                <Select v-model="formValue.supplier_id" placeholder="Supplier" filterable>
                                     <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
@@ -56,12 +56,12 @@
                     <th>Quantity</th>
                     <th>Buying Price</th>
                   </tr>
-                  <tr v-for="(data,i) in formValue" :key="i">
+                  <tr v-for="(data,i) in formValue.productDetails" :key="i">
                     <td >{{data.model}}</td>
                     <td >{{data.color}}</td>
                     <td>{{data.size}}</td>
-                    <td><input type="number" v-model="data.stock"></input></td>
-                    <td><input type="number" v-model="data.buyingPrice"></input></td>
+                    <td><input type="number" v-model="data.quantity"></input></td>
+                    <td><input type="number" v-model="data.unitPrice"></input></td>
                   </tr>
                   <tr >
                     <td colspan="3" style="text-align:right">Total </td>
@@ -112,10 +112,10 @@
     <Modal v-model="deleteModal" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.catName}}</span>
+            <span> Delete</span>
         </p>
         <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.catName}}
+            Are you sure you want delete
 
         </div>
         <div slot="footer">
@@ -166,7 +166,12 @@
                     type:'purchase',
 
                 },
-                formValue: [],
+                formValue: {
+                     type:'purchase',
+                     date:'',
+                     supplier_id: '',
+                     productDetails: []
+                },
                 editObj: {
                     id:null,
                     catName:'',
@@ -184,11 +189,23 @@
                 columns1: [
                     {
                         title: 'Invoice ID',
-                        key: 'catName'
+                        key: 'id'
+                    },
+                    {
+                        title: 'Supplier',
+                        key: 'supplier.supplierName'
+                    },
+                    {
+                        title: 'Total Quantity',
+                        key: 'totalQuantity'
+                    },
+                    {
+                        title: 'Total Price',
+                        key: 'totalPrice'
                     },
                     {
                         title: 'Date',
-                        key: 'groupName'
+                        key: 'date'
                     },
                     {   
                         title: 'Action',
@@ -248,9 +265,9 @@
             totalPrice()
             {
                 var totalPrice=0
-                for ( var i = 0; i < this.formValue.length; i++) {
+                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
                   
-                        totalPrice+=this.formValue[i].stock*this.formValue[i].buyingPrice
+                        totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].unitPrice
                     }
                 return totalPrice;
                 
@@ -258,8 +275,8 @@
             totalQuantity()
             {
                 var total=0
-                for ( var i = 0; i < this.formValue.length; i++) {
-                        total+=this.formValue[i].stock*1   
+                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+                        total+=parseInt(this.formValue.productDetails[i].quantity)   
                     }
                     return total   
             },
@@ -278,13 +295,13 @@
             },
             dateConverter(key)
             {
-                this.formInvoice.date=key
+                this.formValue.date=key
 
             },
             addProduct(k){
                 if(this.searchValue)
                 {
-                this.formValue.push(this.dataSearch[k])
+                this.formValue.productDetails.push(this.dataSearch[k])
                 }
                 this.searchValue=''
                 
@@ -309,8 +326,8 @@
             },
             async makePurchase(){
                 //invoice added
-                this.formInvoice.totalPrice=this.totalPrice
-                this.formInvoice.totalQuantity=this.totalQuantity
+                this.formValue.totalPrice=this.totalPrice
+                this.formValue.totalQuantity=this.totalQuantity
                 if( !this.totalQuantity || !this.totalPrice)
                 {
                     this.loading=false
@@ -319,14 +336,15 @@
                 }
                 else
                 {
-                    this.s('Oops!','Something went wrong, please try again!')
+                    let invoiceId=0
                     this.loading=true
                     try{
                         let {data} =await  axios({
                             method: 'post',
-                            url:'/app/purchaseInvoice',
-                            data: this.formInvoice
+                            url:'/app/purchase',
+                            data: this.formValue
                         })
+                        invoiceId=data.id
                         // data.groupName=data.group.groupName
                         // this.dataCategory.unshift(data)
                         
@@ -343,17 +361,14 @@
                 
             },
             showEdit (index) {
-                this.editObj.id=this.dataCategory[index].id
-                this.editObj.catName=this.dataCategory[index].catName
-                this.editObj.group_id=this.dataCategory[index].group_id
-                this.UpdateValue.group_id=this.dataCategory[index].group_id
-                this.UpdateValue.catName=this.dataCategory[index].catName
+                this.editObj.id=this.dataInvoice[index].id
+                this.editObj.invoice_id=this.dataInvoice[index].invoice_id
+                this.editObj.product_id=this.dataInvoice[index].product_id
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.catName=this.dataCategory[index].catName
-                this.UpdateValue.id=this.dataCategory[index].id
+                this.UpdateValue.id=this.dataInvoice[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -383,10 +398,10 @@
                 try{
                     let {data} =await  axios({
                         method: 'delete',
-                        url:`/app/category/${this.UpdateValue.id}`,
+                        url:`/app/invoice/${this.UpdateValue.id}`,
                     })
-                    this.dataCategory.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Category information has been removed successfully!')
+                    this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','Invoice information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false
@@ -416,20 +431,21 @@
             this.le();
             }
 
-            // this.ls();
-            // try{
-            //     let {data} =await  axios({
-            //         method: 'get',
-            //         url:'/app/invoice/1' //1=purchases
 
-            //     })
-            //     this.dataInvoice=data;
-            //     this.lf();
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/getinvoice/purchase' //1=purchases
 
-            // }catch(e){
-            //     this.e('Oops!','Something went wrong, please try again!')
-            // this.le();
-            // }
+                })
+                console.log(data)
+                this.dataInvoice=data
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
 
             
         }

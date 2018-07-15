@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Invoice;
 class InvoiceController extends Controller
 {
     /**
@@ -79,6 +79,22 @@ class InvoiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $destroy = Invoice::where('id','=',$id)
+          ->first();
+          if($destroy->count()){
+            $destroy->delete();
+            return response()->json(['msg'=>'success','status'=>$id]);
+          } else {
+            return response()->json(['msg'=>'error','status'=>$id]);
+          }
     }
+    
+    public function getInvoice($id)
+    {
+        return Invoice::where('type', $id)
+        ->orderBy('id', 'desc')
+        ->with('supplier')
+        ->get();
+    }
+
 }

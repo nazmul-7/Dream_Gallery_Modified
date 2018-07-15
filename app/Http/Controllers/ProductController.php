@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\Purchase;
+use App\Invoice;
+use Auth;
 class ProductController extends Controller
 {
     /**
@@ -35,14 +38,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile('productImage'))
-        {
-            request()->file('productImage')->store('uploads');
-            $pic= $request->productImage->hashName();
-        }
-        $created=Product::create($request->all());
+        $admin_id=Auth::user()->id;
+        $input=$request->all();
+        $input['admin_id']=$admin_id;
+        
+        $created=Product::create($input);
         //set barcode
-         $barCode=str_pad($created->id, 15, '0', STR_PAD_LEFT);
+         $barCode=$created->id+1000000000;
          $data=array(
              'barCode' => $barCode
           );
