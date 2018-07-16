@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
 	protected $fillable = [
-        'invoice_id', 'product_id','quantity','unitPrice','hasReturned'
+        'admin_id', 'invoice_id', 'product_id','quantity','unitPrice','hasReturned'
     ];
    
     public function invoice()
     {
-       return $this->belongsTo('App\Customer');
+       return $this->belongsTo('App\Invoice');
     } 
     public function product()
     {
-       return $this->belongsTo('App\Customer');
+       return $this->belongsTo('App\Product');
     } 
   
 }

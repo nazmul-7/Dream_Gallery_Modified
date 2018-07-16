@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Purchase;
 use App\Invoice;
+use App\Paymentsheet;
+use App\Selling;
 use Auth;
 
 class PurchaseController extends Controller
@@ -41,49 +43,63 @@ class PurchaseController extends Controller
         $admin_id=Auth::user()->id;
         $input=$request->all();
 
-        // create invoice 
-        $invoice=Invoice::create([
-            'admin_id' => $admin_id,
-            'type' => 'purchase',
-            'totalQuantity' => $input['totalQuantity'],
-            'totalPrice' => $input['totalPrice'],
-            'supplier_id' => $input['supplier_id'],
-            'date' => $input['date'],
+        // // create invoice 
+        // $invoice=Invoice::create([
+        //     'admin_id' => $admin_id,
+        //     'type' => 'purchase',
+        //     'totalQuantity' => $input['totalQuantity'],
+        //     'totalPrice' => $input['totalPrice'],
+        //     'supplier_id' => $input['supplier_id'],
+        //     'date' => $input['date'],
 
 
-        ]);
-        $paymentSheet=Paymentsheet::create([
-            'admin_id' => $admin_id,
-            'invoice_id' => $invoice->id,
-            'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-            'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-            'uid' => $input['supplier_id'],
-            'amount' => $input['totalPrice'],
-            'paymentMethod' => 'due',
-            'remarks' => 'Purchased From Supplier',
-
-
-
-        ]);
+        // ]);
+        // $paymentSheet=Paymentsheet::create([
+        //     'admin_id' => $admin_id,
+        //     'invoice_id' => $invoice->id,
+        //     'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+        //     'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+        //     'uid' => $input['supplier_id'],
+        //     'amount' => $input['totalPrice'],
+        //     'paymentMethod' => 'due',
+        //     'remarks' => 'Purchased From Supplier',
+        // ]);
 
         // make  purchase details 
 
         foreach ($input['productDetails'] as $key => $value) {
+            // //averageBuyingPrice
+            // $outStock = Selling::where('product_id' , $value['id'])
+            // ->select( 'sum(quantity) AS totalQuantity , sum(unitPrice) AS totalPrice')
+            // ->firts();
+            $inStock=Purchase::where('product_id',$value['id'])
+            ->get();
+
+            return response()->json([
+                'msg' => 'Inserted',
+                'data'=> $inStock,
+           ],200);
+           
             $purchase=Purchase::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['unitPrice'],
+
             ]);
         }
         // $created=Invoice::create($request->all());
+        $data=Invoice::where('type', 'purchase')
+        ->where('id', $invoice->id)
+        ->orderBy('id', 'desc')
+        ->with('supplier')
+        ->first();
 
-         // return response()->json([
-         //         'msg' => 'Inserted',
-         //         'status' => $created,
-         //         'id' => $created->id,
-         //    ],200);
+         return response()->json([
+                 'msg' => 'Inserted',
+                 'data'=> $data,
+            ],200);
     }
 
     /**
@@ -176,6 +192,7 @@ class PurchaseController extends Controller
                 'unitPrice' => $value['unitPrice'],
             ]);
         }
+
         // $created=Invoice::create($request->all());
 
          // return response()->json([

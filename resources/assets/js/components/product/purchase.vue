@@ -193,7 +193,7 @@
                     },
                     {
                         title: 'Supplier',
-                        key: 'supplier.supplierName'
+                        key: 'supplierName'
                     },
                     {
                         title: 'Total Quantity',
@@ -336,7 +336,6 @@
                 }
                 else
                 {
-                    let invoiceId=0
                     this.loading=true
                     try{
                         let {data} =await  axios({
@@ -344,14 +343,13 @@
                             url:'/app/purchase',
                             data: this.formValue
                         })
-                        invoiceId=data.id
-                        // data.groupName=data.group.groupName
-                        // this.dataCategory.unshift(data)
+                        console.log(data);
                         
-                        this.s('Great!','Category has been added successfully!')
+                        // data.data.supplierName=data.data.supplier.supplierName
+                        //  this.dataInvoice.unshift(data.data)
+                        
+                        this.s('Great!','Purchase has been added successfully!')
                         this.loading=false
-                        // this.formValue.catName=''
-                        // this.formValue.group_id=null
                     }catch(e){
                         this.loading=false
                         this.e('Oops!','Something went wrong, please try again!')
@@ -438,7 +436,9 @@
                     url:'/app/getinvoice/purchase' //1=purchases
 
                 })
-                console.log(data)
+                for(let d of data){
+                    d.supplierName=d.supplier.supplierName
+                }
                 this.dataInvoice=data
                 this.lf();
 

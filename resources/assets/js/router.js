@@ -8,11 +8,13 @@ import category from './components/category/category.vue'
 import unit from './components/unit/unit.vue'
 import product from './components/product/product.vue'
 import purchase from './components/product/purchase.vue'
+import sell from './components/sell/sell.vue'
 import supplier from './components/supplier/supplier.vue'
 import zone from './components/customer/zone.vue'
 import customer from './components/customer/customer.vue'
 import voucher from './components/voucher/voucher.vue'
 import ledgerhead from './components/voucher/ledgerhead.vue'
+import stock from './components/stock/stock.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -83,6 +85,16 @@ export default new Router({
 	      path: '/purchase',
 	      name: 'purchase',
 	      component: purchase
+			},
+    	{
+	      path: '/stock',
+	      name: 'stock',
+	      component: stock
+			},
+			{
+	      path: '/sell',
+	      name: 'sell',
+	      component: sell
 	    },
 	 ]
 })

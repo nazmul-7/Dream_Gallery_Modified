@@ -19,7 +19,7 @@ class CreateSellingsTable extends Migration
             $table->integer('invoice_id');
             $table->integer('product_id');
             $table->integer('quantity');
-            $table->float('sellingUnitPrice');
+            $table->float('unitPrice');
             $table->float('profit');
             $table->integer('hasReturned')->default(0);
             $table->timestamps();

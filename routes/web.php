@@ -41,6 +41,7 @@ Route::resource('/app/zone','ZoneController');
 Route::resource('/app/ledger','LedgerController');
 Route::resource('/app/voucher','VoucherController');
 Route::resource('/app/purchase','PurchaseController');
+Route::resource('/app/sell','SellingController');
 Route::resource('/app/invoice','InvoiceController');
 //filtered 
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');

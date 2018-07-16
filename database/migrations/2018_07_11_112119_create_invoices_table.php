@@ -18,7 +18,10 @@ class CreateInvoicesTable extends Migration
             $table->integer('admin_id');
             $table->string('type')->default('purchase');
             $table->integer('totalQuantity');
-            $table->integer('totalPrice');
+            $table->float('totalPrice');
+            $table->integer('discount')->default(0);
+            $table->float('sellingPrice')->default(0);
+            $table->float('paidAmount')->default(0);
             $table->integer('customer_id')->nullable()->default(0);
             $table->integer('supplier_id')->nullable()->default(0);
             $table->timestamp('date')->nullable();
