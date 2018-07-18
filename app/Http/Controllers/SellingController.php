@@ -65,7 +65,9 @@ class SellingController extends Controller
             'amount' => $input['paidAmount'],
             'paymentMethod' => 'cash',
             'remarks' => 'Sell To Customer',
+            'date' => $input['date'],
         ]);
+        
 
         // make  purchase details 
         foreach ($input['productDetails'] as $key => $value) {

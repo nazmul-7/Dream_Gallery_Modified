@@ -298,7 +298,7 @@
 
                 }
                 
-            },
+            },            
             showEdit (index) {
                 this.editObj.id=this.dataInvoice[index].id
                 this.editObj.invoice_id=this.dataInvoice[index].invoice_id

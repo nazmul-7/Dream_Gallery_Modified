@@ -8338,6 +8338,36 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -8349,6 +8379,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             sending: false,
             isCollapsed: false,
             dataSearch: [],
+            dataCustomer: [],
             dataInvoice: [],
             formValue: {
                 type: 'purchase',
@@ -8546,15 +8577,43 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     created: function () {
         var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+            var _ref6, data;
+
             return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
                 while (1) {
                     switch (_context3.prev = _context3.next) {
                         case 0:
+                            this.ls();
+                            _context3.prev = 1;
+                            _context3.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/customer'
+                            });
+
+                        case 4:
+                            _ref6 = _context3.sent;
+                            data = _ref6.data;
+
+                            this.dataCustomer = data;
+                            this.lf();
+
+                            _context3.next = 14;
+                            break;
+
+                        case 10:
+                            _context3.prev = 10;
+                            _context3.t0 = _context3['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
                         case 'end':
                             return _context3.stop();
                     }
                 }
-            }, _callee3, this);
+            }, _callee3, this, [[1, 10]]);
         }));
 
         function created() {
@@ -86542,7 +86601,7 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
+              attrs: { span: "16", offset: "1" }
             },
             [
               _c(
@@ -86670,24 +86729,36 @@ var render = function() {
                 { staticStyle: { width: "100%" } },
                 [
                   _c("tr", [
+                    _c("th", [_vm._v("Name")]),
+                    _vm._v(" "),
                     _c("th", [_vm._v("Model")]),
                     _vm._v(" "),
                     _c("th", [_vm._v("Color")]),
                     _vm._v(" "),
                     _c("th", [_vm._v("Size")]),
                     _vm._v(" "),
+                    _c("th", [_vm._v("Unit Price")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Stock")]),
+                    _vm._v(" "),
                     _c("th", [_vm._v("Quantity")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Unit Price")])
+                    _c("th", [_vm._v("Price")])
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.formValue.productDetails, function(data, i) {
                     return _c("tr", { key: i }, [
+                      _c("td", [_vm._v(_vm._s(data.productName))]),
+                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(data.model))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(data.color))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(data.size))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.sellingPrice))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("stock")]),
                       _vm._v(" "),
                       _c("td", [
                         _c("input", {
@@ -86712,7 +86783,32 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.sellingPrice))])
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: data.sellingPrice,
+                              expression: "data.sellingPrice"
+                            }
+                          ],
+                          attrs: { type: "number", disabled: "" },
+                          domProps: { value: data.sellingPrice },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                data,
+                                "sellingPrice",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
                     ])
                   }),
                   _vm._v(" "),
@@ -86721,7 +86817,7 @@ var render = function() {
                       "td",
                       {
                         staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "3" }
+                        attrs: { colspan: "6" }
                       },
                       [_vm._v("Sub Total ")]
                     ),
@@ -86736,7 +86832,7 @@ var render = function() {
                       "td",
                       {
                         staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "4" }
+                        attrs: { colspan: "7" }
                       },
                       [_vm._v("Discount")]
                     ),
@@ -86775,7 +86871,7 @@ var render = function() {
                       "td",
                       {
                         staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "4" }
+                        attrs: { colspan: "7" }
                       },
                       [_vm._v("Total")]
                     ),
@@ -86814,7 +86910,7 @@ var render = function() {
                       "td",
                       {
                         staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "4" }
+                        attrs: { colspan: "7" }
                       },
                       [_vm._v("Paid Amount")]
                     ),
@@ -86878,6 +86974,107 @@ var render = function() {
                         ? _c("span", [_vm._v("Sell")])
                         : _c("span", [_vm._v("Loading...")])
                     ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "5", offset: "1" }
+            },
+            [
+              _c(
+                "Row",
+                [
+                  _c(
+                    "Form",
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "22", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Supplier" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: {
+                                    placeholder: "Supplier",
+                                    filterable: ""
+                                  },
+                                  model: {
+                                    value: _vm.formValue.supplier_id,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.formValue,
+                                        "supplier_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "formValue.supplier_id"
+                                  }
+                                },
+                                _vm._l(_vm.dataCustomer, function(suppier, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: suppier.id } },
+                                    [_vm._v(_vm._s(suppier.supplierName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "22", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Buying Date" } },
+                            [
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "Row",
+                                [
+                                  _c(
+                                    "Col",
+                                    { attrs: { span: "22" } },
+                                    [
+                                      _c("DatePicker", {
+                                        attrs: {
+                                          type: "datetime",
+                                          placeholder: "Select date"
+                                        },
+                                        on: { "on-change": _vm.dateConverter }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1

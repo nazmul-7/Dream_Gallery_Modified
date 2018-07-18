@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
+            <Col class="dream-input-main" span="16" offset="1">
                 <Form>
                         <Col span="11" offset="1">
                             <FormItem  label="Barcode">
@@ -31,35 +31,42 @@
 
                 <table style="width:100%">
                   <tr>
+                    <th>Name</th>
                     <th>Model</th>
                     <th>Color</th> 
                     <th>Size</th>
-                    <th>Quantity</th>
                     <th>Unit Price</th>
+                    <th>Stock</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
                   </tr>
                   <tr v-for="(data,i) in formValue.productDetails" :key="i">
+                    <td >{{data.productName}}</td>
                     <td >{{data.model}}</td>
                     <td >{{data.color}}</td>
                     <td>{{data.size}}</td>
+                    <td>{{data.sellingPrice}}</td>
+                    <td>stock</td>
                     <td><input type="number" v-model="data.quantity"></input></td>
-                    <td>{{data.sellingPrice}}</input></td>
+                    <td><input type="number" v-model="data.sellingPrice" disabled></input></td>
                   </tr>
+
                   <tr style="background-color: #e9eaec;" >
-                    <td colspan="3" style="text-align:right;">Sub Total </td>
+                    <td colspan="6" style="text-align:right;">Sub Total </td>
                     <td >{{totalQuantity}}</td>
                     <td >{{totalPrice}}</td>
                     
                   </tr>
                 <tr >
-                    <td colspan="4" style="text-align:right">Discount</td>
+                    <td colspan="7" style="text-align:right">Discount</td>
                     <td><input type="number" @keyup="discount" v-model="formValue.discount"></input></td>
                 </tr>
                 <tr >
-                    <td colspan="4" style="text-align:right">Total</td>
+                    <td colspan="7" style="text-align:right">Total</td>
                     <td><input type="number" @keyup="total" v-model="formValue.total"></input></td>
                 </tr>
                 <tr >
-                    <td colspan="4" style="text-align:right">Paid Amount</td>
+                    <td colspan="7" style="text-align:right">Paid Amount</td>
                     <td><input type="number" v-model="formValue.paidAmount"></input></td>
                 </tr>
 
@@ -76,6 +83,29 @@
                 </Col>
 
             </Col>
+            <Col class="dream-input-main" span="5" offset="1">
+                <Row> 
+                    <Form>
+                        <Col span="22" offset="1">
+                            <FormItem label="Supplier">
+                                <Select v-model="formValue.supplier_id" placeholder="Supplier" filterable>
+                                    <Option v-for="(suppier,i) in dataCustomer" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span="22" offset="1">
+                            <FormItem  label="Buying Date">
+                                <br>
+                                <Row>
+                                    <Col span="22">
+                                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                    </Col>
+                                </Row>
+                            </FormItem>
+                        </Col>
+                    </Form>
+                </Row>
+            </Col>
         </Row>
     </div>
 </template>
@@ -91,6 +121,7 @@
                 sending:false,
                 isCollapsed: false,
                 dataSearch:[],
+                dataCustomer:[],
                 dataInvoice: 
                 [],
                 formValue: {
@@ -248,6 +279,19 @@
 
         async created()
         {
+            this.ls();
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/customer'
+                })
+                this.dataCustomer=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
 
         }
 
