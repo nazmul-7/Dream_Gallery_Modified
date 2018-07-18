@@ -3,95 +3,77 @@
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
                 <Form >
-
                     <Row :gutter="24">
                         <Col span="11" offset="1">
                             <FormItem label="Supplier">
-                                <Select v-model="formValue.supplier_id" placeholder="Supplier" filterable>
+                                <Select v-model="formValue.supplier_id" placeholder="Supplier" :remote-method="changed" filterable>
                                     <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
                         <Col span="11" offset="1">
-                            <FormItem  label="Buying Date">
+                            <FormItem  label="Payment Date">
                                 <br>
                                 <Row>
                                     <Col span="22">
-                                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                        <DatePicker v-model="date" type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                     </Col>
                                 </Row>
                             </FormItem >
                         </Col>
                         <Col span="11" offset="1">
-                            <FormItem  label="Barcode">
-                                <Input type="text" placeholder="Barcode" 
-                                v-model="formValue.barCode"></Input>
+                            <FormItem  label="Outstanding Amount">
+                                <Input type="text" v-model="formValue.outStanding" placeholder="Outstanding Amount"  disabled></Input>
                             </FormItem >
                         </Col>
                         <Col span="11" offset="1">
-                            <FormItem  label="Search Product">
-                                <br>
-                                <Row >
-                                    <Col span="22">
-                                        <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
-                                                <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
-                                                    <span class="demo-auto-complete-title">{{ option.model }}</span>
-                                                    <span class="demo-auto-complete-count">{{option.groupName}} | {{option.catName}} | {{option.color}} | {{option.size}} | {{option.sellingPrice}}</span>
-                                                </Option>
+                            <FormItem  label="Payment Amount">
+                                <Input type="text" v-model="formValue.paidAmount" placeholder="Payment Amount"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="22" offset="1">
+                            <Button type="error" size="large"  @click="showClear">
+                                Clear
+                            </Button>
 
-                                        </AutoComplete>
-                                    </Col>
-                                </Row>
-                            </FormItem >
+                            <Button type="primary" size="large" :loading="sending" @click="makePayment">
+                                <span v-if="!loading">Pay</span>
+                                <span v-else>Loading...</span>
+                            </Button>
                         </Col>
                     </Row>
                 </Form>
-                <h2>Product List</h2>
+            </Col>
+        </Row>
+        <Row>
+            <Col class="dream-input-main" span="22" offset="1">
+                            <h2>Product List</h2>
 
                 <table style="width:100%">
                   <tr>
-                    <th>Model</th>
-                    <th>Color</th> 
-                    <th>Size</th>
-                    <th>Quantity</th>
-                    <th>Buying Price</th>
+                    <th>Date</th>
+                    <th>Type</th> 
+                    <th>ID</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Balance</th>
                   </tr>
-                  <tr v-for="(data,i) in formValue.productDetails" :key="i">
-                    <td >{{data.model}}</td>
-                    <td >{{data.color}}</td>
-                    <td>{{data.size}}</td>
-                    <td><input type="number" v-model="data.quantity"></input></td>
-                    <td><input type="number" v-model="data.unitPrice"></input></td>
-                  </tr>
-                  <tr >
-                    <td colspan="3" style="text-align:right">Total </td>
-                    <td >{{totalQuantity}}</td>
-                    <td >{{totalPrice}}</td>
-                    
+                  <tr v-for="(data,i) in dataLedger" :key="i">
+                    <td >{{data.date}}</td>
+                    <td >{{data.type}}</td>
+                    <td>{{data.id}}</td>
+                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
+                    <td v-else>0</td>
+                    <td v-if="data.type ==='due'">{{data.amount}}</td>
+                    <td v-else>0</td>
+                    <td >{{data.balance}}</td>
                   </tr>
 
                 </table>
-                <Col span="4"  offset="20">
-                    <Button type="error" size="large"  @click="showClear">
-                        Clear
-                    </Button>
-
-                    <Button type="primary" size="large" :loading="sending" @click="makePurchase">
-                        <span v-if="!loading">Purchase</span>
-                        <span v-else>Loading...</span>
-                    </Button>
-                </Col>
-
             </Col>
         </Row>
 
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataInvoice"></Table>
-            </Col>
-        </Row>
-
-      <Modal v-model="editModal" width="360">
+        <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
             <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
@@ -100,6 +82,7 @@
             <Form>
            
         </Form>
+
 
         </div>
         <div slot="footer">
@@ -149,6 +132,8 @@
         data () {
             return {
                 index:0,
+                balance:null,
+                date:null,
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -157,10 +142,7 @@
                 sending:false,
                 isCollapsed: false,
                 dataSupplier: [],
-                dataSearch:[],
-                dataCategory: [],
-                dataInvoice: 
-                [],
+                dataLedger: [],
                 formInvoice:
                 {
                     type:'purchase',
@@ -170,7 +152,7 @@
                      type:'purchase',
                      date:'',
                      supplier_id: '',
-                     productDetails: []
+                     outStanding:'',
                 },
                 editObj: {
                     id:null,
@@ -186,70 +168,12 @@
                     groupName:'',
                     
                 },
-                columns1: [
-                    {
-                        title: 'Invoice ID',
-                        key: 'id'
-                    },
-                    {
-                        title: 'Supplier',
-                        key: 'supplierName'
-                    },
-                    {
-                        title: 'Total Quantity',
-                        key: 'totalQuantity'
-                    },
-                    {
-                        title: 'Total Price',
-                        key: 'totalPrice'
-                    },
-                    {
-                        title: 'Date',
-                        key: 'date'
-                    },
-                    {   
-                        title: 'Action',
-                        key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showEdit(params.index)
-                                        }
-                                    }
-                                }, 'Edit'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showRemove(params.index)
-                                        }
-                                    }
-                                }, 'Delete')
-                            ]);
-                        }
-                    }
-                ],
-
                 
             }
             
         },
         computed: {
-
+            
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -283,16 +207,23 @@
 
         },
         methods: {
-            showClear()
+           
+             showClear()
             {
                 this.clearModel=true
             },
-            clearForm()
+            clearForm(){
+                this.emptyEnteredData()
+                this.dataLedger.splice(0,this.dataLedger.length)
+                this.clearModel=false
+            },
+            emptyEnteredData()
             {
                 this.formValue.supplier_id=''
-                this.formValue.productDetails.splice(0,this.formValue.productDetails.length)
-                this.clearModel=false
-
+                this.formValue.date=''
+                this.date=''
+                this.formValue.outStanding=''
+                this.formValue.paidAmount=''
             },
             dateConverter(key)
             {
@@ -307,32 +238,40 @@
                 this.searchValue=''
                 
             },
-            async setData()
-            {
+            async changed (k) {
+                console.log(this.formValue.supplier_id)
+                this.ls();
                 try{
-                let {data} =await axios({
+                let {data} =await  axios({
                     method: 'get',
-                    url:`/app/searchProduct/${this.searchValue}`,
-                    })
-                    this.dataSearch=data;
-                    this.lf();
-
+                    url:`/app/payment/getOutstanding/${this.formValue.supplier_id}`
+                })
+                this.formValue.outStanding=data.outStanding
+                this.formValue.paidAmount=data.outStanding
+                var temp=0
+                for(let d of data.ledger){
+                   
+                    temp=temp+d.amount
+                    d.balance=temp
+                }
+                this.dataLedger=data.ledger
+                console.log(data);
+                
+                this.lf();
                 }catch(e){
                     this.e('Oops!','Something went wrong, please try again!')
-                    this.le();
+                this.le();
                 }
             },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            async makePurchase(){
+            async makePayment(){
                 //invoice added
-                this.formValue.totalPrice=this.totalPrice
-                this.formValue.totalQuantity=this.totalQuantity
-                if( !this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id|| !this.formValue.date)
+                if( !this.formValue.supplier_id || !this.formValue.date || !this.formValue.outStanding || !this.formValue.paidAmount)
                 {
                     this.loading=false
-                    this.e('Oops!','You nedd to enter Stock and Price in All Fields')
+                    this.e('Oops! ','You nedd to Enter Form in All Fields')
 
                 }
                 else
@@ -341,13 +280,14 @@
                     try{
                         let {data} =await  axios({
                             method: 'post',
-                            url:'/app/purchase',
+                            url:'/app/paymentSupplier',
                             data: this.formValue
                         })
-                        this.clearForm()
+                        this.emptyEnteredData()
+                        console.log(data.data)
                         
-                        data.data.supplierName=data.data.supplier.supplierName
-                        this.dataInvoice.unshift(data.data)
+                        data.data.balance=this.dataLedger[this.dataLedger.length - 1].balance + data.data.amount
+                        this.dataLedger.push(data.data)
                         
                         this.s('Great!','Purchase has been added successfully!')
                         this.loading=false
@@ -429,8 +369,6 @@
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
-
-
             try{
                 let {data} =await  axios({
                     method: 'get',

@@ -54,6 +54,9 @@ Route::post('/app/setting/upload','SettingController@upload');
 //purchase
 Route::post('/app/purchaseInvoice','PurchaseController@purchaseInvoice');
 Route::get('/app/getinvoice/{id}','InvoiceController@getInvoice');
+//data collection
+Route::get('/app/payment/getOutstanding/{id}','PaymentController@getOutstanding');
+Route::post('/app/paymentSupplier','PaymentController@paymentSupplier');
 
 Route::get('/logout', function () {
 	Auth::logout();

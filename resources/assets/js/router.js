@@ -15,6 +15,8 @@ import customer from './components/customer/customer.vue'
 import voucher from './components/voucher/voucher.vue'
 import ledgerhead from './components/voucher/ledgerhead.vue'
 import stock from './components/stock/stock.vue'
+import paytosupplier from './components/payment/paytosupplier.vue'
+import cashcollection from './components/payment/cashcollection.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -95,6 +97,16 @@ export default new Router({
 	      path: '/sell',
 	      name: 'sell',
 	      component: sell
+	    },
+    	{
+	      path: '/paytosupplier',
+	      name: 'paytosupplier',
+	      component: paytosupplier
+			},
+			{
+	      path: '/cashcollection',
+	      name: 'cashcollection',
+	      component: cashcollection
 	    },
 	 ]
 })

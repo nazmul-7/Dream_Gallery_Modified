@@ -100,6 +100,7 @@
                      paidAmount:0,
                      total:0,
                      supplier_id: '',
+                     customer_id: '',
                      productDetails: []
                 },
                

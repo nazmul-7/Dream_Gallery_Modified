@@ -6180,6 +6180,641 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/payment/paytosupplier.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            index: 0,
+            balance: null,
+            date: null,
+            searchValue: '',
+            clearModel: false,
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            dataSupplier: [],
+            dataLedger: [],
+            formInvoice: {
+                type: 'purchase'
+
+            },
+            formValue: {
+                type: 'purchase',
+                date: '',
+                supplier_id: '',
+                outStanding: ''
+            },
+            editObj: {
+                id: null,
+                catName: '',
+                group_id: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                catName: '',
+                group_id: '',
+                groupName: ''
+
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        },
+        totalPrice: function totalPrice() {
+            var totalPrice = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+
+                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].unitPrice;
+            }
+            return totalPrice;
+        },
+        totalQuantity: function totalQuantity() {
+            var total = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+                total += parseInt(this.formValue.productDetails[i].quantity);
+            }
+            return total;
+        }
+    },
+    methods: {
+        showClear: function showClear() {
+            this.clearModel = true;
+        },
+        clearForm: function clearForm() {
+            this.emptyEnteredData();
+            this.dataLedger.splice(0, this.dataLedger.length);
+            this.clearModel = false;
+        },
+        emptyEnteredData: function emptyEnteredData() {
+            this.formValue.supplier_id = '';
+            this.formValue.date = '';
+            this.date = '';
+            this.formValue.outStanding = '';
+            this.formValue.paidAmount = '';
+        },
+        dateConverter: function dateConverter(key) {
+            this.formValue.date = key;
+        },
+        addProduct: function addProduct(k) {
+            if (this.searchValue) {
+                this.formValue.productDetails.push(this.dataSearch[k]);
+            }
+            this.searchValue = '';
+        },
+        changed: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+                var _ref2, data, temp, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                console.log(this.formValue.supplier_id);
+                                this.ls();
+                                _context.prev = 2;
+                                _context.next = 5;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/payment/getOutstanding/' + this.formValue.supplier_id
+                                });
+
+                            case 5:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.formValue.outStanding = data.outStanding;
+                                this.formValue.paidAmount = data.outStanding;
+                                temp = 0;
+                                _iteratorNormalCompletion = true;
+                                _didIteratorError = false;
+                                _iteratorError = undefined;
+                                _context.prev = 13;
+
+                                for (_iterator = data.ledger[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                                    d = _step.value;
+
+
+                                    temp = temp + d.amount;
+                                    d.balance = temp;
+                                }
+                                _context.next = 21;
+                                break;
+
+                            case 17:
+                                _context.prev = 17;
+                                _context.t0 = _context['catch'](13);
+                                _didIteratorError = true;
+                                _iteratorError = _context.t0;
+
+                            case 21:
+                                _context.prev = 21;
+                                _context.prev = 22;
+
+                                if (!_iteratorNormalCompletion && _iterator.return) {
+                                    _iterator.return();
+                                }
+
+                            case 24:
+                                _context.prev = 24;
+
+                                if (!_didIteratorError) {
+                                    _context.next = 27;
+                                    break;
+                                }
+
+                                throw _iteratorError;
+
+                            case 27:
+                                return _context.finish(24);
+
+                            case 28:
+                                return _context.finish(21);
+
+                            case 29:
+                                this.dataLedger = data.ledger;
+                                console.log(data);
+
+                                this.lf();
+                                _context.next = 38;
+                                break;
+
+                            case 34:
+                                _context.prev = 34;
+                                _context.t1 = _context['catch'](2);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 38:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[2, 34], [13, 17, 21, 29], [22,, 24, 28]]);
+            }));
+
+            function changed(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return changed;
+        }(),
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        makePayment: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                if (!(!this.formValue.supplier_id || !this.formValue.date || !this.formValue.outStanding || !this.formValue.paidAmount)) {
+                                    _context2.next = 5;
+                                    break;
+                                }
+
+                                this.loading = false;
+                                this.e('Oops! ', 'You nedd to Enter Form in All Fields');
+
+                                _context2.next = 23;
+                                break;
+
+                            case 5:
+                                this.loading = true;
+                                _context2.prev = 6;
+                                _context2.next = 9;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/paymentSupplier',
+                                    data: this.formValue
+                                });
+
+                            case 9:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.emptyEnteredData();
+                                console.log(data.data);
+
+                                data.data.balance = this.dataLedger[this.dataLedger.length - 1].balance + data.data.amount;
+                                this.dataLedger.push(data.data);
+
+                                this.s('Great!', 'Purchase has been added successfully!');
+                                this.loading = false;
+                                _context2.next = 23;
+                                break;
+
+                            case 19:
+                                _context2.prev = 19;
+                                _context2.t0 = _context2['catch'](6);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 23:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[6, 19]]);
+            }));
+
+            function makePayment() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return makePayment;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.dataInvoice[index].id;
+            this.editObj.invoice_id = this.dataInvoice[index].invoice_id;
+            this.editObj.product_id = this.dataInvoice[index].product_id;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.id = this.dataInvoice[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                this.sending = true;
+                                _context3.prev = 1;
+                                _context3.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/categoryUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
+                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
+                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
+                                this.s('Great!', 'Category information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context3.next = 19;
+                                break;
+
+                            case 14:
+                                _context3.prev = 14;
+                                _context3.t0 = _context3['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 19:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[1, 14]]);
+            }));
+
+            function edit() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+                var _ref8, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                this.sending = true;
+                                _context4.prev = 1;
+                                _context4.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/invoice/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref8 = _context4.sent;
+                                data = _ref8.data;
+
+                                this.dataInvoice.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Invoice information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context4.next = 17;
+                                break;
+
+                            case 12:
+                                _context4.prev = 12;
+                                _context4.t0 = _context4['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref7.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+
+    created: function () {
+        var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+            var _ref10, data, _ref11, _data, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, d;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                while (1) {
+                    switch (_context5.prev = _context5.next) {
+                        case 0:
+                            this.ls();
+                            _context5.prev = 1;
+                            _context5.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/supplier'
+                            });
+
+                        case 4:
+                            _ref10 = _context5.sent;
+                            data = _ref10.data;
+
+                            this.dataSupplier = data;
+                            this.lf();
+
+                            _context5.next = 14;
+                            break;
+
+                        case 10:
+                            _context5.prev = 10;
+                            _context5.t0 = _context5['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                            _context5.prev = 14;
+                            _context5.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/getinvoice/purchase' //1=purchases
+
+                            });
+
+                        case 17:
+                            _ref11 = _context5.sent;
+                            _data = _ref11.data;
+                            _iteratorNormalCompletion2 = true;
+                            _didIteratorError2 = false;
+                            _iteratorError2 = undefined;
+                            _context5.prev = 22;
+
+                            for (_iterator2 = _data[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                d = _step2.value;
+
+                                d.supplierName = d.supplier.supplierName;
+                            }
+                            _context5.next = 30;
+                            break;
+
+                        case 26:
+                            _context5.prev = 26;
+                            _context5.t1 = _context5['catch'](22);
+                            _didIteratorError2 = true;
+                            _iteratorError2 = _context5.t1;
+
+                        case 30:
+                            _context5.prev = 30;
+                            _context5.prev = 31;
+
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                _iterator2.return();
+                            }
+
+                        case 33:
+                            _context5.prev = 33;
+
+                            if (!_didIteratorError2) {
+                                _context5.next = 36;
+                                break;
+                            }
+
+                            throw _iteratorError2;
+
+                        case 36:
+                            return _context5.finish(33);
+
+                        case 37:
+                            return _context5.finish(30);
+
+                        case 38:
+                            this.dataInvoice = _data;
+                            this.lf();
+
+                            _context5.next = 46;
+                            break;
+
+                        case 42:
+                            _context5.prev = 42;
+                            _context5.t2 = _context5['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 46:
+                        case 'end':
+                            return _context5.stop();
+                    }
+                }
+            }, _callee5, this, [[1, 10], [14, 42], [22, 26, 30, 38], [31,, 33, 37]]);
+        }));
+
+        function created() {
+            return _ref9.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/product/product.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7243,7 +7878,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.clearModel = true;
         },
         clearForm: function clearForm() {
-            this.formValue = [];
+            this.formValue.supplier_id = '';
+            this.formValue.productDetails.splice(0, this.formValue.productDetails.length);
             this.clearModel = false;
         },
         dateConverter: function dateConverter(key) {
@@ -7316,7 +7952,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.formValue.totalPrice = this.totalPrice;
                                 this.formValue.totalQuantity = this.totalQuantity;
 
-                                if (!(!this.totalQuantity || !this.totalPrice)) {
+                                if (!(!this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id || !this.formValue.date)) {
                                     _context2.next = 7;
                                     break;
                                 }
@@ -7324,7 +7960,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.loading = false;
                                 this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
 
-                                _context2.next = 22;
+                                _context2.next = 24;
                                 break;
 
                             case 7:
@@ -7341,29 +7977,29 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _ref4 = _context2.sent;
                                 data = _ref4.data;
 
-                                console.log(data);
+                                this.clearForm();
 
-                                // data.data.supplierName=data.data.supplier.supplierName
-                                //  this.dataInvoice.unshift(data.data)
+                                data.data.supplierName = data.data.supplier.supplierName;
+                                this.dataInvoice.unshift(data.data);
 
                                 this.s('Great!', 'Purchase has been added successfully!');
                                 this.loading = false;
-                                _context2.next = 22;
+                                _context2.next = 24;
                                 break;
 
-                            case 18:
-                                _context2.prev = 18;
+                            case 20:
+                                _context2.prev = 20;
                                 _context2.t0 = _context2['catch'](8);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 22:
+                            case 24:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[8, 18]]);
+                }, _callee2, this, [[8, 20]]);
             }));
 
             function makePurchase() {
@@ -7721,6 +8357,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 paidAmount: 0,
                 total: 0,
                 supplier_id: '',
+                customer_id: '',
                 productDetails: []
             }
 
@@ -14320,6 +14957,21 @@ exports.push([module.i, "\n.layout{\n    border: 1px solid #d7dde4;\n    backgro
 /***/ }),
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d485a5\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/product/purchase.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nth, td {\n    border: 1px solid black;\n    border-collapse: collapse;\n    padding: 5px;\n    text-align: left;\n}\n.demo-auto-complete-item{\n    padding: 4px 0;\n    border-bottom: 1px solid #F6F6F6;\n}\n.demo-auto-complete-group{\n    font-size: 12px;\n    padding: 4px 6px;\n}\n.demo-auto-complete-group span{\n    color: #666;\n    font-weight: bold;\n}\n.demo-auto-complete-group a{\n    float: right;\n}\n.demo-auto-complete-count{\n    float: right;\n    color: #999;\n}\n.demo-auto-complete-more{\n    display: block;\n    margin: 0 auto;\n    padding: 4px;\n    text-align: center;\n    font-size: 12px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c50f255c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paytosupplier.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -90977,6 +91629,486 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c50f255c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/payment/paytosupplier.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Row",
+                    { attrs: { gutter: 24 } },
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "11", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Supplier" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: {
+                                    placeholder: "Supplier",
+                                    "remote-method": _vm.changed,
+                                    filterable: ""
+                                  },
+                                  model: {
+                                    value: _vm.formValue.supplier_id,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.formValue,
+                                        "supplier_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "formValue.supplier_id"
+                                  }
+                                },
+                                _vm._l(_vm.dataSupplier, function(suppier, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: suppier.id } },
+                                    [_vm._v(_vm._s(suppier.supplierName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "11", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Payment Date" } },
+                            [
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "Row",
+                                [
+                                  _c(
+                                    "Col",
+                                    { attrs: { span: "22" } },
+                                    [
+                                      _c("DatePicker", {
+                                        attrs: {
+                                          type: "date",
+                                          placeholder: "Select date"
+                                        },
+                                        on: { "on-change": _vm.dateConverter },
+                                        model: {
+                                          value: _vm.date,
+                                          callback: function($$v) {
+                                            _vm.date = $$v
+                                          },
+                                          expression: "date"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "11", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Outstanding Amount" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Outstanding Amount",
+                                  disabled: ""
+                                },
+                                model: {
+                                  value: _vm.formValue.outStanding,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "outStanding", $$v)
+                                  },
+                                  expression: "formValue.outStanding"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "11", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Payment Amount" } },
+                            [
+                              _c("Input", {
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Payment Amount"
+                                },
+                                model: {
+                                  value: _vm.formValue.paidAmount,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "paidAmount", $$v)
+                                  },
+                                  expression: "formValue.paidAmount"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "22", offset: "1" } },
+                        [
+                          _c(
+                            "Button",
+                            {
+                              attrs: { type: "error", size: "large" },
+                              on: { click: _vm.showClear }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Clear\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "Button",
+                            {
+                              attrs: {
+                                type: "primary",
+                                size: "large",
+                                loading: _vm.sending
+                              },
+                              on: { click: _vm.makePayment }
+                            },
+                            [
+                              !_vm.loading
+                                ? _c("span", [_vm._v("Pay")])
+                                : _c("span", [_vm._v("Loading...")])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
+              _c("h2", [_vm._v("Product List")]),
+              _vm._v(" "),
+              _c(
+                "table",
+                { staticStyle: { width: "100%" } },
+                [
+                  _c("tr", [
+                    _c("th", [_vm._v("Date")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Type")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("ID")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Debit")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Credit")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Balance")])
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.dataLedger, function(data, i) {
+                    return _c("tr", { key: i }, [
+                      _c("td", [_vm._v(_vm._s(data.date))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.type))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.id))]),
+                      _vm._v(" "),
+                      data.type === "outgoing"
+                        ? _c("td", [_vm._v(_vm._s(Math.abs(data.amount)))])
+                        : _c("td", [_vm._v("0")]),
+                      _vm._v(" "),
+                      data.type === "due"
+                        ? _c("td", [_vm._v(_vm._s(data.amount))])
+                        : _c("td", [_vm._v("0")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.balance))])
+                    ])
+                  })
+                ],
+                2
+              )
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  " Edit " +
+                    _vm._s(_vm.UpdateValue.catName) +
+                    " " +
+                    _vm._s(_vm.editObj.group_id)
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [_c("Form")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Delete")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v("\n        Are you sure you want delete\n\n    ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.clearModel,
+            callback: function($$v) {
+              _vm.clearModel = $$v
+            },
+            expression: "clearModel"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Clear ")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v("\n        Are you sure you want clear invoice\n\n    ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.clearForm }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Clear")])
+                    : _c("span", [_vm._v("Loading...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c50f255c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ce4343ba\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/customer/zone.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -94480,6 +95612,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d485a5\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue", function() {
      var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d485a5\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c50f255c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paytosupplier.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c50f255c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paytosupplier.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("35791f81", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c50f255c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./paytosupplier.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c50f255c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./paytosupplier.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -107232,6 +108391,89 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/payment/cashcollection.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\payment\\cashcollection.vue"
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/payment/paytosupplier.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-c50f255c\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paytosupplier.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/payment/paytosupplier.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c50f255c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/payment/paytosupplier.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\payment\\paytosupplier.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c50f255c", Component.options)
+  } else {
+    hotAPI.reload("data-v-c50f255c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/product/product.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -107709,6 +108951,12 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_voucher_ledgerhead_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_voucher_ledgerhead_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_stock_stock_vue__ = __webpack_require__("./resources/assets/js/components/stock/stock.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_stock_stock_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_stock_stock_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_payment_paytosupplier_vue__ = __webpack_require__("./resources/assets/js/components/payment/paytosupplier.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_payment_paytosupplier_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_payment_paytosupplier_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue__ = __webpack_require__("./resources/assets/js/components/payment/cashcollection.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue__);
+
+
 
 
 
@@ -107790,6 +109038,14 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/sell',
 						name: 'sell',
 						component: __WEBPACK_IMPORTED_MODULE_10__components_sell_sell_vue___default.a
+			}, {
+						path: '/paytosupplier',
+						name: 'paytosupplier',
+						component: __WEBPACK_IMPORTED_MODULE_17__components_payment_paytosupplier_vue___default.a
+			}, {
+						path: '/cashcollection',
+						name: 'cashcollection',
+						component: __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue___default.a
 			}]
 }));
 

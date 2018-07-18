@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Product;
+use App\Purchase;
+use App\Invoice;
+use App\Paymentsheet;
+use App\Selling;
+use Auth;
 class SellingController extends Controller
 {
     /**
@@ -45,7 +50,7 @@ class SellingController extends Controller
             'totalPrice' => $input['totalPrice'],
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
-            'sellingPrice' => $input['sellingPrice'],
+            'sellingPrice' => $input['total'],
             'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],
 
@@ -59,19 +64,19 @@ class SellingController extends Controller
             'uid' => $input['customer_id'],
             'amount' => $input['paidAmount'],
             'paymentMethod' => 'cash',
-            'remarks' => 'Purchased From Supplier',
+            'remarks' => 'Sell To Customer',
         ]);
 
         // make  purchase details 
         foreach ($input['productDetails'] as $key => $value) {
+            $profit= $value['sellingPrice'] - $value['averageBuyingPrice'];
             $sell=Selling::create([
-
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
-                'unitPrice' => $value['unitPrice'],
-                'profit' => $value['unitPrice'],
+                'unitPrice' => $value['sellingPrice'],
+                'profit' => $profit,
             ]);
         }
         // $created=Invoice::create($request->all());
