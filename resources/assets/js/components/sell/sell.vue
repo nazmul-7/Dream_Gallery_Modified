@@ -88,8 +88,8 @@
                     <Form>
                         <Col span="22" offset="1">
                             <FormItem label="Supplier">
-                                <Select v-model="formValue.supplier_id" placeholder="Supplier" filterable>
-                                    <Option v-for="(suppier,i) in dataCustomer" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
+                                <Select v-model="formValue.customer_id" placeholder="Supplier" filterable>
+                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -98,7 +98,7 @@
                                 <br>
                                 <Row>
                                     <Col span="22">
-                                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                     </Col>
                                 </Row>
                             </FormItem>
@@ -238,7 +238,13 @@
             {
                 if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
                 {
-                    this.e('Due Alart','This invoice will add due amount')
+                    this.i('Due Alart','This invoice will add due amount')
+                    if(!this.formValue.customer_id)
+                    {
+                        this.w('Customer','Plaease Add a Csutomer')
+                        return                         
+                    }
+
                 }
                 this.sellProduct ()
             },
