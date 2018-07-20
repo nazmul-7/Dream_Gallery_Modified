@@ -87001,14 +87001,15 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Supplier" } },
+                            { attrs: { label: "Customer" } },
                             [
                               _c(
                                 "Select",
                                 {
                                   attrs: {
-                                    placeholder: "Supplier",
-                                    filterable: ""
+                                    placeholder: "Customer",
+                                    filterable: "",
+                                    clearable: ""
                                   },
                                   model: {
                                     value: _vm.formValue.supplier_id,
@@ -87056,7 +87057,7 @@ var render = function() {
                                     [
                                       _c("DatePicker", {
                                         attrs: {
-                                          type: "datetime",
+                                          type: "date",
                                           placeholder: "Select date"
                                         },
                                         on: { "on-change": _vm.dateConverter }

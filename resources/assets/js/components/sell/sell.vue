@@ -87,8 +87,8 @@
                 <Row> 
                     <Form>
                         <Col span="22" offset="1">
-                            <FormItem label="Supplier">
-                                <Select v-model="formValue.supplier_id" placeholder="Supplier" filterable>
+                            <FormItem label="Customer">
+                                <Select v-model="formValue.supplier_id" placeholder="Customer" filterable clearable>
                                     <Option v-for="(suppier,i) in dataCustomer" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
@@ -98,7 +98,7 @@
                                 <br>
                                 <Row>
                                     <Col span="22">
-                                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                     </Col>
                                 </Row>
                             </FormItem>
