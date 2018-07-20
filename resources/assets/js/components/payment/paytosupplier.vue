@@ -61,7 +61,7 @@
                   <tr v-for="(data,i) in dataLedger" :key="i">
                     <td >{{data.date}}</td>
                     <td >{{data.type}}</td>
-                    <td>{{data.id}}</td>
+                    <td>{{data.invoice_id}}</td>
                     <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
                     <td v-if="data.type ==='due'">{{data.amount}}</td>

@@ -91,10 +91,21 @@ class InvoiceController extends Controller
     
     public function getInvoice($id)
     {
+        if($id=='sell')
+        {
+        return Invoice::where('type', $id)
+        ->orderBy('id', 'desc')
+        ->with('customer')
+        ->get();
+
+        }
+        elseif($id=='purchase')
+        {
         return Invoice::where('type', $id)
         ->orderBy('id', 'desc')
         ->with('supplier')
-        ->get();
+        ->get();            
+        }
     }
 
 }

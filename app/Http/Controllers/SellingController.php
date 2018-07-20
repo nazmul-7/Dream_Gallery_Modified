@@ -62,12 +62,24 @@ class SellingController extends Controller
             'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $input['customer_id'],
-            'amount' => $input['paidAmount'],
+            'amount' => $input['total']*-1,
             'paymentMethod' => 'cash',
             'remarks' => 'Sell To Customer',
             'date' => $input['date'],
         ]);
-        
+        $due=$input['total'] - $input['paidAmount'];
+        $paymentSheet=Paymentsheet::create([
+            'admin_id' => $admin_id,
+            'invoice_id' => $invoice->id,
+            'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+            'uid' => $input['customer_id'],
+            'amount' => $input['paidAmount'],
+            'paymentMethod' => 'due',
+            'remarks' => 'Due To Customer',
+            'date' => $input['date'],
+        ]);
+
 
         // make  purchase details 
         foreach ($input['productDetails'] as $key => $value) {
