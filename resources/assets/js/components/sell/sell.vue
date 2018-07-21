@@ -46,8 +46,8 @@
                     <td >{{data.color}}</td>
                     <td>{{data.size}}</td>
                     <td>{{data.sellingPrice}}</td>
-                    <td>stock</td>
-                    <td><input type="number" v-model="data.quantity"></input></td>
+                    <td>{{data.stock}}</td>
+                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity"></InputNumber></td>
                     <td><input type="number" v-model="data.sellingPrice" disabled></input></td>
                   </tr>
 
@@ -59,15 +59,15 @@
                   </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Discount</td>
-                    <td><input type="number" @keyup="discount" v-model="formValue.discount"></input></td>
+                    <td><InputNumber  v-if="formValue.subTotal>0"  :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
                 </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Total</td>
-                    <td><input type="number" @keyup="total" v-model="formValue.total"></input></td>
+                    <td><InputNumber v-if="formValue.total>0"  :min="0" :max="formValue.subTotal" @on-change="total" v-model="formValue.total"></InputNumber ></td>
                 </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Paid Amount</td>
-                    <td><input type="number" v-model="formValue.paidAmount"></input></td>
+                    <td><input  v-if="formValue.subTotal>0"  type="number" v-model="formValue.paidAmount"></input></td>
                 </tr>
 
                 </table>
@@ -129,6 +129,8 @@
                      date:'',
                      discount:0,
                      paidAmount:0,
+                     subTotal:0,
+                     subQuantity:0,
                      total:0,
                      supplier_id: '',
                      customer_id: '',
@@ -162,6 +164,7 @@
                 totalPrice=Math.round(totalPrice).toFixed(2)
                 this.formValue.total=totalPrice
                 this.formValue.paidAmount=totalPrice
+                this.formValue.subTotal=totalPrice
                 return totalPrice;
                 
             },
@@ -177,6 +180,7 @@
 
         },
         methods: {
+
             discount(){
                 var totalOld = this.totalPrice
                 var discountAmount = (this.formValue.discount*this.totalPrice)/100
@@ -208,12 +212,30 @@
                 this.formValue.date=key
 
             },
-            addProduct(k){
+            async addProduct(k){
                 if(this.searchValue)
                 {
-                this.formValue.productDetails.push(this.dataSearch[k])
+            
+                    try{
+                        let {data} =await axios({
+                            method: 'get',
+                            url:`/app/getStock/${this.dataSearch[k].id}`,
+                            })
+                            
+                            this.lf()
+                            console.log(data)
+                            this.dataSearch[k].stock=data.data
+                            this.formValue.productDetails.push(this.dataSearch[k])
+                            this.searchValue=''
+                        }catch(e){
+                            this.e('Oops!','Something went wrong, please try again!')
+                            this.le()
+                            return 0
+                        }
+                
+                    
                 }
-                this.searchValue=''
+                
                 
             },
             async setData()

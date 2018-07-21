@@ -1,11 +1,31 @@
 export default {
 	data(){
 		return {
-
+			productStock:null,
 		}
 	},
 
 	methods: {
+		async getStock(id)
+		{	
+			
+			try{
+			let {data} =await axios({
+				method: 'get',
+				url:`/app/getStock/${id}`,
+				})
+				
+				this.lf()
+				this.productStock=data.data
+				
+				
+
+			}catch(e){
+				this.e('Oops!','Something went wrong, please try again!')
+				this.le()
+				return 0
+			}
+		},
 		ls()
 		{
 			this.$Loading.start();

@@ -1,7 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\DB;
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Paymentsheet;
 use App\Product;
@@ -20,8 +19,6 @@ class PaymentController extends Controller
         $ledger=Paymentsheet::where('uid',$id)
         ->where('paymentFor','supplier')
         ->get();
-        
-
         return response()->json([
             'msg' => 'Found',
             'outStanding'=> $outStanding,
@@ -32,12 +29,14 @@ class PaymentController extends Controller
     {
         $outStanding=Paymentsheet::where('uid',$id)
         ->where('paymentFor','customer')
+        ->where('type','due')
+        ->orWhere('type','dueincoming')
         ->sum('amount');
         $ledger=Paymentsheet::where('uid',$id)
         ->where('paymentFor','customer')
+        ->where('type','due')
+        ->orWhere('type','dueincoming')
         ->get();
-        
-
         return response()->json([
             'msg' => 'Found',
             'outStanding'=> $outStanding,
@@ -90,7 +89,7 @@ class PaymentController extends Controller
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
             'invoice_id' => 0,// 0 if its payment or voucher
-            'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            'type' => 'dueIncoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $input['customer_id'],
             'amount' => $input['paidAmount'],
@@ -106,6 +105,4 @@ class PaymentController extends Controller
                  'data'=> $data,
             ],200);
     }
-    
-
 }

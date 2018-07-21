@@ -64,7 +64,7 @@
                     <td>{{data.invoice_id}}</td>
                     <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{data.amount}}</td>
+                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
                     <td >{{Math.abs(data.balance)}}</td>
                   </tr>

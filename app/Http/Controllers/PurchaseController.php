@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Purchase;
@@ -166,8 +166,10 @@ class PurchaseController extends Controller
     }
     public function searchProduct($search)
     {
+        
         $product=Product::where('model','LIKE','%'.$search.'%')
         ->get();
+
         return $product;
     }
     public function purchaseInvoice(Request $request)
