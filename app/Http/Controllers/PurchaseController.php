@@ -172,6 +172,7 @@ class PurchaseController extends Controller
 
         return $product;
     }
+
     public function purchaseInvoice(Request $request)
     {
         $input=$request->all();

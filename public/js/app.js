@@ -8810,6 +8810,442 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/return/returnproduct.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            index: 0,
+            searchValue: '',
+            clearModel: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            dataSearch: [],
+            dataCustomer: [],
+            dataInvoice: [],
+            formValue: {
+                type: 'purchase',
+                date: '',
+                discount: 0,
+                paidAmount: 0,
+                subTotal: 0,
+                subQuantity: 0,
+                total: 0,
+                supplier_id: '',
+                customer_id: '',
+                productDetails: []
+            }
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        },
+        totalPrice: function totalPrice() {
+            var totalPrice = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+
+                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].unitPrice;
+            }
+            totalPrice = Math.round(totalPrice).toFixed(2);
+            this.formValue.total = totalPrice;
+            this.formValue.paidAmount = totalPrice;
+            this.formValue.subTotal = totalPrice;
+            return totalPrice;
+        },
+        totalQuantity: function totalQuantity() {
+            var total = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+                total += parseInt(this.formValue.productDetails[i].quantity);
+            }
+            return total;
+        }
+    },
+    methods: {
+        discount: function discount() {
+            var totalOld = this.totalPrice;
+            var discountAmount = this.formValue.discount * this.totalPrice / 100;
+            var afterDiscount = totalOld - discountAmount;
+            afterDiscount = Math.round(afterDiscount).toFixed(2);
+            this.formValue.total = afterDiscount;
+            this.formValue.paidAmount = afterDiscount;
+        },
+        total: function total() {
+            var totalOld = this.totalPrice;
+            var discountAmount = totalOld - this.formValue.total;
+            var discount = discountAmount * 100 / totalOld;
+            discount = Math.round(discount).toFixed(2);
+            this.formValue.discount = discount;
+            this.formValue.paidAmount = this.formValue.total;
+        },
+        showClear: function showClear() {
+            this.clearModel = true;
+        },
+        clearForm: function clearForm() {
+            this.formValue = [];
+            this.clearModel = false;
+        },
+        dateConverter: function dateConverter(key) {
+            this.formValue.date = key;
+        },
+        addProduct: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (!this.searchValue) {
+                                    _context.next = 20;
+                                    break;
+                                }
+
+                                _context.prev = 1;
+                                _context.next = 4;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/getInvoiceProducts/' + this.dataSearch[k].id
+                                });
+
+                            case 4:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+
+                                this.lf();
+                                console.log(data);
+                                this.formValue.productDetails = data.data;
+                                this.formValue.subTotal = this.dataSearch[k].totalPrice;
+                                this.formValue.paidAmount = this.dataSearch[k].paidAmount;
+                                this.formValue.total = this.dataSearch[k].selllingPrice;
+                                this.searchValue = '';
+                                _context.next = 20;
+                                break;
+
+                            case 15:
+                                _context.prev = 15;
+                                _context.t0 = _context['catch'](1);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+                                return _context.abrupt('return', 0);
+
+                            case 20:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[1, 15]]);
+            }));
+
+            function addProduct(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return addProduct;
+        }(),
+        setData: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.prev = 0;
+                                _context2.next = 3;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/searchInvoice/' + this.searchValue
+                                });
+
+                            case 3:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.dataSearch = data;
+                                this.lf();
+
+                                _context2.next = 13;
+                                break;
+
+                            case 9:
+                                _context2.prev = 9;
+                                _context2.t0 = _context2['catch'](0);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 13:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[0, 9]]);
+            }));
+
+            function setData() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return setData;
+        }(),
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        makeSell: function makeSell() {
+            if (Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total)) {
+                this.i('Due Alart', 'This invoice will add due amount');
+                if (!this.formValue.customer_id) {
+                    this.w('Customer', 'Plaease Add a Csutomer');
+                    return;
+                }
+            }
+            this.sellProduct();
+        },
+        sellProduct: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                //invoice added
+                                this.formValue.totalPrice = this.totalPrice;
+                                this.formValue.totalQuantity = this.totalQuantity;
+
+                                if (!(!this.totalQuantity || !this.totalPrice)) {
+                                    _context3.next = 7;
+                                    break;
+                                }
+
+                                this.loading = false;
+                                this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
+
+                                _context3.next = 21;
+                                break;
+
+                            case 7:
+                                this.loading = true;
+                                _context3.prev = 8;
+                                _context3.next = 11;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/sell',
+                                    data: this.formValue
+                                });
+
+                            case 11:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+
+                                this.s('Great!', 'Sell has been added successfully!');
+                                this.loading = false;
+                                _context3.next = 21;
+                                break;
+
+                            case 17:
+                                _context3.prev = 17;
+                                _context3.t0 = _context3['catch'](8);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 21:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[8, 17]]);
+            }));
+
+            function sellProduct() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return sellProduct;
+        }()
+    },
+    created: function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+            var _ref8, data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            this.ls();
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/customer'
+                            });
+
+                        case 4:
+                            _ref8 = _context4.sent;
+                            data = _ref8.data;
+
+                            this.dataCustomer = data;
+                            this.lf();
+
+                            _context4.next = 14;
+                            break;
+
+                        case 10:
+                            _context4.prev = 10;
+                            _context4.t0 = _context4['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[1, 10]]);
+        }));
+
+        function created() {
+            return _ref7.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/sell/sell.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15637,6 +16073,21 @@ exports.push([module.i, "\n.layout{\n    border: 1px solid #d7dde4;\n    backgro
 /***/ }),
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d485a5\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/product/purchase.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nth, td {\n    border: 1px solid black;\n    border-collapse: collapse;\n    padding: 5px;\n    text-align: left;\n}\n.demo-auto-complete-item{\n    padding: 4px 0;\n    border-bottom: 1px solid #F6F6F6;\n}\n.demo-auto-complete-group{\n    font-size: 12px;\n    padding: 4px 6px;\n}\n.demo-auto-complete-group span{\n    color: #666;\n    font-weight: bold;\n}\n.demo-auto-complete-group a{\n    float: right;\n}\n.demo-auto-complete-count{\n    float: right;\n    color: #999;\n}\n.demo-auto-complete-more{\n    display: block;\n    margin: 0 auto;\n    padding: 4px;\n    text-align: center;\n    font-size: 12px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2da1226a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/return/returnproduct.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -89242,6 +89693,487 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2da1226a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/return/returnproduct.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "16", offset: "1" }
+            },
+            [
+              _c(
+                "Form",
+                [
+                  _c(
+                    "Col",
+                    { attrs: { span: "11", offset: "1" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Barcode" } },
+                        [
+                          _c("Input", {
+                            attrs: { type: "text", placeholder: "Barcode" },
+                            model: {
+                              value: _vm.formValue.barCode,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formValue, "barCode", $$v)
+                              },
+                              expression: "formValue.barCode"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Col",
+                    { attrs: { span: "11", offset: "1" } },
+                    [
+                      _c(
+                        "FormItem",
+                        { attrs: { label: "Search Product" } },
+                        [
+                          _c("br"),
+                          _vm._v(" "),
+                          _c(
+                            "Row",
+                            [
+                              _c(
+                                "Col",
+                                { attrs: { span: "22" } },
+                                [
+                                  _c(
+                                    "AutoComplete",
+                                    {
+                                      attrs: {
+                                        icon: "ios-search",
+                                        placeholder: "input here"
+                                      },
+                                      on: {
+                                        "on-search": _vm.setData,
+                                        "on-select": _vm.addProduct
+                                      },
+                                      model: {
+                                        value: _vm.searchValue,
+                                        callback: function($$v) {
+                                          _vm.searchValue = $$v
+                                        },
+                                        expression: "searchValue"
+                                      }
+                                    },
+                                    _vm._l(_vm.dataSearch, function(option, i) {
+                                      return _c(
+                                        "Option",
+                                        { key: i, attrs: { value: i } },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "demo-auto-complete-title"
+                                            },
+                                            [_vm._v(_vm._s(option.id))]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "demo-auto-complete-count"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "| " + _vm._s(option.paidAmount)
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    })
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("h2", [_vm._v("Product List")]),
+              _vm._v(" "),
+              _c(
+                "table",
+                { staticStyle: { width: "100%" } },
+                [
+                  _c("tr", [
+                    _c("th", [_vm._v("Name")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Model")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Color")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Size")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Unit Price")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Quantity")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Price")])
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.formValue.productDetails, function(data, i) {
+                    return _c("tr", { key: i }, [
+                      _c("td", [_vm._v(_vm._s(data.product.productName))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.product.model))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.product.color))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.product.size))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.unitPrice))]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c("InputNumber", {
+                            attrs: { min: 0, max: data.stock },
+                            model: {
+                              value: data.quantity,
+                              callback: function($$v) {
+                                _vm.$set(data, "quantity", $$v)
+                              },
+                              expression: "data.quantity"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: data.unitPrice,
+                              expression: "data.unitPrice"
+                            }
+                          ],
+                          attrs: { type: "number", disabled: "" },
+                          domProps: { value: data.unitPrice },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(data, "unitPrice", $event.target.value)
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("tr", { staticStyle: { "background-color": "#e9eaec" } }, [
+                    _c(
+                      "td",
+                      {
+                        staticStyle: { "text-align": "right" },
+                        attrs: { colspan: "6" }
+                      },
+                      [_vm._v("Sub Total ")]
+                    ),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(_vm.totalPrice))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c(
+                      "td",
+                      {
+                        staticStyle: { "text-align": "right" },
+                        attrs: { colspan: "7" }
+                      },
+                      [_vm._v("Discount")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _vm.formValue.subTotal > 0
+                          ? _c("InputNumber", {
+                              attrs: { min: 0, max: 100 },
+                              on: { "on-change": _vm.discount },
+                              model: {
+                                value: _vm.formValue.discount,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.formValue, "discount", $$v)
+                                },
+                                expression: "formValue.discount"
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c(
+                      "td",
+                      {
+                        staticStyle: { "text-align": "right" },
+                        attrs: { colspan: "7" }
+                      },
+                      [_vm._v("Total")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _vm.formValue.total > 0
+                          ? _c("InputNumber", {
+                              attrs: { min: 0, max: _vm.formValue.subTotal },
+                              on: { "on-change": _vm.total },
+                              model: {
+                                value: _vm.formValue.total,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.formValue, "total", $$v)
+                                },
+                                expression: "formValue.total"
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c(
+                      "td",
+                      {
+                        staticStyle: { "text-align": "right" },
+                        attrs: { colspan: "7" }
+                      },
+                      [_vm._v("Paid Amount")]
+                    ),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.formValue.subTotal > 0
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formValue.paidAmount,
+                                expression: "formValue.paidAmount"
+                              }
+                            ],
+                            attrs: { type: "number" },
+                            domProps: { value: _vm.formValue.paidAmount },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formValue,
+                                  "paidAmount",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        : _vm._e()
+                    ])
+                  ])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "Col",
+                { attrs: { span: "4", offset: "20" } },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "error", size: "large" },
+                      on: { click: _vm.showClear }
+                    },
+                    [_vm._v("\n                    Clear\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: {
+                        type: "primary",
+                        size: "large",
+                        loading: _vm.sending
+                      },
+                      on: { click: _vm.makeSell }
+                    },
+                    [
+                      !_vm.loading
+                        ? _c("span", [_vm._v("Sell")])
+                        : _c("span", [_vm._v("Loading...")])
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "5", offset: "1" }
+            },
+            [
+              _c(
+                "Row",
+                [
+                  _c(
+                    "Form",
+                    [
+                      _c(
+                        "Col",
+                        { attrs: { span: "22", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Supplier" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: {
+                                    placeholder: "Supplier",
+                                    filterable: ""
+                                  },
+                                  model: {
+                                    value: _vm.formValue.customer_id,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.formValue,
+                                        "customer_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "formValue.customer_id"
+                                  }
+                                },
+                                _vm._l(_vm.dataCustomer, function(customer, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: customer.id } },
+                                    [_vm._v(_vm._s(customer.customerName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "22", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Buying Date" } },
+                            [
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "Row",
+                                [
+                                  _c(
+                                    "Col",
+                                    { attrs: { span: "22" } },
+                                    [
+                                      _c("DatePicker", {
+                                        attrs: {
+                                          type: "date",
+                                          placeholder: "Select date"
+                                        },
+                                        on: { "on-change": _vm.dateConverter }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2da1226a", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-39cbe456\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/category/category.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -96905,6 +97837,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d485a5\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue", function() {
      var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-28d485a5\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2da1226a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/return/returnproduct.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2da1226a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/return/returnproduct.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("8ecd1202", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2da1226a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./returnproduct.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2da1226a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./returnproduct.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -109971,6 +110930,58 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/return/returnproduct.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2da1226a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/return/returnproduct.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/return/returnproduct.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2da1226a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/return/returnproduct.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\return\\returnproduct.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2da1226a", Component.options)
+  } else {
+    hotAPI.reload("data-v-2da1226a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/sell/sell.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -110352,6 +111363,9 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_payment_paytosupplier_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_payment_paytosupplier_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue__ = __webpack_require__("./resources/assets/js/components/payment/cashcollection.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue__ = __webpack_require__("./resources/assets/js/components/return/returnproduct.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue__);
+
 
 
 
@@ -110443,6 +111457,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/cashcollection',
 						name: 'cashcollection',
 						component: __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue___default.a
+			}, {
+						path: '/returnproduct',
+						name: 'returnproduct',
+						component: __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue___default.a
 			}]
 }));
 

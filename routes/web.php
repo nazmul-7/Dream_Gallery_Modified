@@ -47,6 +47,7 @@ Route::resource('/app/invoice','InvoiceController');
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
 Route::get('/app/searchProduct/{id}','PurchaseController@searchProduct');
+Route::get('/app/searchInvoice/{id}','InvoiceController@searchInvoice');
 
 //uploads
 Route::post('/app/setting/upload','SettingController@upload');
@@ -55,6 +56,7 @@ Route::post('/app/setting/upload','SettingController@upload');
 Route::post('/app/purchaseInvoice','PurchaseController@purchaseInvoice');
 Route::get('/app/getinvoice/{id}','InvoiceController@getInvoice');
 //data collection
+Route::get('/app/getInvoiceProducts/{id}','InvoiceController@getInvoiceProducts');
 Route::get('/app/getStock/{id}','StockController@getStock');
 Route::get('/app/payment/getOutstanding/{id}','PaymentController@getOutstanding');
 Route::get('/app/payment/getOutstandingCustomer/{id}','PaymentController@getOutstandingCustomer');
