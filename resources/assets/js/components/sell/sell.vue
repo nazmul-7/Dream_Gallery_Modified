@@ -2,7 +2,7 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="16" offset="1">
-                <Form>
+                <Form  ref="header">
                         <Col span="11" offset="1">
                             <FormItem  label="Barcode">
                                 <Input type="text" placeholder="Barcode" 
@@ -29,7 +29,7 @@
 
                 <h2>Product List</h2>
 
-                <table style="width:100%">
+                <table style="width:100%" ref="printTable">
                   <tr>
                     <th>Name</th>
                     <th>Model</th>
@@ -71,8 +71,9 @@
                 </tr>
 
                 </table>
+
                 <Col span="4"  offset="20">
-                    <Button type="error" size="large"  @click="showClear">
+                    <Button type="error" size="large"  @click="clearForm">
                         Clear
                     </Button>
 

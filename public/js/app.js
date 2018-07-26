@@ -9023,7 +9023,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (!this.searchValue) {
-                                    _context.next = 20;
+                                    _context.next = 21;
                                     break;
                                 }
 
@@ -9045,24 +9045,25 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.formValue.subTotal = this.dataSearch[k].totalPrice;
                                 this.formValue.paidAmount = this.dataSearch[k].paidAmount;
                                 this.formValue.total = this.dataSearch[k].selllingPrice;
+                                this.formValue.date = this.dataSearch[k].date;
                                 this.searchValue = '';
-                                _context.next = 20;
+                                _context.next = 21;
                                 break;
 
-                            case 15:
-                                _context.prev = 15;
+                            case 16:
+                                _context.prev = 16;
                                 _context.t0 = _context['catch'](1);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
                                 return _context.abrupt('return', 0);
 
-                            case 20:
+                            case 21:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[1, 15]]);
+                }, _callee, this, [[1, 16]]);
             }));
 
             function addProduct(_x) {
@@ -9257,6 +9258,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
 //
 //
 //
@@ -87693,6 +87695,7 @@ var render = function() {
             [
               _c(
                 "Form",
+                { ref: "header" },
                 [
                   _c(
                     "Col",
@@ -87813,7 +87816,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "table",
-                { staticStyle: { width: "100%" } },
+                { ref: "printTable", staticStyle: { width: "100%" } },
                 [
                   _c("tr", [
                     _c("th", [_vm._v("Name")]),
@@ -88021,7 +88024,7 @@ var render = function() {
                     "Button",
                     {
                       attrs: { type: "error", size: "large" },
-                      on: { click: _vm.showClear }
+                      on: { click: _vm.clearForm }
                     },
                     [_vm._v("\n                    Clear\n                ")]
                   ),
@@ -110726,6 +110729,37 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/order/order.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\order\\order.vue"
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/payment/cashcollection.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -111365,6 +111399,9 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_payment_cashcollection_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue__ = __webpack_require__("./resources/assets/js/components/return/returnproduct.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_order_order_vue__ = __webpack_require__("./resources/assets/js/components/order/order.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_order_order_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_order_order_vue__);
+
 
 
 
@@ -111461,6 +111498,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/returnproduct',
 						name: 'returnproduct',
 						component: __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue___default.a
+			}, {
+						path: '/order',
+						name: 'order',
+						component: __WEBPACK_IMPORTED_MODULE_20__components_order_order_vue___default.a
 			}]
 }));
 

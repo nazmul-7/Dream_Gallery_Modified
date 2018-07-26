@@ -226,6 +226,7 @@
                             this.formValue.subTotal=this.dataSearch[k].totalPrice
                             this.formValue.paidAmount=this.dataSearch[k].paidAmount
                             this.formValue.total=this.dataSearch[k].selllingPrice
+                            this.formValue.date=this.dataSearch[k].date
                             this.searchValue=''
                         }catch(e){
                             this.e('Oops!','Something went wrong, please try again!')
