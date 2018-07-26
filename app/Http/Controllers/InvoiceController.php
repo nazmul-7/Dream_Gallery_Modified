@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Invoice;
+use App\Selling;
+
 class InvoiceController extends Controller
 {
     /**
@@ -106,6 +108,28 @@ class InvoiceController extends Controller
         ->with('supplier')
         ->get();            
         }
+    }
+    public function searchInvoice($search)
+    {
+        
+        $product=Invoice::where('id','LIKE','%'.$search.'%')
+        ->where('type','sell')
+        ->with('customer')
+        ->get();
+
+        return $product;
+    }
+    public function getInvoiceProducts($id)
+    {
+        
+        $product=Selling::where('invoice_id',$id)
+        ->with('product')
+        ->get();
+
+         return response()->json([
+                'msg' => 'Inserted',
+                'data' => $product,
+            ],200);
     }
 
 }
