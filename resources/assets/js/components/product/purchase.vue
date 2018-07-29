@@ -1,13 +1,13 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
                 <Form >
 
                     <Row :gutter="24">
                         <Col span="11" offset="1">
                             <FormItem label="Supplier">
-                                <Select v-model="formValue.supplier_id" placeholder="Supplier" filterable>
+                                <Select v-model="formValue.supplier_id" placeholder="Supplier" :remote-method="changedSupplier" filterable>
                                     <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
@@ -55,6 +55,7 @@
                     <th>Size</th>
                     <th>Quantity</th>
                     <th>Buying Price</th>
+                    <th>Action</th>
                   </tr>
                   <tr v-for="(data,i) in formValue.productDetails" :key="i">
                     <td >{{data.model}}</td>
@@ -62,20 +63,22 @@
                     <td>{{data.size}}</td>
                     <td><input type="number" v-model="data.quantity"></input></td>
                     <td><input type="number" v-model="data.unitPrice"></input></td>
+                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
                   </tr>
                   <tr >
                     <td colspan="3" style="text-align:right">Total </td>
                     <td >{{totalQuantity}}</td>
                     <td >{{totalPrice}}</td>
+                    <td > <Button type="error" size="large"  @click="showClear">
+                        Clear All
+                    </Button>
+</td>
                     
                   </tr>
 
                 </table>
-                <Col span="4"  offset="20">
-                    <Button type="error" size="large"  @click="showClear">
-                        Clear
-                    </Button>
-
+                <Col span="3"  offset="21">
+                
                     <Button type="primary" size="large" :loading="sending" @click="makePurchase">
                         <span v-if="!loading">Purchase</span>
                         <span v-else>Loading...</span>
@@ -83,10 +86,19 @@
                 </Col>
 
             </Col>
+             <Col v-if="currentSupplier.supplierName" class="dream-input-main" span="7" offset="1">
+             <h2>Supplier Info</h2>
+             <h3>Supplier Name: {{currentSupplier.supplierName}}</h3>
+             <h3>Number: {{currentSupplier.number}}</h3>
+             <h3>Email: {{currentSupplier.email}}</h3>
+             <h3>Address: {{currentSupplier.address}}</h3>
+             <h3>Outstanding: {{currentSupplier.outStanding}}</h3>
+             </Col>
         </Row>
 
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
+            <h2>Invoice List</h2>
                 <Table :columns="columns1" :data="dataInvoice"></Table>
             </Col>
         </Row>
@@ -157,6 +169,14 @@
                 sending:false,
                 isCollapsed: false,
                 dataSupplier: [],
+                currentSupplier: {
+                    supplierName:'',
+                    number:'',
+                    email:'',
+                    address:'',
+                    outStanding:'',
+                
+                },
                 dataSearch:[],
                 dataCategory: [],
                 dataInvoice: 
@@ -283,9 +303,49 @@
 
         },
         methods: {
+            async changedSupplier(k)
+            {
+                console.log(k);
+                console.log(this.formValue.supplier_id);
+                this.ls();
+                try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/payment/getOutstanding/${this.formValue.supplier_id}`
+                })
+                this.setSupplier(this.formValue.supplier_id)
+                this.currentSupplier.outStanding=data.outStanding
+
+                this.lf();
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+
+            },
+            setSupplier(id)
+            {
+                var i=0
+
+                while (i < this.dataSupplier.length) {
+                    if (this.dataSupplier[i].id == id) {
+                        this.currentSupplier.supplierName=this.dataSupplier[i].supplierName
+                        this.currentSupplier.number=this.dataSupplier[i].number
+                        this.currentSupplier.address=this.dataSupplier[i].address
+                        this.currentSupplier.email=this.dataSupplier[i].email
+                    }
+                    i++;
+                }
+                
+            },
             showClear()
             {
                 this.clearModel=true
+            },
+            removeItem(index)
+            {
+                
+                this.formValue.productDetails.splice(index,1)
             },
             clearForm()
             {

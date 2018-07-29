@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="11" offset="1">
                 <Form >
 
                     <Row :gutter="24">
@@ -20,6 +20,31 @@
                     </Row>
                 </Form>
             </Col>
+            <!-- <Col class="dream-input-main" span="11" offset="1">
+                <Form >
+                    <Row :gutter="24">
+                        <Col span="24">
+                            <FormItem label="Group Name">
+                                <Select v-model="UpdateValue.groupName" placeholder="Group Name" filterable>
+                                    <Option v-for="(group,i) in data1" :value="group.groupName" :key="i">{{group.groupName}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span="24">
+                            <FormItem label="Group Name">
+                                <Input type="text" placeholder="Discount Amount" 
+                                v-model="UpdateValue.discount"></Input>
+                            </FormItem>
+                        </Col>
+                         <Col class="dream-input-main-button" span="24">
+                            <Button type="success" :loading="loading" @click="addDiscount(group.id)">
+                                <span v-if="!loading">Add Discount</span>
+                                <span v-else>Loading...</span>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Col> -->
         </Row>
 
         <Row>
@@ -39,6 +64,10 @@
                 <FormItem >
                     <Input type="text" placeholder="Group Name" 
                     v-model="editObj.groupName"></Input>
+                </FormItem>
+                <FormItem >
+                    <InputNumber  placeholder="Discount" :max="100" :min="0" 
+                    v-model="editObj.discount"></InputNumber>
                 </FormItem>
             </Col>
         </Form>
@@ -87,6 +116,7 @@
                 UpdateValue: {
                     indexNumber:null,
                     groupName:'',
+                    discount:'',
                     id:null,
                     
                 },
@@ -94,6 +124,10 @@
                     {
                         title: 'Name',
                         key: 'groupName'
+                    },
+                                        {
+                        title: 'Discount',
+                        key: 'discount'
                     },
                     {   
                         title: 'Action',
@@ -140,6 +174,7 @@
                 formValue: {
                     id: '',
                     groupName: '',
+                    discount: '',
                 },
                 
             }
@@ -183,6 +218,7 @@
             },
             showEdit (index) {
                 this.editObj.id=this.data1[index].id
+                this.editObj.discount=this.data1[index].discount
                 this.editObj.groupName=this.data1[index].groupName
                 this.UpdateValue.groupName=this.data1[index].groupName
                 this.UpdateValue.indexNumber=index
@@ -203,6 +239,7 @@
                         data: this.editObj
                     })
                     this.data1[this.UpdateValue.indexNumber].groupName=this.editObj.groupName
+                    this.data1[this.UpdateValue.indexNumber].discount=this.editObj.discount
                     this.s('Great!','Group information has been updated successfully!')
                     
                     this.sending=false

@@ -5627,6 +5627,35 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -5646,12 +5675,16 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             UpdateValue: {
                 indexNumber: null,
                 groupName: '',
+                discount: '',
                 id: null
 
             },
             columns1: [{
                 title: 'Name',
                 key: 'groupName'
+            }, {
+                title: 'Discount',
+                key: 'discount'
             }, {
                 title: 'Action',
                 key: 'action',
@@ -5688,7 +5721,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             formValue: {
                 id: '',
-                groupName: ''
+                groupName: '',
+                discount: ''
             }
 
         };
@@ -5758,6 +5792,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }(),
         showEdit: function showEdit(index) {
             this.editObj.id = this.data1[index].id;
+            this.editObj.discount = this.data1[index].discount;
             this.editObj.groupName = this.data1[index].groupName;
             this.UpdateValue.groupName = this.data1[index].groupName;
             this.UpdateValue.indexNumber = index;
@@ -5791,27 +5826,28 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 data = _ref4.data;
 
                                 this.data1[this.UpdateValue.indexNumber].groupName = this.editObj.groupName;
+                                this.data1[this.UpdateValue.indexNumber].discount = this.editObj.discount;
                                 this.s('Great!', 'Group information has been updated successfully!');
 
                                 this.sending = false;
                                 this.editModal = false;
-                                _context2.next = 17;
+                                _context2.next = 18;
                                 break;
 
-                            case 12:
-                                _context2.prev = 12;
+                            case 13:
+                                _context2.prev = 13;
                                 _context2.t0 = _context2['catch'](1);
 
                                 this.sending = false;
                                 this.editModal = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 17:
+                            case 18:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[1, 12]]);
+                }, _callee2, this, [[1, 13]]);
             }));
 
             function edit() {
@@ -8322,6 +8358,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -8337,6 +8385,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             sending: false,
             isCollapsed: false,
             dataSupplier: [],
+            currentSupplier: {
+                supplierName: '',
+                number: '',
+                email: '',
+                address: '',
+                outStanding: ''
+
+            },
             dataSearch: [],
             dataCategory: [],
             dataInvoice: [],
@@ -8439,8 +8495,75 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }
     },
     methods: {
+        changedSupplier: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                console.log(k);
+                                console.log(this.formValue.supplier_id);
+                                this.ls();
+                                _context.prev = 3;
+                                _context.next = 6;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/payment/getOutstanding/' + this.formValue.supplier_id
+                                });
+
+                            case 6:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.setSupplier(this.formValue.supplier_id);
+                                this.currentSupplier.outStanding = data.outStanding;
+
+                                this.lf();
+                                _context.next = 17;
+                                break;
+
+                            case 13:
+                                _context.prev = 13;
+                                _context.t0 = _context['catch'](3);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 17:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[3, 13]]);
+            }));
+
+            function changedSupplier(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return changedSupplier;
+        }(),
+        setSupplier: function setSupplier(id) {
+            var i = 0;
+
+            while (i < this.dataSupplier.length) {
+                if (this.dataSupplier[i].id == id) {
+                    this.currentSupplier.supplierName = this.dataSupplier[i].supplierName;
+                    this.currentSupplier.number = this.dataSupplier[i].number;
+                    this.currentSupplier.address = this.dataSupplier[i].address;
+                    this.currentSupplier.email = this.dataSupplier[i].email;
+                }
+                i++;
+            }
+        },
         showClear: function showClear() {
             this.clearModel = true;
+        },
+        removeItem: function removeItem(index) {
+
+            this.formValue.productDetails.splice(index, 1);
         },
         clearForm: function clearForm() {
             this.formValue.supplier_id = '';
@@ -8457,47 +8580,47 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.searchValue = '';
         },
         setData: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
-                var _ref2, data;
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
 
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
-                        switch (_context.prev = _context.next) {
+                        switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context.prev = 0;
-                                _context.next = 3;
+                                _context2.prev = 0;
+                                _context2.next = 3;
                                 return axios({
                                     method: 'get',
                                     url: '/app/searchProduct/' + this.searchValue
                                 });
 
                             case 3:
-                                _ref2 = _context.sent;
-                                data = _ref2.data;
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
 
                                 this.dataSearch = data;
                                 this.lf();
 
-                                _context.next = 13;
+                                _context2.next = 13;
                                 break;
 
                             case 9:
-                                _context.prev = 9;
-                                _context.t0 = _context['catch'](0);
+                                _context2.prev = 9;
+                                _context2.t0 = _context2['catch'](0);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
                             case 13:
                             case 'end':
-                                return _context.stop();
+                                return _context2.stop();
                         }
                     }
-                }, _callee, this, [[0, 9]]);
+                }, _callee2, this, [[0, 9]]);
             }));
 
             function setData() {
-                return _ref.apply(this, arguments);
+                return _ref3.apply(this, arguments);
             }
 
             return setData;
@@ -8506,32 +8629,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.$refs.side1.toggleCollapse();
         },
         makePurchase: function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var _ref4, data;
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
 
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
                     while (1) {
-                        switch (_context2.prev = _context2.next) {
+                        switch (_context3.prev = _context3.next) {
                             case 0:
                                 //invoice added
                                 this.formValue.totalPrice = this.totalPrice;
                                 this.formValue.totalQuantity = this.totalQuantity;
 
                                 if (!(!this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id || !this.formValue.date)) {
-                                    _context2.next = 7;
+                                    _context3.next = 7;
                                     break;
                                 }
 
                                 this.loading = false;
                                 this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
 
-                                _context2.next = 24;
+                                _context3.next = 24;
                                 break;
 
                             case 7:
                                 this.loading = true;
-                                _context2.prev = 8;
-                                _context2.next = 11;
+                                _context3.prev = 8;
+                                _context3.next = 11;
                                 return axios({
                                     method: 'post',
                                     url: '/app/purchase',
@@ -8539,8 +8662,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 });
 
                             case 11:
-                                _ref4 = _context2.sent;
-                                data = _ref4.data;
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
 
                                 this.clearForm();
 
@@ -8549,26 +8672,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.s('Great!', 'Purchase has been added successfully!');
                                 this.loading = false;
-                                _context2.next = 24;
+                                _context3.next = 24;
                                 break;
 
                             case 20:
-                                _context2.prev = 20;
-                                _context2.t0 = _context2['catch'](8);
+                                _context3.prev = 20;
+                                _context3.t0 = _context3['catch'](8);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
                             case 24:
                             case 'end':
-                                return _context2.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee2, this, [[8, 20]]);
+                }, _callee3, this, [[8, 20]]);
             }));
 
             function makePurchase() {
-                return _ref3.apply(this, arguments);
+                return _ref5.apply(this, arguments);
             }
 
             return makePurchase;
@@ -8586,59 +8709,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.deleteModal = true;
         },
         edit: function () {
-            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
-                var _ref6, data;
-
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
-                    while (1) {
-                        switch (_context3.prev = _context3.next) {
-                            case 0:
-                                this.sending = true;
-                                _context3.prev = 1;
-                                _context3.next = 4;
-                                return axios({
-                                    method: 'post',
-                                    url: '/app/categoryUpdate',
-                                    data: this.editObj
-                                });
-
-                            case 4:
-                                _ref6 = _context3.sent;
-                                data = _ref6.data;
-
-                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
-                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
-                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
-                                this.s('Great!', 'Category information has been updated successfully!');
-
-                                this.sending = false;
-                                this.editModal = false;
-                                _context3.next = 19;
-                                break;
-
-                            case 14:
-                                _context3.prev = 14;
-                                _context3.t0 = _context3['catch'](1);
-
-                                this.sending = false;
-                                this.editModal = false;
-                                this.e('Oops!', 'Something went wrong, please try again!');
-
-                            case 19:
-                            case 'end':
-                                return _context3.stop();
-                        }
-                    }
-                }, _callee3, this, [[1, 14]]);
-            }));
-
-            function edit() {
-                return _ref5.apply(this, arguments);
-            }
-
-            return edit;
-        }(),
-        remove: function () {
             var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
                 var _ref8, data;
 
@@ -8650,25 +8720,78 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _context4.prev = 1;
                                 _context4.next = 4;
                                 return axios({
-                                    method: 'delete',
-                                    url: '/app/invoice/' + this.UpdateValue.id
+                                    method: 'post',
+                                    url: '/app/categoryUpdate',
+                                    data: this.editObj
                                 });
 
                             case 4:
                                 _ref8 = _context4.sent;
                                 data = _ref8.data;
 
+                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
+                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
+                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
+                                this.s('Great!', 'Category information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context4.next = 19;
+                                break;
+
+                            case 14:
+                                _context4.prev = 14;
+                                _context4.t0 = _context4['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 19:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[1, 14]]);
+            }));
+
+            function edit() {
+                return _ref7.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+                var _ref10, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                this.sending = true;
+                                _context5.prev = 1;
+                                _context5.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/invoice/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref10 = _context5.sent;
+                                data = _ref10.data;
+
                                 this.dataInvoice.splice(this.UpdateValue.indexNumber, 1);
                                 this.s('Great!', 'Invoice information has been removed successfully!');
 
                                 this.sending = false;
                                 this.deleteModal = false;
-                                _context4.next = 17;
+                                _context5.next = 17;
                                 break;
 
                             case 12:
-                                _context4.prev = 12;
-                                _context4.t0 = _context4['catch'](1);
+                                _context5.prev = 12;
+                                _context5.t0 = _context5['catch'](1);
 
                                 this.sending = false;
                                 this.deleteModal = false;
@@ -8676,14 +8799,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                             case 17:
                             case 'end':
-                                return _context4.stop();
+                                return _context5.stop();
                         }
                     }
-                }, _callee4, this, [[1, 12]]);
+                }, _callee5, this, [[1, 12]]);
             }));
 
             function remove() {
-                return _ref7.apply(this, arguments);
+                return _ref9.apply(this, arguments);
             }
 
             return remove;
@@ -8691,41 +8814,41 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
     created: function () {
-        var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
-            var _ref10, data, _ref11, _data, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
+        var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee6() {
+            var _ref12, data, _ref13, _data, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
 
-            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
                 while (1) {
-                    switch (_context5.prev = _context5.next) {
+                    switch (_context6.prev = _context6.next) {
                         case 0:
                             this.ls();
-                            _context5.prev = 1;
-                            _context5.next = 4;
+                            _context6.prev = 1;
+                            _context6.next = 4;
                             return axios({
                                 method: 'get',
                                 url: '/app/supplier'
                             });
 
                         case 4:
-                            _ref10 = _context5.sent;
-                            data = _ref10.data;
+                            _ref12 = _context6.sent;
+                            data = _ref12.data;
 
                             this.dataSupplier = data;
                             this.lf();
 
-                            _context5.next = 14;
+                            _context6.next = 14;
                             break;
 
                         case 10:
-                            _context5.prev = 10;
-                            _context5.t0 = _context5['catch'](1);
+                            _context6.prev = 10;
+                            _context6.t0 = _context6['catch'](1);
 
                             this.e('Oops!', 'Something went wrong, please try again!');
                             this.le();
 
                         case 14:
-                            _context5.prev = 14;
-                            _context5.next = 17;
+                            _context6.prev = 14;
+                            _context6.next = 17;
                             return axios({
                                 method: 'get',
                                 url: '/app/getinvoice/purchase' //1=purchases
@@ -8733,75 +8856,75 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             });
 
                         case 17:
-                            _ref11 = _context5.sent;
-                            _data = _ref11.data;
+                            _ref13 = _context6.sent;
+                            _data = _ref13.data;
                             _iteratorNormalCompletion = true;
                             _didIteratorError = false;
                             _iteratorError = undefined;
-                            _context5.prev = 22;
+                            _context6.prev = 22;
 
                             for (_iterator = _data[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                                 d = _step.value;
 
                                 d.supplierName = d.supplier.supplierName;
                             }
-                            _context5.next = 30;
+                            _context6.next = 30;
                             break;
 
                         case 26:
-                            _context5.prev = 26;
-                            _context5.t1 = _context5['catch'](22);
+                            _context6.prev = 26;
+                            _context6.t1 = _context6['catch'](22);
                             _didIteratorError = true;
-                            _iteratorError = _context5.t1;
+                            _iteratorError = _context6.t1;
 
                         case 30:
-                            _context5.prev = 30;
-                            _context5.prev = 31;
+                            _context6.prev = 30;
+                            _context6.prev = 31;
 
                             if (!_iteratorNormalCompletion && _iterator.return) {
                                 _iterator.return();
                             }
 
                         case 33:
-                            _context5.prev = 33;
+                            _context6.prev = 33;
 
                             if (!_didIteratorError) {
-                                _context5.next = 36;
+                                _context6.next = 36;
                                 break;
                             }
 
                             throw _iteratorError;
 
                         case 36:
-                            return _context5.finish(33);
+                            return _context6.finish(33);
 
                         case 37:
-                            return _context5.finish(30);
+                            return _context6.finish(30);
 
                         case 38:
                             this.dataInvoice = _data;
                             this.lf();
 
-                            _context5.next = 46;
+                            _context6.next = 46;
                             break;
 
                         case 42:
-                            _context5.prev = 42;
-                            _context5.t2 = _context5['catch'](14);
+                            _context6.prev = 42;
+                            _context6.t2 = _context6['catch'](14);
 
                             this.e('Oops!', 'Something went wrong, please try again!');
                             this.le();
 
                         case 46:
                         case 'end':
-                            return _context5.stop();
+                            return _context6.stop();
                     }
                 }
-            }, _callee5, this, [[1, 10], [14, 42], [22, 26, 30, 38], [31,, 33, 37]]);
+            }, _callee6, this, [[1, 10], [14, 42], [22, 26, 30, 38], [31,, 33, 37]]);
         }));
 
         function created() {
-            return _ref9.apply(this, arguments);
+            return _ref11.apply(this, arguments);
         }
 
         return created;
@@ -9408,16 +9531,22 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
         },
         totalPrice: function totalPrice() {
-            var totalPrice = 0;
-            for (var i = 0; i < this.formValue.productDetails.length; i++) {
 
-                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
+            if (this.formValue.productDetails) {
+                console.log("1");
+
+                var totalPrice = 0;
+                for (var i = 0; i < this.formValue.productDetails.length; i++) {
+
+                    totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
+                }
+                totalPrice = Math.round(totalPrice).toFixed(2);
+                this.formValue.total = totalPrice;
+                this.formValue.paidAmount = totalPrice;
+                this.formValue.subTotal = totalPrice;
+                return totalPrice;
             }
-            totalPrice = Math.round(totalPrice).toFixed(2);
-            this.formValue.total = totalPrice;
-            this.formValue.paidAmount = totalPrice;
-            this.formValue.subTotal = totalPrice;
-            return totalPrice;
+            return 0;
         },
         totalQuantity: function totalQuantity() {
             var total = 0;
@@ -9428,6 +9557,24 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }
     },
     methods: {
+        totalPriceMethod: function totalPriceMethod() {
+
+            if (this.formValue.productDetails) {
+                console.log("1");
+
+                var totalPrice = 0;
+                for (var i = 0; i < this.formValue.productDetails.length; i++) {
+
+                    totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
+                }
+                totalPrice = Math.round(totalPrice).toFixed(2);
+                this.formValue.total = totalPrice;
+                this.formValue.paidAmount = totalPrice;
+                this.formValue.subTotal = totalPrice;
+                return totalPrice;
+            }
+            return 0;
+        },
         discount: function discount() {
             var totalOld = this.totalPrice;
             var discountAmount = this.formValue.discount * this.totalPrice / 100;
@@ -9483,7 +9630,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 console.log(data);
                                 this.dataSearch[k].stock = data.data;
                                 this.formValue.productDetails.push(this.dataSearch[k]);
+
                                 this.searchValue = '';
+
                                 _context.next = 18;
                                 break;
 
@@ -9496,6 +9645,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 return _context.abrupt('return', 0);
 
                             case 18:
+                                this.formValue.productDetails[this.formValue.productDetails.length - 1].quantity = 1;
+
+                            case 19:
                             case 'end':
                                 return _context.stop();
                         }
@@ -87855,6 +88007,7 @@ var render = function() {
                         [
                           _c("InputNumber", {
                             attrs: { min: 0, max: data.stock },
+                            on: { chnage: _vm.totalPriceMethod },
                             model: {
                               value: data.quantity,
                               callback: function($$v) {
@@ -89131,7 +89284,7 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
+              attrs: { span: "14", offset: "1" }
             },
             [
               _c(
@@ -89154,6 +89307,7 @@ var render = function() {
                                 {
                                   attrs: {
                                     placeholder: "Supplier",
+                                    "remote-method": _vm.changedSupplier,
                                     filterable: ""
                                   },
                                   model: {
@@ -89358,7 +89512,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("th", [_vm._v("Quantity")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Buying Price")])
+                    _c("th", [_vm._v("Buying Price")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Action")])
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.formValue.productDetails, function(data, i) {
@@ -89413,7 +89569,22 @@ var render = function() {
                             }
                           }
                         })
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c("Button", {
+                            attrs: { type: "error", icon: "ios-trash" },
+                            on: {
+                              click: function($event) {
+                                _vm.removeItem(i)
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ])
                   }),
                   _vm._v(" "),
@@ -89429,7 +89600,26 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.totalPrice))])
+                    _c("td", [_vm._v(_vm._s(_vm.totalPrice))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "Button",
+                          {
+                            attrs: { type: "error", size: "large" },
+                            on: { click: _vm.showClear }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Clear All\n                    "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
                   ])
                 ],
                 2
@@ -89437,17 +89627,8 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "Col",
-                { attrs: { span: "4", offset: "20" } },
+                { attrs: { span: "3", offset: "21" } },
                 [
-                  _c(
-                    "Button",
-                    {
-                      attrs: { type: "error", size: "large" },
-                      on: { click: _vm.showClear }
-                    },
-                    [_vm._v("\n                    Clear\n                ")]
-                  ),
-                  _vm._v(" "),
                   _c(
                     "Button",
                     {
@@ -89469,7 +89650,45 @@ var render = function() {
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _vm.currentSupplier.supplierName
+            ? _c(
+                "Col",
+                {
+                  staticClass: "dream-input-main",
+                  attrs: { span: "7", offset: "1" }
+                },
+                [
+                  _c("h2", [_vm._v("Supplier Info")]),
+                  _vm._v(" "),
+                  _c("h3", [
+                    _vm._v(
+                      "Supplier Name: " +
+                        _vm._s(_vm.currentSupplier.supplierName)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h3", [
+                    _vm._v("Number: " + _vm._s(_vm.currentSupplier.number))
+                  ]),
+                  _vm._v(" "),
+                  _c("h3", [
+                    _vm._v("Email: " + _vm._s(_vm.currentSupplier.email))
+                  ]),
+                  _vm._v(" "),
+                  _c("h3", [
+                    _vm._v("Address: " + _vm._s(_vm.currentSupplier.address))
+                  ]),
+                  _vm._v(" "),
+                  _c("h3", [
+                    _vm._v(
+                      "Outstanding: " + _vm._s(_vm.currentSupplier.outStanding)
+                    )
+                  ])
+                ]
+              )
+            : _vm._e()
         ],
         1
       ),
@@ -89484,6 +89703,8 @@ var render = function() {
               attrs: { span: "22", offset: "1" }
             },
             [
+              _c("h2", [_vm._v("Invoice List")]),
+              _vm._v(" "),
               _c("Table", {
                 attrs: { columns: _vm.columns1, data: _vm.dataInvoice }
               })
@@ -89592,7 +89813,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
-            _vm._v("\n        Are you sure you want delete\n\n    ")
+            _vm._v("\n            Are you sure you want delete\n\n        ")
           ]),
           _vm._v(" "),
           _c(
@@ -89651,7 +89872,9 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
-            _vm._v("\n        Are you sure you want clear invoice\n\n    ")
+            _vm._v(
+              "\n            Are you sure you want clear invoice\n\n        "
+            )
           ]),
           _vm._v(" "),
           _c(
@@ -91930,7 +92153,7 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "11", offset: "1" }
             },
             [
               _c(
@@ -92071,6 +92294,27 @@ var render = function() {
                                 _vm.$set(_vm.editObj, "groupName", $$v)
                               },
                               expression: "editObj.groupName"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormItem",
+                        [
+                          _c("InputNumber", {
+                            attrs: {
+                              placeholder: "Discount",
+                              max: 100,
+                              min: 0
+                            },
+                            model: {
+                              value: _vm.editObj.discount,
+                              callback: function($$v) {
+                                _vm.$set(_vm.editObj, "discount", $$v)
+                              },
+                              expression: "editObj.discount"
                             }
                           })
                         ],

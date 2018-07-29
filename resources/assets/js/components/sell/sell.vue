@@ -47,7 +47,7 @@
                     <td>{{data.size}}</td>
                     <td>{{data.sellingPrice}}</td>
                     <td>{{data.stock}}</td>
-                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity"></InputNumber></td>
+                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity" @chnage="totalPriceMethod"></InputNumber></td>
                     <td><input type="number" v-model="data.sellingPrice" disabled></input></td>
                   </tr>
 
@@ -157,6 +157,12 @@
             },
             totalPrice()
             {
+                
+                if(this.formValue.productDetails)
+                {
+                    console.log("1");
+                    
+
                 var totalPrice=0
                 for ( var i = 0; i < this.formValue.productDetails.length; i++) {
                   
@@ -167,6 +173,8 @@
                 this.formValue.paidAmount=totalPrice
                 this.formValue.subTotal=totalPrice
                 return totalPrice;
+                }
+                return 0
                 
             },
             totalQuantity()
@@ -181,7 +189,28 @@
 
         },
         methods: {
+            totalPriceMethod()
+            {
+                
+                if(this.formValue.productDetails)
+                {
+                    console.log("1");
+                    
 
+                var totalPrice=0
+                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+                  
+                        totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].sellingPrice
+                    }
+                totalPrice=Math.round(totalPrice).toFixed(2)
+                this.formValue.total=totalPrice
+                this.formValue.paidAmount=totalPrice
+                this.formValue.subTotal=totalPrice
+                return totalPrice;
+                }
+                return 0
+                
+            },
             discount(){
                 var totalOld = this.totalPrice
                 var discountAmount = (this.formValue.discount*this.totalPrice)/100
@@ -227,7 +256,9 @@
                             console.log(data)
                             this.dataSearch[k].stock=data.data
                             this.formValue.productDetails.push(this.dataSearch[k])
+                            
                             this.searchValue=''
+
                         }catch(e){
                             this.e('Oops!','Something went wrong, please try again!')
                             this.le()
@@ -236,6 +267,8 @@
                 
                     
                 }
+                this.formValue.productDetails[this.formValue.productDetails.length-1].quantity=1
+
                 
                 
             },
