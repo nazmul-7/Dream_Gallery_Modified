@@ -9494,6 +9494,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -9505,16 +9517,25 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             sending: false,
             isCollapsed: false,
             dataSearch: [],
+            dataGroup: [],
             dataCustomer: [],
             dataInvoice: [],
+            currentCustomer: {
+                customerName: '',
+                number: '',
+                email: '',
+                address: '',
+                Outstanding: ''
+
+            },
             formValue: {
                 type: 'purchase',
                 date: '',
                 discount: 0,
-                paidAmount: 0,
+                paidAmount: 0.00,
                 subTotal: 0,
                 subQuantity: 0,
-                total: 0,
+                total: 0.00,
                 supplier_id: '',
                 customer_id: '',
                 productDetails: []
@@ -9530,24 +9551,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         menuitemClasses: function menuitemClasses() {
             return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
         },
-        totalPrice: function totalPrice() {
-
-            if (this.formValue.productDetails) {
-                console.log("1");
-
-                var totalPrice = 0;
-                for (var i = 0; i < this.formValue.productDetails.length; i++) {
-
-                    totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
-                }
-                totalPrice = Math.round(totalPrice).toFixed(2);
-                this.formValue.total = totalPrice;
-                this.formValue.paidAmount = totalPrice;
-                this.formValue.subTotal = totalPrice;
-                return totalPrice;
-            }
-            return 0;
-        },
         totalQuantity: function totalQuantity() {
             var total = 0;
             for (var i = 0; i < this.formValue.productDetails.length; i++) {
@@ -9557,34 +9560,39 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }
     },
     methods: {
-        totalPriceMethod: function totalPriceMethod() {
+        removeItem: function removeItem(index) {
 
-            if (this.formValue.productDetails) {
-                console.log("1");
+            this.formValue.productDetails.splice(index, 1);
+            this.quantityChange();
+        },
+        quantityChange: function quantityChange() {
 
-                var totalPrice = 0;
-                for (var i = 0; i < this.formValue.productDetails.length; i++) {
+            var totalPrice = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+                this.formValue.productDetails[i].quantity;
 
-                    totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
-                }
-                totalPrice = Math.round(totalPrice).toFixed(2);
-                this.formValue.total = totalPrice;
-                this.formValue.paidAmount = totalPrice;
-                this.formValue.subTotal = totalPrice;
-                return totalPrice;
+                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
             }
-            return 0;
+            totalPrice = Math.round(totalPrice).toFixed(2);
+            this.formValue.total = parseFloat(totalPrice);
+            this.formValue.paidAmount = parseFloat(totalPrice);
+            this.formValue.subTotal = parseFloat(totalPrice);
+            console.log(this.formValue);
         },
         discount: function discount() {
-            var totalOld = this.totalPrice;
-            var discountAmount = this.formValue.discount * this.totalPrice / 100;
+            var totalOld = this.formValue.subTotal;
+            var discountAmount = this.formValue.discount * this.formValue.subTotal / 100;
             var afterDiscount = totalOld - discountAmount;
-            afterDiscount = Math.round(afterDiscount).toFixed(2);
+
+            afterDiscount = Math.round(afterDiscount).toFixed(2) * 1;
+
+            console.log(afterDiscount);
+
             this.formValue.total = afterDiscount;
             this.formValue.paidAmount = afterDiscount;
         },
         total: function total() {
-            var totalOld = this.totalPrice;
+            var totalOld = this.formValue.subTotal;
             var discountAmount = totalOld - this.formValue.total;
             var discount = discountAmount * 100 / totalOld;
             discount = Math.round(discount).toFixed(2);
@@ -9603,56 +9611,85 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         addProduct: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
-                var _ref2, data;
+                var i, _ref2, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (!this.searchValue) {
-                                    _context.next = 18;
+                                    _context.next = 29;
                                     break;
                                 }
 
-                                _context.prev = 1;
-                                _context.next = 4;
+                                i = 0;
+
+                            case 2:
+                                if (!(i < this.formValue.productDetails.length)) {
+                                    _context.next = 10;
+                                    break;
+                                }
+
+                                if (!(this.dataSearch[k].id == this.formValue.productDetails[i].id)) {
+                                    _context.next = 7;
+                                    break;
+                                }
+
+                                this.formValue.productDetails[i].quantity++;
+                                this.quantityChange();
+                                return _context.abrupt('return');
+
+                            case 7:
+                                i++;
+                                _context.next = 2;
+                                break;
+
+                            case 10:
+                                _context.prev = 10;
+                                _context.next = 13;
                                 return axios({
                                     method: 'get',
                                     url: '/app/getStock/' + this.dataSearch[k].id
                                 });
 
-                            case 4:
+                            case 13:
                                 _ref2 = _context.sent;
                                 data = _ref2.data;
 
 
                                 this.lf();
                                 console.log(data);
+                                for (i = 0; i < this.dataGroup.length; i++) {
+                                    if (this.dataSearch[k].groupName == this.dataGroup[i].groupName) {
+                                        this.dataSearch[k].discount = this.dataGroup[i].discount;
+                                    }
+                                }
                                 this.dataSearch[k].stock = data.data;
+                                this.dataSearch[k].quantity = 1;
                                 this.formValue.productDetails.push(this.dataSearch[k]);
 
                                 this.searchValue = '';
 
-                                _context.next = 18;
+                                _context.next = 29;
                                 break;
 
-                            case 13:
-                                _context.prev = 13;
-                                _context.t0 = _context['catch'](1);
+                            case 24:
+                                _context.prev = 24;
+                                _context.t0 = _context['catch'](10);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
                                 return _context.abrupt('return', 0);
 
-                            case 18:
-                                this.formValue.productDetails[this.formValue.productDetails.length - 1].quantity = 1;
+                            case 29:
+                                this.quantityChange();
 
-                            case 19:
+                            case 30:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[1, 13]]);
+                }, _callee, this, [[10, 24]]);
             }));
 
             function addProduct(_x) {
@@ -9661,48 +9698,111 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             return addProduct;
         }(),
-        setData: function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+        changedCustomer: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(k) {
                 var _ref4, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context2.prev = 0;
-                                _context2.next = 3;
+                                console.log(k);
+                                console.log(this.formValue.customer_id);
+                                this.ls();
+                                _context2.prev = 3;
+                                _context2.next = 6;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/payment/getOutstandingCustomer/' + this.formValue.customer_id
+                                });
+
+                            case 6:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.setCustomer(this.formValue.customer_id);
+                                this.currentCustomer.outStanding = Math.abs(data.outStanding);
+
+                                this.lf();
+                                _context2.next = 17;
+                                break;
+
+                            case 13:
+                                _context2.prev = 13;
+                                _context2.t0 = _context2['catch'](3);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 17:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[3, 13]]);
+            }));
+
+            function changedCustomer(_x2) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return changedCustomer;
+        }(),
+        setCustomer: function setCustomer(id) {
+            var i = 0;
+
+            while (i < this.dataCustomer.length) {
+                if (this.dataCustomer[i].id == id) {
+                    this.currentCustomer.customerName = this.dataCustomer[i].customerName;
+                    this.currentCustomer.number = this.dataCustomer[i].number;
+                    this.currentCustomer.address = this.dataCustomer[i].address;
+                    this.currentCustomer.email = this.dataCustomer[i].email;
+                }
+                i++;
+            }
+        },
+        setData: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.prev = 0;
+                                _context3.next = 3;
                                 return axios({
                                     method: 'get',
                                     url: '/app/searchProduct/' + this.searchValue
                                 });
 
                             case 3:
-                                _ref4 = _context2.sent;
-                                data = _ref4.data;
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
 
                                 this.dataSearch = data;
                                 this.lf();
 
-                                _context2.next = 13;
+                                _context3.next = 13;
                                 break;
 
                             case 9:
-                                _context2.prev = 9;
-                                _context2.t0 = _context2['catch'](0);
+                                _context3.prev = 9;
+                                _context3.t0 = _context3['catch'](0);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
                             case 13:
                             case 'end':
-                                return _context2.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee2, this, [[0, 9]]);
+                }, _callee3, this, [[0, 9]]);
             }));
 
             function setData() {
-                return _ref3.apply(this, arguments);
+                return _ref5.apply(this, arguments);
             }
 
             return setData;
@@ -9721,32 +9821,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.sellProduct();
         },
         sellProduct: function () {
-            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
-                var _ref6, data;
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+                var _ref8, data;
 
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
                     while (1) {
-                        switch (_context3.prev = _context3.next) {
+                        switch (_context4.prev = _context4.next) {
                             case 0:
                                 //invoice added
                                 this.formValue.totalPrice = this.totalPrice;
                                 this.formValue.totalQuantity = this.totalQuantity;
 
                                 if (!(!this.totalQuantity || !this.totalPrice)) {
-                                    _context3.next = 7;
+                                    _context4.next = 7;
                                     break;
                                 }
 
                                 this.loading = false;
                                 this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
 
-                                _context3.next = 21;
+                                _context4.next = 21;
                                 break;
 
                             case 7:
                                 this.loading = true;
-                                _context3.prev = 8;
-                                _context3.next = 11;
+                                _context4.prev = 8;
+                                _context4.next = 11;
                                 return axios({
                                     method: 'post',
                                     url: '/app/sell',
@@ -9754,32 +9854,32 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 });
 
                             case 11:
-                                _ref6 = _context3.sent;
-                                data = _ref6.data;
+                                _ref8 = _context4.sent;
+                                data = _ref8.data;
 
 
                                 this.s('Great!', 'Sell has been added successfully!');
                                 this.loading = false;
-                                _context3.next = 21;
+                                _context4.next = 21;
                                 break;
 
                             case 17:
-                                _context3.prev = 17;
-                                _context3.t0 = _context3['catch'](8);
+                                _context4.prev = 17;
+                                _context4.t0 = _context4['catch'](8);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
                             case 21:
                             case 'end':
-                                return _context3.stop();
+                                return _context4.stop();
                         }
                     }
-                }, _callee3, this, [[8, 17]]);
+                }, _callee4, this, [[8, 17]]);
             }));
 
             function sellProduct() {
-                return _ref5.apply(this, arguments);
+                return _ref7.apply(this, arguments);
             }
 
             return sellProduct;
@@ -9787,48 +9887,73 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
     created: function () {
-        var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
-            var _ref8, data;
+        var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+            var _ref10, data, _ref11, _data;
 
-            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
                 while (1) {
-                    switch (_context4.prev = _context4.next) {
+                    switch (_context5.prev = _context5.next) {
                         case 0:
                             this.ls();
-                            _context4.prev = 1;
-                            _context4.next = 4;
+                            _context5.prev = 1;
+                            _context5.next = 4;
                             return axios({
                                 method: 'get',
                                 url: '/app/customer'
                             });
 
                         case 4:
-                            _ref8 = _context4.sent;
-                            data = _ref8.data;
+                            _ref10 = _context5.sent;
+                            data = _ref10.data;
 
                             this.dataCustomer = data;
                             this.lf();
 
-                            _context4.next = 14;
+                            _context5.next = 14;
                             break;
 
                         case 10:
-                            _context4.prev = 10;
-                            _context4.t0 = _context4['catch'](1);
+                            _context5.prev = 10;
+                            _context5.t0 = _context5['catch'](1);
 
                             this.e('Oops!', 'Something went wrong, please try again!');
                             this.le();
 
                         case 14:
+                            _context5.prev = 14;
+                            _context5.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/group'
+                            });
+
+                        case 17:
+                            _ref11 = _context5.sent;
+                            _data = _ref11.data;
+
+                            this.dataGroup = _data;
+                            this.lf();
+
+                            _context5.next = 27;
+                            break;
+
+                        case 23:
+                            _context5.prev = 23;
+                            _context5.t1 = _context5['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 27:
                         case 'end':
-                            return _context4.stop();
+                            return _context5.stop();
                     }
                 }
-            }, _callee4, this, [[1, 10]]);
+            }, _callee5, this, [[1, 10], [14, 23]]);
         }));
 
         function created() {
-            return _ref7.apply(this, arguments);
+            return _ref9.apply(this, arguments);
         }
 
         return created;
@@ -87842,7 +87967,7 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "16", offset: "1" }
+              attrs: { span: "14", offset: "1" }
             },
             [
               _c(
@@ -87985,7 +88110,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("th", [_vm._v("Quantity")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Price")])
+                    _c("th", [_vm._v("Price")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Action")])
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.formValue.productDetails, function(data, i) {
@@ -87998,7 +88125,18 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(data.size))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.sellingPrice))]),
+                      _c(
+                        "td",
+                        [
+                          _vm._v(_vm._s(data.sellingPrice) + " "),
+                          _c(
+                            "Tag",
+                            { attrs: { color: "red", type: "border" } },
+                            [_vm._v("-" + _vm._s(data.discount) + "%")]
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(data.stock))]),
                       _vm._v(" "),
@@ -88006,8 +88144,8 @@ var render = function() {
                         "td",
                         [
                           _c("InputNumber", {
-                            attrs: { min: 0, max: data.stock },
-                            on: { chnage: _vm.totalPriceMethod },
+                            attrs: { min: 0, max: parseInt(data.stock) },
+                            on: { "on-change": _vm.quantityChange },
                             model: {
                               value: data.quantity,
                               callback: function($$v) {
@@ -88020,32 +88158,37 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("td", [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
+                      _c(
+                        "td",
+                        [
+                          _c("InputNumber", {
+                            attrs: { disabled: "" },
+                            model: {
                               value: data.sellingPrice,
+                              callback: function($$v) {
+                                _vm.$set(data, "sellingPrice", $$v)
+                              },
                               expression: "data.sellingPrice"
                             }
-                          ],
-                          attrs: { type: "number", disabled: "" },
-                          domProps: { value: data.sellingPrice },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c("Button", {
+                            attrs: { type: "error", icon: "ios-trash" },
+                            on: {
+                              click: function($event) {
+                                _vm.removeItem(i)
                               }
-                              _vm.$set(
-                                data,
-                                "sellingPrice",
-                                $event.target.value
-                              )
                             }
-                          }
-                        })
-                      ])
+                          })
+                        ],
+                        1
+                      )
                     ])
                   }),
                   _vm._v(" "),
@@ -88061,7 +88204,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.totalPrice))])
+                    _c("td", { attrs: { colspan: "2" } }, [
+                      _vm._v(_vm._s(_vm.formValue.subTotal))
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -88076,20 +88221,19 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "td",
+                      { attrs: { colspan: "2" } },
                       [
-                        _vm.formValue.subTotal > 0
-                          ? _c("InputNumber", {
-                              attrs: { min: 0, max: 100 },
-                              on: { "on-change": _vm.discount },
-                              model: {
-                                value: _vm.formValue.discount,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formValue, "discount", $$v)
-                                },
-                                expression: "formValue.discount"
-                              }
-                            })
-                          : _vm._e()
+                        _c("InputNumber", {
+                          attrs: { min: 0, max: 100 },
+                          on: { "on-change": _vm.discount },
+                          model: {
+                            value: _vm.formValue.discount,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formValue, "discount", $$v)
+                            },
+                            expression: "formValue.discount"
+                          }
+                        })
                       ],
                       1
                     )
@@ -88107,20 +88251,22 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "td",
+                      { attrs: { colspan: "2" } },
                       [
-                        _vm.formValue.total > 0
-                          ? _c("InputNumber", {
-                              attrs: { min: 0, max: _vm.formValue.subTotal },
-                              on: { "on-change": _vm.total },
-                              model: {
-                                value: _vm.formValue.total,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formValue, "total", $$v)
-                                },
-                                expression: "formValue.total"
-                              }
-                            })
-                          : _vm._e()
+                        _c("InputNumber", {
+                          attrs: {
+                            min: 0,
+                            max: parseInt(_vm.formValue.subTotal)
+                          },
+                          on: { "on-change": _vm.total },
+                          model: {
+                            value: _vm.formValue.total,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formValue, "total", $$v)
+                            },
+                            expression: "formValue.total"
+                          }
+                        })
                       ],
                       1
                     )
@@ -88136,34 +88282,23 @@ var render = function() {
                       [_vm._v("Paid Amount")]
                     ),
                     _vm._v(" "),
-                    _c("td", [
-                      _vm.formValue.subTotal > 0
-                        ? _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.formValue.paidAmount,
-                                expression: "formValue.paidAmount"
-                              }
-                            ],
-                            attrs: { type: "number" },
-                            domProps: { value: _vm.formValue.paidAmount },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.formValue,
-                                  "paidAmount",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        : _vm._e()
-                    ])
+                    _c(
+                      "td",
+                      { attrs: { colspan: "2" } },
+                      [
+                        _c("InputNumber", {
+                          attrs: { min: 0, max: parseInt(_vm.formValue.total) },
+                          model: {
+                            value: _vm.formValue.paidAmount,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formValue, "paidAmount", $$v)
+                            },
+                            expression: "formValue.paidAmount"
+                          }
+                        })
+                      ],
+                      1
+                    )
                   ])
                 ],
                 2
@@ -88209,7 +88344,7 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "5", offset: "1" }
+              attrs: { span: "7", offset: "1" }
             },
             [
               _c(
@@ -88224,13 +88359,14 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Supplier" } },
+                            { attrs: { label: "Customer" } },
                             [
                               _c(
                                 "Select",
                                 {
                                   attrs: {
-                                    placeholder: "Supplier",
+                                    placeholder: "Customer",
+                                    "remote-method": _vm.changedCustomer,
                                     filterable: ""
                                   },
                                   model: {
@@ -88298,7 +88434,41 @@ var render = function() {
                       )
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.currentCustomer.customerName
+                    ? _c("Col", { attrs: { span: "24" } }, [
+                        _c("h3", [_vm._v("Customer Info")]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _c("b", [_vm._v("Customer Name:")]),
+                          _vm._v(" " + _vm._s(_vm.currentCustomer.customerName))
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", [
+                          _vm._v(
+                            "Number: " + _vm._s(_vm.currentCustomer.number)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", [
+                          _vm._v("Email: " + _vm._s(_vm.currentCustomer.email))
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", [
+                          _vm._v(
+                            "Address: " + _vm._s(_vm.currentCustomer.address)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", [
+                          _vm._v(
+                            "Outstanding: " +
+                              _vm._s(_vm.currentCustomer.outStanding)
+                          )
+                        ])
+                      ])
+                    : _vm._e()
                 ],
                 1
               )

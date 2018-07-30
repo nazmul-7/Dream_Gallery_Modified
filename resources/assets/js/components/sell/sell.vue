@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="16" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
                 <Form  ref="header">
                         <Col span="11" offset="1">
                             <FormItem  label="Barcode">
@@ -39,35 +39,39 @@
                     <th>Stock</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>Action</th>
+
                   </tr>
                   <tr v-for="(data,i) in formValue.productDetails" :key="i">
                     <td >{{data.productName}}</td>
                     <td >{{data.model}}</td>
                     <td >{{data.color}}</td>
                     <td>{{data.size}}</td>
-                    <td>{{data.sellingPrice}}</td>
+                    <td>{{data.sellingPrice}} <Tag  color="red"  type="border">-{{data.discount}}%</Tag></td>
                     <td>{{data.stock}}</td>
-                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity" @chnage="totalPriceMethod"></InputNumber></td>
-                    <td><input type="number" v-model="data.sellingPrice" disabled></input></td>
+                    <td><InputNumber  :min="0" :max="parseInt(data.stock)" v-model="data.quantity" @on-change="quantityChange" ></InputNumber></td>
+                    <td><InputNumber  v-model="data.sellingPrice" disabled></InputNumber></td>
+                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
+
                   </tr>
 
                   <tr style="background-color: #e9eaec;" >
                     <td colspan="6" style="text-align:right;">Sub Total </td>
                     <td >{{totalQuantity}}</td>
-                    <td >{{totalPrice}}</td>
+                    <td  colspan="2">{{formValue.subTotal}}</td>
                     
                   </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Discount</td>
-                    <td><InputNumber  v-if="formValue.subTotal>0"  :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
+                    <td  colspan="2"><InputNumber   :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
                 </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Total</td>
-                    <td><InputNumber v-if="formValue.total>0"  :min="0" :max="formValue.subTotal" @on-change="total" v-model="formValue.total"></InputNumber ></td>
+                    <td  colspan="2"><InputNumber   :min="0" :max="parseInt(formValue.subTotal)" @on-change="total" v-model="formValue.total"></InputNumber ></td>
                 </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Paid Amount</td>
-                    <td><input  v-if="formValue.subTotal>0"  type="number" v-model="formValue.paidAmount"></input></td>
+                    <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"></InputNumber></td>
                 </tr>
 
                 </table>
@@ -84,13 +88,13 @@
                 </Col>
 
             </Col>
-            <Col class="dream-input-main" span="5" offset="1">
+            <Col class="dream-input-main" span="7" offset="1">
                 <Row> 
                     <Form>
                         <Col span="22" offset="1">
-                            <FormItem label="Supplier">
-                                <Select v-model="formValue.customer_id" placeholder="Supplier" filterable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
+                            <FormItem label="Customer">
+                                <Select v-model="formValue.customer_id" placeholder="Customer"  :remote-method="changedCustomer" filterable>
+                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -105,6 +109,14 @@
                             </FormItem>
                         </Col>
                     </Form>
+                    <Col v-if="currentCustomer.customerName" span="24">
+                        <h3>Customer Info</h3>
+                        <p><b>Customer Name:</b> {{currentCustomer.customerName}}</p>
+                        <h4>Number: {{currentCustomer.number}}</h4>
+                        <h4>Email: {{currentCustomer.email}}</h4>
+                        <h4>Address: {{currentCustomer.address}}</h4>
+                        <h4>Outstanding: {{currentCustomer.outStanding}}</h4>
+                    </Col>
                 </Row>
             </Col>
         </Row>
@@ -122,17 +134,26 @@
                 sending:false,
                 isCollapsed: false,
                 dataSearch:[],
+                dataGroup:[],
                 dataCustomer:[],
                 dataInvoice: 
                 [],
+                currentCustomer:{
+                    customerName:'',
+                    number:'',
+                    email:'',
+                    address:'',
+                    Outstanding:'',
+
+                },
                 formValue: {
                      type:'purchase',
                      date:'',
                      discount:0,
-                     paidAmount:0,
+                     paidAmount:0.00,
                      subTotal:0,
                      subQuantity:0,
-                     total:0,
+                     total:0.00,
                      supplier_id: '',
                      customer_id: '',
                      productDetails: []
@@ -155,28 +176,7 @@
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
             },
-            totalPrice()
-            {
-                
-                if(this.formValue.productDetails)
-                {
-                    console.log("1");
-                    
 
-                var totalPrice=0
-                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
-                  
-                        totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].sellingPrice
-                    }
-                totalPrice=Math.round(totalPrice).toFixed(2)
-                this.formValue.total=totalPrice
-                this.formValue.paidAmount=totalPrice
-                this.formValue.subTotal=totalPrice
-                return totalPrice;
-                }
-                return 0
-                
-            },
             totalQuantity()
             {
                 var total=0
@@ -189,38 +189,44 @@
 
         },
         methods: {
-            totalPriceMethod()
+            removeItem(index)
             {
                 
-                if(this.formValue.productDetails)
-                {
-                    console.log("1");
-                    
-
+                this.formValue.productDetails.splice(index,1)
+                this.quantityChange()
+            },
+            quantityChange()
+            {
+                
                 var totalPrice=0
                 for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+                    this.formValue.productDetails[i].quantity
                   
                         totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].sellingPrice
                     }
                 totalPrice=Math.round(totalPrice).toFixed(2)
-                this.formValue.total=totalPrice
-                this.formValue.paidAmount=totalPrice
-                this.formValue.subTotal=totalPrice
-                return totalPrice;
-                }
-                return 0
+                this.formValue.total=parseFloat(totalPrice)
+                this.formValue.paidAmount=parseFloat(totalPrice)
+                this.formValue.subTotal=parseFloat(totalPrice)
+                console.log(this.formValue);
+
+                
                 
             },
             discount(){
-                var totalOld = this.totalPrice
-                var discountAmount = (this.formValue.discount*this.totalPrice)/100
+                var totalOld = this.formValue.subTotal
+                var discountAmount = (this.formValue.discount*this.formValue.subTotal)/100
                 var afterDiscount = totalOld - discountAmount
-                afterDiscount= Math.round(afterDiscount).toFixed(2)
+                
+                afterDiscount= Math.round(afterDiscount).toFixed(2)*1
+
+                console.log(afterDiscount);
+                
                 this.formValue.total=afterDiscount
                 this.formValue.paidAmount=afterDiscount
             },
             total(){
-                var totalOld = this.totalPrice
+                var totalOld = this.formValue.subTotal
                 var discountAmount = totalOld - this.formValue.total
                 var discount = (discountAmount*100)/totalOld
                 discount= Math.round(discount).toFixed(2)
@@ -245,6 +251,15 @@
             async addProduct(k){
                 if(this.searchValue)
                 {
+                    for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+                        if(this.dataSearch[k].id==this.formValue.productDetails[i].id)
+                        {
+                            this.formValue.productDetails[i].quantity++
+                            this.quantityChange()
+                            return
+                        }
+                    
+                    }
             
                     try{
                         let {data} =await axios({
@@ -254,7 +269,15 @@
                             
                             this.lf()
                             console.log(data)
+                            for ( var i = 0; i < this.dataGroup.length; i++) {
+                                if(this.dataSearch[k].groupName==this.dataGroup[i].groupName)
+                                {
+                                    this.dataSearch[k].discount=this.dataGroup[i].discount                                
+                                }
+                            
+                            }
                             this.dataSearch[k].stock=data.data
+                            this.dataSearch[k].quantity=1
                             this.formValue.productDetails.push(this.dataSearch[k])
                             
                             this.searchValue=''
@@ -267,9 +290,44 @@
                 
                     
                 }
-                this.formValue.productDetails[this.formValue.productDetails.length-1].quantity=1
-
+                this.quantityChange()
                 
+                
+                
+            },
+            async changedCustomer(k)
+            {
+                console.log(k);
+                console.log(this.formValue.customer_id);
+                this.ls();
+                try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/payment/getOutstandingCustomer/${this.formValue.customer_id}`
+                })
+                this.setCustomer(this.formValue.customer_id)
+                this.currentCustomer.outStanding=Math.abs(data.outStanding)
+
+                this.lf();
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+
+            },
+            setCustomer(id)
+            {
+                var i=0
+
+                while (i < this.dataCustomer.length) {
+                    if (this.dataCustomer[i].id == id) {
+                        this.currentCustomer.customerName=this.dataCustomer[i].customerName
+                        this.currentCustomer.number=this.dataCustomer[i].number
+                        this.currentCustomer.address=this.dataCustomer[i].address
+                        this.currentCustomer.email=this.dataCustomer[i].email
+                    }
+                    i++;
+                }
                 
             },
             async setData()
@@ -348,6 +406,18 @@
                     url:'/app/customer'
                 })
                 this.dataCustomer=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/group'
+                })
+                this.dataGroup=data;
                 this.lf();
 
             }catch(e){
