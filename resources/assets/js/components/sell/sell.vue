@@ -108,15 +108,23 @@
                                 </Row>
                             </FormItem>
                         </Col>
+                        <Col span="22" offset="1">
+                            <FormItem label="Reference">
+                                <Select v-model="formValue.reference_id" placeholder="Number"  filterable>
+                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
                     </Form>
                     <Col v-if="currentCustomer.customerName" span="24">
                         <h3>Customer Info</h3>
-                        <p><b>Customer Name:</b> {{currentCustomer.customerName}}</p>
-                        <h4>Number: {{currentCustomer.number}}</h4>
-                        <h4>Email: {{currentCustomer.email}}</h4>
-                        <h4>Address: {{currentCustomer.address}}</h4>
-                        <h4>Outstanding: {{currentCustomer.outStanding}}</h4>
+                        <p><b>Name:</b> {{currentCustomer.customerName}}</p>
+                        <p><b>Number:</b> {{currentCustomer.number}}</p>
+                        <p><b>Email:</b> {{currentCustomer.email}}</p>
+                        <p><b>Address:</b> {{currentCustomer.address}}</p>
+                        <p><b>Outstanding:</b> {{currentCustomer.outStanding}}</p>
                     </Col>
+                    
                 </Row>
             </Col>
         </Row>
@@ -156,6 +164,7 @@
                      total:0.00,
                      supplier_id: '',
                      customer_id: '',
+                     reference_id: '',
                      productDetails: []
                 },
                
@@ -290,10 +299,7 @@
                 
                     
                 }
-                this.quantityChange()
-                
-                
-                
+                this.quantityChange()  
             },
             async changedCustomer(k)
             {
@@ -322,7 +328,7 @@
                 while (i < this.dataCustomer.length) {
                     if (this.dataCustomer[i].id == id) {
                         this.currentCustomer.customerName=this.dataCustomer[i].customerName
-                        this.currentCustomer.number=this.dataCustomer[i].number
+                        this.currentCustomer.number=this.dataCustomer[i].contact
                         this.currentCustomer.address=this.dataCustomer[i].address
                         this.currentCustomer.email=this.dataCustomer[i].email
                     }
@@ -364,9 +370,9 @@
             },
             async sellProduct (){
                 //invoice added
-                this.formValue.totalPrice=this.totalPrice
                 this.formValue.totalQuantity=this.totalQuantity
-                if( !this.totalQuantity || !this.totalPrice)
+                this.formValue.totalPrice=this.formValue.subTotal
+                if( !this.formValue.totalQuantity || !this.formValue.totalPrice)
                 {
                     this.loading=false
                     this.e('Oops!','You nedd to enter Stock and Price in All Fields')

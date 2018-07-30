@@ -9506,6 +9506,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -9538,6 +9546,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 total: 0.00,
                 supplier_id: '',
                 customer_id: '',
+                reference_id: '',
                 productDetails: []
             }
 
@@ -9754,7 +9763,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             while (i < this.dataCustomer.length) {
                 if (this.dataCustomer[i].id == id) {
                     this.currentCustomer.customerName = this.dataCustomer[i].customerName;
-                    this.currentCustomer.number = this.dataCustomer[i].number;
+                    this.currentCustomer.number = this.dataCustomer[i].contact;
                     this.currentCustomer.address = this.dataCustomer[i].address;
                     this.currentCustomer.email = this.dataCustomer[i].email;
                 }
@@ -9829,10 +9838,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 //invoice added
-                                this.formValue.totalPrice = this.totalPrice;
                                 this.formValue.totalQuantity = this.totalQuantity;
+                                this.formValue.totalPrice = this.formValue.subTotal;
 
-                                if (!(!this.totalQuantity || !this.totalPrice)) {
+                                if (!(!this.formValue.totalQuantity || !this.formValue.totalPrice)) {
                                     _context4.next = 7;
                                     break;
                                 }
@@ -88431,6 +88440,48 @@ var render = function() {
                           )
                         ],
                         1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "Col",
+                        { attrs: { span: "22", offset: "1" } },
+                        [
+                          _c(
+                            "FormItem",
+                            { attrs: { label: "Reference" } },
+                            [
+                              _c(
+                                "Select",
+                                {
+                                  attrs: {
+                                    placeholder: "Number",
+                                    filterable: ""
+                                  },
+                                  model: {
+                                    value: _vm.formValue.reference_id,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.formValue,
+                                        "reference_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "formValue.reference_id"
+                                  }
+                                },
+                                _vm._l(_vm.dataCustomer, function(customer, i) {
+                                  return _c(
+                                    "Option",
+                                    { key: i, attrs: { value: customer.id } },
+                                    [_vm._v(_vm._s(customer.customerName))]
+                                  )
+                                })
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
                     ],
                     1
@@ -88441,31 +88492,28 @@ var render = function() {
                         _c("h3", [_vm._v("Customer Info")]),
                         _vm._v(" "),
                         _c("p", [
-                          _c("b", [_vm._v("Customer Name:")]),
+                          _c("b", [_vm._v("Name:")]),
                           _vm._v(" " + _vm._s(_vm.currentCustomer.customerName))
                         ]),
                         _vm._v(" "),
-                        _c("h4", [
-                          _vm._v(
-                            "Number: " + _vm._s(_vm.currentCustomer.number)
-                          )
+                        _c("p", [
+                          _c("b", [_vm._v("Number:")]),
+                          _vm._v(" " + _vm._s(_vm.currentCustomer.number))
                         ]),
                         _vm._v(" "),
-                        _c("h4", [
-                          _vm._v("Email: " + _vm._s(_vm.currentCustomer.email))
+                        _c("p", [
+                          _c("b", [_vm._v("Email:")]),
+                          _vm._v(" " + _vm._s(_vm.currentCustomer.email))
                         ]),
                         _vm._v(" "),
-                        _c("h4", [
-                          _vm._v(
-                            "Address: " + _vm._s(_vm.currentCustomer.address)
-                          )
+                        _c("p", [
+                          _c("b", [_vm._v("Address:")]),
+                          _vm._v(" " + _vm._s(_vm.currentCustomer.address))
                         ]),
                         _vm._v(" "),
-                        _c("h4", [
-                          _vm._v(
-                            "Outstanding: " +
-                              _vm._s(_vm.currentCustomer.outStanding)
-                          )
+                        _c("p", [
+                          _c("b", [_vm._v("Outstanding:")]),
+                          _vm._v(" " + _vm._s(_vm.currentCustomer.outStanding))
                         ])
                       ])
                     : _vm._e()
