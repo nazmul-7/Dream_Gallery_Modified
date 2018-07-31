@@ -12,11 +12,27 @@ class Product extends Model
     public function selling()
     {
        return $this->belongsTo('App\Selling');
+    }
+    public function sellStock()
+    {
+       return $this->hasOne('App\Selling');
     } 
     public function purchase()
     {
        return $this->belongsTo('App\Purchase');
     } 
+    public function purchaseStock()
+    {
+       return $this->hasOne('App\Purchase');
+    }
+    public function groupDiscount()
+    {
+       return $this->hasOne('App\Group');
+    } 
+
+    //public function 
+
+
     // public function group()
     // {
     //    return $this->belongsTo('App\Group');

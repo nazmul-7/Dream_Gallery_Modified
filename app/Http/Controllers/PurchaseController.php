@@ -167,8 +167,22 @@ class PurchaseController extends Controller
     public function searchProduct($search)
     {
         
-        $product=Product::where('model','LIKE','%'.$search.'%')
-        ->get();
+        $product=Product::where('barCode',$search)
+
+            ->with(array('purchaseStock' => function($q)
+            {
+                $q->selectRaw('id, product_id, sum(quantity) as stock');
+                $q->groupBy('product_id');
+
+
+            }))->with(array('sellStock' => function($q)
+            {
+                $q->selectRaw('id, product_id, sum(quantity) as stock');
+                $q->groupBy('product_id');
+
+
+            }))
+            ->first();
 
         return $product;
     }

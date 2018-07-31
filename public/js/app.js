@@ -9496,24 +9496,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -9566,9 +9548,41 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 total += parseInt(this.formValue.productDetails[i].quantity);
             }
             return total;
+        },
+        totalPrice: function totalPrice() {
+            var sum = 0;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.formValue.productDetails[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var d = _step.value;
+
+                    sum += parseInt(d.quantity) * parseInt(d.discountedPrice);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return sum;
         }
     },
     methods: {
+        test: function test() {
+            console.log(1);
+        },
         removeItem: function removeItem(index) {
 
             this.formValue.productDetails.splice(index, 1);
@@ -9772,42 +9786,185 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         setData: function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
-                var _ref6, data;
+                var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, d, _ref6, data, ps, ss, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, _d, _d2, disco;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
-                                _context3.prev = 0;
-                                _context3.next = 3;
-                                return axios({
-                                    method: 'get',
-                                    url: '/app/searchProduct/' + this.searchValue
-                                });
+                                if (!this.formValue.barCode) {
+                                    _context3.next = 29;
+                                    break;
+                                }
 
-                            case 3:
-                                _ref6 = _context3.sent;
-                                data = _ref6.data;
+                                _iteratorNormalCompletion2 = true;
+                                _didIteratorError2 = false;
+                                _iteratorError2 = undefined;
+                                _context3.prev = 4;
+                                _iterator2 = this.formValue.productDetails[Symbol.iterator]();
 
-                                this.dataSearch = data;
-                                this.lf();
+                            case 6:
+                                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                                    _context3.next = 15;
+                                    break;
+                                }
 
-                                _context3.next = 13;
+                                d = _step2.value;
+
+                                if (!(d.barCode == this.formValue.barCode)) {
+                                    _context3.next = 12;
+                                    break;
+                                }
+
+                                if (!(d.stock == d.quantity)) {
+                                    _context3.next = 11;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', this.i('You have acceded the available stock'));
+
+                            case 11:
+                                return _context3.abrupt('return', d.quantity++);
+
+                            case 12:
+                                _iteratorNormalCompletion2 = true;
+                                _context3.next = 6;
                                 break;
 
-                            case 9:
-                                _context3.prev = 9;
-                                _context3.t0 = _context3['catch'](0);
+                            case 15:
+                                _context3.next = 21;
+                                break;
 
+                            case 17:
+                                _context3.prev = 17;
+                                _context3.t0 = _context3['catch'](4);
+                                _didIteratorError2 = true;
+                                _iteratorError2 = _context3.t0;
+
+                            case 21:
+                                _context3.prev = 21;
+                                _context3.prev = 22;
+
+                                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                    _iterator2.return();
+                                }
+
+                            case 24:
+                                _context3.prev = 24;
+
+                                if (!_didIteratorError2) {
+                                    _context3.next = 27;
+                                    break;
+                                }
+
+                                throw _iteratorError2;
+
+                            case 27:
+                                return _context3.finish(24);
+
+                            case 28:
+                                return _context3.finish(21);
+
+                            case 29:
+                                _context3.prev = 29;
+                                _context3.next = 32;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/searchProduct/' + this.formValue.barCode
+                                });
+
+                            case 32:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+                                ps = 0, ss = 0;
+
+                                if (data.purchase_stock.stock) {
+                                    ps = data.purchase_stock.stock;
+                                }
+
+                                if (data.sell_stock) {
+                                    console.log('IU am');
+                                    ss = data.sell_stock.stock;
+                                }
+
+                                data.stock = ps - ss;
+                                data.quantity = 1;
+                                _iteratorNormalCompletion3 = true;
+                                _didIteratorError3 = false;
+                                _iteratorError3 = undefined;
+                                _context3.prev = 42;
+                                for (_iterator3 = this.dataGroup[Symbol.iterator](); !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                                    _d = _step3.value;
+
+                                    if (_d.groupName == data.groupName) {
+                                        data.discount = _d.discount;
+                                    }
+                                }
+                                _context3.next = 50;
+                                break;
+
+                            case 46:
+                                _context3.prev = 46;
+                                _context3.t1 = _context3['catch'](42);
+                                _didIteratorError3 = true;
+                                _iteratorError3 = _context3.t1;
+
+                            case 50:
+                                _context3.prev = 50;
+                                _context3.prev = 51;
+
+                                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                    _iterator3.return();
+                                }
+
+                            case 53:
+                                _context3.prev = 53;
+
+                                if (!_didIteratorError3) {
+                                    _context3.next = 56;
+                                    break;
+                                }
+
+                                throw _iteratorError3;
+
+                            case 56:
+                                return _context3.finish(53);
+
+                            case 57:
+                                return _context3.finish(50);
+
+                            case 58:
+                                if (data.discount) {
+                                    _d2 = data.discount * data.sellingPrice / 100;
+
+                                    data.discountedPrice = data.sellingPrice - _d2;
+                                } else {
+                                    data.discountedPrice = data.sellingPrice;
+                                }
+
+                                disco = void 0;
+
+
+                                this.formValue.productDetails.push(data);
+                                this.lf();
+
+                                _context3.next = 69;
+                                break;
+
+                            case 64:
+                                _context3.prev = 64;
+                                _context3.t2 = _context3['catch'](29);
+
+                                console.log(0);
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
-                            case 13:
+                            case 69:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[0, 9]]);
+                }, _callee3, this, [[4, 17, 21, 29], [22,, 24, 28], [29, 64], [42, 46, 50, 58], [51,, 53, 57]]);
             }));
 
             function setData() {
@@ -87980,120 +88137,20 @@ var render = function() {
             },
             [
               _c(
-                "Form",
-                { ref: "header" },
+                "Col",
+                { attrs: { span: "11", offset: "1" } },
                 [
-                  _c(
-                    "Col",
-                    { attrs: { span: "11", offset: "1" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Barcode" } },
-                        [
-                          _c("Input", {
-                            attrs: { type: "text", placeholder: "Barcode" },
-                            model: {
-                              value: _vm.formValue.barCode,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formValue, "barCode", $$v)
-                              },
-                              expression: "formValue.barCode"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "Col",
-                    { attrs: { span: "11", offset: "1" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Search Product" } },
-                        [
-                          _c("br"),
-                          _vm._v(" "),
-                          _c(
-                            "Row",
-                            [
-                              _c(
-                                "Col",
-                                { attrs: { span: "22" } },
-                                [
-                                  _c(
-                                    "AutoComplete",
-                                    {
-                                      attrs: {
-                                        icon: "ios-search",
-                                        placeholder: "input here"
-                                      },
-                                      on: {
-                                        "on-search": _vm.setData,
-                                        "on-select": _vm.addProduct
-                                      },
-                                      model: {
-                                        value: _vm.searchValue,
-                                        callback: function($$v) {
-                                          _vm.searchValue = $$v
-                                        },
-                                        expression: "searchValue"
-                                      }
-                                    },
-                                    _vm._l(_vm.dataSearch, function(option, i) {
-                                      return _c(
-                                        "Option",
-                                        { key: i, attrs: { value: i } },
-                                        [
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "demo-auto-complete-title"
-                                            },
-                                            [_vm._v(_vm._s(option.model))]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "demo-auto-complete-count"
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(option.groupName) +
-                                                  " | " +
-                                                  _vm._s(option.catName) +
-                                                  " | " +
-                                                  _vm._s(option.color) +
-                                                  " | " +
-                                                  _vm._s(option.size) +
-                                                  " | " +
-                                                  _vm._s(option.sellingPrice)
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    })
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  _c("Input", {
+                    attrs: { type: "text", placeholder: "Barcode" },
+                    on: { "on-enter": _vm.setData },
+                    model: {
+                      value: _vm.formValue.barCode,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formValue, "barCode", $$v)
+                      },
+                      expression: "formValue.barCode"
+                    }
+                  })
                 ],
                 1
               ),
@@ -88153,8 +88210,7 @@ var render = function() {
                         "td",
                         [
                           _c("InputNumber", {
-                            attrs: { min: 0, max: parseInt(data.stock) },
-                            on: { "on-change": _vm.quantityChange },
+                            attrs: { min: 1, max: data.stock },
                             model: {
                               value: data.quantity,
                               callback: function($$v) {
@@ -88173,11 +88229,15 @@ var render = function() {
                           _c("InputNumber", {
                             attrs: { disabled: "" },
                             model: {
-                              value: data.sellingPrice,
+                              value: data.discountedPrice * data.quantity,
                               callback: function($$v) {
-                                _vm.$set(data, "sellingPrice", $$v)
+                                _vm.$set(
+                                  data.discountedPrice * data,
+                                  "quantity",
+                                  $$v
+                                )
                               },
-                              expression: "data.sellingPrice"
+                              expression: "data.discountedPrice*data.quantity"
                             }
                           })
                         ],
@@ -88214,7 +88274,7 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
                     _vm._v(" "),
                     _c("td", { attrs: { colspan: "2" } }, [
-                      _vm._v(_vm._s(_vm.formValue.subTotal))
+                      _vm._v(_vm._s(_vm.totalPrice))
                     ])
                   ]),
                   _vm._v(" "),

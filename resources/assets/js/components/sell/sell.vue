@@ -2,31 +2,13 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Form  ref="header">
-                        <Col span="11" offset="1">
-                            <FormItem  label="Barcode">
-                                <Input type="text" placeholder="Barcode" 
-                                v-model="formValue.barCode"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="11" offset="1">
-                            <FormItem  label="Search Product">
-                                <br>
-                                <Row>
-                                    <Col span="22">
-                                        <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
-                                                <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
-                                                    <span class="demo-auto-complete-title">{{ option.model }}</span>
-                                                    <span class="demo-auto-complete-count">{{option.groupName}} | {{option.catName}} | {{option.color}} | {{option.size}} | {{option.sellingPrice}}</span>
-                                                </Option>
-
-                                        </AutoComplete>
-                                    </Col>
-                                </Row>
-                            </FormItem >
-                        </Col>
-                    </Form>
-
+                
+                <Col span="11" offset="1">
+                    
+                        <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                        v-model="formValue.barCode"></Input>
+                    
+                </Col>
                 <h2>Product List</h2>
 
                 <table style="width:100%" ref="printTable">
@@ -49,8 +31,8 @@
                     <td>{{data.size}}</td>
                     <td>{{data.sellingPrice}} <Tag  color="red"  type="border">-{{data.discount}}%</Tag></td>
                     <td>{{data.stock}}</td>
-                    <td><InputNumber  :min="0" :max="parseInt(data.stock)" v-model="data.quantity" @on-change="quantityChange" ></InputNumber></td>
-                    <td><InputNumber  v-model="data.sellingPrice" disabled></InputNumber></td>
+                    <td><InputNumber  :min="1" :max="data.stock" v-model="data.quantity" ></InputNumber></td>
+                    <td><InputNumber  v-model="data.discountedPrice*data.quantity" disabled></InputNumber></td>
                     <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
 
                   </tr>
@@ -58,7 +40,7 @@
                   <tr style="background-color: #e9eaec;" >
                     <td colspan="6" style="text-align:right;">Sub Total </td>
                     <td >{{totalQuantity}}</td>
-                    <td  colspan="2">{{formValue.subTotal}}</td>
+                    <td  colspan="2">{{totalPrice}}</td>
                     
                   </tr>
                 <tr >
@@ -186,6 +168,7 @@
                 ]
             },
 
+            
             totalQuantity()
             {
                 var total=0
@@ -194,10 +177,21 @@
                     }
                     return total   
             },
-            
+            totalPrice()
+            {
+                let sum = 0 
+                for(let d of this.formValue.productDetails){
+                    sum+= (parseInt(d.quantity)*parseInt(d.discountedPrice))
+                }
+                return sum
+            },
 
         },
         methods: {
+            test()
+            {
+                console.log(1)
+            },
             removeItem(index)
             {
                 
@@ -338,15 +332,57 @@
             },
             async setData()
             {
+                if(this.formValue.barCode)
+                {
+                    for(let d of this.formValue.productDetails)
+                    {
+                        if(d.barCode == this.formValue.barCode){
+                            if(d.stock==d.quantity){
+                                return this.i('You have acceded the available stock')
+                            }
+                             return d.quantity++
+                            }
+                        }
+
+                    
+                }
                 try{
                 let {data} =await axios({
                     method: 'get',
-                    url:`/app/searchProduct/${this.searchValue}`,
+                    url:`/app/searchProduct/${this.formValue.barCode}`,
                     })
-                    this.dataSearch=data;
+                    let ps=0,ss=0
+                    if(data.purchase_stock.stock){
+                        ps=data.purchase_stock.stock
+                    }
+
+                    if(data.sell_stock){
+                        console.log('IU am')
+                        ss=data.sell_stock.stock
+                    }
+
+
+                    data.stock=ps-ss
+                    data.quantity=1
+                    for(let d of this.dataGroup){
+                        if(d.groupName==data.groupName){
+                            data.discount=d.discount
+                        }
+                    }
+                   if(data.discount){
+                        let d= (data.discount*data.sellingPrice)/100
+                        data.discountedPrice= data.sellingPrice-d
+                   }else{
+                         data.discountedPrice= data.sellingPrice
+                   }
+
+                    let disco
+
+                    this.formValue.productDetails.push(data)
                     this.lf();
 
                 }catch(e){
+                    console.log(0)
                     this.e('Oops!','Something went wrong, please try again!')
                     this.le();
                 }
