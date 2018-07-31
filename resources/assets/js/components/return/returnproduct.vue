@@ -2,14 +2,14 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="16" offset="1">
-                <Form>
+
                         <Col span="11" offset="1">
-                            <FormItem  label="Barcode">
-                                <Input type="text" placeholder="Barcode" 
-                                v-model="formValue.barCode"></Input>
-                            </FormItem >
+
+                                 <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                                v-model="formValue.barCode"></Input>  
+
                         </Col>
-                        <Col span="11" offset="1">
+                        <!-- <Col span="11" offset="1">
                             <FormItem  label="Search Product">
                                 <br>
                                 <Row>
@@ -24,8 +24,8 @@
                                     </Col>
                                 </Row>
                             </FormItem >
-                        </Col>
-                    </Form>
+                        </Col> -->
+
 
                 <h2>Product List</h2>
 
@@ -118,7 +118,7 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                dataSearch:[],
+                dataSearch:{},
                 dataCustomer:[],
                 dataInvoice: 
                 [],
@@ -210,24 +210,25 @@
                 this.formValue.date=key
 
             },
-            async addProduct(k){
-                if(this.searchValue)
+            async addProduct(){
+                if(this.dataSearch)
                 {
+                    console.log(this.dataSearch.id)
             
                     try{
                         let {data} =await axios({
                             method: 'get',
-                            url:`/app/getInvoiceProducts/${this.dataSearch[k].id}`,
+                            url:`/app/getInvoiceProducts/${this.dataSearch.id}`,
                             })
                             
                             this.lf()
                             console.log(data)
                             this.formValue.productDetails=data.data
-                            this.formValue.subTotal=this.dataSearch[k].totalPrice
-                            this.formValue.paidAmount=this.dataSearch[k].paidAmount
-                            this.formValue.total=this.dataSearch[k].selllingPrice
-                            this.formValue.date=this.dataSearch[k].date
-                            this.searchValue=''
+                            this.formValue.subTotal=this.dataSearch.totalPrice
+                            this.formValue.paidAmount=this.dataSearch.paidAmount
+                            this.formValue.total=this.dataSearch.selllingPrice
+                            this.formValue.date=this.dataSearch.date
+                            this.formValue.barCode=''
                         }catch(e){
                             this.e('Oops!','Something went wrong, please try again!')
                             this.le()
@@ -241,17 +242,21 @@
             },
             async setData()
             {
-                try{
-                let {data} =await axios({
-                    method: 'get',
-                    url:`/app/searchInvoice/${this.searchValue}`,
-                    })
-                    this.dataSearch=data;
-                    this.lf();
+                if(this.formValue.barCode)
+                {
+                    try{
+                    let {data} =await axios({
+                        method: 'get',
+                        url:`/app/searchInvoice/${this.formValue.barCode}`,
+                        })
+                        this.dataSearch=data;
+                        this.addProduct()
+                        this.lf();
 
-                }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
-                    this.le();
+                    }catch(e){
+                        this.e('Oops!','Something went wrong, please try again!')
+                        this.le();
+                    }
                 }
             },
             collapsedSider () {

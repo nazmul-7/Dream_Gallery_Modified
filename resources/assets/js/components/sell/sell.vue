@@ -4,10 +4,8 @@
             <Col class="dream-input-main" span="14" offset="1">
                 
                 <Col span="11" offset="1">
-                    
                         <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                        v-model="formValue.barCode"></Input>
-                    
+                        v-model="formValue.barCode"></Input>  
                 </Col>
                 <h2>Product List</h2>
 

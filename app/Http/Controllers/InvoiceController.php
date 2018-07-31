@@ -112,10 +112,10 @@ class InvoiceController extends Controller
     public function searchInvoice($search)
     {
         
-        $product=Invoice::where('id','LIKE','%'.$search.'%')
+        $product=Invoice::where('id',$search)
         ->where('type','sell')
         ->with('customer')
-        ->get();
+        ->first();
 
         return $product;
     }

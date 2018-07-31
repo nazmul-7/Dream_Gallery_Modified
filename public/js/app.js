@@ -9064,7 +9064,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             loading: false,
             sending: false,
             isCollapsed: false,
-            dataSearch: [],
+            dataSearch: {},
             dataCustomer: [],
             dataInvoice: [],
             formValue: {
@@ -9138,26 +9138,28 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.formValue.date = key;
         },
         addProduct: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
                 var _ref2, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                if (!this.searchValue) {
-                                    _context.next = 21;
+                                if (!this.dataSearch) {
+                                    _context.next = 22;
                                     break;
                                 }
 
-                                _context.prev = 1;
-                                _context.next = 4;
+                                console.log(this.dataSearch.id);
+
+                                _context.prev = 2;
+                                _context.next = 5;
                                 return axios({
                                     method: 'get',
-                                    url: '/app/getInvoiceProducts/' + this.dataSearch[k].id
+                                    url: '/app/getInvoiceProducts/' + this.dataSearch.id
                                 });
 
-                            case 4:
+                            case 5:
                                 _ref2 = _context.sent;
                                 data = _ref2.data;
 
@@ -9165,31 +9167,31 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.lf();
                                 console.log(data);
                                 this.formValue.productDetails = data.data;
-                                this.formValue.subTotal = this.dataSearch[k].totalPrice;
-                                this.formValue.paidAmount = this.dataSearch[k].paidAmount;
-                                this.formValue.total = this.dataSearch[k].selllingPrice;
-                                this.formValue.date = this.dataSearch[k].date;
-                                this.searchValue = '';
-                                _context.next = 21;
+                                this.formValue.subTotal = this.dataSearch.totalPrice;
+                                this.formValue.paidAmount = this.dataSearch.paidAmount;
+                                this.formValue.total = this.dataSearch.selllingPrice;
+                                this.formValue.date = this.dataSearch.date;
+                                this.formValue.barCode = '';
+                                _context.next = 22;
                                 break;
 
-                            case 16:
-                                _context.prev = 16;
-                                _context.t0 = _context['catch'](1);
+                            case 17:
+                                _context.prev = 17;
+                                _context.t0 = _context['catch'](2);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
                                 return _context.abrupt('return', 0);
 
-                            case 21:
+                            case 22:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[1, 16]]);
+                }, _callee, this, [[2, 17]]);
             }));
 
-            function addProduct(_x) {
+            function addProduct() {
                 return _ref.apply(this, arguments);
             }
 
@@ -9203,36 +9205,42 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context2.prev = 0;
-                                _context2.next = 3;
+                                if (!this.formValue.barCode) {
+                                    _context2.next = 15;
+                                    break;
+                                }
+
+                                _context2.prev = 1;
+                                _context2.next = 4;
                                 return axios({
                                     method: 'get',
-                                    url: '/app/searchInvoice/' + this.searchValue
+                                    url: '/app/searchInvoice/' + this.formValue.barCode
                                 });
 
-                            case 3:
+                            case 4:
                                 _ref4 = _context2.sent;
                                 data = _ref4.data;
 
                                 this.dataSearch = data;
+                                this.addProduct();
                                 this.lf();
 
-                                _context2.next = 13;
+                                _context2.next = 15;
                                 break;
 
-                            case 9:
-                                _context2.prev = 9;
-                                _context2.t0 = _context2['catch'](0);
+                            case 11:
+                                _context2.prev = 11;
+                                _context2.t0 = _context2['catch'](1);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
-                            case 13:
+                            case 15:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[0, 9]]);
+                }, _callee2, this, [[1, 11]]);
             }));
 
             function setData() {
@@ -9381,8 +9389,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-//
-//
 //
 //
 //
@@ -90237,111 +90243,20 @@ var render = function() {
             },
             [
               _c(
-                "Form",
+                "Col",
+                { attrs: { span: "11", offset: "1" } },
                 [
-                  _c(
-                    "Col",
-                    { attrs: { span: "11", offset: "1" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Barcode" } },
-                        [
-                          _c("Input", {
-                            attrs: { type: "text", placeholder: "Barcode" },
-                            model: {
-                              value: _vm.formValue.barCode,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formValue, "barCode", $$v)
-                              },
-                              expression: "formValue.barCode"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "Col",
-                    { attrs: { span: "11", offset: "1" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Search Product" } },
-                        [
-                          _c("br"),
-                          _vm._v(" "),
-                          _c(
-                            "Row",
-                            [
-                              _c(
-                                "Col",
-                                { attrs: { span: "22" } },
-                                [
-                                  _c(
-                                    "AutoComplete",
-                                    {
-                                      attrs: {
-                                        icon: "ios-search",
-                                        placeholder: "input here"
-                                      },
-                                      on: {
-                                        "on-search": _vm.setData,
-                                        "on-select": _vm.addProduct
-                                      },
-                                      model: {
-                                        value: _vm.searchValue,
-                                        callback: function($$v) {
-                                          _vm.searchValue = $$v
-                                        },
-                                        expression: "searchValue"
-                                      }
-                                    },
-                                    _vm._l(_vm.dataSearch, function(option, i) {
-                                      return _c(
-                                        "Option",
-                                        { key: i, attrs: { value: i } },
-                                        [
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "demo-auto-complete-title"
-                                            },
-                                            [_vm._v(_vm._s(option.id))]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "demo-auto-complete-count"
-                                            },
-                                            [
-                                              _vm._v(
-                                                "| " + _vm._s(option.paidAmount)
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    })
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  _c("Input", {
+                    attrs: { type: "text", placeholder: "Barcode" },
+                    on: { "on-enter": _vm.setData },
+                    model: {
+                      value: _vm.formValue.barCode,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formValue, "barCode", $$v)
+                      },
+                      expression: "formValue.barCode"
+                    }
+                  })
                 ],
                 1
               ),
