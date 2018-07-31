@@ -9580,9 +9580,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         }
     },
     methods: {
-        test: function test() {
-            console.log(1);
-        },
         removeItem: function removeItem(index) {
 
             this.formValue.productDetails.splice(index, 1);
@@ -9591,16 +9588,35 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         quantityChange: function quantityChange() {
 
             var totalPrice = 0;
-            for (var i = 0; i < this.formValue.productDetails.length; i++) {
-                this.formValue.productDetails[i].quantity;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
 
-                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
+            try {
+                for (var _iterator2 = this.formValue.productDetails[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var d = _step2.value;
+
+                    totalPrice += d.quantity * d.discountedPrice;
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
             }
+
             totalPrice = Math.round(totalPrice).toFixed(2);
             this.formValue.total = parseFloat(totalPrice);
             this.formValue.paidAmount = parseFloat(totalPrice);
             this.formValue.subTotal = parseFloat(totalPrice);
-            console.log(this.formValue);
         },
         discount: function discount() {
             var totalOld = this.formValue.subTotal;
@@ -9705,9 +9721,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 return _context.abrupt('return', 0);
 
                             case 29:
-                                this.quantityChange();
-
-                            case 30:
                             case 'end':
                                 return _context.stop();
                         }
@@ -9786,33 +9799,33 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         setData: function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
-                var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, d, _ref6, data, ps, ss, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, _d, _d2, disco;
+                var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, d, _ref6, data, ps, ss, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _d, _d2, disco;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 if (!this.formValue.barCode) {
-                                    _context3.next = 29;
+                                    _context3.next = 31;
                                     break;
                                 }
 
-                                _iteratorNormalCompletion2 = true;
-                                _didIteratorError2 = false;
-                                _iteratorError2 = undefined;
+                                _iteratorNormalCompletion3 = true;
+                                _didIteratorError3 = false;
+                                _iteratorError3 = undefined;
                                 _context3.prev = 4;
-                                _iterator2 = this.formValue.productDetails[Symbol.iterator]();
+                                _iterator3 = this.formValue.productDetails[Symbol.iterator]();
 
                             case 6:
-                                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                                    _context3.next = 15;
+                                if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+                                    _context3.next = 17;
                                     break;
                                 }
 
-                                d = _step2.value;
+                                d = _step3.value;
 
                                 if (!(d.barCode == this.formValue.barCode)) {
-                                    _context3.next = 12;
+                                    _context3.next = 14;
                                     break;
                                 }
 
@@ -9824,56 +9837,58 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 return _context3.abrupt('return', this.i('You have acceded the available stock'));
 
                             case 11:
-                                return _context3.abrupt('return', d.quantity++);
+                                d.quantity++;
+                                this.quantityChange();
+                                return _context3.abrupt('return');
 
-                            case 12:
-                                _iteratorNormalCompletion2 = true;
+                            case 14:
+                                _iteratorNormalCompletion3 = true;
                                 _context3.next = 6;
                                 break;
 
-                            case 15:
-                                _context3.next = 21;
+                            case 17:
+                                _context3.next = 23;
                                 break;
 
-                            case 17:
-                                _context3.prev = 17;
+                            case 19:
+                                _context3.prev = 19;
                                 _context3.t0 = _context3['catch'](4);
-                                _didIteratorError2 = true;
-                                _iteratorError2 = _context3.t0;
+                                _didIteratorError3 = true;
+                                _iteratorError3 = _context3.t0;
 
-                            case 21:
-                                _context3.prev = 21;
-                                _context3.prev = 22;
-
-                                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                                    _iterator2.return();
-                                }
-
-                            case 24:
+                            case 23:
+                                _context3.prev = 23;
                                 _context3.prev = 24;
 
-                                if (!_didIteratorError2) {
-                                    _context3.next = 27;
+                                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                    _iterator3.return();
+                                }
+
+                            case 26:
+                                _context3.prev = 26;
+
+                                if (!_didIteratorError3) {
+                                    _context3.next = 29;
                                     break;
                                 }
 
-                                throw _iteratorError2;
-
-                            case 27:
-                                return _context3.finish(24);
-
-                            case 28:
-                                return _context3.finish(21);
+                                throw _iteratorError3;
 
                             case 29:
-                                _context3.prev = 29;
-                                _context3.next = 32;
+                                return _context3.finish(26);
+
+                            case 30:
+                                return _context3.finish(23);
+
+                            case 31:
+                                _context3.prev = 31;
+                                _context3.next = 34;
                                 return axios({
                                     method: 'get',
                                     url: '/app/searchProduct/' + this.formValue.barCode
                                 });
 
-                            case 32:
+                            case 34:
                                 _ref6 = _context3.sent;
                                 data = _ref6.data;
                                 ps = 0, ss = 0;
@@ -9889,51 +9904,51 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 data.stock = ps - ss;
                                 data.quantity = 1;
-                                _iteratorNormalCompletion3 = true;
-                                _didIteratorError3 = false;
-                                _iteratorError3 = undefined;
-                                _context3.prev = 42;
-                                for (_iterator3 = this.dataGroup[Symbol.iterator](); !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                                    _d = _step3.value;
+                                _iteratorNormalCompletion4 = true;
+                                _didIteratorError4 = false;
+                                _iteratorError4 = undefined;
+                                _context3.prev = 44;
+                                for (_iterator4 = this.dataGroup[Symbol.iterator](); !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                                    _d = _step4.value;
 
                                     if (_d.groupName == data.groupName) {
                                         data.discount = _d.discount;
                                     }
                                 }
-                                _context3.next = 50;
+                                _context3.next = 52;
                                 break;
 
-                            case 46:
-                                _context3.prev = 46;
-                                _context3.t1 = _context3['catch'](42);
-                                _didIteratorError3 = true;
-                                _iteratorError3 = _context3.t1;
+                            case 48:
+                                _context3.prev = 48;
+                                _context3.t1 = _context3['catch'](44);
+                                _didIteratorError4 = true;
+                                _iteratorError4 = _context3.t1;
 
-                            case 50:
-                                _context3.prev = 50;
-                                _context3.prev = 51;
-
-                                if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                                    _iterator3.return();
-                                }
-
-                            case 53:
+                            case 52:
+                                _context3.prev = 52;
                                 _context3.prev = 53;
 
-                                if (!_didIteratorError3) {
-                                    _context3.next = 56;
+                                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                                    _iterator4.return();
+                                }
+
+                            case 55:
+                                _context3.prev = 55;
+
+                                if (!_didIteratorError4) {
+                                    _context3.next = 58;
                                     break;
                                 }
 
-                                throw _iteratorError3;
-
-                            case 56:
-                                return _context3.finish(53);
-
-                            case 57:
-                                return _context3.finish(50);
+                                throw _iteratorError4;
 
                             case 58:
+                                return _context3.finish(55);
+
+                            case 59:
+                                return _context3.finish(52);
+
+                            case 60:
                                 if (data.discount) {
                                     _d2 = data.discount * data.sellingPrice / 100;
 
@@ -9946,25 +9961,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
                                 this.formValue.productDetails.push(data);
+                                this.quantityChange();
                                 this.lf();
 
-                                _context3.next = 69;
+                                _context3.next = 72;
                                 break;
 
-                            case 64:
-                                _context3.prev = 64;
-                                _context3.t2 = _context3['catch'](29);
+                            case 67:
+                                _context3.prev = 67;
+                                _context3.t2 = _context3['catch'](31);
 
                                 console.log(0);
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
-                            case 69:
+                            case 72:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[4, 17, 21, 29], [22,, 24, 28], [29, 64], [42, 46, 50, 58], [51,, 53, 57]]);
+                }, _callee3, this, [[4, 19, 23, 31], [24,, 26, 30], [31, 67], [44, 48, 52, 60], [53,, 55, 59]]);
             }));
 
             function setData() {
@@ -88195,11 +88211,13 @@ var render = function() {
                         "td",
                         [
                           _vm._v(_vm._s(data.sellingPrice) + " "),
-                          _c(
-                            "Tag",
-                            { attrs: { color: "red", type: "border" } },
-                            [_vm._v("-" + _vm._s(data.discount) + "%")]
-                          )
+                          data.discount
+                            ? _c(
+                                "Tag",
+                                { attrs: { color: "red", type: "border" } },
+                                [_vm._v("-" + _vm._s(data.discount) + "%")]
+                              )
+                            : _vm._e()
                         ],
                         1
                       ),
@@ -88211,6 +88229,7 @@ var render = function() {
                         [
                           _c("InputNumber", {
                             attrs: { min: 1, max: data.stock },
+                            on: { "on-change": _vm.quantityChange },
                             model: {
                               value: data.quantity,
                               callback: function($$v) {

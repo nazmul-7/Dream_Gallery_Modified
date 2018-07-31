@@ -29,9 +29,9 @@
                     <td >{{data.model}}</td>
                     <td >{{data.color}}</td>
                     <td>{{data.size}}</td>
-                    <td>{{data.sellingPrice}} <Tag  color="red"  type="border">-{{data.discount}}%</Tag></td>
+                    <td>{{data.sellingPrice}} <Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
                     <td>{{data.stock}}</td>
-                    <td><InputNumber  :min="1" :max="data.stock" v-model="data.quantity" ></InputNumber></td>
+                    <td><InputNumber  :min="1" :max="data.stock" v-model="data.quantity" @on-change="quantityChange" ></InputNumber></td>
                     <td><InputNumber  v-model="data.discountedPrice*data.quantity" disabled></InputNumber></td>
                     <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
 
@@ -177,6 +177,7 @@
                     }
                     return total   
             },
+            
             totalPrice()
             {
                 let sum = 0 
@@ -188,10 +189,6 @@
 
         },
         methods: {
-            test()
-            {
-                console.log(1)
-            },
             removeItem(index)
             {
                 
@@ -202,19 +199,15 @@
             {
                 
                 var totalPrice=0
-                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
-                    this.formValue.productDetails[i].quantity
-                  
-                        totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].sellingPrice
+                for ( let d of this.formValue.productDetails) {                  
+                        totalPrice+=(d.quantity*d.discountedPrice)
                     }
                 totalPrice=Math.round(totalPrice).toFixed(2)
                 this.formValue.total=parseFloat(totalPrice)
                 this.formValue.paidAmount=parseFloat(totalPrice)
                 this.formValue.subTotal=parseFloat(totalPrice)
-                console.log(this.formValue);
 
-                
-                
+  
             },
             discount(){
                 var totalOld = this.formValue.subTotal
@@ -283,6 +276,7 @@
                             this.dataSearch[k].quantity=1
                             this.formValue.productDetails.push(this.dataSearch[k])
                             
+                            
                             this.searchValue=''
 
                         }catch(e){
@@ -293,7 +287,7 @@
                 
                     
                 }
-                this.quantityChange()  
+                  
             },
             async changedCustomer(k)
             {
@@ -340,7 +334,10 @@
                             if(d.stock==d.quantity){
                                 return this.i('You have acceded the available stock')
                             }
-                             return d.quantity++
+                            d.quantity++
+                            this.quantityChange()
+                             return 
+
                             }
                         }
 
@@ -354,6 +351,7 @@
                     let ps=0,ss=0
                     if(data.purchase_stock.stock){
                         ps=data.purchase_stock.stock
+                        
                     }
 
                     if(data.sell_stock){
@@ -379,6 +377,7 @@
                     let disco
 
                     this.formValue.productDetails.push(data)
+                    this.quantityChange()
                     this.lf();
 
                 }catch(e){
