@@ -9054,6 +9054,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -9089,31 +9091,53 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         menuitemClasses: function menuitemClasses() {
             return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
-        },
-        totalPrice: function totalPrice() {
-            var totalPrice = 0;
-            for (var i = 0; i < this.formValue.productDetails.length; i++) {
-
-                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].unitPrice;
-            }
-            totalPrice = Math.round(totalPrice).toFixed(2);
-            this.formValue.total = totalPrice;
-            this.formValue.paidAmount = totalPrice;
-            this.formValue.subTotal = totalPrice;
-            return totalPrice;
-        },
-        totalQuantity: function totalQuantity() {
-            var total = 0;
-            for (var i = 0; i < this.formValue.productDetails.length; i++) {
-                total += parseInt(this.formValue.productDetails[i].quantity);
-            }
-            return total;
         }
     },
     methods: {
+        removeItem: function removeItem(index) {
+            this.formValue.productDetails[index].quantity = 0;
+            this.quantityChange();
+        },
+        quantityChange: function quantityChange() {
+
+            var totalPrice = 0,
+                totalQuantity = 0;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.formValue.productDetails[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var d = _step.value;
+
+                    totalQuantity += parseInt(d.quantity);
+                    totalPrice += d.quantity * d.discountedPrice;
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            totalPrice = Math.round(totalPrice).toFixed(2);
+            this.formValue.totalQuantity = totalQuantity;
+            this.formValue.total = parseFloat(totalPrice);
+            this.formValue.paidAmount = parseFloat(totalPrice);
+            this.formValue.subTotal = parseFloat(totalPrice);
+            this.discount();
+        },
         discount: function discount() {
-            var totalOld = this.totalPrice;
-            var discountAmount = this.formValue.discount * this.totalPrice / 100;
+            var totalOld = this.formValue.subTotal;
+            var discountAmount = this.formValue.discount * this.formValue.subTotal / 100;
             var afterDiscount = totalOld - discountAmount;
             afterDiscount = Math.round(afterDiscount).toFixed(2);
             this.formValue.total = afterDiscount;
@@ -9139,14 +9163,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         addProduct: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
-                var _ref2, data;
+                var _ref2, data, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, c, d;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (!this.dataSearch) {
-                                    _context.next = 22;
+                                    _context.next = 43;
                                     break;
                                 }
 
@@ -9166,29 +9190,83 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.lf();
                                 console.log(data);
-                                this.formValue.productDetails = data.data;
-                                this.formValue.subTotal = this.dataSearch.totalPrice;
-                                this.formValue.paidAmount = this.dataSearch.paidAmount;
-                                this.formValue.total = this.dataSearch.selllingPrice;
-                                this.formValue.date = this.dataSearch.date;
-                                this.formValue.barCode = '';
-                                _context.next = 22;
+                                _iteratorNormalCompletion2 = true;
+                                _didIteratorError2 = false;
+                                _iteratorError2 = undefined;
+                                _context.prev = 12;
+                                for (_iterator2 = data.data[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                    c = _step2.value;
+
+                                    c.stock = c.quantity;
+                                    console.log(111);
+
+                                    if (c.discount) {
+                                        d = c.discount * c.unitPrice / 100;
+
+                                        c.discountedPrice = c.unitPrice - d;
+                                    } else {
+                                        c.discountedPrice = c.unitPrice;
+                                    }
+                                }
+                                _context.next = 20;
                                 break;
 
-                            case 17:
-                                _context.prev = 17;
-                                _context.t0 = _context['catch'](2);
+                            case 16:
+                                _context.prev = 16;
+                                _context.t0 = _context['catch'](12);
+                                _didIteratorError2 = true;
+                                _iteratorError2 = _context.t0;
+
+                            case 20:
+                                _context.prev = 20;
+                                _context.prev = 21;
+
+                                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                    _iterator2.return();
+                                }
+
+                            case 23:
+                                _context.prev = 23;
+
+                                if (!_didIteratorError2) {
+                                    _context.next = 26;
+                                    break;
+                                }
+
+                                throw _iteratorError2;
+
+                            case 26:
+                                return _context.finish(23);
+
+                            case 27:
+                                return _context.finish(20);
+
+                            case 28:
+                                this.formValue.productDetails = data.data;
+                                this.formValue.subTotal = this.dataSearch.totalPrice;
+                                this.formValue.totalQuantity = this.dataSearch.totalQuantity;
+                                this.formValue.paidAmount = this.dataSearch.paidAmount;
+                                this.formValue.total = this.dataSearch.sellingPrice;
+                                this.formValue.discount = this.dataSearch.discount;
+                                this.formValue.date = this.dataSearch.date;
+                                this.formValue.barCode = '';
+                                _context.next = 43;
+                                break;
+
+                            case 38:
+                                _context.prev = 38;
+                                _context.t1 = _context['catch'](2);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
                                 return _context.abrupt('return', 0);
 
-                            case 22:
+                            case 43:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[2, 17]]);
+                }, _callee, this, [[2, 38], [12, 16, 20, 28], [21,, 23, 27]]);
             }));
 
             function addProduct() {
@@ -9252,7 +9330,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         collapsedSider: function collapsedSider() {
             this.$refs.side1.toggleCollapse();
         },
-        makeSell: function makeSell() {
+        makeReturn: function makeReturn() {
             if (Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total)) {
                 this.i('Due Alart', 'This invoice will add due amount');
                 if (!this.formValue.customer_id) {
@@ -9270,54 +9348,50 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
-                                //invoice added
-                                this.formValue.totalPrice = this.totalPrice;
-                                this.formValue.totalQuantity = this.totalQuantity;
-
                                 if (!(!this.totalQuantity || !this.totalPrice)) {
-                                    _context3.next = 7;
+                                    _context3.next = 5;
                                     break;
                                 }
 
                                 this.loading = false;
                                 this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
 
-                                _context3.next = 21;
+                                _context3.next = 19;
                                 break;
 
-                            case 7:
+                            case 5:
                                 this.loading = true;
-                                _context3.prev = 8;
-                                _context3.next = 11;
+                                _context3.prev = 6;
+                                _context3.next = 9;
                                 return axios({
                                     method: 'post',
-                                    url: '/app/sell',
+                                    url: '/app/returnInvoice',
                                     data: this.formValue
                                 });
 
-                            case 11:
+                            case 9:
                                 _ref6 = _context3.sent;
                                 data = _ref6.data;
 
 
                                 this.s('Great!', 'Sell has been added successfully!');
                                 this.loading = false;
-                                _context3.next = 21;
+                                _context3.next = 19;
                                 break;
 
-                            case 17:
-                                _context3.prev = 17;
-                                _context3.t0 = _context3['catch'](8);
+                            case 15:
+                                _context3.prev = 15;
+                                _context3.t0 = _context3['catch'](6);
 
                                 this.loading = false;
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
-                            case 21:
+                            case 19:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[8, 17]]);
+                }, _callee3, this, [[6, 15]]);
             }));
 
             function sellProduct() {
@@ -90280,7 +90354,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("th", [_vm._v("Quantity")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Price")])
+                    _c("th", [_vm._v("Price")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Return")])
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.formValue.productDetails, function(data, i) {
@@ -90293,13 +90369,27 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(data.product.size))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.unitPrice))]),
+                      _c(
+                        "td",
+                        [
+                          _vm._v(_vm._s(data.unitPrice)),
+                          data.discount
+                            ? _c(
+                                "Tag",
+                                { attrs: { color: "red", type: "border" } },
+                                [_vm._v("-" + _vm._s(data.discount) + "%")]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "td",
                         [
                           _c("InputNumber", {
                             attrs: { min: 0, max: data.stock },
+                            on: { "on-change": _vm.quantityChange },
                             model: {
                               value: data.quantity,
                               callback: function($$v) {
@@ -90318,22 +90408,43 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: data.unitPrice,
-                              expression: "data.unitPrice"
+                              value: data.discountedPrice * data.quantity,
+                              expression: "data.discountedPrice*data.quantity"
                             }
                           ],
                           attrs: { type: "number", disabled: "" },
-                          domProps: { value: data.unitPrice },
+                          domProps: {
+                            value: data.discountedPrice * data.quantity
+                          },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(data, "unitPrice", $event.target.value)
+                              _vm.$set(
+                                data.discountedPrice * data,
+                                "quantity",
+                                $event.target.value
+                              )
                             }
                           }
                         })
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c("Button", {
+                            attrs: { type: "error", icon: "ios-trash" },
+                            on: {
+                              click: function($event) {
+                                _vm.removeItem(i)
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ])
                   }),
                   _vm._v(" "),
@@ -90347,9 +90458,9 @@ var render = function() {
                       [_vm._v("Sub Total ")]
                     ),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
+                    _c("td", [_vm._v(_vm._s(_vm.formValue.totalQuantity))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.totalPrice))])
+                    _c("td", [_vm._v(_vm._s(_vm.formValue.subTotal))])
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -90424,34 +90535,23 @@ var render = function() {
                       [_vm._v("Paid Amount")]
                     ),
                     _vm._v(" "),
-                    _c("td", [
-                      _vm.formValue.subTotal > 0
-                        ? _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
+                    _c(
+                      "td",
+                      [
+                        _vm.formValue.subTotal > 0
+                          ? _c("InputNumber", {
+                              model: {
                                 value: _vm.formValue.paidAmount,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.formValue, "paidAmount", $$v)
+                                },
                                 expression: "formValue.paidAmount"
                               }
-                            ],
-                            attrs: { type: "number" },
-                            domProps: { value: _vm.formValue.paidAmount },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.formValue,
-                                  "paidAmount",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        : _vm._e()
-                    ])
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
                   ])
                 ],
                 2
@@ -90478,11 +90578,11 @@ var render = function() {
                         size: "large",
                         loading: _vm.sending
                       },
-                      on: { click: _vm.makeSell }
+                      on: { click: _vm.makeReturn }
                     },
                     [
                       !_vm.loading
-                        ? _c("span", [_vm._v("Sell")])
+                        ? _c("span", [_vm._v("Update Sell")])
                         : _c("span", [_vm._v("Loading...")])
                     ]
                   )

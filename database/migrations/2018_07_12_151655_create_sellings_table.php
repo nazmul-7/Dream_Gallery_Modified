@@ -20,7 +20,7 @@ class CreateSellingsTable extends Migration
             $table->integer('product_id');
             $table->integer('quantity');
             $table->float('unitPrice')->nullable();
-            $table->float('discountedPrice')->nullable();
+            $table->float('discount')->nullable();
             $table->float('profit')->nullable();
             $table->integer('hasReturned')->default(0);
             $table->timestamps();

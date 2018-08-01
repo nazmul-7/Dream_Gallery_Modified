@@ -122,7 +122,7 @@ class SellingController extends Controller
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['sellingPrice'],
-                'discountedPrice' => $value['discountedPrice'],
+                'discount' => $value['discount'],
                 'profit' => $profit,
             ]);
         }
