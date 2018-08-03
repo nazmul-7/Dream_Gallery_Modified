@@ -13,6 +13,10 @@ class Selling extends Model
     public function invoice()
     {
        return $this->belongsTo('App\Invoice');
+    }
+    public function admin()
+    {
+       return $this->belongsTo('App\User', 'admin_id');
     } 
     public function product()
     {

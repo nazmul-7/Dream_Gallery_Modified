@@ -112,41 +112,31 @@
                 },
                 columns1: [
                     {
-                        title: 'Invoice ID',
-                        key: 'id'
-                    },
-                    {
                         title: 'Admin',
                         key: 'adminName'
+                    },  
+                    {
+                        title: 'Item Name',
+                        key: 'productName'
+                    },
+
+                    {
+                        title: 'Quantity',
+                        key: 'quantity'
                     },
                     {
-                        title: 'Customer',
-                        key: 'customerName'
-                    },
-                    {
-                        title: 'Total Quantity',
-                        key: 'totalQuantity'
-                    },
-                    {
-                        title: 'Total Price',
-                        key: 'totalPrice'
+                        title: 'Profit',
+                        key: 'profit'
                     },
                     {
                         title: 'Discount',
                         key: 'discount'
                     },
                     {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
+                        title: 'Price',
+                        key: 'unitPrice'
                     },
-                    {
-                        title: 'Total Price',
-                        key: 'totalPrice'
-                    },
-                    {
-                        title: 'Date',
-                        key: 'date'
-                    },
+
                     {   
                         title: 'Action',
                         key: 'action',
@@ -414,13 +404,12 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/sell' //1=purchases
+                    url:'/app/sellitemlist' //1=purchases
 
                 })
                 for(let d of data){
                     d.adminName=d.admin.name
-                    if(d.customer)
-                    d.customerName=d.customer.customerName
+                    d.productName=d.product.productName
                 }
                 this.dataInvoice=data
                 this.lf();

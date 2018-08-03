@@ -18,7 +18,19 @@ class SellingController extends Controller
      */
     public function index()
     {
-        //
+        $data=Invoice::where('type','sell')
+        ->with('admin')
+        ->with('customer')
+        ->orderBy('id', 'desc')->get();
+        return $data;
+    }
+    public function sellitemlist()
+    {
+        $data=Selling::with('admin')
+        ->with('product')
+        ->orderBy('id', 'desc')->get();
+        return $data;
+
     }
 
     /**

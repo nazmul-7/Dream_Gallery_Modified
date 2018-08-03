@@ -63,6 +63,10 @@ Route::get('/app/payment/getOutstandingCustomer/{id}','PaymentController@getOuts
 Route::post('/app/paymentSupplier','PaymentController@paymentSupplier');
 Route::post('/app/paymentCustomer','PaymentController@paymentCustomer');
 Route::post('/app/returnInvoice','InvoiceController@returnInvoice');
+//list
+Route::get('/app/sellitemlist','SellingController@sellitemlist');
+Route::get('/app/getProductProfit','ReportController@getProductProfit');
+
 
 Route::get('/logout', function () {
 	Auth::logout();

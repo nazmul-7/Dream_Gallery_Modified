@@ -1,8 +1,12 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-            <h2>Invoice List</h2>
+            <Col class="dream-input-main" span="14" offset="1">
+            <h2>Item Profit List</h2>
+                <Table :columns="columns1" :data="dataInvoice"></Table>
+            </Col>
+            <Col class="dream-input-main" span="7" offset="1">
+            <h2>Ttoal Gross Profit</h2>
                 <Table :columns="columns1" :data="dataInvoice"></Table>
             </Col>
         </Row>
@@ -72,6 +76,8 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
+                grossProfit:'',
+                totalUnitPrice:'',
                 dataSupplier: [],
                 currentSupplier: {
                     supplierName:'',
@@ -110,78 +116,25 @@
                     groupName:'',
                     
                 },
-                columns1: [
+                columns1: [ 
                     {
-                        title: 'Invoice ID',
-                        key: 'id'
+                        title: 'Item Name',
+                        key: 'productName'
+                    },
+
+                    {
+                        title: 'Quantity',
+                        key: 'quantity'
                     },
                     {
-                        title: 'Admin',
-                        key: 'adminName'
+                        title: 'Unit Profit',
+                        key: 'profit'
                     },
                     {
-                        title: 'Customer',
-                        key: 'customerName'
+                        title: 'Total Profit',
+                        key: 'totalProfit'
                     },
-                    {
-                        title: 'Total Quantity',
-                        key: 'totalQuantity'
-                    },
-                    {
-                        title: 'Total Price',
-                        key: 'totalPrice'
-                    },
-                    {
-                        title: 'Discount',
-                        key: 'discount'
-                    },
-                    {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
-                    },
-                    {
-                        title: 'Total Price',
-                        key: 'totalPrice'
-                    },
-                    {
-                        title: 'Date',
-                        key: 'date'
-                    },
-                    {   
-                        title: 'Action',
-                        key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showEdit(params.index)
-                                        }
-                                    }
-                                }, 'Edit'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showRemove(params.index)
-                                        }
-                                    }
-                                }, 'Delete')
-                            ]);
-                        }
-                    }
+
                 ],
 
                 
@@ -414,14 +367,23 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/sell' //1=purchases
+                    url:'/app/getProductProfit' //1=purchases
 
                 })
-                for(let d of data){
-                    d.adminName=d.admin.name
-                    if(d.customer)
-                    d.customerName=d.customer.customerName
+                var grossProfit=0
+                var totalBuying=0
+                var itemUnitPrice=0
+                var unitBuying=0
+                for(let d of data.sell){
+                    itemUnitPrice=d.unitPrice*d.quantity
+                    d.totalProfit=d.profit*d.quantity
+                    unitBuying=itemUnitPrice-d.totalProfit
+                    d.productName=d.product.productName
+                    grossProfit+=d.totalProfit
+                    totalUnitBuying+=unitBuying
                 }
+                this.netProfit=totalUnitPrice
+                this.grossProfit=grossProfit
                 this.dataInvoice=data
                 this.lf();
 

@@ -21,6 +21,8 @@ import returnproduct from './components/return/returnproduct.vue'
 import order from './components/order/order.vue'
 //reports
 import selllist from './components/sell/selllist.vue'
+import itemselling from './components/sell/itemselling.vue'
+import profit from './components/profit/profit.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -126,6 +128,16 @@ export default new Router({
 	      path: '/selllist',
 	      name: 'selllist',
 	      component: selllist
+			},
+			{
+	      path: '/itemselling',
+	      name: 'itemselling',
+	      component: itemselling
+			},
+			{
+	      path: '/profit',
+	      name: 'profit',
+	      component: profit
 	    },
 	 ]
 })
