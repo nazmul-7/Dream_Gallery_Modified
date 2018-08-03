@@ -22,13 +22,13 @@
                                 </Row>
                             </FormItem >
                         </Col>
-                        <Col span="11" offset="1">
+                        <Col span="22" offset="1">
                             <FormItem  label="Barcode">
                                 <Input type="text" placeholder="Barcode" 
-                                v-model="formValue.barCode"></Input>
+                                v-model="formValue.barCode"  @on-enter="setData" ></Input>
                             </FormItem >
                         </Col>
-                        <Col span="11" offset="1">
+                        <!-- <Col span="11" offset="1">
                             <FormItem  label="Search Product">
                                 <br>
                                 <Row >
@@ -43,7 +43,7 @@
                                     </Col>
                                 </Row>
                             </FormItem >
-                        </Col>
+                        </Col> -->
                     </Row>
                 </Form>
                 <h2>Product List</h2>
@@ -369,12 +369,26 @@
             },
             async setData()
             {
+                if(this.formValue.barCode)
+                {
+                    for(let d of this.formValue.productDetails)
+                    {
+                        if(d.barCode == this.formValue.barCode){
+                            this.i('Product already added')
+                             return 
+
+                            }
+                        }
+
+                    
+                }
                 try{
                 let {data} =await axios({
                     method: 'get',
-                    url:`/app/searchProduct/${this.searchValue}`,
+                    url:`/app/searchProduct/${this.formValue.barCode}`,
                     })
-                    this.dataSearch=data;
+                    if(data)
+                    this.formValue.productDetails.push(data)
                     this.lf();
 
                 }catch(e){

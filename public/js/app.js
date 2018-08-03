@@ -8581,42 +8581,109 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         setData: function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var _ref4, data;
+                var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d, _ref4, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context2.prev = 0;
-                                _context2.next = 3;
+                                if (!this.formValue.barCode) {
+                                    _context2.next = 28;
+                                    break;
+                                }
+
+                                _iteratorNormalCompletion = true;
+                                _didIteratorError = false;
+                                _iteratorError = undefined;
+                                _context2.prev = 4;
+                                _iterator = this.formValue.productDetails[Symbol.iterator]();
+
+                            case 6:
+                                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                                    _context2.next = 14;
+                                    break;
+                                }
+
+                                d = _step.value;
+
+                                if (!(d.barCode == this.formValue.barCode)) {
+                                    _context2.next = 11;
+                                    break;
+                                }
+
+                                this.i('Product already added');
+                                return _context2.abrupt('return');
+
+                            case 11:
+                                _iteratorNormalCompletion = true;
+                                _context2.next = 6;
+                                break;
+
+                            case 14:
+                                _context2.next = 20;
+                                break;
+
+                            case 16:
+                                _context2.prev = 16;
+                                _context2.t0 = _context2['catch'](4);
+                                _didIteratorError = true;
+                                _iteratorError = _context2.t0;
+
+                            case 20:
+                                _context2.prev = 20;
+                                _context2.prev = 21;
+
+                                if (!_iteratorNormalCompletion && _iterator.return) {
+                                    _iterator.return();
+                                }
+
+                            case 23:
+                                _context2.prev = 23;
+
+                                if (!_didIteratorError) {
+                                    _context2.next = 26;
+                                    break;
+                                }
+
+                                throw _iteratorError;
+
+                            case 26:
+                                return _context2.finish(23);
+
+                            case 27:
+                                return _context2.finish(20);
+
+                            case 28:
+                                _context2.prev = 28;
+                                _context2.next = 31;
                                 return axios({
                                     method: 'get',
-                                    url: '/app/searchProduct/' + this.searchValue
+                                    url: '/app/searchProduct/' + this.formValue.barCode
                                 });
 
-                            case 3:
+                            case 31:
                                 _ref4 = _context2.sent;
                                 data = _ref4.data;
 
-                                this.dataSearch = data;
+                                if (data) this.formValue.productDetails.push(data);
                                 this.lf();
 
-                                _context2.next = 13;
+                                _context2.next = 41;
                                 break;
 
-                            case 9:
-                                _context2.prev = 9;
-                                _context2.t0 = _context2['catch'](0);
+                            case 37:
+                                _context2.prev = 37;
+                                _context2.t1 = _context2['catch'](28);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
-                            case 13:
+                            case 41:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[0, 9]]);
+                }, _callee2, this, [[4, 16, 20, 28], [21,, 23, 27], [28, 37]]);
             }));
 
             function setData() {
@@ -8815,7 +8882,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     created: function () {
         var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee6() {
-            var _ref12, data, _ref13, _data, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
+            var _ref12, data, _ref13, _data, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, d;
 
             return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
                 while (1) {
@@ -8858,13 +8925,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         case 17:
                             _ref13 = _context6.sent;
                             _data = _ref13.data;
-                            _iteratorNormalCompletion = true;
-                            _didIteratorError = false;
-                            _iteratorError = undefined;
+                            _iteratorNormalCompletion2 = true;
+                            _didIteratorError2 = false;
+                            _iteratorError2 = undefined;
                             _context6.prev = 22;
 
-                            for (_iterator = _data[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                                d = _step.value;
+                            for (_iterator2 = _data[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                d = _step2.value;
 
                                 d.supplierName = d.supplier.supplierName;
                             }
@@ -8874,26 +8941,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         case 26:
                             _context6.prev = 26;
                             _context6.t1 = _context6['catch'](22);
-                            _didIteratorError = true;
-                            _iteratorError = _context6.t1;
+                            _didIteratorError2 = true;
+                            _iteratorError2 = _context6.t1;
 
                         case 30:
                             _context6.prev = 30;
                             _context6.prev = 31;
 
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                _iterator2.return();
                             }
 
                         case 33:
                             _context6.prev = 33;
 
-                            if (!_didIteratorError) {
+                            if (!_didIteratorError2) {
                                 _context6.next = 36;
                                 break;
                             }
 
-                            throw _iteratorError;
+                            throw _iteratorError2;
 
                         case 36:
                             return _context6.finish(33);
@@ -9024,6 +9091,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             isCollapsed: false,
             grossProfit: '',
             totalUnitPrice: '',
+            netProfit: '',
             dataSupplier: [],
             currentSupplier: {
                 supplierName: '',
@@ -9421,7 +9489,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     created: function () {
         var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee6() {
-            var _ref12, data, _ref13, _data, grossProfit, totalBuying, itemUnitPrice, unitBuying, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
+            var _ref12, data, _ref13, _data, grossProfit, totalUnitBuying, itemUnitPrice, unitBuying, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
 
             return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
                 while (1) {
@@ -9465,7 +9533,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             _ref13 = _context6.sent;
                             _data = _ref13.data;
                             grossProfit = 0;
-                            totalBuying = 0;
+                            totalUnitBuying = 0;
                             itemUnitPrice = 0;
                             unitBuying = 0;
                             _iteratorNormalCompletion = true;
@@ -9517,9 +9585,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             return _context6.finish(34);
 
                         case 42:
-                            this.netProfit = totalUnitPrice;
-                            this.grossProfit = grossProfit;
-                            this.dataInvoice = _data;
+                            this.netProfit = Math.round(_data.totalSelling - totalUnitBuying);
+                            this.grossProfit = Math.round(grossProfit);
+                            this.dataInvoice = _data.sell;
                             this.lf();
 
                             _context6.next = 52;
@@ -10833,26 +10901,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -10905,6 +10953,35 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 total += parseInt(this.formValue.productDetails[i].quantity);
             }
             return total;
+        },
+        totalPrice: function totalPrice() {
+            var sum = 0;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.formValue.productDetails[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var d = _step.value;
+
+                    sum += parseInt(d.quantity) * parseInt(d.discountedPrice);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return sum;
         }
     },
     methods: {
@@ -10916,16 +10993,35 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         quantityChange: function quantityChange() {
 
             var totalPrice = 0;
-            for (var i = 0; i < this.formValue.productDetails.length; i++) {
-                this.formValue.productDetails[i].quantity;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
 
-                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].sellingPrice;
+            try {
+                for (var _iterator2 = this.formValue.productDetails[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var d = _step2.value;
+
+                    totalPrice += d.quantity * d.discountedPrice;
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
             }
+
             totalPrice = Math.round(totalPrice).toFixed(2);
             this.formValue.total = parseFloat(totalPrice);
             this.formValue.paidAmount = parseFloat(totalPrice);
             this.formValue.subTotal = parseFloat(totalPrice);
-            console.log(this.formValue);
         },
         discount: function discount() {
             var totalOld = this.formValue.subTotal;
@@ -11030,9 +11126,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 return _context.abrupt('return', 0);
 
                             case 29:
-                                this.quantityChange();
-
-                            case 30:
                             case 'end':
                                 return _context.stop();
                         }
@@ -11111,42 +11204,188 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         setData: function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
-                var _ref6, data;
+                var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, d, _ref6, data, ps, ss, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _d, _d2, disco;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
-                                _context3.prev = 0;
-                                _context3.next = 3;
-                                return axios({
-                                    method: 'get',
-                                    url: '/app/searchProduct/' + this.searchValue
-                                });
+                                if (!this.formValue.barCode) {
+                                    _context3.next = 31;
+                                    break;
+                                }
 
-                            case 3:
-                                _ref6 = _context3.sent;
-                                data = _ref6.data;
+                                _iteratorNormalCompletion3 = true;
+                                _didIteratorError3 = false;
+                                _iteratorError3 = undefined;
+                                _context3.prev = 4;
+                                _iterator3 = this.formValue.productDetails[Symbol.iterator]();
 
-                                this.dataSearch = data;
-                                this.lf();
+                            case 6:
+                                if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+                                    _context3.next = 17;
+                                    break;
+                                }
 
-                                _context3.next = 13;
+                                d = _step3.value;
+
+                                if (!(d.barCode == this.formValue.barCode)) {
+                                    _context3.next = 14;
+                                    break;
+                                }
+
+                                if (!(d.stock == d.quantity)) {
+                                    _context3.next = 11;
+                                    break;
+                                }
+
+                                return _context3.abrupt('return', this.i('You have acceded the available stock'));
+
+                            case 11:
+                                d.quantity++;
+                                this.quantityChange();
+                                return _context3.abrupt('return');
+
+                            case 14:
+                                _iteratorNormalCompletion3 = true;
+                                _context3.next = 6;
                                 break;
 
-                            case 9:
-                                _context3.prev = 9;
-                                _context3.t0 = _context3['catch'](0);
+                            case 17:
+                                _context3.next = 23;
+                                break;
 
+                            case 19:
+                                _context3.prev = 19;
+                                _context3.t0 = _context3['catch'](4);
+                                _didIteratorError3 = true;
+                                _iteratorError3 = _context3.t0;
+
+                            case 23:
+                                _context3.prev = 23;
+                                _context3.prev = 24;
+
+                                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                    _iterator3.return();
+                                }
+
+                            case 26:
+                                _context3.prev = 26;
+
+                                if (!_didIteratorError3) {
+                                    _context3.next = 29;
+                                    break;
+                                }
+
+                                throw _iteratorError3;
+
+                            case 29:
+                                return _context3.finish(26);
+
+                            case 30:
+                                return _context3.finish(23);
+
+                            case 31:
+                                _context3.prev = 31;
+                                _context3.next = 34;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/searchProduct/' + this.formValue.barCode
+                                });
+
+                            case 34:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+                                ps = 0, ss = 0;
+
+                                if (data.purchase_stock.stock) {
+                                    ps = data.purchase_stock.stock;
+                                }
+
+                                if (data.sell_stock) {
+                                    console.log('IU am');
+                                    ss = data.sell_stock.stock;
+                                }
+
+                                data.stock = ps - ss;
+                                data.quantity = 1;
+                                _iteratorNormalCompletion4 = true;
+                                _didIteratorError4 = false;
+                                _iteratorError4 = undefined;
+                                _context3.prev = 44;
+                                for (_iterator4 = this.dataGroup[Symbol.iterator](); !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                                    _d = _step4.value;
+
+                                    if (_d.groupName == data.groupName) {
+                                        data.discount = _d.discount;
+                                    }
+                                }
+                                _context3.next = 52;
+                                break;
+
+                            case 48:
+                                _context3.prev = 48;
+                                _context3.t1 = _context3['catch'](44);
+                                _didIteratorError4 = true;
+                                _iteratorError4 = _context3.t1;
+
+                            case 52:
+                                _context3.prev = 52;
+                                _context3.prev = 53;
+
+                                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                                    _iterator4.return();
+                                }
+
+                            case 55:
+                                _context3.prev = 55;
+
+                                if (!_didIteratorError4) {
+                                    _context3.next = 58;
+                                    break;
+                                }
+
+                                throw _iteratorError4;
+
+                            case 58:
+                                return _context3.finish(55);
+
+                            case 59:
+                                return _context3.finish(52);
+
+                            case 60:
+                                if (data.discount) {
+                                    _d2 = data.discount * data.sellingPrice / 100;
+
+                                    data.discountedPrice = data.sellingPrice - _d2;
+                                } else {
+                                    data.discountedPrice = data.sellingPrice;
+                                }
+
+                                disco = void 0;
+
+
+                                this.formValue.productDetails.push(data);
+                                this.quantityChange();
+                                this.lf();
+
+                                _context3.next = 72;
+                                break;
+
+                            case 67:
+                                _context3.prev = 67;
+                                _context3.t2 = _context3['catch'](31);
+
+                                console.log(0);
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
 
-                            case 13:
+                            case 72:
                             case 'end':
                                 return _context3.stop();
                         }
                     }
-                }, _callee3, this, [[0, 9]]);
+                }, _callee3, this, [[4, 19, 23, 31], [24,, 26, 30], [31, 67], [44, 48, 52, 60], [53,, 55, 59]]);
             }));
 
             function setData() {
@@ -90013,120 +90252,20 @@ var render = function() {
             },
             [
               _c(
-                "Form",
-                { ref: "header" },
+                "Col",
+                { attrs: { span: "11", offset: "1" } },
                 [
-                  _c(
-                    "Col",
-                    { attrs: { span: "11", offset: "1" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Barcode" } },
-                        [
-                          _c("Input", {
-                            attrs: { type: "text", placeholder: "Barcode" },
-                            model: {
-                              value: _vm.formValue.barCode,
-                              callback: function($$v) {
-                                _vm.$set(_vm.formValue, "barCode", $$v)
-                              },
-                              expression: "formValue.barCode"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "Col",
-                    { attrs: { span: "11", offset: "1" } },
-                    [
-                      _c(
-                        "FormItem",
-                        { attrs: { label: "Search Product" } },
-                        [
-                          _c("br"),
-                          _vm._v(" "),
-                          _c(
-                            "Row",
-                            [
-                              _c(
-                                "Col",
-                                { attrs: { span: "22" } },
-                                [
-                                  _c(
-                                    "AutoComplete",
-                                    {
-                                      attrs: {
-                                        icon: "ios-search",
-                                        placeholder: "input here"
-                                      },
-                                      on: {
-                                        "on-search": _vm.setData,
-                                        "on-select": _vm.addProduct
-                                      },
-                                      model: {
-                                        value: _vm.searchValue,
-                                        callback: function($$v) {
-                                          _vm.searchValue = $$v
-                                        },
-                                        expression: "searchValue"
-                                      }
-                                    },
-                                    _vm._l(_vm.dataSearch, function(option, i) {
-                                      return _c(
-                                        "Option",
-                                        { key: i, attrs: { value: i } },
-                                        [
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "demo-auto-complete-title"
-                                            },
-                                            [_vm._v(_vm._s(option.model))]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "demo-auto-complete-count"
-                                            },
-                                            [
-                                              _vm._v(
-                                                _vm._s(option.groupName) +
-                                                  " | " +
-                                                  _vm._s(option.catName) +
-                                                  " | " +
-                                                  _vm._s(option.color) +
-                                                  " | " +
-                                                  _vm._s(option.size) +
-                                                  " | " +
-                                                  _vm._s(option.sellingPrice)
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    })
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  _c("Input", {
+                    attrs: { type: "text", placeholder: "Barcode" },
+                    on: { "on-enter": _vm.setData },
+                    model: {
+                      value: _vm.formValue.barCode,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formValue, "barCode", $$v)
+                      },
+                      expression: "formValue.barCode"
+                    }
+                  })
                 ],
                 1
               ),
@@ -90171,11 +90310,13 @@ var render = function() {
                         "td",
                         [
                           _vm._v(_vm._s(data.sellingPrice) + " "),
-                          _c(
-                            "Tag",
-                            { attrs: { color: "red", type: "border" } },
-                            [_vm._v("-" + _vm._s(data.discount) + "%")]
-                          )
+                          data.discount
+                            ? _c(
+                                "Tag",
+                                { attrs: { color: "red", type: "border" } },
+                                [_vm._v("-" + _vm._s(data.discount) + "%")]
+                              )
+                            : _vm._e()
                         ],
                         1
                       ),
@@ -90186,7 +90327,7 @@ var render = function() {
                         "td",
                         [
                           _c("InputNumber", {
-                            attrs: { min: 0, max: parseInt(data.stock) },
+                            attrs: { min: 1, max: data.stock },
                             on: { "on-change": _vm.quantityChange },
                             model: {
                               value: data.quantity,
@@ -90206,11 +90347,15 @@ var render = function() {
                           _c("InputNumber", {
                             attrs: { disabled: "" },
                             model: {
-                              value: data.sellingPrice,
+                              value: data.discountedPrice * data.quantity,
                               callback: function($$v) {
-                                _vm.$set(data, "sellingPrice", $$v)
+                                _vm.$set(
+                                  data.discountedPrice * data,
+                                  "quantity",
+                                  $$v
+                                )
                               },
-                              expression: "data.sellingPrice"
+                              expression: "data.discountedPrice*data.quantity"
                             }
                           })
                         ],
@@ -90247,7 +90392,7 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
                     _vm._v(" "),
                     _c("td", { attrs: { colspan: "2" } }, [
-                      _vm._v(_vm._s(_vm.formValue.subTotal))
+                      _vm._v(_vm._s(_vm.totalPrice))
                     ])
                   ]),
                   _vm._v(" "),
@@ -91554,13 +91699,16 @@ var render = function() {
               attrs: { span: "7", offset: "1" }
             },
             [
-              _c("h2", [_vm._v("Ttoal Gross Profit")]),
+              _c("p", [
+                _c("b", [_vm._v("Total Gross Profit")]),
+                _vm._v(": " + _vm._s(_vm.grossProfit))
+              ]),
               _vm._v(" "),
-              _c("Table", {
-                attrs: { columns: _vm.columns1, data: _vm.dataInvoice }
-              })
-            ],
-            1
+              _c("p", [
+                _c("b", [_vm._v("Total Net Profit")]),
+                _vm._v(": " + _vm._s(_vm.netProfit))
+              ])
+            ]
           )
         ],
         1
@@ -91877,7 +92025,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Col",
-                        { attrs: { span: "11", offset: "1" } },
+                        { attrs: { span: "22", offset: "1" } },
                         [
                           _c(
                             "FormItem",
@@ -91885,6 +92033,7 @@ var render = function() {
                             [
                               _c("Input", {
                                 attrs: { type: "text", placeholder: "Barcode" },
+                                on: { "on-enter": _vm.setData },
                                 model: {
                                   value: _vm.formValue.barCode,
                                   callback: function($$v) {
@@ -91893,98 +92042,6 @@ var render = function() {
                                   expression: "formValue.barCode"
                                 }
                               })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "Col",
-                        { attrs: { span: "11", offset: "1" } },
-                        [
-                          _c(
-                            "FormItem",
-                            { attrs: { label: "Search Product" } },
-                            [
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "Row",
-                                [
-                                  _c(
-                                    "Col",
-                                    { attrs: { span: "22" } },
-                                    [
-                                      _c(
-                                        "AutoComplete",
-                                        {
-                                          attrs: {
-                                            icon: "ios-search",
-                                            placeholder: "input here"
-                                          },
-                                          on: {
-                                            "on-search": _vm.setData,
-                                            "on-select": _vm.addProduct
-                                          },
-                                          model: {
-                                            value: _vm.searchValue,
-                                            callback: function($$v) {
-                                              _vm.searchValue = $$v
-                                            },
-                                            expression: "searchValue"
-                                          }
-                                        },
-                                        _vm._l(_vm.dataSearch, function(
-                                          option,
-                                          i
-                                        ) {
-                                          return _c(
-                                            "Option",
-                                            { key: i, attrs: { value: i } },
-                                            [
-                                              _c(
-                                                "span",
-                                                {
-                                                  staticClass:
-                                                    "demo-auto-complete-title"
-                                                },
-                                                [_vm._v(_vm._s(option.model))]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "span",
-                                                {
-                                                  staticClass:
-                                                    "demo-auto-complete-count"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(option.groupName) +
-                                                      " | " +
-                                                      _vm._s(option.catName) +
-                                                      " | " +
-                                                      _vm._s(option.color) +
-                                                      " | " +
-                                                      _vm._s(option.size) +
-                                                      " | " +
-                                                      _vm._s(
-                                                        option.sellingPrice
-                                                      )
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        })
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
                             ],
                             1
                           )

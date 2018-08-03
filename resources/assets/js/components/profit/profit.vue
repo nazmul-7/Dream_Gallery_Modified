@@ -6,8 +6,8 @@
                 <Table :columns="columns1" :data="dataInvoice"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
-            <h2>Ttoal Gross Profit</h2>
-                <Table :columns="columns1" :data="dataInvoice"></Table>
+            <p><b>Total Gross Profit</b>: {{grossProfit}}</p>
+            <p><b>Total Net Profit</b>: {{netProfit}}</p>
             </Col>
         </Row>
 
@@ -78,6 +78,7 @@
                 isCollapsed: false,
                 grossProfit:'',
                 totalUnitPrice:'',
+                netProfit:'',
                 dataSupplier: [],
                 currentSupplier: {
                     supplierName:'',
@@ -371,7 +372,7 @@
 
                 })
                 var grossProfit=0
-                var totalBuying=0
+                var totalUnitBuying=0
                 var itemUnitPrice=0
                 var unitBuying=0
                 for(let d of data.sell){
@@ -382,9 +383,9 @@
                     grossProfit+=d.totalProfit
                     totalUnitBuying+=unitBuying
                 }
-                this.netProfit=totalUnitPrice
-                this.grossProfit=grossProfit
-                this.dataInvoice=data
+                this.netProfit=Math.round(data.totalSelling-totalUnitBuying)
+                this.grossProfit=Math.round(grossProfit)
+                this.dataInvoice=data.sell
                 this.lf();
 
             }catch(e){
