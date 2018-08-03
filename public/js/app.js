@@ -111863,6 +111863,8 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_return_returnproduct_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_order_order_vue__ = __webpack_require__("./resources/assets/js/components/order/order.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_order_order_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_order_order_vue__);
+throw new Error("Cannot find module \"./components/sell/selllist.vue\"");
+
 
 
 
@@ -111964,6 +111966,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/order',
 						name: 'order',
 						component: __WEBPACK_IMPORTED_MODULE_20__components_order_order_vue___default.a
+			}, {
+						path: '/selllist',
+						name: 'selllist',
+						component: __WEBPACK_IMPORTED_MODULE_21__components_sell_selllist_vue___default.a
 			}]
 }));
 

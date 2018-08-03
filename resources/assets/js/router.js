@@ -19,6 +19,8 @@ import paytosupplier from './components/payment/paytosupplier.vue'
 import cashcollection from './components/payment/cashcollection.vue'
 import returnproduct from './components/return/returnproduct.vue'
 import order from './components/order/order.vue'
+//reports
+import selllist from './components/sell/selllist.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -119,6 +121,11 @@ export default new Router({
 	      path: '/order',
 	      name: 'order',
 	      component: order
+			},
+			{
+	      path: '/selllist',
+	      name: 'selllist',
+	      component: selllist
 	    },
 	 ]
 })
