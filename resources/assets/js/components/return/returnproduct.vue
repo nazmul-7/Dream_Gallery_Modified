@@ -2,14 +2,14 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="16" offset="1">
-                <Form>
+
                         <Col span="11" offset="1">
-                            <FormItem  label="Barcode">
-                                <Input type="text" placeholder="Barcode" 
-                                v-model="formValue.barCode"></Input>
-                            </FormItem >
+
+                                 <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                                v-model="formValue.barCode"></Input>  
+
                         </Col>
-                        <Col span="11" offset="1">
+                        <!-- <Col span="11" offset="1">
                             <FormItem  label="Search Product">
                                 <br>
                                 <Row>
@@ -24,8 +24,8 @@
                                     </Col>
                                 </Row>
                             </FormItem >
-                        </Col>
-                    </Form>
+                        </Col> -->
+
 
                 <h2>Product List</h2>
 
@@ -38,21 +38,23 @@
                     <th>Unit Price</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>Return</th>
                   </tr>
                   <tr v-for="(data,i) in formValue.productDetails" :key="i">
                     <td >{{data.product.productName}}</td>
                     <td >{{data.product.model}}</td>
                     <td >{{data.product.color}}</td>
                     <td>{{data.product.size}}</td>
-                    <td>{{data.unitPrice}}</td>
-                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity"></InputNumber></td>
-                    <td><input type="number" v-model="data.unitPrice" disabled></input></td>
+                    <td>{{data.unitPrice}}<Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
+                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity" @on-change="quantityChange"></InputNumber></td>
+                    <td><input type="number" v-model="data.discountedPrice*data.quantity" disabled></input></td>
+                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
                   </tr>
 
                   <tr style="background-color: #e9eaec;" >
                     <td colspan="6" style="text-align:right;">Sub Total </td>
-                    <td >{{totalQuantity}}</td>
-                    <td >{{totalPrice}}</td>
+                    <td >{{formValue.totalQuantity}}</td>
+                    <td >{{formValue.subTotal}}</td>
                     
                   </tr>
                 <tr >
@@ -65,7 +67,7 @@
                 </tr>
                 <tr >
                     <td colspan="7" style="text-align:right">Paid Amount</td>
-                    <td><input  v-if="formValue.subTotal>0"  type="number" v-model="formValue.paidAmount"></input></td>
+                    <td><InputNumber  v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
                 </tr>
 
                 </table>
@@ -74,8 +76,8 @@
                         Clear
                     </Button>
 
-                    <Button type="primary" size="large" :loading="sending" @click="makeSell">
-                        <span v-if="!loading">Sell</span>
+                    <Button type="primary" size="large" :loading="sending" @click="makeReturn">
+                        <span v-if="!loading">Update Sell</span>
                         <span v-else>Loading...</span>
                     </Button>
                 </Col>
@@ -118,7 +120,7 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                dataSearch:[],
+                dataSearch:{},
                 dataCustomer:[],
                 dataInvoice: 
                 [],
@@ -152,36 +154,57 @@
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
             },
-            totalPrice()
-            {
-                var totalPrice=0
-                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+            // totalPrice()
+            // {
+            //     var totalPrice=0
+            //     for ( var i = 0; i < this.formValue.productDetails.length; i++) {
                   
-                        totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].unitPrice
-                    }
-                totalPrice=Math.round(totalPrice).toFixed(2)
-                this.formValue.total=totalPrice
-                this.formValue.paidAmount=totalPrice
-                this.formValue.subTotal=totalPrice
-                return totalPrice;
+            //             totalPrice+=this.formValue.productDetails[i].quantity*this.formValue.productDetails[i].unitPrice
+            //         }
+            //     totalPrice=Math.round(totalPrice).toFixed(2)
+            //     this.formValue.total=totalPrice
+            //     this.formValue.paidAmount=totalPrice
+            //     this.formValue.subTotal=totalPrice
+            //     return totalPrice;
                 
-            },
-            totalQuantity()
-            {
-                var total=0
-                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
-                        total+=parseInt(this.formValue.productDetails[i].quantity)   
-                    }
-                    return total   
-            },
+            // },
+            // totalQuantity()
+            // {
+            //     var total=0
+            //     for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+            //             total+=parseInt(this.formValue.productDetails[i].quantity)   
+            //         }
+            //         return total   
+            // },
             
 
         },
         methods: {
+            removeItem(index)
+            {
+                this.formValue.productDetails[index].quantity=0
+                this.quantityChange()
+            },
+            quantityChange()
+            {
+                
+                var totalPrice=0,totalQuantity=0
+                for ( let d of this.formValue.productDetails) {
+                        totalQuantity+=parseInt(d.quantity)               
+                        totalPrice+=(d.quantity*d.discountedPrice)
+                    }
+                totalPrice=Math.round(totalPrice).toFixed(2)
+                this.formValue.totalQuantity=totalQuantity
+                this.formValue.total=parseFloat(totalPrice)
+                this.formValue.paidAmount=parseFloat(totalPrice)
+                this.formValue.subTotal=parseFloat(totalPrice)
+                this.discount()
 
+  
+            },
             discount(){
-                var totalOld = this.totalPrice
-                var discountAmount = (this.formValue.discount*this.totalPrice)/100
+                var totalOld = this.formValue.subTotal
+                var discountAmount = (this.formValue.discount*this.formValue.subTotal)/100
                 var afterDiscount = totalOld - discountAmount
                 afterDiscount= Math.round(afterDiscount).toFixed(2)
                 this.formValue.total=afterDiscount
@@ -210,24 +233,39 @@
                 this.formValue.date=key
 
             },
-            async addProduct(k){
-                if(this.searchValue)
+            async addProduct(){
+                if(this.dataSearch)
                 {
+                    console.log(this.dataSearch.id)
             
                     try{
                         let {data} =await axios({
                             method: 'get',
-                            url:`/app/getInvoiceProducts/${this.dataSearch[k].id}`,
+                            url:`/app/getInvoiceProducts/${this.dataSearch.id}`,
                             })
                             
                             this.lf()
                             console.log(data)
+                            for (let c of data.data)
+                            {
+                                c.stock=c.quantity
+                                console.log(111);
+                                
+                                if(c.discount){
+                                let d= (c.discount*c.unitPrice)/100
+                                c.discountedPrice= c.unitPrice-d
+                                }else{
+                                        c.discountedPrice= c.unitPrice
+                                }
+                            }
                             this.formValue.productDetails=data.data
-                            this.formValue.subTotal=this.dataSearch[k].totalPrice
-                            this.formValue.paidAmount=this.dataSearch[k].paidAmount
-                            this.formValue.total=this.dataSearch[k].selllingPrice
-                            this.formValue.date=this.dataSearch[k].date
-                            this.searchValue=''
+                            this.formValue.subTotal=this.dataSearch.totalPrice
+                            this.formValue.totalQuantity=this.dataSearch.totalQuantity
+                            this.formValue.paidAmount=this.dataSearch.paidAmount
+                            this.formValue.total=this.dataSearch.sellingPrice
+                            this.formValue.discount=this.dataSearch.discount
+                            this.formValue.date=this.dataSearch.date
+                            this.formValue.barCode=''
                         }catch(e){
                             this.e('Oops!','Something went wrong, please try again!')
                             this.le()
@@ -241,23 +279,28 @@
             },
             async setData()
             {
-                try{
-                let {data} =await axios({
-                    method: 'get',
-                    url:`/app/searchInvoice/${this.searchValue}`,
-                    })
-                    this.dataSearch=data;
-                    this.lf();
+                if(this.formValue.barCode)
+                {
+                    try{
+                    let {data} =await axios({
+                        method: 'get',
+                        url:`/app/searchInvoice/${this.formValue.barCode}`,
+                        })
+                        this.dataSearch=data;
+                        this.addProduct()
+                        this.lf();
 
-                }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
-                    this.le();
+                    }catch(e){
+                        this.e('Oops!','Something went wrong, please try again!')
+                        this.le();
+                    }
                 }
             },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            makeSell()
+            
+            makeReturn()
             {
                 if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
                 {
@@ -273,8 +316,6 @@
             },
             async sellProduct (){
                 //invoice added
-                this.formValue.totalPrice=this.totalPrice
-                this.formValue.totalQuantity=this.totalQuantity
                 if( !this.totalQuantity || !this.totalPrice)
                 {
                     this.loading=false
@@ -287,7 +328,7 @@
                     try{
                         let {data} =await  axios({
                             method: 'post',
-                            url:'/app/sell',
+                            url:'/app/returnInvoice',
                             data: this.formValue
                         })
                         

@@ -62,6 +62,7 @@ Route::get('/app/payment/getOutstanding/{id}','PaymentController@getOutstanding'
 Route::get('/app/payment/getOutstandingCustomer/{id}','PaymentController@getOutstandingCustomer');
 Route::post('/app/paymentSupplier','PaymentController@paymentSupplier');
 Route::post('/app/paymentCustomer','PaymentController@paymentCustomer');
+Route::post('/app/returnInvoice','InvoiceController@returnInvoice');
 
 Route::get('/logout', function () {
 	Auth::logout();

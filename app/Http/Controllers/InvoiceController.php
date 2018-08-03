@@ -112,10 +112,10 @@ class InvoiceController extends Controller
     public function searchInvoice($search)
     {
         
-        $product=Invoice::where('id','LIKE','%'.$search.'%')
+        $product=Invoice::where('id',$search)
         ->where('type','sell')
         ->with('customer')
-        ->get();
+        ->first();
 
         return $product;
     }
@@ -129,6 +129,105 @@ class InvoiceController extends Controller
          return response()->json([
                 'msg' => 'Inserted',
                 'data' => $product,
+            ],200);
+    }
+    public function returnInvoice(Request $request)
+    {
+        
+        $input=$request->all();
+        // update invoice 
+        $invoice=Invoice::update([
+            'totalQuantity' => $input['totalQuantity'],
+            'totalPrice' => $input['totalPrice'],
+            'customer_id' => $input['customer_id'],
+            'discount' => $input['discount'],
+            'sellingPrice' => $input['total'],
+            'paidAmount' => $input['paidAmount'],
+            'date' => $input['date'],
+        ]);
+
+        if($input['total']==$input['paidAmount'])
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['customer_id'],
+                'amount' => $input['total'],
+                'paymentMethod' => 'cash',
+                'remarks' => 'Sell To Customer',
+                'date' => $input['date'],
+            ]);
+
+        }
+        else
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['customer_id'],
+                'amount' => $input['total']*-1,
+                'paymentMethod' => 'due',
+                'remarks' => 'Sell To Customer',
+                'date' => $input['date'],
+            ]);
+            $due=$input['total'] - $input['paidAmount'];
+            if($input['paidAmount'])
+            {
+                $paymentSheet=Paymentsheet::create([
+                    'admin_id' => $admin_id,
+                    'invoice_id' => $invoice->id,
+                    'type' => 'dueIncoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                    'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                    'uid' => $input['customer_id'],
+                    'amount' => $input['paidAmount'],
+                    'paymentMethod' => 'cash',
+                    'remarks' => 'Due To Customer',
+                    'date' => $input['date'],
+                ]);
+    
+            }       
+        }
+        if($input['discount'])
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['customer_id'],
+                'amount' => $input['total'],
+                'paymentMethod' => 'cash',
+                'remarks' => 'Discount To Customer',
+                'date' => $input['date'],
+            ]);
+        }
+        // make  purchase details 
+        foreach ($input['productDetails'] as $key => $value) {
+            $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
+            $sell=Selling::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'product_id' => $value['id'],
+                'quantity' => $value['quantity'],
+                'unitPrice' => $value['sellingPrice'],
+                'discount' => $value['discount'],
+                'profit' => $profit,
+            ]);
+        }
+        // $created=Invoice::create($request->all());
+        $data=Invoice::where('type', 'purchase')
+        ->where('id', $invoice->id)
+        ->orderBy('id', 'desc')
+        ->with('supplier')
+        ->first();
+
+         return response()->json([
+                 'msg' => 'Inserted',
+                 'data'=> $data,
             ],200);
     }
 
