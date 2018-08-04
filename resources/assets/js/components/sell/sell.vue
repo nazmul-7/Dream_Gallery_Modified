@@ -233,8 +233,18 @@
             },
             clearForm()
             {
-                this.formValue= []
-                this.clearModel=false
+
+                this.formValue.date=''
+                this.formValue.discount=0
+                this.formValue.paidAmount=0
+                this.formValue.subTotal=0
+                this.formValue.subQuantity=0
+                this.formValue.supplier_id=0
+                this.formValue.customer_id=0
+                this.formValue.reference_id=0
+                this.formValue.total=0
+                this.formValue.barCode=0
+                this.formValue.productDetails=[]
 
             },
             dateConverter(key)
@@ -370,6 +380,7 @@
                         data.discountedPrice= data.sellingPrice-d
                    }else{
                          data.discountedPrice= data.sellingPrice
+                         data.discount=0
                    }
 
                     let disco
@@ -429,6 +440,7 @@
                     }
 
                 }
+                clearForm()
                 
             },
 

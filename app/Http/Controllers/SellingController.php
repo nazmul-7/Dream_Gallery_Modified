@@ -127,6 +127,9 @@ class SellingController extends Controller
         }
         // make  purchase details 
         foreach ($input['productDetails'] as $key => $value) {
+            if(!$value['discount'])
+            $value['discount']=0;
+
             $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
             $sell=Selling::create([
                 'admin_id' => $admin_id,
@@ -134,6 +137,7 @@ class SellingController extends Controller
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['sellingPrice'],
+                
                 'discount' => $value['discount'],
                 'profit' => $profit,
             ]);

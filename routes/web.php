@@ -66,6 +66,7 @@ Route::post('/app/returnInvoice','InvoiceController@returnInvoice');
 //list
 Route::get('/app/sellitemlist','SellingController@sellitemlist');
 Route::get('/app/getProductProfit','ReportController@getProductProfit');
+Route::get('/app/paymentList','ReportController@paymentList');
 
 
 Route::get('/logout', function () {

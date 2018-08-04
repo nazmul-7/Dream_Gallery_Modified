@@ -358,7 +358,7 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/supplier'
+                    url:'/app/paymentList'
                 })
                 this.dataSupplier=data;
                 this.lf();

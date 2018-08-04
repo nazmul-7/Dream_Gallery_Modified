@@ -6781,6 +6781,627 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/payment/paymentlist.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            index: 0,
+            searchValue: '',
+            clearModel: false,
+            editModal: false,
+            deleteModal: false,
+            loading: false,
+            sending: false,
+            isCollapsed: false,
+            grossProfit: '',
+            totalUnitPrice: '',
+            netProfit: '',
+            dataSupplier: [],
+            currentSupplier: {
+                supplierName: '',
+                number: '',
+                email: '',
+                address: '',
+                outStanding: ''
+
+            },
+            dataSearch: [],
+            dataCategory: [],
+            dataInvoice: [],
+            formInvoice: {
+                type: 'purchase'
+
+            },
+            formValue: {
+                type: 'purchase',
+                date: '',
+                supplier_id: '',
+                productDetails: []
+            },
+            editObj: {
+                id: null,
+                catName: '',
+                group_id: ''
+
+            },
+            UpdateValue: {
+                indexNumber: null,
+                id: null,
+                catName: '',
+                group_id: '',
+                groupName: ''
+
+            },
+            columns1: [{
+                title: 'Item Name',
+                key: 'productName'
+            }, {
+                title: 'Quantity',
+                key: 'quantity'
+            }, {
+                title: 'Selling Price',
+                key: 'unitPrice'
+            }, {
+                title: 'Unit Profit',
+                key: 'profit'
+            }, {
+                title: 'Total Profit',
+                key: 'totalProfit'
+            }]
+
+        };
+    },
+
+    computed: {
+        rotateIcon: function rotateIcon() {
+            return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
+        },
+        menuitemClasses: function menuitemClasses() {
+            return ['menu-item', this.isCollapsed ? 'collapsed-menu' : ''];
+        },
+        totalPrice: function totalPrice() {
+            var totalPrice = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+
+                totalPrice += this.formValue.productDetails[i].quantity * this.formValue.productDetails[i].unitPrice;
+            }
+            return totalPrice;
+        },
+        totalQuantity: function totalQuantity() {
+            var total = 0;
+            for (var i = 0; i < this.formValue.productDetails.length; i++) {
+                total += parseInt(this.formValue.productDetails[i].quantity);
+            }
+            return total;
+        }
+    },
+    methods: {
+        changedSupplier: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(k) {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                console.log(k);
+                                console.log(this.formValue.supplier_id);
+                                this.ls();
+                                _context.prev = 3;
+                                _context.next = 6;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/payment/getOutstanding/' + this.formValue.supplier_id
+                                });
+
+                            case 6:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+                                this.setSupplier(this.formValue.supplier_id);
+                                this.currentSupplier.outStanding = data.outStanding;
+
+                                this.lf();
+                                _context.next = 17;
+                                break;
+
+                            case 13:
+                                _context.prev = 13;
+                                _context.t0 = _context['catch'](3);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 17:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[3, 13]]);
+            }));
+
+            function changedSupplier(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return changedSupplier;
+        }(),
+        setSupplier: function setSupplier(id) {
+            var i = 0;
+
+            while (i < this.dataSupplier.length) {
+                if (this.dataSupplier[i].id == id) {
+                    this.currentSupplier.supplierName = this.dataSupplier[i].supplierName;
+                    this.currentSupplier.number = this.dataSupplier[i].number;
+                    this.currentSupplier.address = this.dataSupplier[i].address;
+                    this.currentSupplier.email = this.dataSupplier[i].email;
+                }
+                i++;
+            }
+        },
+        showClear: function showClear() {
+            this.clearModel = true;
+        },
+        removeItem: function removeItem(index) {
+
+            this.formValue.productDetails.splice(index, 1);
+        },
+        clearForm: function clearForm() {
+            this.formValue.supplier_id = '';
+            this.formValue.productDetails.splice(0, this.formValue.productDetails.length);
+            this.clearModel = false;
+        },
+        dateConverter: function dateConverter(key) {
+            this.formValue.date = key;
+        },
+        addProduct: function addProduct(k) {
+            if (this.searchValue) {
+                this.formValue.productDetails.push(this.dataSearch[k]);
+            }
+            this.searchValue = '';
+        },
+        setData: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.prev = 0;
+                                _context2.next = 3;
+                                return axios({
+                                    method: 'get',
+                                    url: '/app/searchProduct/' + this.searchValue
+                                });
+
+                            case 3:
+                                _ref4 = _context2.sent;
+                                data = _ref4.data;
+
+                                this.dataSearch = data;
+                                this.lf();
+
+                                _context2.next = 13;
+                                break;
+
+                            case 9:
+                                _context2.prev = 9;
+                                _context2.t0 = _context2['catch'](0);
+
+                                this.e('Oops!', 'Something went wrong, please try again!');
+                                this.le();
+
+                            case 13:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[0, 9]]);
+            }));
+
+            function setData() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return setData;
+        }(),
+        collapsedSider: function collapsedSider() {
+            this.$refs.side1.toggleCollapse();
+        },
+        makePurchase: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+                var _ref6, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                //invoice added
+                                this.formValue.totalPrice = this.totalPrice;
+                                this.formValue.totalQuantity = this.totalQuantity;
+
+                                if (!(!this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id || !this.formValue.date)) {
+                                    _context3.next = 7;
+                                    break;
+                                }
+
+                                this.loading = false;
+                                this.e('Oops!', 'You nedd to enter Stock and Price in All Fields');
+
+                                _context3.next = 24;
+                                break;
+
+                            case 7:
+                                this.loading = true;
+                                _context3.prev = 8;
+                                _context3.next = 11;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/purchase',
+                                    data: this.formValue
+                                });
+
+                            case 11:
+                                _ref6 = _context3.sent;
+                                data = _ref6.data;
+
+                                this.clearForm();
+
+                                data.data.supplierName = data.data.supplier.supplierName;
+                                this.dataInvoice.unshift(data.data);
+
+                                this.s('Great!', 'Purchase has been added successfully!');
+                                this.loading = false;
+                                _context3.next = 24;
+                                break;
+
+                            case 20:
+                                _context3.prev = 20;
+                                _context3.t0 = _context3['catch'](8);
+
+                                this.loading = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 24:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[8, 20]]);
+            }));
+
+            function makePurchase() {
+                return _ref5.apply(this, arguments);
+            }
+
+            return makePurchase;
+        }(),
+        showEdit: function showEdit(index) {
+            this.editObj.id = this.dataInvoice[index].id;
+            this.editObj.invoice_id = this.dataInvoice[index].invoice_id;
+            this.editObj.product_id = this.dataInvoice[index].product_id;
+            this.UpdateValue.indexNumber = index;
+            this.editModal = true;
+        },
+        showRemove: function showRemove(index) {
+            this.UpdateValue.id = this.dataInvoice[index].id;
+            this.UpdateValue.indexNumber = index;
+            this.deleteModal = true;
+        },
+        edit: function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+                var _ref8, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                this.sending = true;
+                                _context4.prev = 1;
+                                _context4.next = 4;
+                                return axios({
+                                    method: 'post',
+                                    url: '/app/categoryUpdate',
+                                    data: this.editObj
+                                });
+
+                            case 4:
+                                _ref8 = _context4.sent;
+                                data = _ref8.data;
+
+                                this.dataCategory[this.UpdateValue.indexNumber].catName = data.catName;
+                                this.dataCategory[this.UpdateValue.indexNumber].group_id = data.group_id;
+                                this.dataCategory[this.UpdateValue.indexNumber].groupName = data.group.groupName;
+                                this.s('Great!', 'Category information has been updated successfully!');
+
+                                this.sending = false;
+                                this.editModal = false;
+                                _context4.next = 19;
+                                break;
+
+                            case 14:
+                                _context4.prev = 14;
+                                _context4.t0 = _context4['catch'](1);
+
+                                this.sending = false;
+                                this.editModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 19:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[1, 14]]);
+            }));
+
+            function edit() {
+                return _ref7.apply(this, arguments);
+            }
+
+            return edit;
+        }(),
+        remove: function () {
+            var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+                var _ref10, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                this.sending = true;
+                                _context5.prev = 1;
+                                _context5.next = 4;
+                                return axios({
+                                    method: 'delete',
+                                    url: '/app/invoice/' + this.UpdateValue.id
+                                });
+
+                            case 4:
+                                _ref10 = _context5.sent;
+                                data = _ref10.data;
+
+                                this.dataInvoice.splice(this.UpdateValue.indexNumber, 1);
+                                this.s('Great!', 'Invoice information has been removed successfully!');
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                _context5.next = 17;
+                                break;
+
+                            case 12:
+                                _context5.prev = 12;
+                                _context5.t0 = _context5['catch'](1);
+
+                                this.sending = false;
+                                this.deleteModal = false;
+                                this.e('Oops!', 'Something went wrong, please try again!');
+
+                            case 17:
+                            case 'end':
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this, [[1, 12]]);
+            }));
+
+            function remove() {
+                return _ref9.apply(this, arguments);
+            }
+
+            return remove;
+        }()
+    },
+
+    created: function () {
+        var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee6() {
+            var _ref12, data, _ref13, _data, grossProfit, totalUnitBuying, itemUnitPrice, unitBuying, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, d;
+
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+                while (1) {
+                    switch (_context6.prev = _context6.next) {
+                        case 0:
+                            this.ls();
+                            _context6.prev = 1;
+                            _context6.next = 4;
+                            return axios({
+                                method: 'get',
+                                url: '/app/paymentList'
+                            });
+
+                        case 4:
+                            _ref12 = _context6.sent;
+                            data = _ref12.data;
+
+                            this.dataSupplier = data;
+                            this.lf();
+
+                            _context6.next = 14;
+                            break;
+
+                        case 10:
+                            _context6.prev = 10;
+                            _context6.t0 = _context6['catch'](1);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 14:
+                            _context6.prev = 14;
+                            _context6.next = 17;
+                            return axios({
+                                method: 'get',
+                                url: '/app/getProductProfit' //1=purchases
+
+                            });
+
+                        case 17:
+                            _ref13 = _context6.sent;
+                            _data = _ref13.data;
+                            grossProfit = 0;
+                            totalUnitBuying = 0;
+                            itemUnitPrice = 0;
+                            unitBuying = 0;
+                            _iteratorNormalCompletion = true;
+                            _didIteratorError = false;
+                            _iteratorError = undefined;
+                            _context6.prev = 26;
+
+                            for (_iterator = _data.sell[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                                d = _step.value;
+
+                                itemUnitPrice = d.unitPrice * d.quantity;
+                                d.totalProfit = d.profit * d.quantity;
+                                unitBuying = itemUnitPrice - d.totalProfit;
+                                d.productName = d.product.productName;
+                                grossProfit += d.totalProfit;
+                                totalUnitBuying += unitBuying;
+                            }
+                            _context6.next = 34;
+                            break;
+
+                        case 30:
+                            _context6.prev = 30;
+                            _context6.t1 = _context6['catch'](26);
+                            _didIteratorError = true;
+                            _iteratorError = _context6.t1;
+
+                        case 34:
+                            _context6.prev = 34;
+                            _context6.prev = 35;
+
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+
+                        case 37:
+                            _context6.prev = 37;
+
+                            if (!_didIteratorError) {
+                                _context6.next = 40;
+                                break;
+                            }
+
+                            throw _iteratorError;
+
+                        case 40:
+                            return _context6.finish(37);
+
+                        case 41:
+                            return _context6.finish(34);
+
+                        case 42:
+                            this.netProfit = Math.round(_data.totalSelling - totalUnitBuying);
+                            this.grossProfit = Math.round(grossProfit);
+                            this.dataInvoice = _data.sell;
+                            this.lf();
+
+                            _context6.next = 52;
+                            break;
+
+                        case 48:
+                            _context6.prev = 48;
+                            _context6.t2 = _context6['catch'](14);
+
+                            this.e('Oops!', 'Something went wrong, please try again!');
+                            this.le();
+
+                        case 52:
+                        case 'end':
+                            return _context6.stop();
+                    }
+                }
+            }, _callee6, this, [[1, 10], [14, 48], [26, 30, 34, 42], [35,, 37, 41]]);
+        }));
+
+        function created() {
+            return _ref11.apply(this, arguments);
+        }
+
+        return created;
+    }()
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/payment/paytosupplier.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9135,6 +9756,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 title: 'Quantity',
                 key: 'quantity'
             }, {
+                title: 'Selling Price',
+                key: 'unitPrice'
+            }, {
                 title: 'Unit Profit',
                 key: 'profit'
             }, {
@@ -11047,8 +11671,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.clearModel = true;
         },
         clearForm: function clearForm() {
-            this.formValue = [];
-            this.clearModel = false;
+
+            this.formValue.date = '';
+            this.formValue.discount = 0;
+            this.formValue.paidAmount = 0;
+            this.formValue.subTotal = 0;
+            this.formValue.subQuantity = 0;
+            this.formValue.supplier_id = 0;
+            this.formValue.customer_id = 0;
+            this.formValue.reference_id = 0;
+            this.formValue.total = 0;
+            this.formValue.barCode = 0;
+            this.formValue.productDetails = [];
         },
         dateConverter: function dateConverter(key) {
             this.formValue.date = key;
@@ -11360,6 +11994,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                     data.discountedPrice = data.sellingPrice - _d2;
                                 } else {
                                     data.discountedPrice = data.sellingPrice;
+                                    data.discount = 0;
                                 }
 
                                 disco = void 0;
@@ -11458,6 +12093,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.e('Oops!', 'Something went wrong, please try again!');
 
                             case 21:
+                                clearForm();
+
+                            case 22:
                             case 'end':
                                 return _context4.stop();
                         }
@@ -18618,6 +19256,21 @@ exports.push([module.i, "\nth, td {\n    border: 1px solid black;\n    border-co
 /***/ }),
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-29149d73\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/sell/selllist.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nth, td {\n    border: 1px solid black;\n    border-collapse: collapse;\n    padding: 5px;\n    text-align: left;\n}\n.demo-auto-complete-item{\n    padding: 4px 0;\n    border-bottom: 1px solid #F6F6F6;\n}\n.demo-auto-complete-group{\n    font-size: 12px;\n    padding: 4px 6px;\n}\n.demo-auto-complete-group span{\n    color: #666;\n    font-weight: bold;\n}\n.demo-auto-complete-group a{\n    float: right;\n}\n.demo-auto-complete-count{\n    float: right;\n    color: #999;\n}\n.demo-auto-complete-more{\n    display: block;\n    margin: 0 auto;\n    padding: 4px;\n    text-align: center;\n    font-size: 12px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c4ab547\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paymentlist.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -92711,6 +93364,259 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2c4ab547\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/payment/paymentlist.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "Row",
+        [
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "14", offset: "1" }
+            },
+            [
+              _c("h2", [_vm._v("Item Profit List")]),
+              _vm._v(" "),
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataInvoice }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "7", offset: "1" }
+            },
+            [
+              _c("p", [
+                _c("b", [_vm._v("Total Gross Profit")]),
+                _vm._v(": " + _vm._s(_vm.grossProfit))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _c("b", [_vm._v("Total Net Profit")]),
+                _vm._v(": " + _vm._s(_vm.netProfit))
+              ])
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.editModal,
+            callback: function($$v) {
+              _vm.editModal = $$v
+            },
+            expression: "editModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#369", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "edit" } }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  " Edit " +
+                    _vm._s(_vm.UpdateValue.catName) +
+                    " " +
+                    _vm._s(_vm.editObj.group_id)
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "center" } },
+            [_c("Form")],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.edit }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Updating...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Delete")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v("\n        Are you sure you want delete\n\n    ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.remove }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Delete")])
+                    : _c("span", [_vm._v("Deleting...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { width: "360" },
+          model: {
+            value: _vm.clearModel,
+            callback: function($$v) {
+              _vm.clearModel = $$v
+            },
+            expression: "clearModel"
+          }
+        },
+        [
+          _c(
+            "p",
+            {
+              staticStyle: { color: "#f60", "text-align": "center" },
+              attrs: { slot: "header" },
+              slot: "header"
+            },
+            [
+              _c("Icon", { attrs: { type: "close" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(" Clear ")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticStyle: { "text-align": "center" } }, [
+            _vm._v("\n        Are you sure you want clear invoice\n\n    ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "error",
+                    size: "large",
+                    long: "",
+                    loading: _vm.sending
+                  },
+                  on: { click: _vm.clearForm }
+                },
+                [
+                  !_vm.loading
+                    ? _c("span", [_vm._v("Clear")])
+                    : _c("span", [_vm._v("Loading...")])
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2c4ab547", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2da1226a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/return/returnproduct.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -101099,6 +102005,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-29149d73\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./selllist.vue", function() {
      var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-29149d73\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./selllist.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c4ab547\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paymentlist.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c4ab547\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paymentlist.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("46a7aec6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c4ab547\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./paymentlist.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c4ab547\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./paymentlist.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -114098,6 +115031,58 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/payment/paymentlist.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2c4ab547\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/payment/paymentlist.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/payment/paymentlist.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2c4ab547\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/payment/paymentlist.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\payment\\paymentlist.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c4ab547", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c4ab547", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/payment/paytosupplier.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -114849,6 +115834,8 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_sell_itemselling_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_sell_itemselling_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_profit_profit_vue__ = __webpack_require__("./resources/assets/js/components/profit/profit.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_profit_profit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_profit_profit_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_payment_paymentlist_vue__ = __webpack_require__("./resources/assets/js/components/payment/paymentlist.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_payment_paymentlist_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_payment_paymentlist_vue__);
 
 
 
@@ -114871,6 +115858,7 @@ module.exports = Component.exports
 
 
 //reports
+
 
 
 
@@ -114966,6 +115954,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 						path: '/profit',
 						name: 'profit',
 						component: __WEBPACK_IMPORTED_MODULE_23__components_profit_profit_vue___default.a
+			}, {
+						path: '/paymentlist',
+						name: 'paymentlist',
+						component: __WEBPACK_IMPORTED_MODULE_24__components_payment_paymentlist_vue___default.a
 			}]
 }));
 

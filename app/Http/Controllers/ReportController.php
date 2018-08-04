@@ -7,6 +7,7 @@ use App\Product;
 use App\Purchase;
 use App\Invoice;
 use App\Paymentsheet;
+use App\Payment;
 use App\Selling;
 use Auth;
 class ReportController extends Controller
@@ -25,5 +26,17 @@ class ReportController extends Controller
             'sell'=> $sell,
             'totalSelling'=> $data,
        ],200);
+    }
+    public function paymentList()
+    {
+        $data=Payment::orderBy('id', 'desc')
+        ->with('admin')
+        ->with('user')
+        ->get();
+        return response()->json([
+            'msg' => 'Data Came',
+            'data'=> $data,
+       ],200);
+
     }
 }
