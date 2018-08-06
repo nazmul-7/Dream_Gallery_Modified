@@ -31,7 +31,24 @@ class ReportController extends Controller
     {
         $data=Payment::orderBy('id', 'desc')
         ->with('admin')
-        ->with('user')
+        ->with('customer')
+        ->with('supplier')
+        ->get();
+        return response()->json([
+            'msg' => 'Data Came',
+            'data'=> $data,
+       ],200);
+
+    }
+    public function cash()
+    {
+        $data=Paymentsheet::orderBy('id', 'desc')
+        ->with('admin')
+        ->with('customer')
+        ->with('supplier')
+        ->where('type','incoming')
+        ->orWhere('type','dueIncoming')
+        ->orWhere('type','outgoing')
         ->get();
         return response()->json([
             'msg' => 'Data Came',

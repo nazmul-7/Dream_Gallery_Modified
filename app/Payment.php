@@ -11,10 +11,14 @@ class Payment extends Model
     ];
     public function admin()
     {
-       return $this->belongsTo('App\Users','admin_id');
+       return $this->belongsTo('App\User','admin_id');
     }
-    public function user()
+    public function customer()
     {
-       return $this->belongsTo('App\Users','uid');
+       return $this->belongsTo('App\Customer','uid');
+    }
+    public function supplier()
+    {
+       return $this->belongsTo('App\Supplier','uid');
     }
 }

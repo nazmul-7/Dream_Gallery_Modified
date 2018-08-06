@@ -8,4 +8,16 @@ class Paymentsheet extends Model
     protected $fillable = [
         'admin_id','uid', 'amount','type','paymentFor','remarks','paymentMethod','invoice_id','date'
     ];
+    public function admin()
+    {
+       return $this->belongsTo('App\User','admin_id');
+    }
+    public function customer()
+    {
+       return $this->belongsTo('App\Customer','uid');
+    }
+    public function supplier()
+    {
+       return $this->belongsTo('App\Supplier','uid');
+    }
 }

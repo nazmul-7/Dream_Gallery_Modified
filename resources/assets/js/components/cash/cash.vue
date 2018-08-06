@@ -1,13 +1,14 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="10" offset="1">
-                <h2>Customer Cash Collection</h2>
-                <Table :columns="columns1" :data="dataPaymentCustomer"></Table>
+            <Col class="dream-input-main" span="14" offset="1">
+            <h2>Item Profit List</h2>
+                <Table :columns="columns1" :data="dataCash"></Table>
             </Col>
-            <Col class="dream-input-main" span="10" offset="1">
-                <h2>Supplier Payment</h2>
-                <Table :columns="columns2" :data="dataPaymentSupplier"></Table>
+            <Col class="dream-input-main" span="7" offset="1">
+            <p><b>Cash In</b>: {{cashIn}}</p>
+            <p><b>Cash Out</b>: {{cashOut}}</p>
+            <p><b>Current Cash</b>: {{currentCash}}</p>
             </Col>
         </Row>
 
@@ -76,11 +77,10 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                grossProfit:'',
-                totalUnitPrice:'',
-                netProfit:'',
-                dataPaymentCustomer: [],
-                dataPaymentSupplier: [],
+                cashIn:0,
+                cashOut:0,
+                currentCash:0,
+                dataCash: [],
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -120,37 +120,20 @@
                 },
                 columns1: [ 
                     {
-                        title: 'Admin Name',
+                        title: 'Admin',
                         key: 'adminName'
                     },
-
                     {
-                        title: 'Customer',
-                        key: 'customerName'
+                        title: 'Paid for',
+                        key: 'paymentFor'
                     },
                     {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
+                        title: 'Amount',
+                        key: 'amount'
                     },
                     {
-                        title: 'Date',
-                        key: 'date'
-                    },
-
-                ],
-                columns2: [ 
-                    {
-                        title: 'Admin Name',
-                        key: 'adminName'
-                    },
-
-                    {
-                        title: 'Supplier',
-                        key: 'supplierName'
-                    },
-                    {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
+                        title: 'Remarks',
+                        key: 'remarks'
                     },
                     {
                         title: 'Date',
@@ -375,53 +358,35 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/paymentList'
+                    url:'/app/cash' //1=purchases
+
                 })
+                var cashIn=0
+                var cashOut=0
+                var currentCash=0
                 for(let d of data.data){
-                    d.adminName=d.admin.name;
-                    if(d.type=='incoming')
+                    d.adminName=d.admin.name
+                    if(d.type=='incoming' || d.type=='dueIncoming')
+                    cashIn+=Math.abs(d.amount)
+                    if(d.type='outgoing')
+                    cashOut+=Math.abs(d.amount)
+
+                    currentCash=cashIn-cashOut
+                    if(d.paymentFor=='customer' && d.uid)
                     {
                         d.customerName=d.customer.customerName
-                        this.dataPaymentCustomer.push(d)
 
                     }
-                    else if(d.type=='outgoing')
+                    else if(d.paymentFor=='supplier' && d.uid)
                     {
                         d.supplierName=d.supplier.supplierName
-                        this.dataPaymentSupplier.push(d)
-
                     }
                     
                 }
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
-
-
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/getProductProfit' //1=purchases
-
-                })
-                var grossProfit=0
-                var totalUnitBuying=0
-                var itemUnitPrice=0
-                var unitBuying=0
-                for(let d of data.sell){
-                    itemUnitPrice=d.unitPrice*d.quantity
-                    d.totalProfit=d.profit*d.quantity
-                    unitBuying=itemUnitPrice-d.totalProfit
-                    d.productName=d.product.productName
-                    grossProfit+=d.totalProfit
-                    totalUnitBuying+=unitBuying
-                }
-                this.netProfit=Math.round(data.totalSelling-totalUnitBuying)
-                this.grossProfit=Math.round(grossProfit)    
-                this.dataInvoice=data.sell
+                this.cashIn=Math.round(cashIn)
+                this.cashOut=Math.round(cashOut)
+                this.currentCash=Math.round(currentCash)
+                this.dataCash=data.data
                 this.lf();
 
             }catch(e){

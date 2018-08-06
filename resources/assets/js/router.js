@@ -24,6 +24,7 @@ import selllist from './components/sell/selllist.vue'
 import itemselling from './components/sell/itemselling.vue'
 import profit from './components/profit/profit.vue'
 import paymentlist from './components/payment/paymentlist.vue'
+import cash from './components/cash/cash.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -144,6 +145,11 @@ export default new Router({
 	      path: '/paymentlist',
 	      name: 'paymentlist',
 	      component: paymentlist
+			},
+			{
+	      path: '/cash',
+	      name: 'cash',
+	      component: cash
 	    },
 	 ]
 })
