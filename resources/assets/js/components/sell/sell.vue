@@ -4,57 +4,61 @@
             <Col class="dream-input-main" span="14" offset="1">
                 
                 <Col span="11" offset="1">
+                    <p>Product Code</p>
                         <Input type="text" placeholder="Barcode" @on-enter="setData" 
                         v-model="formValue.barCode"></Input>  
                 </Col>
-                <h2>Product List</h2>
+            <Col span="24">
+                <Card>
+                    <p slot="title">Product List</p>
+                    <table style="width:100%" ref="printTable">
+                        <tr>
+                            <th>Name</th>
+                            <th>Model</th>
+                            <th>Color</th> 
+                            <th>Size</th>
+                            <th>Unit Price</th>
+                            <th>Stock</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Action</th>
 
-                <table style="width:100%" ref="printTable">
-                  <tr>
-                    <th>Name</th>
-                    <th>Model</th>
-                    <th>Color</th> 
-                    <th>Size</th>
-                    <th>Unit Price</th>
-                    <th>Stock</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                        </tr>
+                        <tr v-for="(data,i) in formValue.productDetails" :key="i">
+                            <td >{{data.productName}}</td>
+                            <td >{{data.model}}</td>
+                            <td >{{data.color}}</td>
+                            <td>{{data.size}}</td>
+                            <td>{{data.sellingPrice}} <Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
+                            <td>{{data.stock}}</td>
+                            <td><InputNumber  :min="1" :max="data.stock" v-model="data.quantity" @on-change="quantityChange" ></InputNumber></td>
+                            <td><InputNumber  v-model="data.discountedPrice*data.quantity" disabled></InputNumber></td>
+                            <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
 
-                  </tr>
-                  <tr v-for="(data,i) in formValue.productDetails" :key="i">
-                    <td >{{data.productName}}</td>
-                    <td >{{data.model}}</td>
-                    <td >{{data.color}}</td>
-                    <td>{{data.size}}</td>
-                    <td>{{data.sellingPrice}} <Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
-                    <td>{{data.stock}}</td>
-                    <td><InputNumber  :min="1" :max="data.stock" v-model="data.quantity" @on-change="quantityChange" ></InputNumber></td>
-                    <td><InputNumber  v-model="data.discountedPrice*data.quantity" disabled></InputNumber></td>
-                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
+                        </tr>
 
-                  </tr>
+                        <tr style="background-color: #e9eaec;" >
+                            <td colspan="6" style="text-align:right;">Sub Total </td>
+                            <td >{{totalQuantity}}</td>
+                            <td  colspan="2">{{totalPrice}}</td>
+                            
+                        </tr>
+                        <tr >
+                            <td colspan="7" style="text-align:right">Discount</td>
+                            <td  colspan="2"><InputNumber   :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
+                        </tr>
+                        <tr >
+                            <td colspan="7" style="text-align:right">Total</td>
+                            <td  colspan="2"><InputNumber   :min="0" :max="parseInt(formValue.subTotal)" @on-change="total" v-model="formValue.total"></InputNumber ></td>
+                        </tr>
+                        <tr >
+                            <td colspan="7" style="text-align:right">Paid Amount</td>
+                            <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"></InputNumber></td>
+                        </tr>
 
-                  <tr style="background-color: #e9eaec;" >
-                    <td colspan="6" style="text-align:right;">Sub Total </td>
-                    <td >{{totalQuantity}}</td>
-                    <td  colspan="2">{{totalPrice}}</td>
-                    
-                  </tr>
-                <tr >
-                    <td colspan="7" style="text-align:right">Discount</td>
-                    <td  colspan="2"><InputNumber   :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
-                </tr>
-                <tr >
-                    <td colspan="7" style="text-align:right">Total</td>
-                    <td  colspan="2"><InputNumber   :min="0" :max="parseInt(formValue.subTotal)" @on-change="total" v-model="formValue.total"></InputNumber ></td>
-                </tr>
-                <tr >
-                    <td colspan="7" style="text-align:right">Paid Amount</td>
-                    <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"></InputNumber></td>
-                </tr>
-
-                </table>
+                    </table>
+                </Card>
+                </Col>
 
                 <Col span="4"  offset="20">
                     <Button type="error" size="large"  @click="clearForm">

@@ -8927,6 +8927,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
@@ -12073,6 +12075,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -91842,6 +91848,8 @@ var render = function() {
                 "Col",
                 { attrs: { span: "11", offset: "1" } },
                 [
+                  _c("p", [_vm._v("Product Code")]),
+                  _vm._v(" "),
                   _c("Input", {
                     attrs: { type: "text", placeholder: "Barcode" },
                     on: { "on-enter": _vm.setData },
@@ -91857,225 +91865,250 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("h2", [_vm._v("Product List")]),
-              _vm._v(" "),
               _c(
-                "table",
-                { ref: "printTable", staticStyle: { width: "100%" } },
+                "Col",
+                { attrs: { span: "24" } },
                 [
-                  _c("tr", [
-                    _c("th", [_vm._v("Name")]),
+                  _c("Card", [
+                    _c("p", { attrs: { slot: "title" }, slot: "title" }, [
+                      _vm._v("Product List")
+                    ]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Model")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Color")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Size")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Unit Price")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Stock")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Quantity")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Price")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Action")])
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.formValue.productDetails, function(data, i) {
-                    return _c("tr", { key: i }, [
-                      _c("td", [_vm._v(_vm._s(data.productName))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.model))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.color))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.size))]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _vm._v(_vm._s(data.sellingPrice) + " "),
-                          data.discount
-                            ? _c(
-                                "Tag",
-                                { attrs: { color: "red", type: "border" } },
-                                [_vm._v("-" + _vm._s(data.discount) + "%")]
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.stock))]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c("InputNumber", {
-                            attrs: { min: 1, max: data.stock },
-                            on: { "on-change": _vm.quantityChange },
-                            model: {
-                              value: data.quantity,
-                              callback: function($$v) {
-                                _vm.$set(data, "quantity", $$v)
+                    _c(
+                      "table",
+                      { ref: "printTable", staticStyle: { width: "100%" } },
+                      [
+                        _c("tr", [
+                          _c("th", [_vm._v("Name")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Model")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Color")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Size")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Unit Price")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Stock")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Quantity")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Price")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Action")])
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.formValue.productDetails, function(data, i) {
+                          return _c("tr", { key: i }, [
+                            _c("td", [_vm._v(_vm._s(data.productName))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(data.model))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(data.color))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(data.size))]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _vm._v(_vm._s(data.sellingPrice) + " "),
+                                data.discount
+                                  ? _c(
+                                      "Tag",
+                                      {
+                                        attrs: { color: "red", type: "border" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "-" + _vm._s(data.discount) + "%"
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(data.stock))]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c("InputNumber", {
+                                  attrs: { min: 1, max: data.stock },
+                                  on: { "on-change": _vm.quantityChange },
+                                  model: {
+                                    value: data.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(data, "quantity", $$v)
+                                    },
+                                    expression: "data.quantity"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c("InputNumber", {
+                                  attrs: { disabled: "" },
+                                  model: {
+                                    value: data.discountedPrice * data.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        data.discountedPrice * data,
+                                        "quantity",
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "data.discountedPrice*data.quantity"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c("Button", {
+                                  attrs: { type: "error", icon: "ios-trash" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.removeItem(i)
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "tr",
+                          { staticStyle: { "background-color": "#e9eaec" } },
+                          [
+                            _c(
+                              "td",
+                              {
+                                staticStyle: { "text-align": "right" },
+                                attrs: { colspan: "6" }
                               },
-                              expression: "data.quantity"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c("InputNumber", {
-                            attrs: { disabled: "" },
-                            model: {
-                              value: data.discountedPrice * data.quantity,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  data.discountedPrice * data,
-                                  "quantity",
-                                  $$v
-                                )
-                              },
-                              expression: "data.discountedPrice*data.quantity"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c("Button", {
-                            attrs: { type: "error", icon: "ios-trash" },
-                            on: {
-                              click: function($event) {
-                                _vm.removeItem(i)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _c("tr", { staticStyle: { "background-color": "#e9eaec" } }, [
-                    _c(
-                      "td",
-                      {
-                        staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "6" }
-                      },
-                      [_vm._v("Sub Total ")]
-                    ),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { colspan: "2" } }, [
-                      _vm._v(_vm._s(_vm.totalPrice))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c(
-                      "td",
-                      {
-                        staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "7" }
-                      },
-                      [_vm._v("Discount")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      { attrs: { colspan: "2" } },
-                      [
-                        _c("InputNumber", {
-                          attrs: { min: 0, max: 100 },
-                          on: { "on-change": _vm.discount },
-                          model: {
-                            value: _vm.formValue.discount,
-                            callback: function($$v) {
-                              _vm.$set(_vm.formValue, "discount", $$v)
+                              [_vm._v("Sub Total ")]
+                            ),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(_vm.totalQuantity))]),
+                            _vm._v(" "),
+                            _c("td", { attrs: { colspan: "2" } }, [
+                              _vm._v(_vm._s(_vm.totalPrice))
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticStyle: { "text-align": "right" },
+                              attrs: { colspan: "7" }
                             },
-                            expression: "formValue.discount"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c(
-                      "td",
-                      {
-                        staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "7" }
-                      },
-                      [_vm._v("Total")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      { attrs: { colspan: "2" } },
-                      [
-                        _c("InputNumber", {
-                          attrs: {
-                            min: 0,
-                            max: parseInt(_vm.formValue.subTotal)
-                          },
-                          on: { "on-change": _vm.total },
-                          model: {
-                            value: _vm.formValue.total,
-                            callback: function($$v) {
-                              _vm.$set(_vm.formValue, "total", $$v)
+                            [_vm._v("Discount")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { attrs: { colspan: "2" } },
+                            [
+                              _c("InputNumber", {
+                                attrs: { min: 0, max: 100 },
+                                on: { "on-change": _vm.discount },
+                                model: {
+                                  value: _vm.formValue.discount,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "discount", $$v)
+                                  },
+                                  expression: "formValue.discount"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticStyle: { "text-align": "right" },
+                              attrs: { colspan: "7" }
                             },
-                            expression: "formValue.total"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c(
-                      "td",
-                      {
-                        staticStyle: { "text-align": "right" },
-                        attrs: { colspan: "7" }
-                      },
-                      [_vm._v("Paid Amount")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      { attrs: { colspan: "2" } },
-                      [
-                        _c("InputNumber", {
-                          attrs: { min: 0, max: parseInt(_vm.formValue.total) },
-                          model: {
-                            value: _vm.formValue.paidAmount,
-                            callback: function($$v) {
-                              _vm.$set(_vm.formValue, "paidAmount", $$v)
+                            [_vm._v("Total")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { attrs: { colspan: "2" } },
+                            [
+                              _c("InputNumber", {
+                                attrs: {
+                                  min: 0,
+                                  max: parseInt(_vm.formValue.subTotal)
+                                },
+                                on: { "on-change": _vm.total },
+                                model: {
+                                  value: _vm.formValue.total,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "total", $$v)
+                                  },
+                                  expression: "formValue.total"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticStyle: { "text-align": "right" },
+                              attrs: { colspan: "7" }
                             },
-                            expression: "formValue.paidAmount"
-                          }
-                        })
+                            [_vm._v("Paid Amount")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { attrs: { colspan: "2" } },
+                            [
+                              _c("InputNumber", {
+                                attrs: {
+                                  min: 0,
+                                  max: parseInt(_vm.formValue.total)
+                                },
+                                model: {
+                                  value: _vm.formValue.paidAmount,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formValue, "paidAmount", $$v)
+                                  },
+                                  expression: "formValue.paidAmount"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
                       ],
-                      1
+                      2
                     )
                   ])
                 ],
-                2
+                1
               ),
               _vm._v(" "),
               _c(
@@ -96373,13 +96406,12 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Selling Price" } },
+                            { attrs: { label: "Price" } },
                             [
-                              _c("Input", {
-                                attrs: {
-                                  type: "text",
-                                  placeholder: "Selling Price"
-                                },
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("InputNumber", {
+                                attrs: { placeholder: "Selling Price" },
                                 model: {
                                   value: _vm.formValue.sellingPrice,
                                   callback: function($$v) {
@@ -96729,11 +96761,10 @@ var render = function() {
                         "FormItem",
                         { attrs: { label: "Selling Price" } },
                         [
-                          _c("Input", {
-                            attrs: {
-                              type: "text",
-                              placeholder: "Selling Price"
-                            },
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("InputNumber", {
+                            attrs: { placeholder: "Selling Price" },
                             model: {
                               value: _vm.editObj.sellingPrice,
                               callback: function($$v) {

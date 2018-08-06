@@ -90,6 +90,13 @@ class UnitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Unit_type::where('id','=',$id)
+          ->first();
+          if($data->count()){
+            $data->delete();
+            return response()->json(['msg'=>'success','status'=>$id]);
+          } else {
+            return response()->json(['msg'=>'error','status'=>$id]);
+          }
     }
 }

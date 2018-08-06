@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Voucher;
 use App\LedgerHead;
+use App\Paymentsheet;
+use Auth;
 class VoucherController extends Controller
 {
     /**
@@ -36,7 +38,34 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
+        $admin_id=Auth::user()->id;
+        $input=$request->all();
         $created=Voucher::create($request->all());
+        if($input['type']=="Income")
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'voucher',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'amount' => $input['amount'],
+                'paymentMethod' => $input['ledgerName'],
+                'remarks' =>  'Voucher : '.$input['ledgerName'],
+                'date' => $input['date'],
+            ]);
+    
+        }
+        else
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'voucher',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'amount' => $input['amount']*-1,
+                'paymentMethod' => $input['ledgerName'],
+                'remarks' =>  'Voucher : '.$input['ledgerName'],
+                'date' => $input['date'],
+            ]);
+        }
          return response()->json([
                  'msg' => 'Inserted',
                  'status' => $created

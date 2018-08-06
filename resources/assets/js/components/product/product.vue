@@ -76,9 +76,10 @@
                         </FormItem >
                     </Col>
                     <Col span="12">
-                        <FormItem  label="Selling Price">
-                            <Input type="text" placeholder="Selling Price" 
-                            v-model="formValue.sellingPrice"></Input>
+                        <FormItem  label="Price">
+                            <br/>
+                            <InputNumber placeholder="Selling Price" 
+                            v-model="formValue.sellingPrice"></InputNumber>
                         </FormItem >
                     </Col>
                     <Col span="12">
@@ -158,8 +159,9 @@
                 </Col>
                 <Col span="12">
                     <FormItem  label="Selling Price">
-                        <Input type="text" placeholder="Selling Price" 
-                        v-model="editObj.sellingPrice"></Input>
+                        <br/>
+                        <InputNumber placeholder="Selling Price" 
+                        v-model="editObj.sellingPrice"></InputNumber>
                     </FormItem >
                 </Col>
                 <Col span="12">
