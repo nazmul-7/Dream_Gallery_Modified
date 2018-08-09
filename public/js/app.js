@@ -6782,6 +6782,74 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -92799,6 +92867,263 @@ var render = function() {
                       _c("span", [_vm._v("Product")])
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "supplier",
+                        to: _vm.handleGoToMenu("/supplier")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("supplier")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "customer",
+                        to: _vm.handleGoToMenu("/customer")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("customer")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: { name: "zone", to: _vm.handleGoToMenu("/zone") }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("area zone")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "voucher",
+                        to: _vm.handleGoToMenu("/voucher")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("voucher")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "ledgerhead",
+                        to: _vm.handleGoToMenu("/ledgerhead")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("ledgerhead")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "purchase",
+                        to: _vm.handleGoToMenu("/purchase")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("purchase")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: { name: "stock", to: _vm.handleGoToMenu("/stock") }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("stock")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: { name: "sell", to: _vm.handleGoToMenu("/sell") }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("sell")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "paytosupplier",
+                        to: _vm.handleGoToMenu("/paytosupplier")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("paytosupplier")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "cashcollection",
+                        to: _vm.handleGoToMenu("/cashcollection")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("cashcollection")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "returnproduct",
+                        to: _vm.handleGoToMenu("/returnproduct")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("returnproduct")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "selllist",
+                        to: _vm.handleGoToMenu("/selllist")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("selllist")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "itemselling",
+                        to: _vm.handleGoToMenu("/itemselling")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("itemselling")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "profit",
+                        to: _vm.handleGoToMenu("/profit")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("profit")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: {
+                        name: "paymentlist",
+                        to: _vm.handleGoToMenu("/paymentlist")
+                      }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("paymentlist")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: { name: "cash", to: _vm.handleGoToMenu("/cash") }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("cash")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "MenuItem",
+                    {
+                      attrs: { name: "login", to: _vm.handleGoToMenu("/login") }
+                    },
+                    [
+                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("login")])
+                    ],
+                    1
                   )
                 ],
                 1
@@ -92825,7 +93150,9 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("p", { staticClass: "title-sett" }, [_vm._v("Setting")])
+                  _c("p", { staticClass: "title-sett" }, [
+                    _vm._v("DreamGallery")
+                  ])
                 ],
                 1
               ),

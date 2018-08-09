@@ -27,12 +27,80 @@
                         <Icon type="ios-navigate" ></Icon>
                         <span>Product</span>              
                     </MenuItem>
+                    <MenuItem name="supplier" :to="handleGoToMenu('/supplier')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>supplier</span>              
+                    </MenuItem>
+                    <MenuItem name="customer" :to="handleGoToMenu('/customer')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>customer</span>              
+                    </MenuItem>
+                    <MenuItem name="zone" :to="handleGoToMenu('/zone')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>area zone</span>              
+                    </MenuItem>
+                    <MenuItem name="voucher" :to="handleGoToMenu('/voucher')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>voucher</span>              
+                    </MenuItem>
+                    <MenuItem name="ledgerhead" :to="handleGoToMenu('/ledgerhead')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>ledgerhead</span>              
+                    </MenuItem>
+                    <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>purchase</span>              
+                    </MenuItem>
+                    <MenuItem name="stock" :to="handleGoToMenu('/stock')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>stock</span>              
+                    </MenuItem>
+                    <MenuItem name="sell" :to="handleGoToMenu('/sell')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>sell</span>              
+                    </MenuItem>
+                    <MenuItem name="paytosupplier" :to="handleGoToMenu('/paytosupplier')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>paytosupplier</span>              
+                    </MenuItem>
+                    <MenuItem name="cashcollection" :to="handleGoToMenu('/cashcollection')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>cashcollection</span>              
+                    </MenuItem>
+                    <MenuItem name="returnproduct" :to="handleGoToMenu('/returnproduct')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>returnproduct</span>              
+                    </MenuItem>
+                    <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>selllist</span>              
+                    </MenuItem>
+                    <MenuItem name="itemselling" :to="handleGoToMenu('/itemselling')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>itemselling</span>              
+                    </MenuItem>
+                    <MenuItem name="profit" :to="handleGoToMenu('/profit')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>profit</span>              
+                    </MenuItem>
+                    <MenuItem name="paymentlist" :to="handleGoToMenu('/paymentlist')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>paymentlist</span>              
+                    </MenuItem>
+                    <MenuItem name="cash" :to="handleGoToMenu('/cash')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>cash</span>              
+                    </MenuItem>
+                    <MenuItem name="login" :to="handleGoToMenu('/login')">
+                        <Icon type="ios-navigate" ></Icon>
+                        <span>login</span>              
+                    </MenuItem>
                 </Menu>
             </Sider>
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
                     <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '20px 20px 0'}" type="navicon-round" size="24"></Icon>
-                    <p class="title-sett">Setting</p>
+                    <p class="title-sett">DreamGallery</p>
                 </Header>
                 <Content :style="{minHeight: '220px'}">
                     <div class="dream-input">
