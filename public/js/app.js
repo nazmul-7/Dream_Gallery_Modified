@@ -4890,8 +4890,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -6232,31 +6230,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -6322,8 +6295,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             formValue: {
                 id: '',
-                groupName: '',
-                discount: ''
+                groupName: ''
             }
 
         };
@@ -9020,7 +8992,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 size: '',
                 color: '',
                 model: '',
-                sellingPrice: '',
+                sellingPrice: 0,
                 productImage: ''
             },
             formCategory: {},
@@ -9034,7 +9006,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 size: '',
                 color: '',
                 model: '',
-                sellingPrice: '',
+                sellingPrice: 0,
                 productImage: ''
 
             },
@@ -9055,7 +9027,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 size: '',
                 color: '',
                 model: '',
-                sellingPrice: '',
+                sellingPrice: 0,
                 productImage: '',
                 barCode: null
 
@@ -9309,7 +9281,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.editObj.size = this.dataProduct[index].size;
             this.editObj.color = this.dataProduct[index].color;
             this.editObj.model = this.dataProduct[index].model;
-            this.editObj.sellingPrice = this.dataProduct[index].sellingPrice;
+            this.editObj.sellingPrice = parseInt(this.dataProduct[index].sellingPrice);
             this.editObj.productImage = this.dataProduct[index].productImage;
             this.UpdateValue.id = this.dataProduct[index].id;
             this.UpdateValue.productName = this.dataProduct[index].productName;
@@ -14659,9 +14631,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-//
-//
-//
 //
 //
 //
@@ -95575,7 +95544,21 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "13", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataCategory }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "8", offset: "1" }
             },
             [
               _c(
@@ -95626,6 +95609,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Category Name"
                                 },
+                                on: { "on-enter": _vm.categoryAdd },
                                 model: {
                                   value: _vm.formValue.catName,
                                   callback: function($$v) {
@@ -95643,10 +95627,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Col",
-                        {
-                          staticClass: "dream-input-main-button",
-                          attrs: { span: "24" }
-                        },
+                        { attrs: { span: "24" } },
                         [
                           _c(
                             "Button",
@@ -95669,26 +95650,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", {
-                attrs: { columns: _vm.columns1, data: _vm.dataCategory }
-              })
             ],
             1
           )
@@ -96467,7 +96428,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticStyle: { "text-align": "center" } },
+            {},
             [
               _c(
                 "Form",
@@ -96757,7 +96718,7 @@ var render = function() {
                       _c(
                         "Col",
                         { attrs: { span: "12" } },
-                        [_c("FormItem", { attrs: { label: "Image X" } })],
+                        [_c("FormItem", { attrs: { label: "Image" } })],
                         1
                       )
                     ],
@@ -96827,7 +96788,6 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticStyle: { "text-align": "center" } },
             [
               _c(
                 "Form",
@@ -97309,7 +97269,19 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "11", offset: "1" }
+              attrs: { span: "13", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "8", offset: "1" }
             },
             [
               _c(
@@ -97332,6 +97304,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Group Name"
                                 },
+                                on: { "on-enter": _vm.groupAdd },
                                 model: {
                                   value: _vm.formValue.groupName,
                                   callback: function($$v) {
@@ -97375,24 +97348,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
             ],
             1
           )
@@ -97463,7 +97418,13 @@ var render = function() {
                             attrs: {
                               placeholder: "Discount",
                               max: 100,
-                              min: 0
+                              min: 0,
+                              formatter: function(value) {
+                                return value + "%"
+                              },
+                              parser: function(value) {
+                                return value.replace("%", "")
+                              }
                             },
                             model: {
                               value: _vm.editObj.discount,
@@ -98125,7 +98086,19 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "13", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "8", offset: "1" }
             },
             [
               _c(
@@ -98148,6 +98121,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Unit Name"
                                 },
+                                on: { "on-enter": _vm.unitAdd },
                                 model: {
                                   value: _vm.formValue.unitName,
                                   callback: function($$v) {
@@ -98165,10 +98139,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Col",
-                        {
-                          staticClass: "dream-input-main-button",
-                          attrs: { span: "24" }
-                        },
+                        { attrs: { span: "24" } },
                         [
                           _c(
                             "Button",
@@ -98191,24 +98162,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
             ],
             1
           )

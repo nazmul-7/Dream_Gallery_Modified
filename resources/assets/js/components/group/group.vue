@@ -1,14 +1,19 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="11" offset="1">
+            <!-- table -->
+            <Col class="dream-input-main" span="13" offset="1">
+                <Table :columns="columns1" :data="data1"></Table>
+            </Col>
+            <!-- adding form -->
+            <Col class="dream-input-main" span="8" offset="1">
                 <Form >
 
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem label="Group Name">
                                 <Input type="text" placeholder="Group Name" 
-                                v-model="formValue.groupName"></Input>
+                                v-model="formValue.groupName" @on-enter="groupAdd"></Input>
                             </FormItem>
                         </Col>
                          <Col class="dream-input-main-button" span="24">
@@ -19,37 +24,6 @@
                         </Col>
                     </Row>
                 </Form>
-            </Col>
-            <!-- <Col class="dream-input-main" span="11" offset="1">
-                <Form >
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem label="Group Name">
-                                <Select v-model="UpdateValue.groupName" placeholder="Group Name" filterable>
-                                    <Option v-for="(group,i) in data1" :value="group.groupName" :key="i">{{group.groupName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <Col span="24">
-                            <FormItem label="Group Name">
-                                <Input type="text" placeholder="Discount Amount" 
-                                v-model="UpdateValue.discount"></Input>
-                            </FormItem>
-                        </Col>
-                         <Col class="dream-input-main-button" span="24">
-                            <Button type="success" :loading="loading" @click="addDiscount(group.id)">
-                                <span v-if="!loading">Add Discount</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Col> -->
-        </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
             </Col>
         </Row>
 
@@ -66,7 +40,8 @@
                     v-model="editObj.groupName"></Input>
                 </FormItem>
                 <FormItem >
-                    <InputNumber  placeholder="Discount" :max="100" :min="0" 
+                    <InputNumber  placeholder="Discount" :max="100" :min="0" :formatter="value => `${value}%`"
+            :parser="value => value.replace('%', '')"
                     v-model="editObj.discount"></InputNumber>
                 </FormItem>
             </Col>
@@ -174,7 +149,6 @@
                 formValue: {
                     id: '',
                     groupName: '',
-                    discount: '',
                 },
                 
             }

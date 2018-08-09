@@ -1,7 +1,11 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+
+            <Col class="dream-input-main" span="13" offset="1">
+                <Table :columns="columns1" :data="dataCategory"></Table>
+            </Col>
+            <Col class="dream-input-main" span="8" offset="1">
                 <Form >
 
                     <Row :gutter="24">
@@ -12,12 +16,12 @@
                                 </Select>
                             </FormItem>
                             <FormItem  label="Category Name">
-                                <Input type="text" placeholder="Category Name" 
-                                v-model="formValue.catName"></Input>
+                                <Input type="text" placeholder="Category Name" v-model="formValue.catName" @on-enter="categoryAdd">
+                                </Input>
                             </FormItem >
                             
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col span="24">
                             <Button type="success" :loading="loading" @click="categoryAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -25,12 +29,6 @@
                         </Col>
                     </Row>
                 </Form>
-            </Col>
-        </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataCategory"></Table>
             </Col>
         </Row>
 

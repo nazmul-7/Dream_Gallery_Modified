@@ -1,17 +1,20 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="13" offset="1">
+                <Table :columns="columns1" :data="data1"></Table>
+            </Col>
+            <Col class="dream-input-main" span="8" offset="1">
                 <Form >
 
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem label="Unit Name" >
-                                <Input type="text" placeholder="Unit Name" 
+                                <Input type="text" placeholder="Unit Name" @on-enter="unitAdd"
                                 v-model="formValue.unitName"></Input>
                             </FormItem>
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col span="24">
                             <Button type="success" :loading="loading" @click="unitAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -19,12 +22,6 @@
                         </Col>
                     </Row>
                 </Form>
-            </Col>
-        </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
             </Col>
         </Row>
 

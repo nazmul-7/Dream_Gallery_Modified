@@ -19,7 +19,7 @@
             <span> Add New Product</span>
 
         </p>
-        <div style="text-align:center">
+        <div style="">
             <Form>
                 <Row :gutter="24">
                     <Col span="12">
@@ -78,12 +78,12 @@
                     <Col span="12">
                         <FormItem  label="Price">
                             <br/>
-                            <InputNumber placeholder="Selling Price" 
-                            v-model="formValue.sellingPrice"></InputNumber>
+                            <InputNumber placeholder="Selling Price" v-model="formValue.sellingPrice">
+                            </InputNumber>
                         </FormItem >
                     </Col>
                     <Col span="12">
-                        <FormItem  label="Image X">
+                        <FormItem  label="Image">
                         </FormItem >
                     </Col>
                 </Row>
@@ -102,7 +102,7 @@
             <Icon type="edit"></Icon>
             <span> Edit {{editObj.model}}</span>
         </p>
-        <div style="text-align:center">
+        <div>
             <Form>
                 <Col span="12">
                     <FormItem label="Group">
@@ -237,7 +237,7 @@
                     size:'',
                     color: '',
                     model:'',
-                    sellingPrice:'',
+                    sellingPrice:0,
                     productImage:'',
                 },
                 formCategory: {
@@ -253,7 +253,7 @@
                     size:'',
                     color: '',
                     model:'',
-                    sellingPrice:'',
+                    sellingPrice:0,
                     productImage:'',
                     
                 },
@@ -274,7 +274,7 @@
                     size:'',
                     color: '',
                     model:'',
-                    sellingPrice:'',
+                    sellingPrice:0,
                     productImage:'',
                     barCode:null,
                     
@@ -446,7 +446,7 @@
                 this.editObj.size=this.dataProduct[index].size
                 this.editObj.color=this.dataProduct[index].color
                 this.editObj.model=this.dataProduct[index].model
-                this.editObj.sellingPrice=this.dataProduct[index].sellingPrice
+                this.editObj.sellingPrice=parseInt(this.dataProduct[index].sellingPrice)
                 this.editObj.productImage=this.dataProduct[index].productImage
                 this.UpdateValue.id=this.dataProduct[index].id
                 this.UpdateValue.productName=this.dataProduct[index].productName
