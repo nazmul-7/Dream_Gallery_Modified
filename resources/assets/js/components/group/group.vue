@@ -41,8 +41,7 @@
                 </FormItem>
                 <FormItem >
                     <InputNumber  placeholder="Discount" :max="100" :min="0" :formatter="value => `${value}%`"
-            :parser="value => value.replace('%', '')"
-                    v-model="editObj.discount"></InputNumber>
+            :parser="value => value.replace('%', '')" v-model="editObj.discount"></InputNumber>
                 </FormItem>
             </Col>
         </Form>

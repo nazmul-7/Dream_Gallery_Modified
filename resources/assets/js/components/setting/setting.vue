@@ -17,8 +17,9 @@
                             </FormItem>
                         </Col>
                          <Col span="12">
-                            <FormItem label="Opening Stock Valution">
-                                <Input type="text" placeholder="Opening Stock Valution" v-model="formValue.openingStock"></Input>
+                            <FormItem label="Reference Bonus">
+                                <Input type="text" placeholder="Reference Bonus" v-model="formValue.referenceBonus" :max="100" :min="0" :formatter="value => `${value}%`"
+            :parser="value => value.replace('%', '')"></Input>
                             </FormItem>
                         </Col>
 
@@ -117,7 +118,7 @@
                         value: '-----'
                     },
                     {
-                        name: 'Opening Stock Valution',
+                        name: 'Reference Bonus',
                         value: '-----'
                     }
                 ],
@@ -126,7 +127,7 @@
                     id: '',
                     companyName: '',
                     currencyType: '',
-                    openingStock: '',
+                    referenceBonus: '',
                     openingBalance: '',
                     companyInfo: '',
                 },
@@ -169,7 +170,7 @@
                     this.data1[0].value=this.formValue.companyName
                     this.data1[1].value=this.formValue.companyInfo
                     this.data1[2].value=this.formValue.currencyType
-                    this.data1[3].value=this.formValue.openingStock
+                    this.data1[3].value=this.formValue.referenceBonus
                     this.data1[4].value=this.formValue.openingBalance
 
                     this.s('Great!','Address information has been added successfully!')
@@ -194,7 +195,7 @@
                 this.data1[0].value=data.companyName
                 this.data1[1].value=data.companyInfo
                 this.data1[2].value=data.currencyType
-                this.data1[3].value=data.openingStock
+                this.data1[3].value=data.referenceBonus
                 this.data1[4].value=data.openingBalance
                 this.logo=data.companyLogo
             this.lf();
