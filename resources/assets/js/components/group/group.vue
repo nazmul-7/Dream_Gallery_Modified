@@ -37,12 +37,12 @@
            <Col span="24">
                 <FormItem >
                     <Input type="text" placeholder="Group Name" 
-                    v-model="editObj.groupName"></Input>
+                    v-model="editObj.groupName" @on-enter="edit"></Input>
                 </FormItem>
                 <FormItem >
                     <InputNumber  placeholder="Discount" :max="100" :min="0" :formatter="value => `${value}%`"
             :parser="value => value.replace('%', '')"
-                    v-model="editObj.discount"></InputNumber>
+                    v-model="editObj.discount" @on-enter="edit"></InputNumber>
                 </FormItem>
             </Col>
         </Form>
@@ -101,7 +101,7 @@
                         key: 'groupName'
                     },
                                         {
-                        title: 'Discount',
+                        title: 'Discount (%)',
                         key: 'discount'
                     },
                     {   

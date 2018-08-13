@@ -6257,7 +6257,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 title: 'Name',
                 key: 'groupName'
             }, {
-                title: 'Discount',
+                title: 'Discount (%)',
                 key: 'discount'
             }, {
                 title: 'Action',
@@ -95579,7 +95579,10 @@ var render = function() {
                               _c(
                                 "Select",
                                 {
-                                  attrs: { placeholder: "Select group" },
+                                  attrs: {
+                                    placeholder: "Select group",
+                                    filterable: ""
+                                  },
                                   model: {
                                     value: _vm.formValue.group_id,
                                     callback: function($$v) {
@@ -95740,6 +95743,7 @@ var render = function() {
                               type: "text",
                               placeholder: "Category Name"
                             },
+                            on: { "on-enter": _vm.edit },
                             model: {
                               value: _vm.editObj.catName,
                               callback: function($$v) {
@@ -97399,6 +97403,7 @@ var render = function() {
                         [
                           _c("Input", {
                             attrs: { type: "text", placeholder: "Group Name" },
+                            on: { "on-enter": _vm.edit },
                             model: {
                               value: _vm.editObj.groupName,
                               callback: function($$v) {
@@ -97426,6 +97431,7 @@ var render = function() {
                                 return value.replace("%", "")
                               }
                             },
+                            on: { "on-enter": _vm.edit },
                             model: {
                               value: _vm.editObj.discount,
                               callback: function($$v) {

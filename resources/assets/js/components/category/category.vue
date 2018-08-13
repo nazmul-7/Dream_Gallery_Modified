@@ -11,7 +11,7 @@
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem label="Group">
-                                <Select v-model="formValue.group_id" placeholder="Select group">
+                                <Select v-model="formValue.group_id" placeholder="Select group" filterable>
                                     <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
                                 </Select>
                             </FormItem>
@@ -47,7 +47,7 @@
                 </FormItem>
                 <FormItem  label="Category Name">
                     <Input type="text" placeholder="Category Name" 
-                    v-model="editObj.catName"></Input>
+                    v-model="editObj.catName" @on-enter="edit"></Input>
                 </FormItem >
             </Col>
         </Form>

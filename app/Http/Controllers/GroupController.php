@@ -13,7 +13,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $settings=Group::orderBy('id', 'desc')->get();
+        $settings=Group::orderBy('groupName', 'asc')->get();
         return $settings;
     }
 

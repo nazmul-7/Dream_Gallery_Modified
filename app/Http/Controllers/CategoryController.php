@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category=Category::with('group')
-        ->orderBy('id', 'desc')
+        ->orderBy('catName', 'asc')
         ->get();
 
         return $category;
