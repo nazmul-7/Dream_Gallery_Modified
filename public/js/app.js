@@ -6229,7 +6229,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -11182,7 +11181,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (!this.dataSearch) {
-                                    _context.next = 43;
+                                    _context.next = 44;
                                     break;
                                 }
 
@@ -11211,7 +11210,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                     c.stock = c.quantity;
                                     console.log(111);
-
                                     if (c.discount) {
                                         d = c.discount * c.unitPrice / 100;
 
@@ -11254,6 +11252,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 return _context.finish(20);
 
                             case 28:
+                                this.formValue.invoice_id = this.dataSearch.id;
                                 this.formValue.productDetails = data.data;
                                 this.formValue.subTotal = this.dataSearch.totalPrice;
                                 this.formValue.totalQuantity = this.dataSearch.totalQuantity;
@@ -11262,23 +11261,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.formValue.discount = this.dataSearch.discount;
                                 this.formValue.date = this.dataSearch.date;
                                 this.formValue.barCode = '';
-                                _context.next = 43;
+                                _context.next = 44;
                                 break;
 
-                            case 38:
-                                _context.prev = 38;
+                            case 39:
+                                _context.prev = 39;
                                 _context.t1 = _context['catch'](2);
 
                                 this.e('Oops!', 'Something went wrong, please try again!');
                                 this.le();
                                 return _context.abrupt('return', 0);
 
-                            case 43:
+                            case 44:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this, [[2, 38], [12, 16, 20, 28], [21,, 23, 27]]);
+                }, _callee, this, [[2, 39], [12, 16, 20, 28], [21,, 23, 27]]);
             }));
 
             function addProduct() {
@@ -11350,9 +11349,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     return;
                 }
             }
-            this.sellProduct();
+            this.returnProduct();
         },
-        sellProduct: function () {
+        returnProduct: function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
                 var _ref6, data;
 
@@ -11406,11 +11405,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 }, _callee3, this, [[6, 15]]);
             }));
 
-            function sellProduct() {
+            function returnProduct() {
                 return _ref5.apply(this, arguments);
             }
 
-            return sellProduct;
+            return returnProduct;
         }()
     },
     created: function () {
@@ -13636,6 +13635,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -13667,7 +13667,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 name: 'Account Opening Balance',
                 value: '-----'
             }, {
-                name: 'Opening Stock Valution',
+                name: 'Reference Bonus',
                 value: '-----'
             }],
 
@@ -13675,7 +13675,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 id: '',
                 companyName: '',
                 currencyType: '',
-                openingStock: '',
+                referenceBonus: '',
                 openingBalance: '',
                 companyInfo: ''
             },
@@ -13723,7 +13723,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.data1[0].value = this.formValue.companyName;
                                 this.data1[1].value = this.formValue.companyInfo;
                                 this.data1[2].value = this.formValue.currencyType;
-                                this.data1[3].value = this.formValue.openingStock;
+                                this.data1[3].value = this.formValue.referenceBonus;
                                 this.data1[4].value = this.formValue.openingBalance;
 
                                 this.s('Great!', 'Address information has been added successfully!');
@@ -13779,7 +13779,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             this.data1[0].value = data.companyName;
                             this.data1[1].value = data.companyInfo;
                             this.data1[2].value = data.currencyType;
-                            this.data1[3].value = data.openingStock;
+                            this.data1[3].value = data.referenceBonus;
                             this.data1[4].value = data.openingBalance;
                             this.logo = data.companyLogo;
                             this.lf();
@@ -99011,19 +99011,31 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Opening Stock Valution" } },
+                            { attrs: { label: "Reference Bonus" } },
                             [
                               _c("Input", {
                                 attrs: {
                                   type: "text",
-                                  placeholder: "Opening Stock Valution"
+                                  placeholder: "Reference Bonus",
+                                  max: 100,
+                                  min: 0,
+                                  formatter: function(value) {
+                                    return value + "%"
+                                  },
+                                  parser: function(value) {
+                                    return value.replace("%", "")
+                                  }
                                 },
                                 model: {
-                                  value: _vm.formValue.openingStock,
+                                  value: _vm.formValue.referenceBonus,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.formValue, "openingStock", $$v)
+                                    _vm.$set(
+                                      _vm.formValue,
+                                      "referenceBonus",
+                                      $$v
+                                    )
                                   },
-                                  expression: "formValue.openingStock"
+                                  expression: "formValue.referenceBonus"
                                 }
                               })
                             ],

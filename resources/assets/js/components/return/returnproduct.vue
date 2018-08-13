@@ -250,7 +250,6 @@
                             {
                                 c.stock=c.quantity
                                 console.log(111);
-                                
                                 if(c.discount){
                                 let d= (c.discount*c.unitPrice)/100
                                 c.discountedPrice= c.unitPrice-d
@@ -258,6 +257,7 @@
                                         c.discountedPrice= c.unitPrice
                                 }
                             }
+                            this.formValue.invoice_id=this.dataSearch.id
                             this.formValue.productDetails=data.data
                             this.formValue.subTotal=this.dataSearch.totalPrice
                             this.formValue.totalQuantity=this.dataSearch.totalQuantity
@@ -312,9 +312,9 @@
                     }
 
                 }
-                this.sellProduct ()
+                this.returnProduct ()
             },
-            async sellProduct (){
+            async returnProduct (){
                 //invoice added
                 if( !this.totalQuantity || !this.totalPrice)
                 {

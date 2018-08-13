@@ -119,7 +119,7 @@ class SellingController extends Controller
                 'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['customer_id'],
-                'amount' => $input['total'],
+                'amount' => $input['totalPrice']-$input['total'],
                 'paymentMethod' => 'cash',
                 'remarks' => 'Discount To Customer',
                 'date' => $input['date'],
@@ -137,7 +137,6 @@ class SellingController extends Controller
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['sellingPrice'],
-                
                 'discount' => $value['discount'],
                 'profit' => $profit,
             ]);

@@ -136,7 +136,8 @@ class InvoiceController extends Controller
         
         $input=$request->all();
         // update invoice 
-        $invoice=Invoice::update([
+        $invoice=Invoice::where('id',$input['invoice_id'])
+        ->update([
             'totalQuantity' => $input['totalQuantity'],
             'totalPrice' => $input['totalPrice'],
             'customer_id' => $input['customer_id'],
@@ -145,7 +146,34 @@ class InvoiceController extends Controller
             'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],
         ]);
+        $currentSheets=Paymentsheet::where('invoice_id',$input['invoice_id'])
+        ->get();
+        foreach($currentSheets as $sheet )
+        {
+            if($sheet->type="due")
+            {
+                $paymentSheet=Paymentsheet::where('id',$sheet->id)
+                ->update([
+                    'uid' => $input['customer_id'],
+                    'amount' => $input['total'],
+                    'date' => $input['date'],
+                ]);
 
+            }
+            if($sheet->type="incoming")
+            {
+
+            }
+            if($sheet->type="dueIncoming")
+            {
+
+            }
+            if($sheet->type="outgoing")
+            {
+
+            }
+            
+        }
         if($input['total']==$input['paidAmount'])
         {
             $paymentSheet=Paymentsheet::create([
