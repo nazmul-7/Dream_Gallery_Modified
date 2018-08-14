@@ -6,8 +6,8 @@
 
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem  label="SupplierName Name">
-                                <Input type="text" placeholder="SupplierName Name" 
+                            <FormItem  label="Supplier Name">
+                                <Input type="text" placeholder="Supplier Name" 
                                 v-model="formValue.supplierName"></Input>
                             </FormItem >
                             <FormItem  label="Contact Number">

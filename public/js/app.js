@@ -5844,9 +5844,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -6154,6 +6151,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
 //
 //
 //
@@ -8966,8 +8964,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
@@ -9239,7 +9235,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 data = _ref4.data;
 
                                 this.dataProduct.unshift(data);
-                                this.s('Great!', 'Category has been added successfully!');
+                                this.s('Great!', 'Product has been added successfully!');
                                 this.loading = false;
                                 this.addProductModal = false;
                                 // this.formValue=null
@@ -9331,7 +9327,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.dataProduct[this.UpdateValue.indexNumber].model = data.model;
                                 this.dataProduct[this.UpdateValue.indexNumber].sellingPrice = data.sellingPrice;
                                 this.dataProduct[this.UpdateValue.indexNumber].productImage = data.productImage;
-                                this.s('Great!', 'Category information has been updated successfully!');
+                                this.s('Great!', 'Product information has been updated successfully!');
 
                                 this.sending = false;
                                 this.editModal = false;
@@ -93196,12 +93192,12 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "SupplierName Name" } },
+                            { attrs: { label: "Supplier Name" } },
                             [
                               _c("Input", {
                                 attrs: {
                                   type: "text",
-                                  placeholder: "SupplierName Name"
+                                  placeholder: "Supplier Name"
                                 },
                                 model: {
                                   value: _vm.formValue.supplierName,
@@ -96454,7 +96450,8 @@ var render = function() {
                                 {
                                   attrs: {
                                     placeholder: "Select group",
-                                    "remote-method": _vm.changed
+                                    "remote-method": _vm.changed,
+                                    filterable: ""
                                   },
                                   model: {
                                     value: _vm.UpdateValue.group_id,
@@ -96490,7 +96487,10 @@ var render = function() {
                               _c(
                                 "Select",
                                 {
-                                  attrs: { placeholder: "Select category" },
+                                  attrs: {
+                                    placeholder: "Select category",
+                                    filterable: ""
+                                  },
                                   model: {
                                     value: _vm.formValue.catName,
                                     callback: function($$v) {
@@ -96528,7 +96528,10 @@ var render = function() {
                               _c(
                                 "Select",
                                 {
-                                  attrs: { placeholder: "Select unit" },
+                                  attrs: {
+                                    placeholder: "Select unit",
+                                    filterable: ""
+                                  },
                                   model: {
                                     value: _vm.formValue.unit,
                                     callback: function($$v) {
@@ -96809,7 +96812,8 @@ var render = function() {
                             {
                               attrs: {
                                 placeholder: "Select group",
-                                "remote-method": _vm.changed
+                                "remote-method": _vm.changed,
+                                filterable: ""
                               },
                               model: {
                                 value: _vm.UpdateValue.group_id,
@@ -96845,7 +96849,10 @@ var render = function() {
                           _c(
                             "Select",
                             {
-                              attrs: { placeholder: "Select category" },
+                              attrs: {
+                                placeholder: "Select category",
+                                filterable: ""
+                              },
                               model: {
                                 value: _vm.editObj.catName,
                                 callback: function($$v) {
@@ -96880,7 +96887,10 @@ var render = function() {
                           _c(
                             "Select",
                             {
-                              attrs: { placeholder: "Select unit" },
+                              attrs: {
+                                placeholder: "Select unit",
+                                filterable: ""
+                              },
                               model: {
                                 value: _vm.editObj.unit,
                                 callback: function($$v) {
@@ -99725,7 +99735,19 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "14", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "77", offset: "1" }
             },
             [
               _c(
@@ -99791,24 +99813,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
             ],
             1
           )

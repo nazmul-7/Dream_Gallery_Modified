@@ -23,7 +23,7 @@ class CategoryController extends Controller
     {
         $category=Category::where('group_id', $id)
         ->with('group')
-        ->orderBy('id', 'desc')
+        ->orderBy('catName', 'asc')
         ->get();
         
         return $category;

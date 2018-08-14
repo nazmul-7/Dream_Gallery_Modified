@@ -25,22 +25,21 @@
                     <Col span="12">
                         <FormItem label="Group">
                             <Select v-model="UpdateValue.group_id" placeholder="Select group" 
-                             :remote-method="changed">
+                             :remote-method="changed" filterable>
                                     <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
                                 </Select>
                         </FormItem>
                     </Col>
                     <Col span="12">
                         <FormItem label="Category">
-                            <Select v-model="formValue.catName" placeholder="Select category" 
-                             >
+                            <Select v-model="formValue.catName" placeholder="Select category" filterable>
                                     <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{category.catName}}</Option>
                                 </Select>
                         </FormItem>
                     </Col>
                     <Col span="12">
                         <FormItem label="Unit">
-                            <Select v-model="formValue.unit" placeholder="Select unit" >
+                            <Select v-model="formValue.unit" placeholder="Select unit" filterable >
                                     <Option v-for="(unit,i) in dataUnit" :value="unit.unitName" :key="i">{{unit.unitName}}</Option>
                                 </Select>
                         </FormItem>
@@ -107,22 +106,21 @@
                 <Col span="12">
                     <FormItem label="Group">
                         <Select v-model="UpdateValue.group_id" placeholder="Select group" 
-                         :remote-method="changed">
+                         :remote-method="changed" filterable>
                                 <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
                             </Select>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="Category">
-                        <Select v-model="editObj.catName" placeholder="Select category" 
-                         >
+                        <Select v-model="editObj.catName" placeholder="Select category" filterable>
                                 <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{category.catName}}</Option>
                             </Select>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="Unit">
-                        <Select v-model="editObj.unit" placeholder="Select unit" >
+                        <Select v-model="editObj.unit" placeholder="Select unit" filterable >
                                 <Option v-for="(unit,i) in dataUnit" :value="unit.unitName" :key="i">{{unit.unitName}}</Option>
                             </Select>
                     </FormItem>
@@ -424,7 +422,7 @@
                         data: this.formValue
                     })
                     this.dataProduct.unshift(data)
-                    this.s('Great!','Category has been added successfully!')
+                    this.s('Great!','Product has been added successfully!')
                     this.loading=false
                     this.addProductModal=false
                     // this.formValue=null
@@ -485,7 +483,7 @@
                     this.dataProduct[this.UpdateValue.indexNumber].model=data.model
                     this.dataProduct[this.UpdateValue.indexNumber].sellingPrice=data.sellingPrice
                     this.dataProduct[this.UpdateValue.indexNumber].productImage=data.productImage
-                    this.s('Great!','Category information has been updated successfully!')
+                    this.s('Great!','Product information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false

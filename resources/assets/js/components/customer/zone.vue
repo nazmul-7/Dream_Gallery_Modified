@@ -1,7 +1,10 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
+                <Table :columns="columns1" :data="data1"></Table>
+            </Col>
+            <Col class="dream-input-main" span="77" offset="1">
                 <Form >
 
                     <Row :gutter="24">
@@ -19,12 +22,6 @@
                         </Col>
                     </Row>
                 </Form>
-            </Col>
-        </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
             </Col>
         </Row>
 
