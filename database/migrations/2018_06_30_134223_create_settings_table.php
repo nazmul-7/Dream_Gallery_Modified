@@ -17,7 +17,7 @@ class CreateSettingsTable extends Migration
             $table->increments('id');
             $table->string('currencyType')->nullable()->default('BDT');
             $table->string('referenceBonus')->nullable()->default(0);
-            $table->string('openingBalance')->nullable()->default(0);
+            $table->string('refererBonus')->nullable()->default(0);
             $table->string('companyName')->nullable();
             $table->string('companyLogo')->nullable();
             $table->text('companyInfo')->nullable();

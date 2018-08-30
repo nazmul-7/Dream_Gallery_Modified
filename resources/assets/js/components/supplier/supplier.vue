@@ -1,29 +1,32 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
+                <Table :columns="columns1" :data="dataSupplier"></Table>
+            </Col>
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
 
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem  label="Supplier Name">
-                                <Input type="text" placeholder="Supplier Name" 
-                                v-model="formValue.supplierName"></Input>
+                            <FormItem  label="SupplierName Name">
+                                <Input type="text" placeholder="SupplierName Name" 
+                                v-model="formValue.supplierName" @on-enter="supplierAdd"></Input>
                             </FormItem >
                             <FormItem  label="Contact Number">
                                 <Input type="text" placeholder="Contact Number" 
-                                v-model="formValue.contact"></Input>
+                                v-model="formValue.contact" @on-enter="supplierAdd"></Input>
                             </FormItem >
                             <FormItem  label="Email">
                                 <Input type="text" placeholder="Supplier's Email" 
-                                v-model="formValue.email"></Input>
+                                v-model="formValue.email" @on-enter="supplierAdd"></Input>
                             </FormItem >
                             <FormItem label="Address">
-                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Address" v-model="formValue.address"></Input>
+                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Address" v-model="formValue.address" @on-enter="supplierAdd" ></Input>
                             </FormItem>
                             
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col  span="24">
                             <Button type="success" :loading="loading" @click="supplierAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -33,13 +36,6 @@
                 </Form>
             </Col>
         </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataSupplier"></Table>
-            </Col>
-        </Row>
-
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>

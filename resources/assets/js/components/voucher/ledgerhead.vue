@@ -1,14 +1,17 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
+                <Table :columns="columns1" :data="data1"></Table>
+            </Col>
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
 
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem label="Ledger Name">
                                 <Input type="text" placeholder="Ledger Name" 
-                                v-model="formValue.ledgerName"></Input>
+                                v-model="formValue.ledgerName" @on-enter="ledgerAdd"></Input>
                             </FormItem>
                             <FormItem label="Type">
                                 <Select v-model="formValue.type" placeholder="Select Type">
@@ -25,12 +28,6 @@
                         </Col>
                     </Row>
                 </Form>
-            </Col>
-        </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
             </Col>
         </Row>
 
