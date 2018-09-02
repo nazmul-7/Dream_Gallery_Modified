@@ -6819,6 +6819,121 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -92739,6 +92854,7 @@ var render = function() {
             {
               ref: "side1",
               attrs: {
+                width: "250",
                 "hide-trigger": "",
                 collapsible: "",
                 "collapsed-width": 78
@@ -92756,339 +92872,488 @@ var render = function() {
                 "Menu",
                 {
                   class: _vm.menuitemClasses,
-                  attrs: { "active-name": "1-2", theme: "dark", width: "auto" },
+                  attrs: { theme: "dark", width: "auto" },
                   on: { "on-select": _vm.goToLink }
                 },
                 [
                   _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "setting",
-                        to: _vm.handleGoToMenu("/setting")
-                      }
-                    },
+                    "Submenu",
+                    { attrs: { name: "1" } },
                     [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "template",
+                        { slot: "title" },
+                        [
+                          _c("Icon", { attrs: { type: "ios-navigate" } }),
+                          _vm._v(
+                            "\n                           Setup\n                        "
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("Setting")])
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "1-1" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "1-1-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Setting\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "setting",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "unit",
+                                    to: _vm.handleGoToMenu("/unit")
+                                  }
+                                },
+                                [_vm._v("Unit Type")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "1-2" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "1-2-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Product\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "product",
+                                    to: _vm.handleGoToMenu("/product")
+                                  }
+                                },
+                                [_vm._v("Add Product")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "product",
+                                    to: _vm.handleGoToMenu("/product")
+                                  }
+                                },
+                                [_vm._v("Product List")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "group",
+                                    to: _vm.handleGoToMenu("/group")
+                                  }
+                                },
+                                [_vm._v("Group")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "category",
+                                    to: _vm.handleGoToMenu("/category")
+                                  }
+                                },
+                                [_vm._v("Category")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "1-3" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "1-3-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Account\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "setting",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Accounts")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "1-4" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "1-4-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Others\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "customer",
+                                    to: _vm.handleGoToMenu("/customer")
+                                  }
+                                },
+                                [_vm._v("Customer")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "supplier",
+                                    to: _vm.handleGoToMenu("/supplier")
+                                  }
+                                },
+                                [_vm._v("Supplier")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "zome",
+                                    to: _vm.handleGoToMenu("/zome")
+                                  }
+                                },
+                                [_vm._v("Zone")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      )
                     ],
-                    1
+                    2
                   ),
                   _vm._v(" "),
                   _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "group", to: _vm.handleGoToMenu("/group") }
-                    },
+                    "Submenu",
+                    { attrs: { name: "2" } },
                     [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "template",
+                        { slot: "title" },
+                        [
+                          _c("Icon", { attrs: { type: "ios-navigate" } }),
+                          _vm._v(
+                            "\n                           Task\n                        "
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("Group")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "category",
-                        to: _vm.handleGoToMenu("/category")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        {
+                          attrs: {
+                            name: "sell",
+                            to: _vm.handleGoToMenu("/group")
+                          }
+                        },
+                        [_c("span", [_vm._v("Quick Sale")])]
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("Category")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "unit", to: _vm.handleGoToMenu("/unit") }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-1" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-1-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Purchase\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-1-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("Unit Type")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "product",
-                        to: _vm.handleGoToMenu("/product")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-2" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-2-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Sale\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-2-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("Product")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "supplier",
-                        to: _vm.handleGoToMenu("/supplier")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-3" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-3-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Return\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-3-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("supplier")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "customer",
-                        to: _vm.handleGoToMenu("/customer")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-4" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-4-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Collection\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-4-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("customer")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "zone", to: _vm.handleGoToMenu("/zone") }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-5" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-4-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Payment\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-4-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("area zone")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "voucher",
-                        to: _vm.handleGoToMenu("/voucher")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-6" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-4-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Stock\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-4-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("voucher")])
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "2-7" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "2-7-1" } },
+                            [
+                              _c("template", { slot: "title" }, [
+                                _vm._v(
+                                  "\n                                    Voucher\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "2-7-1-1",
+                                    to: _vm.handleGoToMenu("/setting")
+                                  }
+                                },
+                                [_vm._v("Store Setting")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      )
                     ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "ledgerhead",
-                        to: _vm.handleGoToMenu("/ledgerhead")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("ledgerhead")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "purchase",
-                        to: _vm.handleGoToMenu("/purchase")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("purchase")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "stock", to: _vm.handleGoToMenu("/stock") }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("stock")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "sell", to: _vm.handleGoToMenu("/sell") }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("sell")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "paytosupplier",
-                        to: _vm.handleGoToMenu("/paytosupplier")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("paytosupplier")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "cashcollection",
-                        to: _vm.handleGoToMenu("/cashcollection")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("cashcollection")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "returnproduct",
-                        to: _vm.handleGoToMenu("/returnproduct")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("returnproduct")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "selllist",
-                        to: _vm.handleGoToMenu("/selllist")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("selllist")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "itemselling",
-                        to: _vm.handleGoToMenu("/itemselling")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("itemselling")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "profit",
-                        to: _vm.handleGoToMenu("/profit")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("profit")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: {
-                        name: "paymentlist",
-                        to: _vm.handleGoToMenu("/paymentlist")
-                      }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("paymentlist")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "cash", to: _vm.handleGoToMenu("/cash") }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("cash")])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "MenuItem",
-                    {
-                      attrs: { name: "login", to: _vm.handleGoToMenu("/login") }
-                    },
-                    [
-                      _c("Icon", { attrs: { type: "ios-navigate" } }),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("login")])
-                    ],
-                    1
+                    2
                   )
                 ],
                 1

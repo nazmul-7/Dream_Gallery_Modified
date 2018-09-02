@@ -3,9 +3,124 @@
 
  <div class="layout">
         <Layout>
-            <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses" @on-select="goToLink">
-                    <MenuItem name="setting" :to="handleGoToMenu('/setting')">
+            <Sider width="250" ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+                <Menu  theme="dark" width="auto" :class="menuitemClasses" @on-select="goToLink">
+                    <!-- menu -->
+                    <Submenu name="1">
+                        <template slot="title">
+                            <Icon type="ios-navigate"></Icon>
+                           Setup
+                        </template>
+                        <MenuItem name="1-1">                        
+                            <Submenu name="1-1-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Setting
+                                </template>
+                                <MenuItem name="setting" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                                <MenuItem name="unit" :to="handleGoToMenu('/unit')">Unit Type</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="1-2">                        
+                            <Submenu name="1-2-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Product
+                                </template>
+                                <MenuItem name="product" :to="handleGoToMenu('/product')">Add Product</MenuItem>
+                                <MenuItem name="product" :to="handleGoToMenu('/product')">Product List</MenuItem>
+                                <MenuItem name="group" :to="handleGoToMenu('/group')">Group</MenuItem>
+                                <MenuItem name="category" :to="handleGoToMenu('/category')">Category</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="1-3">                        
+                            <Submenu name="1-3-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Account
+                                </template>
+                                <MenuItem name="setting" :to="handleGoToMenu('/setting')">Accounts</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="1-4">                        
+                            <Submenu name="1-4-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Others
+                                </template>
+                                <MenuItem name="customer" :to="handleGoToMenu('/customer')">Customer</MenuItem>
+                                <MenuItem name="supplier" :to="handleGoToMenu('/supplier')">Supplier</MenuItem>
+                                <MenuItem name="zome" :to="handleGoToMenu('/zome')">Zone</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                    </Submenu>
+                    <!-- menu -->
+                    <Submenu name="2">
+                        <template slot="title">
+                            <Icon type="ios-navigate"></Icon>
+                           Task
+                        </template>
+                        <MenuItem name="sell" :to="handleGoToMenu('/group')">
+                            <span>Quick Sale</span>              
+                        </MenuItem>
+
+                        <MenuItem name="2-1">                        
+                            <Submenu name="2-1-1">
+                                <template slot="title">
+                                    Purchase
+                                </template>
+                                <MenuItem name="2-1-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="2-2">                        
+                            <Submenu name="2-2-1">
+                                <template slot="title">
+                                    Sale
+                                </template>
+                                <MenuItem name="2-2-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="2-3">                        
+                            <Submenu name="2-3-1">
+                                <template slot="title">
+                                    Return
+                                </template>
+                                <MenuItem name="2-3-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="2-4">                        
+                            <Submenu name="2-4-1">
+                                <template slot="title">
+                                    Collection
+                                </template>
+                                <MenuItem name="2-4-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="2-5">                        
+                            <Submenu name="2-4-1">
+                                <template slot="title">
+                                    Payment
+                                </template>
+                                <MenuItem name="2-4-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="2-6">                        
+                            <Submenu name="2-4-1">
+                                <template slot="title">
+                                    Stock
+                                </template>
+                                <MenuItem name="2-4-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="2-7">                        
+                            <Submenu name="2-7-1">
+                                <template slot="title">
+                                    Voucher
+                                </template>
+                                <MenuItem name="2-7-1-1" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
+                            </Submenu>
+                        </MenuItem>                    
+                    </Submenu>                    <!-- <MenuItem name="setting" :to="handleGoToMenu('/setting')">
                         <Icon type="ios-navigate" ></Icon>
                         <span>Setting</span>              
                     </MenuItem>
@@ -94,7 +209,7 @@
                     <MenuItem name="login" :to="handleGoToMenu('/login')">
                         <Icon type="ios-navigate" ></Icon>
                         <span>login</span>              
-                    </MenuItem>
+                    </MenuItem> -->
                 </Menu>
             </Sider>
             <Layout>
