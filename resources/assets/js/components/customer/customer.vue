@@ -1,31 +1,34 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
+                <Table :columns="columns1" :data="dataCustomer"></Table>
+            </Col>
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem  label="Customer Name">
                                 <Input type="text" placeholder="Customer Name" 
-                                v-model="formValue.customerName"></Input>
+                                v-model="formValue.customerName"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
                         <Col span="12">
                             <FormItem  label="Contact Number">
                             <Input type="text" placeholder="Number" 
-                            v-model="formValue.contact"></Input>
+                            v-model="formValue.contact"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
                         <Col span="12">
                             <FormItem  label="Email">
                                 <Input type="text" placeholder="Email" 
-                                v-model="formValue.email"></Input>
+                                v-model="formValue.email"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
                         <Col span="12">
                             <FormItem  label="Address">
                                 <Input type="text" placeholder="Address" 
-                                v-model="formValue.address"></Input>
+                                v-model="formValue.address"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
                         <Col span="12">
@@ -35,7 +38,7 @@
                                 </Select>
                             </FormItem>
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col span="24">
                             <Button type="success" :loading="loading" @click="customerAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -46,11 +49,6 @@
             </Col>
         </Row>
 
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataCustomer"></Table>
-            </Col>
-        </Row>
 
       <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">

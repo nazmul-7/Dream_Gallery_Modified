@@ -144,69 +144,69 @@
                     </MenuItem>
                     <MenuItem name="supplier" :to="handleGoToMenu('/supplier')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>supplier</span>              
+                        <span>Supplier</span>              
                     </MenuItem>
                     <MenuItem name="customer" :to="handleGoToMenu('/customer')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>customer</span>              
+                        <span>Customer</span>              
                     </MenuItem>
                     <MenuItem name="zone" :to="handleGoToMenu('/zone')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>area zone</span>              
+                        <span>Zone</span>              
                     </MenuItem>
                     <MenuItem name="voucher" :to="handleGoToMenu('/voucher')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>voucher</span>              
+                        <span>Voucher</span>              
                     </MenuItem>
                     <MenuItem name="ledgerhead" :to="handleGoToMenu('/ledgerhead')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>ledgerhead</span>              
+                        <span>Ledgerhead</span>              
                     </MenuItem>
                     <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>purchase</span>              
+                        <span>Purchase</span>              
                     </MenuItem>
                     <MenuItem name="stock" :to="handleGoToMenu('/stock')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>stock</span>              
+                        <span>Stock</span>              
                     </MenuItem>
                     <MenuItem name="sell" :to="handleGoToMenu('/sell')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>sell</span>              
+                        <span>Sell</span>              
                     </MenuItem>
                     <MenuItem name="paytosupplier" :to="handleGoToMenu('/paytosupplier')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>paytosupplier</span>              
+                        <span>Pay to supplier</span>              
                     </MenuItem>
                     <MenuItem name="cashcollection" :to="handleGoToMenu('/cashcollection')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>cashcollection</span>              
+                        <span>Cash Collection</span>              
                     </MenuItem>
                     <MenuItem name="returnproduct" :to="handleGoToMenu('/returnproduct')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>returnproduct</span>              
+                        <span>Return Product</span>              
                     </MenuItem>
                     <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>selllist</span>              
+                        <span>Sell list</span>              
                     </MenuItem>
                     <MenuItem name="itemselling" :to="handleGoToMenu('/itemselling')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>itemselling</span>              
+                        <span>Item Selling List</span>              
                     </MenuItem>
                     <MenuItem name="profit" :to="handleGoToMenu('/profit')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>profit</span>              
+                        <span>Profit</span>              
                     </MenuItem>
                     <MenuItem name="paymentlist" :to="handleGoToMenu('/paymentlist')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>paymentlist</span>              
+                        <span>Payment List</span>              
                     </MenuItem>
                     <MenuItem name="cash" :to="handleGoToMenu('/cash')">
                         <Icon type="ios-navigate" ></Icon>
-                        <span>cash</span>              
+                        <span>Cash</span>              
                     </MenuItem>
-                    <MenuItem name="login" :to="handleGoToMenu('/login')">
+                    <!-- <MenuItem name="login" :to="handleGoToMenu('/login')">
                         <Icon type="ios-navigate" ></Icon>
                         <span>login</span>              
                     </MenuItem> -->

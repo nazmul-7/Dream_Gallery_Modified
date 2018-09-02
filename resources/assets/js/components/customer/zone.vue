@@ -4,17 +4,17 @@
             <Col class="dream-input-main" span="14" offset="1">
                 <Table :columns="columns1" :data="data1"></Table>
             </Col>
-            <Col class="dream-input-main" span="77" offset="1">
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
 
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem label="Zone Name">
                                 <Input type="text" placeholder="Zone Name" 
-                                v-model="formValue.zoneName"></Input>
+                                v-model="formValue.zoneName" @on-enter="zoneAdd"></Input>
                             </FormItem>
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col span="24">
                             <Button type="success" :loading="loading" @click="zoneAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -25,45 +25,45 @@
             </Col>
         </Row>
 
-      <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.zoneName}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-           <Col span="24">
-                <FormItem >
-                    <Input type="text" placeholder="Zone Name" 
-                    v-model="editObj.zoneName"></Input>
-                </FormItem>
-            </Col>
-        </Form>
+        <Modal v-model="editModal" width="360">
+            <p slot="header" style="color:#369;text-align:center">
+                <Icon type="edit"></Icon>
+                <span> Edit {{UpdateValue.zoneName}}</span>
+            </p>
+            <div style="text-align:center">
+                <Form>
+            <Col span="24">
+                    <FormItem >
+                        <Input type="text" placeholder="Zone Name" 
+                        v-model="editObj.zoneName" @on-enter="edit"></Input>
+                    </FormItem>
+                </Col>
+            </Form>
 
-        </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
-        </div>
-    </Modal>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.zoneName}}</span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.zoneName}}
+            </div>
+            <div slot="footer">
+                <Button type="primary" size="large" long :loading="sending" @click="edit">
+                    <span v-if="!loading">Update</span>
+                    <span v-else>Updating...</span>
+                </Button>
+            </div>
+        </Modal>
+        <Modal v-model="deleteModal" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="close"></Icon>
+                <span> Delete {{UpdateValue.zoneName}}</span>
+            </p>
+            <div style="text-align:center">
+                Are you sure you want delete {{UpdateValue.zoneName}}
 
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="remove">
-                <span v-if="!loading">Delete</span>
-                <span v-else>Deleting...</span>
-            </Button>
-        </div>
-    </Modal>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long :loading="sending" @click="remove">
+                    <span v-if="!loading">Delete</span>
+                    <span v-else>Deleting...</span>
+                </Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
