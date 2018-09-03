@@ -2,8 +2,15 @@
     <div>
         <Row>
             <!-- table -->
-            <Col class="dream-input-main" span="13" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
+            <Col span="13" offset="1">
+                <Row>
+                    <Col  class="dream-input-main" span="24">
+                            <Input search enter-button="Search" v-model="search" placeholder="Search something..." />
+                    </Col>
+                    <Col  class="dream-input-main" span="24">
+                        <Table :columns="columns1" :data="searchData"></Table>
+                    </Col>
+                </Row>
             </Col>
             <!-- adding form -->
             <Col class="dream-input-main" span="8" offset="1">
@@ -78,6 +85,7 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -155,6 +163,15 @@
             
         },
         computed: {
+            
+            searchData()
+            {
+                return this.data1.filter((data)=>{
+                    
+                    return data.groupName.toUpperCase().match(this.search.toUpperCase());
+                }
+                );
+            },
             rotateIcon () {
                 return [
                     'menu-icon',

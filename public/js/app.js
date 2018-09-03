@@ -5401,8 +5401,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -6227,12 +6225,20 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         var _this = this;
 
         return {
+            search: '',
             editModal: false,
             deleteModal: false,
             loading: false,
@@ -6299,6 +6305,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
     computed: {
+        searchData: function searchData() {
+            var _this2 = this;
+
+            return this.data1.filter(function (data) {
+
+                return data.groupName.toUpperCase().match(_this2.search.toUpperCase());
+            });
+        },
         rotateIcon: function rotateIcon() {
             return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
         },
@@ -6934,6 +6948,94 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6980,6 +7082,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
 //
 //
 //
@@ -9804,6 +9907,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -9818,6 +9924,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             loading: false,
             sending: false,
             isCollapsed: false,
+            dateRange: [],
             dataSupplier: [],
             currentSupplier: {
                 supplierName: '',
@@ -9906,6 +10013,39 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
     computed: {
+        dateFilter: function dateFilter() {
+            var _this2 = this;
+
+            if (this.dateRange[0] && this.dateRange[1]) {
+                return this.dataInvoice.filter(function (data) {
+                    return data.date >= _this2.dateRange[0] && data.date <= _this2.dateRange[1];
+                });
+            } else {
+                return this.dataInvoice;
+            }
+        },
+
+        // dateFilter()
+        // {
+        //     var vm=this
+        //     var dateRange=vm.dateRange
+        //     return _.filter.(vm.formValue.productDetails, function(data)
+        //     {
+        //         if(_.isNull(dateRange[0]) && _.isNull(dateRange[1]))
+        //         {
+        //             return true
+
+        //         }
+        //         else
+        //         {
+        //             var date=formValue.productDetails.date
+        //             return (date>= dateRange[0] && date<=dateRange[1])
+        //         }
+        //     }
+        //     );
+
+        // },
+
         rotateIcon: function rotateIcon() {
             return ['menu-icon', this.isCollapsed ? 'rotate-icon' : ''];
         },
@@ -10006,6 +10146,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         },
         dateConverter: function dateConverter(key) {
             this.formValue.date = key;
+        },
+        dateRangeConverter: function dateRangeConverter(key) {
+            this.dateRange = key;
         },
         addProduct: function addProduct(k) {
             if (this.searchValue) {
@@ -10141,7 +10284,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.formValue.totalPrice = this.totalPrice;
                                 this.formValue.totalQuantity = this.totalQuantity;
 
-                                if (!(!this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id || !this.formValue.date)) {
+                                if (!(!this.formValue.totalQuantity || !this.formValue.totalPrice || !this.formValue.supplier_id || !this.formValue.date)) {
                                     _context3.next = 7;
                                     break;
                                 }
@@ -13787,7 +13930,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 companyName: '',
                 currencyType: '',
                 referenceBonus: '',
-                openingBalance: '',
+                refererBonus: '',
                 companyInfo: ''
             },
             logo: ''
@@ -13835,7 +13978,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.data1[1].value = this.formValue.companyInfo;
                                 this.data1[2].value = this.formValue.currencyType;
                                 this.data1[3].value = this.formValue.referenceBonus;
-                                this.data1[4].value = this.formValue.openingBalance;
+                                this.data1[4].value = this.formValue.refererBonus;
 
                                 this.s('Great!', 'Address information has been added successfully!');
 
@@ -13891,7 +14034,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             this.data1[1].value = data.companyInfo;
                             this.data1[2].value = data.currencyType;
                             this.data1[3].value = data.referenceBonus;
-                            this.data1[4].value = data.openingBalance;
+                            this.data1[4].value = data.refererBonus;
                             this.logo = data.companyLogo;
                             this.lf();
 
@@ -14314,10 +14457,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -15119,9 +15258,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-//
-//
-//
 //
 //
 //
@@ -59840,6 +59976,14 @@ exports.staticRenderFns = staticRenderFns;
 
 /***/ }),
 
+/***/ "./node_modules/iview/dist/locale/en-US.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t(__webpack_require__("./node_modules/vue/dist/vue.common.js")):"function"==typeof define&&define.amd?define("iview/locale",["vue"],t):"object"==typeof exports?exports["iview/locale"]=t(require("vue")):e["iview/locale"]=t(e.Vue)}("undefined"!=typeof self?self:this,function(e){return function(e){var t={};function o(r){if(t[r])return t[r].exports;var a=t[r]={i:r,l:!1,exports:{}};return e[r].call(a.exports,a,a.exports,o),a.l=!0,a.exports}return o.m=e,o.c=t,o.d=function(e,t,r){o.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:r})},o.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(t,"a",t),t},o.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},o.p="/dist/locale/",o(o.s=5)}([function(e,t,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=function(e){n||void 0!==window.iview&&("langs"in iview||(iview.langs={}),iview.langs[e.i.locale]=e)};var r,a=o(1);var n=((r=a)&&r.__esModule?r:{default:r}).default.prototype.$isServer},function(t,o){t.exports=e},,,,function(e,t,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r,a=o(0);var n={i:{locale:"en-US",select:{placeholder:"Select",noMatch:"No matching data",loading:"Loading"},table:{noDataText:"No Data",noFilteredDataText:"No filter data",confirmFilter:"Confirm",resetFilter:"Reset",clearFilter:"All"},datepicker:{selectDate:"Select date",selectTime:"Select time",startTime:"Start Time",endTime:"End Time",clear:"Clear",ok:"OK",datePanelLabel:"[mmmm] [yyyy]",month:"Month",month1:"January",month2:"February",month3:"March",month4:"April",month5:"May",month6:"June",month7:"July",month8:"August",month9:"September",month10:"October",month11:"November",month12:"December",year:"Year",weekStartDay:"0",weeks:{sun:"Sun",mon:"Mon",tue:"Tue",wed:"Wed",thu:"Thu",fri:"Fri",sat:"Sat"},months:{m1:"Jan",m2:"Feb",m3:"Mar",m4:"Apr",m5:"May",m6:"Jun",m7:"Jul",m8:"Aug",m9:"Sep",m10:"Oct",m11:"Nov",m12:"Dec"}},transfer:{titles:{source:"Source",target:"Target"},filterPlaceholder:"Search here",notFoundText:"Not Found"},modal:{okText:"OK",cancelText:"Cancel"},poptip:{okText:"OK",cancelText:"Cancel"},page:{prev:"Previous Page",next:"Next Page",total:"Total",item:"item",items:"items",prev5:"Previous 5 Pages",next5:"Next 5 Pages",page:"/page",goto:"Goto",p:""},rate:{star:"Star",stars:"Stars"},tree:{emptyText:"No Data"}}};(0,((r=a)&&r.__esModule?r:{default:r}).default)(n),t.default=n}])});
+//# sourceMappingURL=en-US.js.map
+
+/***/ }),
+
 /***/ "./node_modules/iview/dist/styles/fonts/ionicons.eot?v=2.0.0":
 /***/ (function(module, exports) {
 
@@ -92505,7 +92649,19 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "14", offset: "1" }
+            },
+            [
+              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "7", offset: "1" }
             },
             [
               _c(
@@ -92528,6 +92684,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Ledger Name"
                                 },
+                                on: { "on-enter": _vm.ledgerAdd },
                                 model: {
                                   value: _vm.formValue.ledgerName,
                                   callback: function($$v) {
@@ -92604,24 +92761,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
             ],
             1
           )
@@ -92968,18 +93107,7 @@ var render = function() {
                                     to: _vm.handleGoToMenu("/product")
                                   }
                                 },
-                                [_vm._v("Add Product")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "MenuItem",
-                                {
-                                  attrs: {
-                                    name: "product",
-                                    to: _vm.handleGoToMenu("/product")
-                                  }
-                                },
-                                [_vm._v("Product List")]
+                                [_vm._v("Products")]
                               ),
                               _vm._v(" "),
                               _c(
@@ -93093,8 +93221,8 @@ var render = function() {
                                 "MenuItem",
                                 {
                                   attrs: {
-                                    name: "zome",
-                                    to: _vm.handleGoToMenu("/zome")
+                                    name: "zone",
+                                    to: _vm.handleGoToMenu("/zone")
                                   }
                                 },
                                 [_vm._v("Zone")]
@@ -93130,101 +93258,45 @@ var render = function() {
                         {
                           attrs: {
                             name: "sell",
-                            to: _vm.handleGoToMenu("/group")
+                            to: _vm.handleGoToMenu("/sell")
                           }
                         },
-                        [_c("span", [_vm._v("Quick Sale")])]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "MenuItem",
-                        { attrs: { name: "2-1" } },
                         [
-                          _c(
-                            "Submenu",
-                            { attrs: { name: "2-1-1" } },
-                            [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Purchase\n                                "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "MenuItem",
-                                {
-                                  attrs: {
-                                    name: "2-1-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
-                                  }
-                                },
-                                [_vm._v("Store Setting")]
-                              )
-                            ],
-                            2
-                          )
+                          _c("Icon", { attrs: { type: "ios-info" } }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Sale")])
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
                         "MenuItem",
-                        { attrs: { name: "2-2" } },
+                        {
+                          attrs: {
+                            name: "purchase",
+                            to: _vm.handleGoToMenu("/purchase")
+                          }
+                        },
                         [
-                          _c(
-                            "Submenu",
-                            { attrs: { name: "2-2-1" } },
-                            [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Sale\n                                "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "MenuItem",
-                                {
-                                  attrs: {
-                                    name: "2-2-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
-                                  }
-                                },
-                                [_vm._v("Store Setting")]
-                              )
-                            ],
-                            2
-                          )
+                          _c("Icon", { attrs: { type: "ios-info" } }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Purchas")])
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
                         "MenuItem",
-                        { attrs: { name: "2-3" } },
+                        {
+                          attrs: {
+                            name: "return",
+                            to: _vm.handleGoToMenu("/return")
+                          }
+                        },
                         [
-                          _c(
-                            "Submenu",
-                            { attrs: { name: "2-3-1" } },
-                            [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Return\n                                "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "MenuItem",
-                                {
-                                  attrs: {
-                                    name: "2-3-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
-                                  }
-                                },
-                                [_vm._v("Store Setting")]
-                              )
-                            ],
-                            2
-                          )
+                          _c("Icon", { attrs: { type: "ios-info" } }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Return")])
                         ],
                         1
                       ),
@@ -93237,21 +93309,38 @@ var render = function() {
                             "Submenu",
                             { attrs: { name: "2-4-1" } },
                             [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Collection\n                                "
-                                )
-                              ]),
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Collection\n                                "
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
                                 "MenuItem",
                                 {
                                   attrs: {
-                                    name: "2-4-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
+                                    name: "cashcollection",
+                                    to: _vm.handleGoToMenu("/cashcollection")
                                   }
                                 },
-                                [_vm._v("Store Setting")]
+                                [_vm._v("Add Collection")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "cashcollection",
+                                    to: _vm.handleGoToMenu("/cashcollection")
+                                  }
+                                },
+                                [_vm._v("Collection List")]
                               )
                             ],
                             2
@@ -93266,23 +93355,40 @@ var render = function() {
                         [
                           _c(
                             "Submenu",
-                            { attrs: { name: "2-4-1" } },
+                            { attrs: { name: "2-5-1" } },
                             [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Payment\n                                "
-                                )
-                              ]),
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Payment\n                                "
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
                                 "MenuItem",
                                 {
                                   attrs: {
-                                    name: "2-4-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
+                                    name: "paytosupplier",
+                                    to: _vm.handleGoToMenu("/paytosupplier")
                                   }
                                 },
-                                [_vm._v("Store Setting")]
+                                [_vm._v("Add Payment")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "paytosupplier",
+                                    to: _vm.handleGoToMenu("/paytosupplier")
+                                  }
+                                },
+                                [_vm._v("Payment List")]
                               )
                             ],
                             2
@@ -93297,23 +93403,51 @@ var render = function() {
                         [
                           _c(
                             "Submenu",
-                            { attrs: { name: "2-4-1" } },
+                            { attrs: { name: "2-6-1" } },
                             [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Stock\n                                "
-                                )
-                              ]),
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Stock\n                                "
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
                                 "MenuItem",
                                 {
                                   attrs: {
-                                    name: "2-4-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
+                                    name: "stock",
+                                    to: _vm.handleGoToMenu("/stock")
                                   }
                                 },
-                                [_vm._v("Store Setting")]
+                                [_vm._v("Stock List")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "stock",
+                                    to: _vm.handleGoToMenu("/stock")
+                                  }
+                                },
+                                [_vm._v("Stock Adjustment")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "stock",
+                                    to: _vm.handleGoToMenu("/stock")
+                                  }
+                                },
+                                [_vm._v("Damage Products")]
                               )
                             ],
                             2
@@ -93330,21 +93464,311 @@ var render = function() {
                             "Submenu",
                             { attrs: { name: "2-7-1" } },
                             [
-                              _c("template", { slot: "title" }, [
-                                _vm._v(
-                                  "\n                                    Voucher\n                                "
-                                )
-                              ]),
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Voucher\n                                "
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
                                 "MenuItem",
                                 {
                                   attrs: {
-                                    name: "2-7-1-1",
-                                    to: _vm.handleGoToMenu("/setting")
+                                    name: "voucher",
+                                    to: _vm.handleGoToMenu("/voucher")
                                   }
                                 },
-                                [_vm._v("Store Setting")]
+                                [_vm._v("Voucher Posting")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "ledgerhead",
+                                    to: _vm.handleGoToMenu("/voucher")
+                                  }
+                                },
+                                [_vm._v("Ledger Haed")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "voucher",
+                                    to: _vm.handleGoToMenu("/voucher")
+                                  }
+                                },
+                                [_vm._v("Voucher Lists")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Submenu",
+                    { attrs: { name: "3" } },
+                    [
+                      _c(
+                        "template",
+                        { slot: "title" },
+                        [
+                          _c("Icon", { attrs: { type: "ios-navigate" } }),
+                          _vm._v(
+                            "\n                           Report\n                        "
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        {
+                          attrs: {
+                            name: "worksheet",
+                            to: _vm.handleGoToMenu("/worksheet")
+                          }
+                        },
+                        [
+                          _c("Icon", { attrs: { type: "ios-info" } }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("My Worksheet")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "3-1" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "3-1-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Sales\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("Item Wise Sales")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("Invoice Wise Sales")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("Customer Wise Sales")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "3-2" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "3-2-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Profit\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("Item Wise Profit")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("Overall Profit")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "3-3" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "3-3-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Account\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "cash",
+                                    to: _vm.handleGoToMenu("/cash")
+                                  }
+                                },
+                                [_vm._v("Cash Report")]
+                              )
+                            ],
+                            2
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Submenu",
+                    { attrs: { name: "4" } },
+                    [
+                      _c(
+                        "template",
+                        { slot: "title" },
+                        [
+                          _c("Icon", { attrs: { type: "ios-navigate" } }),
+                          _vm._v(
+                            "\n                           Security\n                        "
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        {
+                          attrs: {
+                            name: "user",
+                            to: _vm.handleGoToMenu("/user")
+                          }
+                        },
+                        [
+                          _c("Icon", { attrs: { type: "ios-info" } }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("New User")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "MenuItem",
+                        { attrs: { name: "4-1" } },
+                        [
+                          _c(
+                            "Submenu",
+                            { attrs: { name: "4-1-1" } },
+                            [
+                              _c(
+                                "template",
+                                { slot: "title" },
+                                [
+                                  _c("Icon", { attrs: { type: "ios-albums" } }),
+                                  _vm._v(
+                                    "\n                                    Manage User\n                                "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("User Lists")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "MenuItem",
+                                {
+                                  attrs: {
+                                    name: "purchase",
+                                    to: _vm.handleGoToMenu("/purchase")
+                                  }
+                                },
+                                [_vm._v("Chage Password")]
                               )
                             ],
                             2
@@ -93441,7 +93865,21 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "14", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataSupplier }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "7", offset: "1" }
             },
             [
               _c(
@@ -93457,13 +93895,14 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Supplier Name" } },
+                            { attrs: { label: "SupplierName Name" } },
                             [
                               _c("Input", {
                                 attrs: {
                                   type: "text",
-                                  placeholder: "Supplier Name"
+                                  placeholder: "SupplierName Name"
                                 },
+                                on: { "on-enter": _vm.supplierAdd },
                                 model: {
                                   value: _vm.formValue.supplierName,
                                   callback: function($$v) {
@@ -93485,6 +93924,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Contact Number"
                                 },
+                                on: { "on-enter": _vm.supplierAdd },
                                 model: {
                                   value: _vm.formValue.contact,
                                   callback: function($$v) {
@@ -93506,6 +93946,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Supplier's Email"
                                 },
+                                on: { "on-enter": _vm.supplierAdd },
                                 model: {
                                   value: _vm.formValue.email,
                                   callback: function($$v) {
@@ -93528,6 +93969,7 @@ var render = function() {
                                   autosize: { minRows: 4, maxRows: 5 },
                                   placeholder: "Address"
                                 },
+                                on: { "on-enter": _vm.supplierAdd },
                                 model: {
                                   value: _vm.formValue.address,
                                   callback: function($$v) {
@@ -93545,10 +93987,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Col",
-                        {
-                          staticClass: "dream-input-main-button",
-                          attrs: { span: "24" }
-                        },
+                        { attrs: { span: "24" } },
                         [
                           _c(
                             "Button",
@@ -93571,26 +94010,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", {
-                attrs: { columns: _vm.columns1, data: _vm.dataSupplier }
-              })
             ],
             1
           )
@@ -94182,7 +94601,7 @@ var render = function() {
                                     [
                                       _c("DatePicker", {
                                         attrs: {
-                                          type: "datetime",
+                                          type: "date",
                                           placeholder: "Select date"
                                         },
                                         on: { "on-change": _vm.dateConverter }
@@ -94232,7 +94651,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("h2", [_vm._v("Product List")]),
+              _c("h2", [_vm._v("Purchase List")]),
               _vm._v(" "),
               _c(
                 "table",
@@ -94348,7 +94767,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        Clear All\n                    "
+                              "\n                    Clear All\n                "
                             )
                           ]
                         )
@@ -94438,10 +94857,32 @@ var render = function() {
               attrs: { span: "22", offset: "1" }
             },
             [
+              _c("h2", [_vm._v("Filter List")]),
+              _vm._v(" "),
+              _c("DatePicker", {
+                staticStyle: { width: "200px" },
+                attrs: {
+                  type: "daterange",
+                  placement: "bottom-end",
+                  placeholder: "Select date"
+                },
+                on: { "on-change": _vm.dateRangeConverter }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "22", offset: "1" }
+            },
+            [
               _c("h2", [_vm._v("Invoice List")]),
               _vm._v(" "),
               _c("Table", {
-                attrs: { columns: _vm.columns1, data: _vm.dataInvoice }
+                attrs: { columns: _vm.columns1, data: _vm.dateFilter }
               })
             ],
             1
@@ -94548,7 +94989,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
-            _vm._v("\n            Are you sure you want delete\n\n        ")
+            _vm._v("\n        Are you sure you want delete\n\n    ")
           ]),
           _vm._v(" "),
           _c(
@@ -94607,9 +95048,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
-            _vm._v(
-              "\n            Are you sure you want clear invoice\n\n        "
-            )
+            _vm._v("\n        Are you sure you want clear invoice\n\n    ")
           ]),
           _vm._v(" "),
           _c(
@@ -96148,7 +96587,59 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
+              attrs: { span: "14", offset: "1" }
+            },
+            [
+              _c("h2", [_vm._v("Product List")]),
+              _vm._v(" "),
+              _c(
+                "table",
+                { staticStyle: { width: "100%" } },
+                [
+                  _c("tr", [
+                    _c("th", [_vm._v("Date")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Type")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("ID")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Debit")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Credit")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Balance")])
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.dataLedger, function(data, i) {
+                    return _c("tr", { key: i }, [
+                      _c("td", [_vm._v(_vm._s(data.date))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.type))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(data.invoice_id))]),
+                      _vm._v(" "),
+                      data.type === "incoming"
+                        ? _c("td", [_vm._v(_vm._s(Math.abs(data.amount)))])
+                        : _c("td", [_vm._v("0")]),
+                      _vm._v(" "),
+                      data.type === "due"
+                        ? _c("td", [_vm._v(_vm._s(Math.abs(data.amount)))])
+                        : _c("td", [_vm._v("0")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(Math.abs(data.balance)))])
+                    ])
+                  })
+                ],
+                2
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "7", offset: "1" }
             },
             [
               _c(
@@ -96351,63 +96842,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("h2", [_vm._v("Product List")]),
-              _vm._v(" "),
-              _c(
-                "table",
-                { staticStyle: { width: "100%" } },
-                [
-                  _c("tr", [
-                    _c("th", [_vm._v("Date")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Type")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("ID")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Debit")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Credit")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Balance")])
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.dataLedger, function(data, i) {
-                    return _c("tr", { key: i }, [
-                      _c("td", [_vm._v(_vm._s(data.date))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.type))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(data.invoice_id))]),
-                      _vm._v(" "),
-                      data.type === "incoming"
-                        ? _c("td", [_vm._v(_vm._s(Math.abs(data.amount)))])
-                        : _c("td", [_vm._v("0")]),
-                      _vm._v(" "),
-                      data.type === "due"
-                        ? _c("td", [_vm._v(_vm._s(Math.abs(data.amount)))])
-                        : _c("td", [_vm._v("0")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(Math.abs(data.balance)))])
-                    ])
-                  })
-                ],
-                2
-              )
-            ]
-          )
-        ],
-        1
-      ),
+      _c("Row"),
       _vm._v(" "),
       _c(
         "Modal",
@@ -97546,12 +97981,46 @@ var render = function() {
         [
           _c(
             "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "13", offset: "1" }
-            },
+            { attrs: { span: "13", offset: "1" } },
             [
-              _c("Table", { attrs: { columns: _vm.columns1, data: _vm.data1 } })
+              _c(
+                "Row",
+                [
+                  _c(
+                    "Col",
+                    { staticClass: "dream-input-main", attrs: { span: "24" } },
+                    [
+                      _c("Input", {
+                        attrs: {
+                          search: "",
+                          "enter-button": "Search",
+                          placeholder: "Search something..."
+                        },
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Col",
+                    { staticClass: "dream-input-main", attrs: { span: "24" } },
+                    [
+                      _c("Table", {
+                        attrs: { columns: _vm.columns1, data: _vm.searchData }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
@@ -97852,7 +98321,21 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "12", offset: "1" }
+              attrs: { span: "14", offset: "1" }
+            },
+            [
+              _c("Table", {
+                attrs: { columns: _vm.columns1, data: _vm.dataCustomer }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Col",
+            {
+              staticClass: "dream-input-main",
+              attrs: { span: "7", offset: "1" }
             },
             [
               _c(
@@ -97875,6 +98358,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Customer Name"
                                 },
+                                on: { "on-enter": _vm.customerAdd },
                                 model: {
                                   value: _vm.formValue.customerName,
                                   callback: function($$v) {
@@ -97900,6 +98384,7 @@ var render = function() {
                             [
                               _c("Input", {
                                 attrs: { type: "text", placeholder: "Number" },
+                                on: { "on-enter": _vm.customerAdd },
                                 model: {
                                   value: _vm.formValue.contact,
                                   callback: function($$v) {
@@ -97925,6 +98410,7 @@ var render = function() {
                             [
                               _c("Input", {
                                 attrs: { type: "text", placeholder: "Email" },
+                                on: { "on-enter": _vm.customerAdd },
                                 model: {
                                   value: _vm.formValue.email,
                                   callback: function($$v) {
@@ -97950,6 +98436,7 @@ var render = function() {
                             [
                               _c("Input", {
                                 attrs: { type: "text", placeholder: "Address" },
+                                on: { "on-enter": _vm.customerAdd },
                                 model: {
                                   value: _vm.formValue.address,
                                   callback: function($$v) {
@@ -98002,10 +98489,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Col",
-                        {
-                          staticClass: "dream-input-main-button",
-                          attrs: { span: "24" }
-                        },
+                        { attrs: { span: "24" } },
                         [
                           _c(
                             "Button",
@@ -98028,26 +98512,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Row",
-        [
-          _c(
-            "Col",
-            {
-              staticClass: "dream-input-main",
-              attrs: { span: "22", offset: "1" }
-            },
-            [
-              _c("Table", {
-                attrs: { columns: _vm.columns1, data: _vm.dataCustomer }
-              })
             ],
             1
           )
@@ -99326,23 +99790,19 @@ var render = function() {
                         [
                           _c(
                             "FormItem",
-                            { attrs: { label: "Account Opening Balance" } },
+                            { attrs: { label: "Referer Bonus" } },
                             [
                               _c("Input", {
                                 attrs: {
                                   type: "text",
-                                  placeholder: "Account Opening Balance"
+                                  placeholder: "Bonus Amount"
                                 },
                                 model: {
-                                  value: _vm.formValue.openingBalance,
+                                  value: _vm.formValue.refererBonus,
                                   callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.formValue,
-                                      "openingBalance",
-                                      $$v
-                                    )
+                                    _vm.$set(_vm.formValue, "refererBonus", $$v)
                                   },
-                                  expression: "formValue.openingBalance"
+                                  expression: "formValue.refererBonus"
                                 }
                               })
                             ],
@@ -100012,7 +100472,7 @@ var render = function() {
             "Col",
             {
               staticClass: "dream-input-main",
-              attrs: { span: "77", offset: "1" }
+              attrs: { span: "7", offset: "1" }
             },
             [
               _c(
@@ -100035,6 +100495,7 @@ var render = function() {
                                   type: "text",
                                   placeholder: "Zone Name"
                                 },
+                                on: { "on-enter": _vm.zoneAdd },
                                 model: {
                                   value: _vm.formValue.zoneName,
                                   callback: function($$v) {
@@ -100052,10 +100513,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Col",
-                        {
-                          staticClass: "dream-input-main-button",
-                          attrs: { span: "24" }
-                        },
+                        { attrs: { span: "24" } },
                         [
                           _c(
                             "Button",
@@ -100129,6 +100587,7 @@ var render = function() {
                         [
                           _c("Input", {
                             attrs: { type: "text", placeholder: "Zone Name" },
+                            on: { "on-enter": _vm.edit },
                             model: {
                               value: _vm.editObj.zoneName,
                               callback: function($$v) {
@@ -100209,9 +100668,9 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticStyle: { "text-align": "center" } }, [
             _vm._v(
-              "\n        Are you sure you want delete " +
+              "\n            Are you sure you want delete " +
                 _vm._s(_vm.UpdateValue.zoneName) +
-                "\n\n    "
+                "\n\n        "
             )
           ]),
           _vm._v(" "),
@@ -115952,8 +116411,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__xkeshi_vue_barcode__ = __webpack_require__("./node_modules/@xkeshi/vue-barcode/dist/vue-barcode.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common__ = __webpack_require__("./resources/assets/js/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__router__ = __webpack_require__("./resources/assets/js/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_iview_dist_locale_en_US__ = __webpack_require__("./node_modules/iview/dist/locale/en-US.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_iview_dist_locale_en_US___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_iview_dist_locale_en_US__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__common__ = __webpack_require__("./resources/assets/js/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__router__ = __webpack_require__("./resources/assets/js/router.js");
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -115972,26 +116433,27 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 // import VueBarcode from 'vue-barcode';
 
 
+
+__WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_iview___default.a, { locale: __WEBPACK_IMPORTED_MODULE_5_iview_dist_locale_en_US___default.a });
 //barcode source https://github.com/xkeshi/vue-barcode
 
 /*import lodash*/
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 __webpack_require__("./node_modules/es6-promise/dist/es6-promise.js").polyfill();
 __webpack_require__("./node_modules/es6-object-assign/index.js").polyfill();
-__WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_iview___default.a);
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_4__xkeshi_vue_barcode__["a" /* default */].name, __WEBPACK_IMPORTED_MODULE_4__xkeshi_vue_barcode__["a" /* default */]);
 
 // common methods 
 
 /*custom common methods*/
 
-__WEBPACK_IMPORTED_MODULE_3_vue___default.a.mixin(__WEBPACK_IMPORTED_MODULE_5__common__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_3_vue___default.a.mixin(__WEBPACK_IMPORTED_MODULE_6__common__["a" /* default */]);
 
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.component('mainapp', __webpack_require__("./resources/assets/js/components/mainapp.vue"));
 
 var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
   el: '#app',
-  router: __WEBPACK_IMPORTED_MODULE_6__router__["a" /* default */],
+  router: __WEBPACK_IMPORTED_MODULE_7__router__["a" /* default */],
   store: __WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */]
 });
 

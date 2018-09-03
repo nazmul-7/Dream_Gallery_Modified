@@ -1,7 +1,33 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
+                            <h2>Product List</h2>
+
+                <table style="width:100%">
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th> 
+                    <th>ID</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Balance</th>
+                  </tr>
+                  <tr v-for="(data,i) in dataLedger" :key="i">
+                    <td >{{data.date}}</td>
+                    <td >{{data.type}}</td>
+                    <td>{{data.invoice_id}}</td>
+                    <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
+                    <td v-else>0</td>
+                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
+                    <td v-else>0</td>
+                    <td >{{Math.abs(data.balance)}}</td>
+                  </tr>
+
+                </table>
+            </Col>
+
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
                         <Col span="11" offset="1">
@@ -46,31 +72,6 @@
             </Col>
         </Row>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                            <h2>Product List</h2>
-
-                <table style="width:100%">
-                  <tr>
-                    <th>Date</th>
-                    <th>Type</th> 
-                    <th>ID</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                  </tr>
-                  <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.date}}</td>
-                    <td >{{data.type}}</td>
-                    <td>{{data.invoice_id}}</td>
-                    <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td >{{Math.abs(data.balance)}}</td>
-                  </tr>
-
-                </table>
-            </Col>
         </Row>
 
         <Modal v-model="editModal" width="360">
