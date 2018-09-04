@@ -104,7 +104,8 @@
             <Col class="dream-input-main" span="22" offset="1">
             <h2>Invoice List</h2>
                 <Table :columns="columns1" :data="dateFilter"></Table>
-            </Col>        </Row>
+            </Col>
+        </Row>
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">
