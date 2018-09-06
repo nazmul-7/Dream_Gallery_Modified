@@ -29,8 +29,7 @@ Route::post('/app/zoneUpdate','ZoneController@zoneUpdate');
 Route::post('/app/ledgerUpdate','LedgerController@ledgerUpdate');
 Route::post('/app/voucherUpdate','VoucherController@voucherUpdate');
 Route::post('/app/productUpdate','ProductController@productUpdate');
-//resources
-Route::resource('/app/setting','SettingController');
+//resourcesc
 Route::resource('/app/category','CategoryController');
 Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');

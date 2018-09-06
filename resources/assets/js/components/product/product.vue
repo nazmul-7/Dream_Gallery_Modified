@@ -7,10 +7,24 @@
                 </Button>
             </Col>
         </Row>
-
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataProduct"></Table>
+            <!-- Search -->
+            <Col  class="dream-input-main" span="22" offset="1">
+                <Form ref="formInline" inline>
+                    <FormItem prop="user">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Group">
+                        <Select v-model="search" placeholder="Select group"  filterable>
+                                <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
+                            </Select>
+                    </FormItem>
+                </Form>
+            </Col>
+            <Col  class="dream-input-main" span="22" offset="1">
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
       <Modal v-model="addProductModal" width="600">
@@ -219,6 +233,8 @@
     export default {
         data () {
             return {
+                search:'',
+                filterGroup:'',
                 barcodeModal:false,
                 addProductModal:false,
                 editModal:false,
@@ -364,6 +380,16 @@
             
         },
         computed: {
+            searchData()
+            {
+                return this.dataProduct.filter((data)=>{                    
+                    return data.productName.toUpperCase().match(this.search.toUpperCase()) || data.model.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) || data.groupName.toUpperCase().match(this.search.toUpperCase())
+                    || data.catName.toUpperCase().match(this.search.toUpperCase()) || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
+                    ;
+                    }
+                );
+            },
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -437,7 +463,6 @@
                 this.editObj.id=this.dataProduct[index].id
                 this.editObj.productName=this.dataProduct[index].productName
                 this.editObj.groupName=this.dataProduct[index].groupName
-                this.editObj.group_id=this.dataProduct[index].group_id
                 this.editObj.catName=this.dataProduct[index].catName
                 this.editObj.brand=this.dataProduct[index].brand
                 this.editObj.unit=this.dataProduct[index].unit
@@ -515,9 +540,9 @@
             {
                 var i=0
 
-                while (i < this.dataProduct.length) {
-                    if (this.dataProduct[i].groupName == name) {
-                        this.UpdateValue.group_id=this.dataProduct[i].id
+                while (i < this.dataGroup.length) {
+                    if (this.dataGroup[i].groupName == name) {
+                        this.UpdateValue.group_id=this.dataGroup[i].id
                     }
                     i++;
                 }
@@ -573,9 +598,6 @@
 
         },
 
-        computed: {
-
-          }
 
     }
 </script>

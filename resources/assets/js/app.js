@@ -8,14 +8,13 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+import Vue from 'vue'
 import store from './store'
 import iView from 'iview';
+import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css';
-import Vue from 'vue'
 // import VueBarcode from 'vue-barcode';
 import VueBarcode from '@xkeshi/vue-barcode';
-import locale from 'iview/dist/locale/en-US';
 
 Vue.use(iView, { locale });
 //barcode source https://github.com/xkeshi/vue-barcode

@@ -1,8 +1,22 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="13" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
+            <Col span="13" offset="1">
+                <Row>
+                                <!-- Search -->
+                    <Col  class="dream-input-main" span="24">
+                        <Form ref="formInline" inline>
+                            <FormItem prop="user">
+                                <Input type="text" v-model="search" placeholder="Search">
+                                    <Icon type="ios-search" slot="prepend"></Icon>
+                                </Input>
+                            </FormItem>
+                        </Form>
+                    </Col>
+                    <Col  class="dream-input-main" span="24">
+                        <Table :columns="columns1" :data="searchData"></Table>
+                    </Col>
+                </Row>
             </Col>
             <Col class="dream-input-main" span="8" offset="1">
                 <Form >
@@ -71,6 +85,7 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -143,6 +158,13 @@
             
         },
         computed: {
+            searchData()
+            {
+                return this.data1.filter((data)=>{                    
+                    return data.unitName.toUpperCase().match(this.search.toUpperCase()) ;
+                    }
+                );
+            },
             rotateIcon () {
                 return [
                     'menu-icon',

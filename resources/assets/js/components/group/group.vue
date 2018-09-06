@@ -4,8 +4,15 @@
             <!-- table -->
             <Col span="13" offset="1">
                 <Row>
+                    <!-- Search -->
                     <Col  class="dream-input-main" span="24">
-                            <Input search enter-button="Search" v-model="search" placeholder="Search something..." />
+                        <Form ref="formInline" inline>
+                            <FormItem prop="user">
+                                <Input type="text" v-model="search" placeholder="Search">
+                                    <Icon type="ios-search" slot="prepend"></Icon>
+                                </Input>
+                            </FormItem>
+                        </Form>
                     </Col>
                     <Col  class="dream-input-main" span="24">
                         <Table :columns="columns1" :data="searchData"></Table>
@@ -39,7 +46,7 @@
             <Icon type="edit"></Icon>
             <span> Edit {{UpdateValue.groupName}}</span>
         </p>
-        <div style="text-align:center">
+        <div >
             <Form>
            <Col span="24">
                 <FormItem >
