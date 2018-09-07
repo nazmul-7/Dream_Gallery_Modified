@@ -11,13 +11,13 @@
             <!-- Search -->
             <Col  class="dream-input-main" span="22" offset="1">
                 <Form ref="formInline" inline>
-                    <FormItem prop="user">
+                    <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
                     <FormItem label="Group">
-                        <Select v-model="search" placeholder="Select group"  filterable>
+                        <Select v-model="filterGroup" placeholder="Select group"  filterable clearable>
                                 <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
                             </Select>
                     </FormItem>
@@ -382,13 +382,35 @@
         computed: {
             searchData()
             {
+                if(this.filterGroup)
+                {
                 return this.dataProduct.filter((data)=>{                    
-                    return data.productName.toUpperCase().match(this.search.toUpperCase()) || data.model.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) || data.groupName.toUpperCase().match(this.search.toUpperCase())
-                    || data.catName.toUpperCase().match(this.search.toUpperCase()) || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
+                    return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                    && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.model.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.size.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
                     ;
                     }
                 );
+
+                }
+                else{
+                return this.dataProduct.filter((data)=>{                    
+                    return data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.model.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.groupName.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
+                    ;
+                    }
+                );
+
+                }
             },
             rotateIcon () {
                 return [

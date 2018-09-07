@@ -148,13 +148,8 @@
                     <Submenu name="3">
                         <template slot="title">
                             <Icon type="ios-navigate"></Icon>
-                           Report
+                           Reports
                         </template>
-                        <MenuItem name="worksheet" :to="handleGoToMenu('/worksheet')">
-                            <Icon type="ios-info"></Icon>
-                            <span>My Worksheet</span>              
-                        </MenuItem>
-
                         <MenuItem name="3-1">                        
                             <Submenu name="3-1-1">
                                 <template slot="title">
@@ -183,6 +178,16 @@
                                     Account
                                 </template>
                                 <MenuItem name="cash" :to="handleGoToMenu('/cash')">Cash Report</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="3-4">                        
+                            <Submenu name="3-4-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Ledger
+                                </template>
+                                <MenuItem name="cash" :to="handleGoToMenu('/cash')">Supplier</MenuItem>
+                                <MenuItem name="cash" :to="handleGoToMenu('/cash')">Customer</MenuItem>
                             </Submenu>
                         </MenuItem>
                     </Submenu>

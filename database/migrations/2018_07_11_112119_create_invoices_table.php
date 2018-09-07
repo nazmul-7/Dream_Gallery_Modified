@@ -24,7 +24,7 @@ class CreateInvoicesTable extends Migration
             $table->float('paidAmount')->default(0);
             $table->integer('customer_id')->nullable()->default(0);
             $table->integer('supplier_id')->nullable()->default(0);
-            $table->timestamp('date')->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }
