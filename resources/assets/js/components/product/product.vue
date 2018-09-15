@@ -8,7 +8,6 @@
             </Col>
         </Row>
         <Row>
-            <!-- Search -->
             <Col  class="dream-input-main" span="22" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
@@ -22,8 +21,6 @@
                             </Select>
                     </FormItem>
                 </Form>
-            </Col>
-            <Col  class="dream-input-main" span="22" offset="1">
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>

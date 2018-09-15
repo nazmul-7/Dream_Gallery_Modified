@@ -3,7 +3,14 @@
         <Row>
 
             <Col class="dream-input-main" span="13" offset="1">
-                <Table :columns="columns1" :data="dataCategory"></Table>
+                <Form ref="formInline" inline>
+                    <FormItem prop="user">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="8" offset="1">
                 <Form >
@@ -37,7 +44,7 @@
             <Icon type="edit"></Icon>
             <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
         </p>
-        <div style="text-align:center">
+        <div >
             <Form>
            <Col span="24">
            <FormItem label="Group">
@@ -83,6 +90,7 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -164,6 +172,14 @@
             
         },
         computed: {
+            searchData()
+            {
+                return this.dataCategory.filter((data)=>{
+                    
+                    return data.catName.toUpperCase().match(this.search.toUpperCase()) ||data.groupName.toUpperCase().match(this.search.toUpperCase());
+                }
+                );
+            },
             rotateIcon () {
                 return [
                     'menu-icon',

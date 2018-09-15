@@ -2,7 +2,20 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Type">
+                        <Select v-model="filterLedger" placeholder="Select Type"  filterable clearable>
+                            <Option value="Income" >Income</Option>
+                            <Option value="Expence" >Expence</Option>
+                        </Select>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
                 <Form >
@@ -83,6 +96,8 @@
     export default {
         data () {
             return {
+                search:'',
+                filterLedger:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -161,6 +176,28 @@
             
         },
         computed: {
+            searchData()
+            {
+                if(this.filterLedger)
+                {
+                return this.data1.filter((data)=>{                    
+                    return data.type.toUpperCase().match(this.filterLedger.toUpperCase()) 
+                    && (data.ledgerName.toUpperCase().match(this.search.toUpperCase())
+                    );
+                    }
+                );
+
+                }
+                else{
+                return this.data1.filter((data)=>{                    
+                    return data.ledgerName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.type.toUpperCase().match(this.search.toUpperCase())
+                    ;
+                    }
+                );
+
+                }
+            },
             rotateIcon () {
                 return [
                     'menu-icon',

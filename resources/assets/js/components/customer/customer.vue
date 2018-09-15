@@ -2,7 +2,14 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Table :columns="columns1" :data="dataCustomer"></Table>
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
                 <Form >
@@ -55,7 +62,7 @@
             <Icon type="edit"></Icon>
             <span> Edit {{UpdateValue.customerName}}</span>
         </p>
-        <div style="text-align:center">
+        <div>
             <Form>
                 <Row :gutter="24">
                     <Col span="24">
@@ -123,6 +130,7 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -224,6 +232,21 @@
             
         },
         computed: {
+            searchData()
+            {
+
+                return this.dataCustomer.filter((data)=>{                    
+                    return data.customerName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.address.toUpperCase().match(this.search.toUpperCase())
+                    || data.contact.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.zone.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.email.toUpperCase().match(this.search.toUpperCase()) 
+                    ;
+                    }
+                );
+
+
+            },
             rotateIcon () {
                 return [
                     'menu-icon',

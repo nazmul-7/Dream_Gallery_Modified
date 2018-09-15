@@ -2,7 +2,14 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Table :columns="columns1" :data="dataSupplier"></Table>
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
                 <Form >
@@ -94,6 +101,7 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -190,6 +198,20 @@
             
         },
         computed: {
+            searchData()
+            {
+
+                return this.dataSupplier.filter((data)=>{                    
+                    return data.supplierName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.contact.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.address.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.email.toUpperCase().match(this.search.toUpperCase()) 
+                    ;
+                    }
+                );
+
+
+            },
             rotateIcon () {
                 return [
                     'menu-icon',

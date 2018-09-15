@@ -1,7 +1,21 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="12" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Choose Dates">
+                        <DatePicker type="daterange" placement="bottom-end" @on-change="dateRangeConverter" placeholder="Select date" style="width: 200px"></DatePicker>
+                    </FormItem>
+
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
+            </Col>
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
                         <Col span="24">
@@ -11,6 +25,7 @@
                                     <Option v-for="(type,i) in voucherType" :value="type.value" :key="i">{{ type.label }}</Option>
                                 </Select>
                             </FormItem>
+                            
                         </Col>
                         <Col span="12">
                             <FormItem label="Ledger Head">
@@ -21,7 +36,7 @@
                         </Col>
                         <Col span="12">
                             <FormItem  label="Voucher Date">
-                                <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                             </FormItem >
                         </Col>
                         <Col span="12">
@@ -36,7 +51,7 @@
                                 v-model="formValue.remarks"></Input>
                             </FormItem >
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col span="24">
                             <Button type="success" :loading="loading" @click="voucherAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -45,12 +60,7 @@
                     </Row>
                 </Form>
             </Col>
-        </Row>
 
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="dataVoucher"></Table>
-            </Col>
         </Row>
 
       <Modal v-model="editModal" width="600">
@@ -127,11 +137,13 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
                 sending:false,
                 isCollapsed: false,
+                dateRange:[],
                 editObj: {
                     id:null,
                     type:'',
@@ -239,6 +251,34 @@
             
         },
         computed: {
+            searchData()
+            {
+                if(this.dateRange[0] && this.dateRange[1])
+                {
+                    return this.dataVoucher.filter((data)=>{
+                    return ((data.date>= this.dateRange[0] && data.date<=this.dateRange[1]) 
+                        && ( data.type.toUpperCase().match(this.search.toUpperCase()) 
+                        || data.ledgerName.toUpperCase().match(this.search.toUpperCase())
+                        || data.amount.toString().match(this.search.toString())  
+                        || data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+                    )
+                    
+                    );
+                        }
+                    );
+                }
+                else
+                {
+                    return this.dataVoucher.filter((data)=>{                    
+                        return data.type.toUpperCase().match(this.search.toUpperCase()) 
+                        || data.ledgerName.toUpperCase().match(this.search.toUpperCase())
+                        || data.amount.toString().match(this.search.toString())  
+                        || data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+                        });
+                }
+                
+
+            },
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -253,6 +293,11 @@
             }
         },
         methods: {
+            dateRangeConverter(key)
+            {
+                this.dateRange=key
+
+            },
             dateConverter(key)
             {
                 console.log(key)

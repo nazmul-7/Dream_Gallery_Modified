@@ -3,7 +3,6 @@
         <Row>
             <Col span="13" offset="1">
                 <Row>
-                                <!-- Search -->
                     <Col  class="dream-input-main" span="24">
                         <Form ref="formInline" inline>
                             <FormItem prop="user">
@@ -12,8 +11,6 @@
                                 </Input>
                             </FormItem>
                         </Form>
-                    </Col>
-                    <Col  class="dream-input-main" span="24">
                         <Table :columns="columns1" :data="searchData"></Table>
                     </Col>
                 </Row>

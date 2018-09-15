@@ -2,7 +2,14 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
+                <Form ref="formInline" inline>
+                    <FormItem prop="user">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
                 <Form >
@@ -11,7 +18,7 @@
                         <Col span="24">
                             <FormItem label="Zone Name">
                                 <Input type="text" placeholder="Zone Name" 
-                                v-model="formValue.zoneName" @on-enter="zoneAdd"></Input>
+                                v-model="formValue.zoneName" @on-enter="zoneAdd" autofocus></Input>
                             </FormItem>
                         </Col>
                          <Col span="24">
@@ -30,7 +37,7 @@
                 <Icon type="edit"></Icon>
                 <span> Edit {{UpdateValue.zoneName}}</span>
             </p>
-            <div style="text-align:center">
+            <div >
                 <Form>
             <Col span="24">
                     <FormItem >
@@ -71,6 +78,7 @@
     export default {
         data () {
             return {
+                search:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -142,6 +150,14 @@
             
         },
         computed: {
+            searchData()
+            {
+                return this.data1.filter((data)=>{                    
+                    return data.zoneName.toUpperCase().match(this.search.toUpperCase()) 
+                    ;
+                    }
+                );
+            },
             rotateIcon () {
                 return [
                     'menu-icon',
