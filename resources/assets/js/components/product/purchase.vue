@@ -17,7 +17,7 @@
                                 <br>
                                 <Row>
                                     <Col span="22">
-                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                     </Col>
                                 </Row>
                             </FormItem >
@@ -46,7 +46,7 @@
                         </Col> -->
                     </Row>
                 </Form>
-                <h2>Purchase List</h2>
+                <h2>Product List</h2>
 
                 <table style="width:100%">
                   <tr>
@@ -72,7 +72,7 @@
                     <td > <Button type="error" size="large"  @click="showClear">
                         Clear All
                     </Button>
-                </td>
+</td>
                     
                   </tr>
 
@@ -98,12 +98,8 @@
 
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
-                <h2>Filter List</h2>
-                <DatePicker type="daterange" placement="bottom-end" @on-change="dateRangeConverter" placeholder="Select date" style="width: 200px"></DatePicker>
-            </Col>
-            <Col class="dream-input-main" span="22" offset="1">
             <h2>Invoice List</h2>
-                <Table :columns="columns1" :data="dateFilter"></Table>
+                <Table :columns="columns1" :data="dataInvoice"></Table>
             </Col>
         </Row>
 
@@ -172,7 +168,6 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                dateRange:[],
                 dataSupplier: [],
                 currentSupplier: {
                     supplierName:'',
@@ -274,42 +269,6 @@
             
         },
         computed: {
-                        
-            dateFilter()
-            {
-
-                if(this.dateRange[0] && this.dateRange[1])
-                {
-                    return this.dataInvoice.filter((data)=>{
-                    return (data.date>= this.dateRange[0] && data.date<=this.dateRange[1]);
-                        }
-                    );
-                }
-                else
-                {
-                    return this.dataInvoice
-                }
-            },
-            // dateFilter()
-            // {
-            //     var vm=this
-            //     var dateRange=vm.dateRange
-            //     return _.filter.(vm.formValue.productDetails, function(data)
-            //     {
-            //         if(_.isNull(dateRange[0]) && _.isNull(dateRange[1]))
-            //         {
-            //             return true
-
-            //         }
-            //         else
-            //         {
-            //             var date=formValue.productDetails.date
-            //             return (date>= dateRange[0] && date<=dateRange[1])
-            //         }
-            //     }
-            //     );
-
-            // },
 
             rotateIcon () {
                 return [
@@ -400,12 +359,6 @@
                 this.formValue.date=key
 
             },
-
-            dateRangeConverter(key)
-            {
-                this.dateRange=key
-
-            },
             addProduct(k){
                 if(this.searchValue)
                 {
@@ -450,7 +403,7 @@
                 //invoice added
                 this.formValue.totalPrice=this.totalPrice
                 this.formValue.totalQuantity=this.totalQuantity
-                if( !this.formValue.totalQuantity || !this.formValue.totalPrice || !this.formValue.supplier_id|| !this.formValue.date)
+                if( !this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id|| !this.formValue.date)
                 {
                     this.loading=false
                     this.e('Oops!','You nedd to enter Stock and Price in All Fields')

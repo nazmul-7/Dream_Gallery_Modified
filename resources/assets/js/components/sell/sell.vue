@@ -257,7 +257,7 @@
 
             },
             async addProduct(k){
-                if(this.searchValue)
+                if(this.formValue.barCode)
                 {
                     for ( var i = 0; i < this.formValue.productDetails.length; i++) {
                         if(this.dataSearch[k].id==this.formValue.productDetails[i].id)
@@ -289,10 +289,10 @@
                             this.formValue.productDetails.push(this.dataSearch[k])
                             
                             
-                            this.searchValue=''
+                            this.formValue.barCode=''
 
                         }catch(e){
-                            this.e('Oops!','Something went wrong, please try again!')
+                            this.e('Oops!',' 1Something went wrong, please try again!')
                             this.le()
                             return 0
                         }
@@ -316,7 +316,7 @@
 
                 this.lf();
                 }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('Oops!','2Something went wrong, please try again!')
                 this.le();
                 }
 
@@ -340,6 +340,8 @@
             {
                 if(this.formValue.barCode)
                 {
+                    if(this.formValue.productDetails)
+                    {
                     for(let d of this.formValue.productDetails)
                     {
                         if(d.barCode == this.formValue.barCode){
@@ -348,11 +350,12 @@
                             }
                             d.quantity++
                             this.quantityChange()
+                            this.formValue.barCode=null
                              return 
 
                             }
                         }
-
+                    }
                     
                 }
                 try{
@@ -361,17 +364,22 @@
                     url:`/app/searchProduct/${this.formValue.barCode}`,
                     })
                     let ps=0,ss=0
-                    if(data.purchase_stock.stock){
+                    console.log(data)
+                    if(data.purchase_stock){
                         ps=data.purchase_stock.stock
                         
                     }
+                    else
+                    {
+                    this.e('Oops!','No Purchase Stock')
+                    return
+                    }
+
 
                     if(data.sell_stock){
                         console.log('IU am')
                         ss=data.sell_stock.stock
                     }
-
-
                     data.stock=ps-ss
                     data.quantity=1
                     for(let d of this.dataGroup){
@@ -392,10 +400,11 @@
                     this.formValue.productDetails.push(data)
                     this.quantityChange()
                     this.lf();
+                    this.formValue.barCode=null
 
                 }catch(e){
                     console.log(0)
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('Oops!','3Something went wrong, please try again!')
                     this.le();
                 }
             },
@@ -440,7 +449,7 @@
                         this.loading=false
                     }catch(e){
                         this.loading=false
-                        this.e('Oops!','Something went wrong, please try again!')
+                        this.e('Oops!','4Something went wrong, please try again!')
                     }
 
                 }
@@ -464,7 +473,7 @@
                 this.lf();
 
             }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
+                this.e('Oops!','5Something went wrong, please try again!')
             this.le();
             }
             try{
@@ -476,7 +485,7 @@
                 this.lf();
 
             }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
+                this.e('Oops!','6Something went wrong, please try again!')
             this.le();
             }
 
