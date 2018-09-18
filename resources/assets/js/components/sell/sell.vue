@@ -3,10 +3,12 @@
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
                 
-                <Col span="11" offset="1">
-                    <p>Product Code</p>
-                        <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                        v-model="formValue.barCode"></Input>  
+                <Col span="24" >
+                    <Card>
+                        <p>Product Code</p>
+                            <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                            v-model="formValue.barCode"></Input>  
+                    </Card>
                 </Col>
             <Col span="24">
                 <Card>
@@ -77,7 +79,7 @@
                     <Form>
                         <Col span="22" offset="1">
                             <FormItem label="Customer">
-                                <Select v-model="formValue.customer_id" placeholder="Customer"  :remote-method="changedCustomer" filterable>
+                                <Select v-model="formValue.customer_id" placeholder="Customer"  :remote-method="changedCustomer" filterable clearable>
                                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
@@ -94,7 +96,7 @@
                         </Col>
                         <Col span="22" offset="1">
                             <FormItem label="Reference">
-                                <Select v-model="formValue.reference_id" placeholder="Number"  filterable>
+                                <Select v-model="formValue.reference_id" placeholder="Number" :remote-method="changedReference" filterable>
                                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
@@ -237,6 +239,7 @@
             },
             clearForm()
             {
+                console.log('clear')
 
                 this.formValue.date=''
                 this.formValue.discount=0
@@ -247,7 +250,7 @@
                 this.formValue.customer_id=0
                 this.formValue.reference_id=0
                 this.formValue.total=0
-                this.formValue.barCode=0
+                this.formValue.barCode=''
                 this.formValue.productDetails=[]
 
             },
@@ -256,51 +259,7 @@
                 this.formValue.date=key
 
             },
-            async addProduct(k){
-                if(this.formValue.barCode)
-                {
-                    for ( var i = 0; i < this.formValue.productDetails.length; i++) {
-                        if(this.dataSearch[k].id==this.formValue.productDetails[i].id)
-                        {
-                            this.formValue.productDetails[i].quantity++
-                            this.quantityChange()
-                            return
-                        }
-                    
-                    }
-            
-                    try{
-                        let {data} =await axios({
-                            method: 'get',
-                            url:`/app/getStock/${this.dataSearch[k].id}`,
-                            })
-                            
-                            this.lf()
-                            console.log(data)
-                            for ( var i = 0; i < this.dataGroup.length; i++) {
-                                if(this.dataSearch[k].groupName==this.dataGroup[i].groupName)
-                                {
-                                    this.dataSearch[k].discount=this.dataGroup[i].discount                                
-                                }
-                            
-                            }
-                            this.dataSearch[k].stock=data.data
-                            this.dataSearch[k].quantity=1
-                            this.formValue.productDetails.push(this.dataSearch[k])
-                            
-                            
-                            this.formValue.barCode=''
 
-                        }catch(e){
-                            this.e('Oops!',' 1Something went wrong, please try again!')
-                            this.le()
-                            return 0
-                        }
-                
-                    
-                }
-                  
-            },
             async changedCustomer(k)
             {
                 console.log(k);
@@ -319,6 +278,32 @@
                     this.e('Oops!','2Something went wrong, please try again!')
                 this.le();
                 }
+                this.formValue.discount=10
+                this.discount()
+
+
+            },
+            async changedReference(k)
+            {
+                console.log(k);
+                console.log(this.formValue.reference_id);
+                this.ls();
+                try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/payment/getOutstandingCustomer/${this.formValue.reference_id}`
+                })
+                this.setCustomer(this.formValue.reference_id)
+                this.currentCustomer.outStanding=Math.abs(data.outStanding)
+
+                this.lf();
+                }catch(e){
+                    this.e('Oops!','2Something went wrong, please try again!')
+                this.le();
+                }
+                this.formValue.discount=5
+                this.discount()
+
 
             },
             setCustomer(id)
@@ -453,7 +438,7 @@
                     }
 
                 }
-                clearForm()
+                this.clearForm();
                 
             },
 
