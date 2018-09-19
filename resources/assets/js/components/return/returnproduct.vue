@@ -2,86 +2,72 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="16" offset="1">
+                <Row :gutter="24">
+                    <Col span="24">
+                        <Card>
+                            <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                            v-model="formValue.barCode"></Input>  
+                        </Card>
+                    </Col>
+                    <Col span="24">
+                        <Card>
+                            <p slot="title">Product List</p>
+                            
+                            <table style="width:100%">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Model</th>
+                                    <th>Color</th> 
+                                    <th>Size</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Return</th>
+                                </tr>
+                                <tr v-for="(data,i) in formValue.productDetails" :key="i">
+                                    <td >{{data.product.productName}}</td>
+                                    <td >{{data.product.model}}</td>
+                                    <td >{{data.product.color}}</td>
+                                    <td>{{data.product.size}}</td>
+                                    <td>{{data.unitPrice}}<Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
+                                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity" @on-change="quantityChange"></InputNumber></td>
+                                    <td><input type="number" v-model="data.discountedPrice*data.quantity" disabled></input></td>
+                                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
+                                </tr>
 
-                        <Col span="11" offset="1">
+                                <tr style="background-color: #e9eaec;" >
+                                    <td colspan="5" style="text-align:right;">Sub Total </td>
+                                    <td >{{formValue.totalQuantity}}</td>
+                                    <td colspan="2">{{formValue.subTotal}}</td>
+                                    
+                                </tr>
+                                <tr >
+                                    <td colspan="7" style="text-align:right">Discount</td>
+                                    <td><InputNumber  v-if="formValue.subTotal>0"  :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
+                                </tr>
+                                <tr >
+                                    <td colspan="7" style="text-align:right">Total</td>
+                                    <td><InputNumber v-if="formValue.total>0"  :min="0" :max="formValue.subTotal" @on-change="total" v-model="formValue.total"></InputNumber ></td>
+                                </tr>
+                                <tr >
+                                    <td colspan="7" style="text-align:right">Paid Amount</td>
+                                    <td><InputNumber  v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
+                                </tr>
 
-                                 <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                                v-model="formValue.barCode"></Input>  
+                            </table>
+                            <Col>
+                                <Button type="error" size="large"  @click="showClear">
+                                    Clear
+                                </Button>
 
-                        </Col>
-                        <!-- <Col span="11" offset="1">
-                            <FormItem  label="Search Product">
-                                <br>
-                                <Row>
-                                    <Col span="22">
-                                        <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
-                                                <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
-                                                    <span class="demo-auto-complete-title">{{ option.id }}</span>
-                                                    <span class="demo-auto-complete-count">| {{option.paidAmount}}</span>
-                                                </Option>
-
-                                        </AutoComplete>
-                                    </Col>
-                                </Row>
-                            </FormItem >
-                        </Col> -->
-
-
-                <h2>Product List</h2>
-
-                <table style="width:100%">
-                  <tr>
-                    <th>Name</th>
-                    <th>Model</th>
-                    <th>Color</th> 
-                    <th>Size</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Return</th>
-                  </tr>
-                  <tr v-for="(data,i) in formValue.productDetails" :key="i">
-                    <td >{{data.product.productName}}</td>
-                    <td >{{data.product.model}}</td>
-                    <td >{{data.product.color}}</td>
-                    <td>{{data.product.size}}</td>
-                    <td>{{data.unitPrice}}<Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
-                    <td><InputNumber :min="0" :max="data.stock" v-model="data.quantity" @on-change="quantityChange"></InputNumber></td>
-                    <td><input type="number" v-model="data.discountedPrice*data.quantity" disabled></input></td>
-                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
-                  </tr>
-
-                  <tr style="background-color: #e9eaec;" >
-                    <td colspan="6" style="text-align:right;">Sub Total </td>
-                    <td >{{formValue.totalQuantity}}</td>
-                    <td >{{formValue.subTotal}}</td>
-                    
-                  </tr>
-                <tr >
-                    <td colspan="7" style="text-align:right">Discount</td>
-                    <td><InputNumber  v-if="formValue.subTotal>0"  :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
-                </tr>
-                <tr >
-                    <td colspan="7" style="text-align:right">Total</td>
-                    <td><InputNumber v-if="formValue.total>0"  :min="0" :max="formValue.subTotal" @on-change="total" v-model="formValue.total"></InputNumber ></td>
-                </tr>
-                <tr >
-                    <td colspan="7" style="text-align:right">Paid Amount</td>
-                    <td><InputNumber  v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
-                </tr>
-
-                </table>
-                <Col span="4"  offset="20">
-                    <Button type="error" size="large"  @click="showClear">
-                        Clear
-                    </Button>
-
-                    <Button type="primary" size="large" :loading="sending" @click="makeReturn">
-                        <span v-if="!loading">Update Sell</span>
-                        <span v-else>Loading...</span>
-                    </Button>
-                </Col>
-
+                                <Button type="primary" size="large" :loading="sending" @click="makeReturn">
+                                    <span v-if="!loading">Update Sell</span>
+                                    <span v-else>Loading...</span>
+                                </Button>
+                            </Col>
+                        </Card>
+                    </Col>
+                </Row>
             </Col>
             <Col class="dream-input-main" span="5" offset="1">
                 <Row> 
@@ -211,7 +197,7 @@
                 this.formValue.paidAmount=afterDiscount
             },
             total(){
-                var totalOld = this.totalPrice
+                var totalOld = this.formValue.subTotal
                 var discountAmount = totalOld - this.formValue.total
                 var discount = (discountAmount*100)/totalOld
                 discount= Math.round(discount).toFixed(2)
@@ -233,7 +219,21 @@
                 this.formValue.date=key
 
             },
+            clearData()
+            {
+                this.formValue.invoice_id=''
+                this.formValue.productDetails=[]
+                this.formValue.subTotal=''
+                this.formValue.totalQuantity=''
+                this.formValue.paidAmount=''
+                this.formValue.total=''
+                this.formValue.discount=''
+                this.formValue.date=''
+                this.dataSearch=[]
+
+            },
             async addProduct(){
+                this.formValue.barCode=''
                 if(this.dataSearch)
                 {
                     console.log(this.dataSearch.id)
@@ -265,7 +265,7 @@
                             this.formValue.total=this.dataSearch.sellingPrice
                             this.formValue.discount=this.dataSearch.discount
                             this.formValue.date=this.dataSearch.date
-                            this.formValue.barCode=''
+
                         }catch(e){
                             this.e('Oops!','Something went wrong, please try again!')
                             this.le()
@@ -279,6 +279,7 @@
             },
             async setData()
             {
+                this.clearData()
                 if(this.formValue.barCode)
                 {
                     try{
@@ -316,10 +317,10 @@
             },
             async returnProduct (){
                 //invoice added
-                if( !this.totalQuantity || !this.totalPrice)
+                if( !this.dataSearch)
                 {
                     this.loading=false
-                    this.e('Oops!','You nedd to enter Stock and Price in All Fields')
+                    this.e('Oops!','You need to enter Stock and Price in All Fields')
 
                 }
                 else

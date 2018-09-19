@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Invoice;
 use App\Selling;
+use App\Paymentsheet;
+
 
 class InvoiceController extends Controller
 {
@@ -133,13 +136,13 @@ class InvoiceController extends Controller
     }
     public function returnInvoice(Request $request)
     {
-        
+        $admin_id=Auth::user()->id;        
         $input=$request->all();
         // update invoice 
         $invoice=Invoice::where('id',$input['invoice_id'])
         ->update([
             'totalQuantity' => $input['totalQuantity'],
-            'totalPrice' => $input['totalPrice'],
+            'totalPrice' => $input['subTotal'],
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
             'sellingPrice' => $input['total'],
@@ -176,9 +179,9 @@ class InvoiceController extends Controller
         }
         if($input['total']==$input['paidAmount'])
         {
-            $paymentSheet=Paymentsheet::create([
+            $paymentSheet=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            ->update([
                 'admin_id' => $admin_id,
-                'invoice_id' => $invoice->id,
                 'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['customer_id'],

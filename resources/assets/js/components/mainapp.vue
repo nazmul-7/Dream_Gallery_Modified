@@ -32,7 +32,7 @@
                                 <MenuItem name="category" :to="handleGoToMenu('/category')">Category</MenuItem>
                             </Submenu>
                         </MenuItem>
-                        <MenuItem name="1-3">                        
+                        <!-- <MenuItem name="1-3">                        
                             <Submenu name="1-3-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
@@ -40,7 +40,7 @@
                                 </template>
                                 <MenuItem name="setting" :to="handleGoToMenu('/setting')">Accounts</MenuItem>
                             </Submenu>
-                        </MenuItem>
+                        </MenuItem> -->
                         <MenuItem name="1-4">                        
                             <Submenu name="1-4-1">
                                 <template slot="title">
@@ -67,7 +67,7 @@
                             <Icon type="ios-info"></Icon>
                             <span>Purchas</span>              
                         </MenuItem>
-                        <MenuItem name="return" :to="handleGoToMenu('/return')">
+                        <MenuItem name="returnproduct" :to="handleGoToMenu('/returnproduct')">
                             <Icon type="ios-info"></Icon>
                             <span>Return</span>              
                         </MenuItem>
