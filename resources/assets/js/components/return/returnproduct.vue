@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="16" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
                 <Row :gutter="24">
                     <Col span="24">
                         <Card>
@@ -69,7 +69,7 @@
                     </Col>
                 </Row>
             </Col>
-            <Col class="dream-input-main" span="5" offset="1">
+            <Col class="dream-input-main" span="7" offset="1">
                 <Row> 
                     <Form>
                         <Col span="22" offset="1">
@@ -335,6 +335,7 @@
                         
                         this.s('Great!','Sell has been added successfully!')
                         this.loading=false
+                        this.clearData()
                     }catch(e){
                         this.loading=false
                         this.e('Oops!','Something went wrong, please try again!')

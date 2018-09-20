@@ -153,7 +153,7 @@ class InvoiceController extends Controller
         ->get();
         foreach($currentSheets as $sheet )
         {
-            if($sheet->type="due")
+            if($sheet->type="incoming")
             {
                 $paymentSheet=Paymentsheet::where('id',$sheet->id)
                 ->update([
@@ -163,102 +163,68 @@ class InvoiceController extends Controller
                 ]);
 
             }
-            if($sheet->type="incoming")
+            if($sheet->type="due")
             {
+                $paymentSheet=Paymentsheet::where('id',$sheet->id)
+                ->update([
+                    'uid' => $input['customer_id'],
+                    'amount' => $input['total']*-1,
+                    'date' => $input['date'],
+                ]);
 
             }
             if($sheet->type="dueIncoming")
             {
+                $paymentSheet=Paymentsheet::where('id',$sheet->id)
+                ->update([
+                    'uid' => $input['customer_id'],
+                    'amount' => $input['paidAmount'],
+                    'date' => $input['date'],
+                ]);
 
             }
             if($sheet->type="outgoing")
             {
+                $paymentSheet=Paymentsheet::where('id',$sheet->id)
+                ->update([
+                    'uid' => $input['customer_id'],
+                    'amount' =>$input['subTotal']-$input['total'],
+                    'date' => $input['date'],
+                ]);
 
             }
             
         }
-        if($input['total']==$input['paidAmount'])
-        {
-            $paymentSheet=Paymentsheet::where('invoice_id',$input['invoice_id'])
-            ->update([
-                'admin_id' => $admin_id,
-                'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-                'uid' => $input['customer_id'],
-                'amount' => $input['total'],
-                'paymentMethod' => 'cash',
-                'remarks' => 'Sell To Customer',
-                'date' => $input['date'],
-            ]);
-
-        }
-        else
-        {
-            $paymentSheet=Paymentsheet::create([
-                'admin_id' => $admin_id,
-                'invoice_id' => $invoice->id,
-                'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-                'uid' => $input['customer_id'],
-                'amount' => $input['total']*-1,
-                'paymentMethod' => 'due',
-                'remarks' => 'Sell To Customer',
-                'date' => $input['date'],
-            ]);
-            $due=$input['total'] - $input['paidAmount'];
-            if($input['paidAmount'])
-            {
-                $paymentSheet=Paymentsheet::create([
-                    'admin_id' => $admin_id,
-                    'invoice_id' => $invoice->id,
-                    'type' => 'dueIncoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-                    'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-                    'uid' => $input['customer_id'],
-                    'amount' => $input['paidAmount'],
-                    'paymentMethod' => 'cash',
-                    'remarks' => 'Due To Customer',
-                    'date' => $input['date'],
-                ]);
-    
-            }       
-        }
-        if($input['discount'])
-        {
-            $paymentSheet=Paymentsheet::create([
-                'admin_id' => $admin_id,
-                'invoice_id' => $invoice->id,
-                'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-                'uid' => $input['customer_id'],
-                'amount' => $input['total'],
-                'paymentMethod' => 'cash',
-                'remarks' => 'Discount To Customer',
-                'date' => $input['date'],
-            ]);
-        }
+       
         // make  purchase details 
         foreach ($input['productDetails'] as $key => $value) {
-            $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
-            $sell=Selling::create([
-                'admin_id' => $admin_id,
-                'invoice_id' => $invoice->id,
-                'product_id' => $value['id'],
-                'quantity' => $value['quantity'],
-                'unitPrice' => $value['sellingPrice'],
-                'discount' => $value['discount'],
-                'profit' => $profit,
-            ]);
+            if($value['quantity']==0)
+            {
+                $sell=Selling::where('id',$value['id'] )
+                ->update([
+                    'quantity' => $value['quantity'],
+                    'unitPrice' => 0,
+                    'discount' => 0,
+                    'profit' => 0,
+                ]);
+    
+            }
+            else
+            {
+                $profit= $value['discountedPrice'] - $value['product']['averageBuyingPrice'];
+                $sell=Selling::where('id',$value['id'] )
+                ->update([
+                    'quantity' => $value['quantity'],
+                    'unitPrice' => $value['product']['sellingPrice'],
+                    'discount' => $value['discount'],
+                    'profit' => $profit,
+                ]);
+            }
         }
-        // $created=Invoice::create($request->all());
-        $data=Invoice::where('type', 'purchase')
-        ->where('id', $invoice->id)
-        ->orderBy('id', 'desc')
-        ->with('supplier')
-        ->first();
+
 
          return response()->json([
-                 'msg' => 'Inserted',
-                 'data'=> $data,
+                 'msg' => 'updated',
             ],200);
     }
 
