@@ -45,6 +45,12 @@
                                 </Select>
                             </FormItem>
                         </Col>
+                        <Col span="24">
+                            <FormItem  label="Opening Balance">
+                                <Input type="text" placeholder="Amount" 
+                                v-model="formValue.opening"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
                          <Col span="24">
                             <Button type="success" :loading="loading" @click="customerAdd">
                                 <span v-if="!loading">Add</span>
@@ -224,6 +230,7 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    opening:0,
 
 
                 },

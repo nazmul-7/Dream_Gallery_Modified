@@ -49,6 +49,13 @@ class ProductController extends Controller
              'barCode' => $barCode
           );
         Product::where('id',$created->id)->update($data);
+        $purchase=Purchase::create([
+            'admin_id' => $admin_id,
+            'product_id' => $created->id,
+            'quantity' => $value['opening'],
+            'unitPrice' => -1,
+
+        ]);
         $settings=Product::where('id', $created->id)->first();
         return $settings;
     }

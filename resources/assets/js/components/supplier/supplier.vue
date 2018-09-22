@@ -31,6 +31,10 @@
                             <FormItem label="Address">
                                 <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Address" v-model="formValue.address" @on-enter="supplierAdd" ></Input>
                             </FormItem>
+                            <FormItem  label="Opening Balance">
+                                <Input type="text" placeholder="Amount" 
+                                v-model="formValue.opening"  @on-enter="customerAdd"></Input>
+                            </FormItem >
                             
                         </Col>
                          <Col  span="24">
@@ -192,6 +196,7 @@
                     contact:'',
                     email:'',
                     address:'',
+                    opening:0,
                 },
                 
             }
