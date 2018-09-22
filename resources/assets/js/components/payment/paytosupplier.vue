@@ -5,25 +5,24 @@
                 <h2>Product List</h2>
 
                 <table style="width:100%">
-                  <tr>
-                    <th>Date</th>
-                    <th>Type</th> 
-                    <th>ID</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                  </tr>
-                  <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.date}}</td>
-                    <td >{{data.type}}</td>
-                    <td>{{data.invoice_id}}</td>
-                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{data.amount}}</td>
-                    <td v-else>0</td>
-                    <td >{{data.balance}}</td>
-                  </tr>
-
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th> 
+                        <th>ID</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                    </tr>
+                        <tr v-for="(data,i) in dataLedger" :key="i">
+                        <td >{{data.date}}</td>
+                        <td >{{data.type}}</td>
+                        <td>{{data.invoice_id}}</td>
+                        <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
+                        <td v-else>0</td>
+                        <td v-if="data.type ==='due'">{{data.amount}}</td>
+                        <td v-else>0</td>
+                        <td >{{data.balance}}</td>
+                    </tr>
                 </table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">

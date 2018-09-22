@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Supplier;
 use App\Category;
+use App\Paymentsheet;
 class SupplierController extends Controller
 {
     /**
@@ -39,7 +40,21 @@ class SupplierController extends Controller
     {
         $created=Supplier::create($request->all());
         $settings=Supplier::where('id', $created->id)->first();
+        $input=$request->all();
+        if($input['opening'])
+        $input['opening']=$input['opening']*-1;
+
+        $paymentSheet=Paymentsheet::create([
+            'admin_id' => $admin_id,
+            'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+            'uid' => $created->id,
+            'amount' => $input['opening'],
+            'paymentMethod' => 'due',
+            'remarks' => 'Opening',
+        ]);
         return $settings;
+
     }
 
     /**

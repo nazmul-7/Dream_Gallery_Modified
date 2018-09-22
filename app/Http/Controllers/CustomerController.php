@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use App\Paymentsheet;
 
 class CustomerController extends Controller
 {
@@ -38,15 +39,18 @@ class CustomerController extends Controller
     {
         $admin_id=Auth::user()->id;
         $created=Customer::create($request->all());
+        $input=$request->all();
+        if($input['opening'])
+        $input['opening']=$input['opening']*-1;
+
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
             'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-            'uid' => $input['customer_id'],
-            'amount' => $input['total'],
-            'paymentMethod' => 'cash',
+            'uid' => $created->id,
+            'amount' => $input['opening'],
+            'paymentMethod' => 'due',
             'remarks' => 'Opening',
-            'date' => $input['date'],
         ]);
          return response()->json([
                  'msg' => 'Inserted',

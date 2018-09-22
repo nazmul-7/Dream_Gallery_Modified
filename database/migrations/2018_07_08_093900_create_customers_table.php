@@ -20,6 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('contact')->nullable();
             $table->string('email')->nullable();
             $table->string('zone')->nullable();
+            $table->string('opening')->nullable()->default(0);
             $table->string('balance')->default(0);
             $table->timestamps();
         });

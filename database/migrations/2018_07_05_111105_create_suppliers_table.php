@@ -19,6 +19,7 @@ class CreateSuppliersTable extends Migration
             $table->string('address')->nullable();
             $table->string('contact')->nullable();
             $table->string('email')->nullable();
+            $table->string('opening')->nullable()->default(0);
             $table->string('balance')->nullable()->default(0);
             $table->timestamps();
         });
