@@ -52,7 +52,7 @@ class ProductController extends Controller
         $purchase=Purchase::create([
             'admin_id' => $admin_id,
             'product_id' => $created->id,
-            'quantity' => $value['opening'],
+            'quantity' => $input['opening'],
             'unitPrice' => -1,
 
         ]);

@@ -93,9 +93,17 @@
                         </FormItem >
                     </Col>
                     <Col span="12">
+                        <FormItem  label="Opening Amount">
+                            <br/>
+                            <InputNumber placeholder="Opening" v-model="formValue.opening">
+                            </InputNumber>
+                        </FormItem >
+                    </Col>
+                    <Col span="24">
                         <FormItem  label="Image">
                         </FormItem >
                     </Col>
+
                 </Row>
             </Form>
         </div>
@@ -249,6 +257,7 @@
                     color: '',
                     model:'',
                     sellingPrice:0,
+                    opening:0,
                     productImage:'',
                 },
                 formCategory: {

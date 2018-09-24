@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\Paymentsheet;
+use Auth;
 
 class CustomerController extends Controller
 {
