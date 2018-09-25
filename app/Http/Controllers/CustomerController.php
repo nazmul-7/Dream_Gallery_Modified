@@ -46,7 +46,7 @@ class CustomerController extends Controller
 
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
-            'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            'type' => 'opening',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $created->id,
             'amount' => $input['opening'],

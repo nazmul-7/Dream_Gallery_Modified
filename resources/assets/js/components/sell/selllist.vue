@@ -1,6 +1,9 @@
 <template>
     <div>
         <Row>
+            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
+                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+            </Col>
             <Col class="dream-input-main" span="22" offset="1">
             <h2>Invoice List</h2>
                 <Table :columns="columns1" :data="dataInvoice"></Table>
@@ -81,6 +84,7 @@
                     outStanding:'',
                 
                 },
+                
                 dataSearch:[],
                 dataCategory: [],
                 dataInvoice: 
@@ -110,6 +114,37 @@
                     groupName:'',
                     
                 },
+                options2: {
+                        shortcuts: [
+                            {
+                                text: '1 week',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                    return [start, end];
+                                }
+                            },
+                            {
+                                text: '1 month',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                    return [start, end];
+                                }
+                            },
+                            {
+                                text: '3 months',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                    return [start, end];
+                                }
+                            }
+                        ]
+                    },
                 columns1: [
                     {
                         title: 'Invoice ID',
@@ -147,6 +182,7 @@
                         title: 'Date',
                         key: 'date'
                     },
+                    
                     {   
                         title: 'Action',
                         key: 'action',
@@ -223,6 +259,10 @@
 
         },
         methods: {
+            getData(k)
+            {
+                console.log(k);
+            },
             async changedSupplier(k)
             {
                 console.log(k);

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Supplier;
 use App\Category;
 use App\Paymentsheet;
+use Auth;
 class SupplierController extends Controller
 {
     /**
@@ -38,6 +39,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
+        $admin_id=Auth::user()->id;
         $created=Supplier::create($request->all());
         $settings=Supplier::where('id', $created->id)->first();
         $input=$request->all();
@@ -46,7 +48,7 @@ class SupplierController extends Controller
 
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
-            'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            'type' => 'opening',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $created->id,
             'amount' => $input['opening'],

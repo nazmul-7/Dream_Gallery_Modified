@@ -2,7 +2,6 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Form >
                     <Row :gutter="24">
                         <Col span="24">
                             <Card>
@@ -72,7 +71,6 @@
                             </Card>
                         </Col>
                     </Row>
-                </Form>
             </Col>
 
 

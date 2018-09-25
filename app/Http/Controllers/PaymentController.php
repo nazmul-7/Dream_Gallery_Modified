@@ -29,13 +29,11 @@ class PaymentController extends Controller
     {
         $outStanding=Paymentsheet::where('uid',$id)
         ->where('paymentFor','customer')
-        ->where('type','due')
-        ->orWhere('type','dueincoming')
+        ->whereIn('type',['due','opening','dueincoming'])
         ->sum('amount');
         $ledger=Paymentsheet::where('uid',$id)
         ->where('paymentFor','customer')
-        ->where('type','due')
-        ->orWhere('type','dueincoming')
+        ->whereIn('type',['due','opening','dueincoming'])
         ->get();
         return response()->json([
             'msg' => 'Found',

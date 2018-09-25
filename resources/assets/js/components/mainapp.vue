@@ -97,8 +97,8 @@
                                     <Icon type="ios-albums"></Icon>
                                     Sales
                                 </template>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Item Wise Sales</MenuItem>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Invoice Wise Sales</MenuItem>
+                                <MenuItem name="itemselling" :to="handleGoToMenu('/itemselling')">Item Wise Sales</MenuItem>
+                                <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Invoice Wise Sales</MenuItem>
                                 <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Customer Wise Sales</MenuItem>
                             </Submenu>
                         </MenuItem>
