@@ -9,7 +9,7 @@
                         </Input>
                     </FormItem>
                     <FormItem label="Type">
-                        <Select v-model="filterLedger" placeholder="Select Type"  filterable clearable>
+                        <Select v-model="filterLedger" placeholder="Select Type" filterable clearable>
                             <Option value="Income" >Income</Option>
                             <Option value="Expence" >Expence</Option>
                         </Select>
@@ -22,16 +22,17 @@
 
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem label="Ledger Name">
-                                <Input type="text" placeholder="Ledger Name" 
-                                v-model="formValue.ledgerName" @on-enter="ledgerAdd"></Input>
-                            </FormItem>
                             <FormItem label="Type">
                                 <Select v-model="formValue.type" placeholder="Select Type">
                                     <Option value="Income" >Income</Option>
                                     <Option value="Expence" >Expence</Option>
                                 </Select>
                             </FormItem>
+                            <FormItem label="Ledger Name">
+                                <Input type="text" placeholder="Ledger Name" 
+                                v-model="formValue.ledgerName" @on-enter="ledgerAdd"></Input>
+                            </FormItem>
+
                         </Col>
                          <Col class="dream-input-main-button" span="24">
                             <Button type="success" :loading="loading" @click="ledgerAdd">

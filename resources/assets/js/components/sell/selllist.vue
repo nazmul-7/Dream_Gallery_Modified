@@ -4,9 +4,20 @@
             <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
                 <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
             </Col>
-            <Col class="dream-input-main" span="22" offset="1">
-            <h2>Invoice List</h2>
-                <Table :columns="columns1" :data="dataInvoice"></Table>
+           <Col  class="dream-input-main" span="22" offset="1" v-if="date">
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Customer">
+                        <Select v-model="filterCustomer" placeholder="Select group"  filterable clearable>
+                                <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
+                            </Select>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
 
@@ -67,7 +78,10 @@
     export default {
         data () {
             return {
+                date:false,
                 index:0,
+                search:'',
+                filterCustomer:'',
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -76,6 +90,7 @@
                 sending:false,
                 isCollapsed: false,
                 dataSupplier: [],
+                filterDate:[],
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -86,7 +101,7 @@
                 },
                 
                 dataSearch:[],
-                dataCategory: [],
+                dataCustomer: [],
                 dataInvoice: 
                 [],
                 formInvoice:
@@ -225,7 +240,26 @@
             
         },
         computed: {
+            searchData()
+            {
+                if(this.filterCustomer)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) 
+            
+                    }
+                    );
 
+                }
+                else{
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.adminName.match(this.search.toUpperCase()) 
+        
+                    }
+                );
+
+                }
+            },
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -259,8 +293,32 @@
 
         },
         methods: {
-            getData(k)
+            async getData(k)
             {
+                this.filterDate=k
+                if(k)
+                this.date=true
+                else
+                this.date=false
+
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/filterSale/${k[0]}/${k[1]}`
+
+                    })
+                    for(let d of data){
+                        d.adminName=d.admin.name
+                        if(d.customer)
+                        d.customerName=d.customer.customerName
+                    }
+                    this.dataInvoice=data
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
                 console.log(k);
             },
             async changedSupplier(k)
@@ -440,9 +498,9 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/supplier'
+                    url:'/app/customer'
                 })
-                this.dataSupplier=data;
+                this.dataCustomer=data;
                 this.lf();
 
             }catch(e){
@@ -451,24 +509,6 @@
             }
 
 
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/sell' //1=purchases
-
-                })
-                for(let d of data){
-                    d.adminName=d.admin.name
-                    if(d.customer)
-                    d.customerName=d.customer.customerName
-                }
-                this.dataInvoice=data
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
 
             
         }
