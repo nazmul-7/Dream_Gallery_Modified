@@ -1,11 +1,31 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-            <h2>Invoice List</h2>
-                <Table :columns="columns1" :data="dataInvoice"></Table>
+            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
+                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+            </Col>
+           <Col  class="dream-input-main" span="22" offset="1" v-if="date">
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Group">
+                        <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable>
+                                <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{ group.groupName }}</Option>
+                            </Select>
+                    </FormItem>
+                    <FormItem label="Category">
+                        <Select v-model="filterCategory" placeholder="Select Category"  filterable clearable>
+                                <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{ category.catName }}</Option>
+                            </Select>
+                    </FormItem>                    
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
+
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">
@@ -65,7 +85,11 @@
         data () {
             return {
                 index:0,
+                date:false,
+                search:'',
                 searchValue:'',
+                filterCategory:'',
+                filterGroup:'',
                 clearModel:false,
                 editModal:false,
                 deleteModal:false,
@@ -83,6 +107,7 @@
                 },
                 dataSearch:[],
                 dataCategory: [],
+                dateGroup:[],
                 dataInvoice: 
                 [],
                 formInvoice:
@@ -110,6 +135,37 @@
                     groupName:'',
                     
                 },
+                                options2: {
+                        shortcuts: [
+                            {
+                                text: '1 week',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                    return [start, end];
+                                }
+                            },
+                            {
+                                text: '1 month',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                    return [start, end];
+                                }
+                            },
+                            {
+                                text: '3 months',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                    return [start, end];
+                                }
+                            }
+                        ]
+                    },
                 columns1: [
                     {
                         title: 'Admin',
@@ -179,6 +235,79 @@
             
         },
         computed: {
+            searchData()
+            {
+                if(this.filterCategory && this.filterGroup)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return (data.product.catName.toUpperCase().match(this.filterCategory.toUpperCase()) &&
+                    data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) ) 
+                    &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+                    )            
+                    }
+                    );
+
+                }
+                else if(this.filterCategory)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.product.catName.toUpperCase().match(this.filterCategory.toUpperCase()) &&
+                    (
+                        data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+                    )
+
+            
+                    }
+                    );
+
+                }
+                else if(this.filterGroup)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                    &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+                    )            
+                    }
+                    );
+
+                }
+                else{
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+        
+                    }
+                );
+
+                }
+            },
 
             rotateIcon () {
                 return [
@@ -213,6 +342,38 @@
 
         },
         methods: {
+            async getData(k)
+            {
+                if(!k[0])
+                {
+                    return
+                }
+                this.filterDate=k
+                if(k)
+                this.date=true
+                else
+                this.date=false
+
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/filterSaleItem/${k[0]}/${k[1]}`
+
+                    })
+
+                    for(let d of data){
+                        d.adminName=d.admin.name
+                        if(d.product)
+                        d.productName=d.product.productName
+                    }
+                    this.dataInvoice=data
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+            },
             async changedSupplier(k)
             {
                 console.log(k);
@@ -399,8 +560,30 @@
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/category'
+                })
+                this.dataCategory=data;
+                this.lf();
 
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/group'
+                })
+                this.dataGroup=data;
+                this.lf();
 
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
             try{
                 let {data} =await  axios({
                     method: 'get',

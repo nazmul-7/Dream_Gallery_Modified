@@ -47,7 +47,6 @@ Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
 Route::get('/app/searchProduct/{id}','PurchaseController@searchProduct');
 Route::get('/app/searchInvoice/{id}','InvoiceController@searchInvoice');
-Route::get('/app/filterSale/{from}/{to}','SellingController@filterSale');
 
 //uploads
 Route::post('/app/setting/upload','SettingController@upload');
@@ -68,6 +67,10 @@ Route::get('/app/sellitemlist','SellingController@sellitemlist');
 Route::get('/app/getProductProfit','ReportController@getProductProfit');
 Route::get('/app/paymentList','ReportController@paymentList');
 Route::get('/app/cash','ReportController@cash');
+Route::get('/app/filterSale/{from}/{to}','SellingController@filterSale');
+Route::get('/app/filterSaleItem/{from}/{to}','SellingController@filterSaleItem');
+Route::get('/app/filterProfit/{from}/{to}','ReportController@filterProfit');
+
 
 
 Route::get('/logout', function () {

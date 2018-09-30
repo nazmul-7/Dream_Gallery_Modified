@@ -1,14 +1,33 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="14" offset="1">
-            <h2>Item Profit List</h2>
+            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
+                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+            </Col>
+            <Col class="dream-input-main" span="22" offset="1" v-if="date">
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Group">
+                        <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable>
+                                <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{ group.groupName }}</Option>
+                            </Select>
+                    </FormItem>
+                    <FormItem label="Product">
+                        <Select v-model="filterProduct" placeholder="Select Product"  filterable clearable>
+                                <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{ product.productName }}</Option>
+                            </Select>
+                    </FormItem>                    
+                </Form>
                 <Table :columns="columns1" :data="dataInvoice"></Table>
             </Col>
-            <Col class="dream-input-main" span="7" offset="1">
+            <!-- <Col class="dream-input-main" span="7" offset="1">
             <p><b>Total Gross Profit</b>: {{grossProfit}}</p>
             <p><b>Total Net Profit</b>: {{netProfit}}</p>
-            </Col>
+            </Col> -->
         </Row>
 
       <Modal v-model="editModal" width="360">
@@ -69,6 +88,10 @@
         data () {
             return {
                 index:0,
+                date:false,
+                filterProduct:'',
+                filterGroup:'',
+                filterCustomer:'',
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -147,6 +170,75 @@
             
         },
         computed: {
+            searchData()
+            {
+                if(this.filterProduct && this.filterGroup)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return (data.product.id.toString().toUpperCase().match(this.filterProduct.toString().toUpperCase()) &&
+                    data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) ) 
+                    &&
+                    (
+                    data.quantity.toString().match(this.search) ||
+                    data.profit.toString().match(this.search) ||
+                    data.unitPrice.toString().match(this.search)
+                    )            
+                    }
+                    );
+
+                }
+                else if(this.filterCategory)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.product.catName.toUpperCase().match(this.filterCategory.toUpperCase()) &&
+                    (
+                        data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+                    )
+
+            
+                    }
+                    );
+
+                }
+                else if(this.filterGroup)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                    &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+                    )            
+                    }
+                    );
+
+                }
+                else{
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+        
+                    }
+                );
+
+                }
+            },
 
             rotateIcon () {
                 return [
@@ -181,6 +273,47 @@
 
         },
         methods: {
+            async getData(k)
+            {
+                if(!k[0])
+                {
+                    return
+                }
+                this.filterDate=k
+                if(k)
+                this.date=true
+                else
+                this.date=false
+
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/filterProfit/${k[0]}/${k[1]}`
+
+                    })
+
+                    var grossProfit=0
+                    var totalUnitBuying=0
+                    var itemUnitPrice=0
+                    var unitBuying=0
+                    for(let d of data.sell){
+                        itemUnitPrice=d.unitPrice*d.quantity
+                        d.totalProfit=d.profit*d.quantity
+                        unitBuying=itemUnitPrice-d.totalProfit
+                        d.productName=d.product.productName
+                        grossProfit+=d.totalProfit
+                        totalUnitBuying+=unitBuying
+                    }
+                    this.netProfit=Math.round(data.totalSelling-totalUnitBuying)
+                    this.grossProfit=Math.round(grossProfit)    
+                    this.dataInvoice=data.sell
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+            },
             async changedSupplier(k)
             {
                 console.log(k);
@@ -263,40 +396,7 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            async makePurchase(){
-                //invoice added
-                this.formValue.totalPrice=this.totalPrice
-                this.formValue.totalQuantity=this.totalQuantity
-                if( !this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id|| !this.formValue.date)
-                {
-                    this.loading=false
-                    this.e('Oops!','You nedd to enter Stock and Price in All Fields')
 
-                }
-                else
-                {
-                    this.loading=true
-                    try{
-                        let {data} =await  axios({
-                            method: 'post',
-                            url:'/app/purchase',
-                            data: this.formValue
-                        })
-                        this.clearForm()
-                        
-                        data.data.supplierName=data.data.supplier.supplierName
-                        this.dataInvoice.unshift(data.data)
-                        
-                        this.s('Great!','Purchase has been added successfully!')
-                        this.loading=false
-                    }catch(e){
-                        this.loading=false
-                        this.e('Oops!','Something went wrong, please try again!')
-                    }
-
-                }
-                
-            },
             showEdit (index) {
                 this.editObj.id=this.dataInvoice[index].id
                 this.editObj.invoice_id=this.dataInvoice[index].invoice_id
@@ -309,45 +409,7 @@
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
-            async edit(){
-                this.sending=true
-                try{
-                    let {data} =await  axios({
-                        method: 'post',
-                        url:'/app/categoryUpdate',
-                        data: this.editObj
-                    })
-                    this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
-                    this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
-                    this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
-                    this.s('Great!','Category information has been updated successfully!')
-                    
-                    this.sending=false
-                    this.editModal=false
-                }catch(e){
-                    this.sending=false
-                    this.editModal=false
-                    this.e('Oops!','Something went wrong, please try again!')
-                }
-            },
-            async remove(){
-                this.sending=true
-                try{
-                    let {data} =await  axios({
-                        method: 'delete',
-                        url:`/app/invoice/${this.UpdateValue.id}`,
-                    })
-                    this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Invoice information has been removed successfully!')
-                    
-                    this.sending=false
-                    this.deleteModal=false
-                }catch(e){
-                    this.sending=false
-                    this.deleteModal=false
-                    this.e('Oops!','Something went wrong, please try again!')
-                }
-            }
+
         },
 
 
@@ -367,8 +429,30 @@
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/group'
+                })
+                this.dataGroup=data;
+                this.lf();
 
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/product'
+                })
+                this.dataProduct=data;
+                this.lf();
 
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
             try{
                 let {data} =await  axios({
                     method: 'get',

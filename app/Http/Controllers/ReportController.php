@@ -27,6 +27,25 @@ class ReportController extends Controller
             'totalSelling'=> $data,
        ],200);
     }
+    public function filterProfit($from,$to)
+    {
+        $data=Invoice::where('type','sell')
+        ->whereBetween('date', array($from, $to))
+        ->orderBy('id', 'desc')
+        ->sum('sellingPrice');
+        $sell=Selling::join('invoices', 'sellings.invoice_id', '=', 'invoices.id')
+        ->select('sellings.*','invoices.date as date')
+        ->whereBetween('invoices.date', array($from, $to))
+        ->with('product')
+        ->orderBy('sellings.id', 'desc')
+        ->get();
+
+        return response()->json([
+            'msg' => 'Data Came',
+            'sell'=> $sell,
+            'totalSelling'=> $data,
+       ],200);
+    }
     public function paymentList()
     {
         $data=Payment::orderBy('id', 'desc')

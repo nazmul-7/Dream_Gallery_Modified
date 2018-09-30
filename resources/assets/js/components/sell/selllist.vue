@@ -16,6 +16,11 @@
                                 <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
                             </Select>
                     </FormItem>
+                    <FormItem label="Zone">
+                        <Select v-model="filterZone" placeholder="Select Zone"  filterable clearable>
+                                <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
+                            </Select>
+                    </FormItem>
                 </Form>
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
@@ -82,6 +87,7 @@
                 index:0,
                 search:'',
                 filterCustomer:'',
+                filterZone:'',
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -102,8 +108,8 @@
                 
                 dataSearch:[],
                 dataCustomer: [],
-                dataInvoice: 
-                [],
+                dataInvoice:[],
+                dataZone:[],
                 formInvoice:
                 {
                     type:'purchase',
@@ -242,18 +248,71 @@
         computed: {
             searchData()
             {
-                if(this.filterCustomer)
+                if(this.filterCustomer && this.filterZone)
                 {
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) 
+                    return (data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
+                    data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) ) 
+                    &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
+                    )            
+                    }
+                    );
+
+                }
+                else if(this.filterCustomer)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
+                    (
+                        data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
+                    )
+
             
+                    }
+                    );
+
+                }
+                else if(this.filterZone)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) 
+                    &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
+                    )            
                     }
                     );
 
                 }
                 else{
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.adminName.match(this.search.toUpperCase()) 
+                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
         
                     }
                 );
@@ -295,6 +354,10 @@
         methods: {
             async getData(k)
             {
+                if(!k[0])
+                {
+                    return
+                }
                 this.filterDate=k
                 if(k)
                 this.date=true
@@ -507,7 +570,18 @@
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/zone'
+                })
+                this.dataZone=data;
+                this.lf();
 
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
 
 
             

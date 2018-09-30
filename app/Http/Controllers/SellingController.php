@@ -33,6 +33,16 @@ class SellingController extends Controller
         ->orderBy('id', 'desc')->get();
         return $data;
     }
+    public function filterSaleItem($from,$to)
+    {
+        $data=Selling::join('invoices', 'sellings.invoice_id', '=', 'invoices.id')
+        ->select('sellings.*','invoices.date as date')
+        ->whereBetween('invoices.date', array($from, $to))
+        ->with('admin')
+        ->with('product')
+        ->orderBy('sellings.id', 'desc')->get();
+        return $data;
+    }    
     public function sellitemlist()
     {
         $data=Selling::with('admin')
