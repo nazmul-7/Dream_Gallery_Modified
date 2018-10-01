@@ -22,9 +22,13 @@ import order from './components/order/order.vue'
 //reports
 import selllist from './components/sell/selllist.vue'
 import itemselling from './components/sell/itemselling.vue'
+import purchaselist from './components/purchase/purchaselist.vue'
+import purchaseitemlist from './components/purchase/purchaseitemlist.vue'
 import profit from './components/profit/profit.vue'
 import paymentlist from './components/payment/paymentlist.vue'
 import cash from './components/cash/cash.vue'
+import customerledger from './components/ledgers/customer.vue'
+import supplierledger from './components/ledgers/supplier.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -137,6 +141,16 @@ export default new Router({
 	      component: itemselling
 			},
 			{
+	      path: '/purchaselist',
+	      name: 'purchaselist',
+	      component: purchaselist
+			},
+			{
+	      path: '/purchaseitemlist',
+	      name: 'purchaseitemlist',
+	      component: purchaseitemlist
+			},
+			{
 	      path: '/profit',
 	      name: 'profit',
 	      component: profit
@@ -151,5 +165,15 @@ export default new Router({
 	      name: 'cash',
 	      component: cash
 	    },
-	 ]
+			{
+	      path: '/customerledger',
+	      name: 'customerledger',
+	      component: customerledger
+			},
+			{
+	      path: '/supplierledger',
+	      name: 'supplierledger',
+	      component: supplierledger
+	    },
+		]
 })

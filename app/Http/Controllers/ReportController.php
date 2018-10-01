@@ -34,7 +34,7 @@ class ReportController extends Controller
         ->orderBy('id', 'desc')
         ->sum('sellingPrice');
         $sell=Selling::join('invoices', 'sellings.invoice_id', '=', 'invoices.id')
-        ->select('sellings.*','invoices.date as date')
+        ->select('sellings.*','invoices.date','invoices.customer_id')
         ->whereBetween('invoices.date', array($from, $to))
         ->with('product')
         ->orderBy('sellings.id', 'desc')

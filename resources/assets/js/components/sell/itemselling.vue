@@ -20,7 +20,12 @@
                         <Select v-model="filterCategory" placeholder="Select Category"  filterable clearable>
                                 <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{ category.catName }}</Option>
                             </Select>
-                    </FormItem>                    
+                    </FormItem>   
+                    <FormItem label="Product">
+                        <Select v-model="filterProduct" placeholder="Select Product"  filterable clearable>
+                                <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{ product.productName }}</Option>
+                            </Select>
+                    </FormItem>                  
                 </Form>
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
@@ -89,6 +94,7 @@
                 search:'',
                 searchValue:'',
                 filterCategory:'',
+                filterProduct:'',
                 filterGroup:'',
                 clearModel:false,
                 editModal:false,
@@ -237,11 +243,12 @@
         computed: {
             searchData()
             {
-                if(this.filterCategory && this.filterGroup)
+                if(this.filterCategory && this.filterGroup && this.filterProduct)
                 {
                 return this.dataInvoice.filter((data)=>{                    
                     return (data.product.catName.toUpperCase().match(this.filterCategory.toUpperCase()) &&
-                    data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) ) 
+                    data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase())   &&
+                    data.product_id.toString().match(this.filterProduct) ) 
                     &&
                     (
                     data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
@@ -279,6 +286,24 @@
                 {
                 return this.dataInvoice.filter((data)=>{                    
                     return data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                    &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.quantity.toString().match(this.search) ||
+                     data.profit.toString().match(this.search) ||
+                     data.unitPrice.toString().match(this.search)
+                    )            
+                    }
+                    );
+
+                }
+                else if(this.filterProduct)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.product_id.toString().match(this.filterProduct)  
                     &&
                     (
                     data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
@@ -587,20 +612,16 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/sellitemlist' //1=purchases
-
+                    url:'/app/product'
                 })
-                for(let d of data){
-                    d.adminName=d.admin.name
-                    d.productName=d.product.productName
-                }
-                this.dataInvoice=data
+                this.dataProduct=data;
                 this.lf();
 
             }catch(e){
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
+
 
             
         }

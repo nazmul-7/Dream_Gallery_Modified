@@ -21,6 +21,25 @@ class PurchaseController extends Controller
     {
         //
     }
+    public function filterPurchase($from,$to)
+    {
+        $data=Invoice::where('type','purchase')
+        ->whereBetween('date', array($from, $to))
+        ->with('admin')
+        ->with('supplier')
+        ->orderBy('id', 'desc')->get();
+        return $data;
+    }
+    public function filterPurchaseItem($from,$to)
+    {
+        $data=Purchase::join('invoices', 'purchases.invoice_id', '=', 'invoices.id')
+        ->select('purchases.*','invoices.date','invoices.supplier_id')
+        ->whereBetween('invoices.date', array($from, $to))
+        ->with('admin')
+        ->with('product')
+        ->orderBy('purchases.id', 'desc')->get();
+        return $data;
+    }  
 
     /**
      * Show the form for creating a new resource.

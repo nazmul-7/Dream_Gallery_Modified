@@ -9,7 +9,10 @@ class Purchase extends Model
 	protected $fillable = [
         'admin_id', 'invoice_id', 'product_id','quantity','unitPrice','hasReturned'
     ];
-   
+    public function admin()
+    {
+       return $this->belongsTo('App\User', 'admin_id');
+    } 
     public function invoice()
     {
        return $this->belongsTo('App\Invoice');

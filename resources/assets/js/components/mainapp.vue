@@ -91,27 +91,27 @@
                             <Icon type="ios-navigate"></Icon>
                            Reports
                         </template>
+                        <MenuItem name="profit" :to="handleGoToMenu('/profit')">Profits</MenuItem>
                         <MenuItem name="3-1">                        
                             <Submenu name="3-1-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
                                     Sales
                                 </template>
-                                <MenuItem name="itemselling" :to="handleGoToMenu('/itemselling')">Item Wise Sales</MenuItem>
-                                <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Invoice Wise Sales</MenuItem>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Customer Wise Sales</MenuItem>
+                                <MenuItem name="itemselling" :to="handleGoToMenu('/itemselling')">Item Wise</MenuItem>
+                                <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Invoice Wise</MenuItem>
                             </Submenu>
                         </MenuItem>
                         <MenuItem name="3-2">                        
                             <Submenu name="3-2-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
-                                    Profit
+                                    Purchas
                                 </template>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Item Wise Profit</MenuItem>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Overall Profit</MenuItem>
+                                <MenuItem name="purchaselist" :to="handleGoToMenu('/purchaselist')">Invoice Wise</MenuItem>
+                                <MenuItem name="purchaseitemlist" :to="handleGoToMenu('/purchaseitemlist')">Item Wise</MenuItem>
                             </Submenu>
-                        </MenuItem>
+                        </MenuItem>                        
                         <MenuItem name="3-3">                        
                             <Submenu name="3-3-1">
                                 <template slot="title">
@@ -127,8 +127,8 @@
                                     <Icon type="ios-albums"></Icon>
                                     Ledger
                                 </template>
-                                <MenuItem name="cash" :to="handleGoToMenu('/cash')">Supplier</MenuItem>
-                                <MenuItem name="cash" :to="handleGoToMenu('/cash')">Customer</MenuItem>
+                                <MenuItem name="supplierledger" :to="handleGoToMenu('/supplierledger')">Supplier</MenuItem>
+                                <MenuItem name="customerledger" :to="handleGoToMenu('/customerledger')">Customer</MenuItem>
                             </Submenu>
                         </MenuItem>
                     </Submenu>

@@ -11,6 +11,11 @@
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
+                    <FormItem label="Customer">
+                        <Select v-model="filterCustomer" placeholder="Select Customer"  filterable clearable>
+                                <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{ customer.customerName }}</Option>
+                            </Select>
+                    </FormItem>
                     <FormItem label="Group">
                         <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable>
                                 <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{ group.groupName }}</Option>
@@ -22,7 +27,7 @@
                             </Select>
                     </FormItem>                    
                 </Form>
-                <Table :columns="columns1" :data="dataInvoice"></Table>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <!-- <Col class="dream-input-main" span="7" offset="1">
             <p><b>Total Gross Profit</b>: {{grossProfit}}</p>
@@ -30,56 +35,7 @@
             </Col> -->
         </Row>
 
-      <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-           
-        </Form>
-
-        </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
-        </div>
-    </Modal>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Delete</span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want delete
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="remove">
-                <span v-if="!loading">Delete</span>
-                <span v-else>Deleting...</span>
-            </Button>
-        </div>
-    </Modal>
-     <Modal v-model="clearModel" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Clear </span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want clear invoice
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="clearForm">
-                <span v-if="!loading">Clear</span>
-                <span v-else>Loading...</span>
-            </Button>
-        </div>
-    </Modal>
+     
     </div>
 </template>
 
@@ -88,6 +44,7 @@
         data () {
             return {
                 index:0,
+                search:'',
                 date:false,
                 filterProduct:'',
                 filterGroup:'',
@@ -102,7 +59,7 @@
                 grossProfit:'',
                 totalUnitPrice:'',
                 netProfit:'',
-                dataSupplier: [],
+                dataCustomer: [],
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -140,6 +97,37 @@
                     groupName:'',
                     
                 },
+                                options2: {
+                        shortcuts: [
+                            {
+                                text: '1 week',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                    return [start, end];
+                                }
+                            },
+                            {
+                                text: '1 month',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                    return [start, end];
+                                }
+                            },
+                            {
+                                text: '3 months',
+                                value () {
+                                    const end = new Date();
+                                    const start = new Date();
+                                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                    return [start, end];
+                                }
+                            }
+                        ]
+                    },
                 columns1: [ 
                     {
                         title: 'Item Name',
@@ -172,13 +160,15 @@
         computed: {
             searchData()
             {
-                if(this.filterProduct && this.filterGroup)
+                if(this.filterProduct && this.filterCustomer && this.filterGroup)
                 {
                 return this.dataInvoice.filter((data)=>{                    
                     return (data.product.id.toString().toUpperCase().match(this.filterProduct.toString().toUpperCase()) &&
+                    data.customer_id.toString().toUpperCase().match(this.filterCustomer.toString().toUpperCase()) &&
                     data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) ) 
                     &&
                     (
+                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
                     data.quantity.toString().match(this.search) ||
                     data.profit.toString().match(this.search) ||
                     data.unitPrice.toString().match(this.search)
@@ -192,13 +182,10 @@
                 return this.dataInvoice.filter((data)=>{                    
                     return data.product.catName.toUpperCase().match(this.filterCategory.toUpperCase()) &&
                     (
-                        data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.discount.toString().match(this.search) ||
-                     data.quantity.toString().match(this.search) ||
-                     data.profit.toString().match(this.search) ||
-                     data.unitPrice.toString().match(this.search)
+                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                    data.quantity.toString().match(this.search) ||
+                    data.profit.toString().match(this.search) ||
+                    data.unitPrice.toString().match(this.search)
                     )
 
             
@@ -212,27 +199,37 @@
                     return data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
                     &&
                     (
-                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.discount.toString().match(this.search) ||
-                     data.quantity.toString().match(this.search) ||
-                     data.profit.toString().match(this.search) ||
-                     data.unitPrice.toString().match(this.search)
+                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                    data.quantity.toString().match(this.search) ||
+                    data.profit.toString().match(this.search) ||
+                    data.unitPrice.toString().match(this.search)
                     )            
                     }
                     );
 
                 }
+                else if(this.filterCustomer)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.customer_id.toString().match(this.filterCustomer) 
+                    &&
+                    (
+                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                    data.quantity.toString().match(this.search) ||
+                    data.profit.toString().match(this.search) ||
+                    data.unitPrice.toString().match(this.search)
+
+                    )            
+                    }
+                    );
+
+                }                
                 else{
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.discount.toString().match(this.search) ||
-                     data.quantity.toString().match(this.search) ||
-                     data.profit.toString().match(this.search) ||
-                     data.unitPrice.toString().match(this.search)
+                    return data.productName.toUpperCase().match(this.search.toUpperCase()) ||
+                    data.quantity.toString().match(this.search) ||
+                    data.profit.toString().match(this.search) ||
+                    data.unitPrice.toString().match(this.search)
         
                     }
                 );
@@ -397,18 +394,6 @@
                 this.$refs.side1.toggleCollapse();
             },
 
-            showEdit (index) {
-                this.editObj.id=this.dataInvoice[index].id
-                this.editObj.invoice_id=this.dataInvoice[index].invoice_id
-                this.editObj.product_id=this.dataInvoice[index].product_id
-                this.UpdateValue.indexNumber=index
-                this.editModal=true
-            },
-            showRemove (index) {
-                this.UpdateValue.id=this.dataInvoice[index].id
-                this.UpdateValue.indexNumber=index
-                this.deleteModal=true
-            },
 
         },
 
@@ -420,9 +405,9 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/supplier'
+                    url:'/app/customer'
                 })
-                this.dataSupplier=data;
+                this.dataCustomer=data;
                 this.lf();
 
             }catch(e){
