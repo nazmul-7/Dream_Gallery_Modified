@@ -72,6 +72,7 @@ Route::get('/app/filterSaleItem/{from}/{to}','SellingController@filterSaleItem')
 Route::get('/app/filterProfit/{from}/{to}','ReportController@filterProfit');
 Route::get('/app/filterPurchase/{from}/{to}','PurchaseController@filterPurchase');
 Route::get('/app/filterPurchaseItem/{from}/{to}','PurchaseController@filterPurchaseItem');
+Route::get('/app/getStockList/{id}','StockController@getStockList');
 
 
 

@@ -1,13 +1,30 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="10" offset="1">
-                <h2>Customer Cash Collection</h2>
-                <Table :columns="columns1" :data="dataPaymentCustomer"></Table>
+            <Col class="dream-input-main" span="22" offset="1">
+                <Form >
+                    <Row :gutter="24">
+                        <Col span="4" offset="10">
+                            <FormItem label="Customer">
+                                <Select v-model="formValue.product_id" placeholder="Customer Name" @on-change="getData" filterable clearable>
+                                    <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{  product.productName}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <!-- <Col span="22" offset="1" v-if="user">
+                            <h2>Customer Info</h2>
+                            <p></p>
+                        </Col> -->
+                    </Row>
+                </Form>
             </Col>
             <Col class="dream-input-main" span="10" offset="1">
-                <h2>Supplier Payment</h2>
-                <Table :columns="columns2" :data="dataPaymentSupplier"></Table>
+                <h2>Purchase</h2>
+                <Table :columns="columns1" :data="dataPurchase"></Table>
+            </Col>
+            <Col class="dream-input-main" span="10" offset="1">
+                <h2>Sale</h2>
+                <Table :columns="columns2" :data="dataSell"></Table>
             </Col>
         </Row>
 
@@ -70,6 +87,7 @@
             return {
                 index:0,
                 searchValue:'',
+                dataProduct:[],
                 clearModel:false,
                 editModal:false,
                 deleteModal:false,
@@ -79,6 +97,8 @@
                 grossProfit:'',
                 totalUnitPrice:'',
                 netProfit:'',
+                dataPurchase: [],
+                dataSell: [],
                 dataPaymentCustomer: [],
                 dataPaymentSupplier: [],
                 currentSupplier: {
@@ -118,45 +138,67 @@
                     groupName:'',
                     
                 },
+                options2: {
+                    shortcuts: [
+                        {
+                            text: '1 week',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '1 month',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '3 months',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                return [start, end];
+                            }
+                        }
+                    ]
+                },
                 columns1: [ 
-                    {
-                        title: 'Admin Name',
-                        key: 'adminName'
-                    },
-
-                    {
-                        title: 'Customer',
-                        key: 'customerName'
-                    },
-                    {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
-                    },
+                    
                     {
                         title: 'Date',
                         key: 'date'
                     },
+                    {
+                        title: 'Quantity',
+                        key: 'quantity'
+                    },
 
+                    {
+                        title: 'Unit Price',
+                        key: 'unitPrice'
+                    },
                 ],
                 columns2: [ 
                     {
-                        title: 'Admin Name',
-                        key: 'adminName'
-                    },
-
-                    {
-                        title: 'Supplier',
-                        key: 'supplierName'
-                    },
-                    {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
-                    },
-                    {
                         title: 'Date',
                         key: 'date'
                     },
+                    {
+                        title: 'Quantity',
+                        key: 'quantity'
+                    },
 
+                    {
+                        title: 'Unit Price',
+                        key: 'unitPrice'
+                    },
                 ],
 
                 
@@ -198,6 +240,33 @@
 
         },
         methods: {
+            async getData(k)
+            {
+                if(!k)
+                {
+                    return
+                }
+                this.filterDate=k
+                if(k)
+                this.date=true
+                else
+                this.date=false
+
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/getStockList/${k}`
+
+                    })
+                    this.dataPurchase=data.purchase
+                    this.dataSell=data.sell
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+            },
             async changedSupplier(k)
             {
                 console.log(k);
@@ -375,53 +444,9 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/paymentList'
+                    url:'/app/product'
                 })
-                for(let d of data.data){
-                    d.adminName=d.admin.name;
-                    if(d.type=='incoming')
-                    {
-                        d.customerName=d.customer.customerName
-                        this.dataPaymentCustomer.push(d)
-
-                    }
-                    else if(d.type=='outgoing')
-                    {
-                        d.supplierName=d.supplier.supplierName
-                        this.dataPaymentSupplier.push(d)
-
-                    }
-                    
-                }
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
-
-
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/getProductProfit' //1=purchases
-
-                })
-                var grossProfit=0
-                var totalUnitBuying=0
-                var itemUnitPrice=0
-                var unitBuying=0
-                for(let d of data.sell){
-                    itemUnitPrice=d.unitPrice*d.quantity
-                    d.totalProfit=d.profit*d.quantity
-                    unitBuying=itemUnitPrice-d.totalProfit
-                    d.productName=d.product.productName
-                    grossProfit+=d.totalProfit
-                    totalUnitBuying+=unitBuying
-                }
-                this.netProfit=Math.round(data.totalSelling-totalUnitBuying)
-                this.grossProfit=Math.round(grossProfit)    
-                this.dataInvoice=data.sell
+                this.dataProduct=data;
                 this.lf();
 
             }catch(e){

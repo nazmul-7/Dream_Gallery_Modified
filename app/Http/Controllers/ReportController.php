@@ -65,9 +65,7 @@ class ReportController extends Controller
         ->with('admin')
         ->with('customer')
         ->with('supplier')
-        ->where('type','incoming')
-        ->orWhere('type','dueIncoming')
-        ->orWhere('type','outgoing')
+        ->whereIn('type',['incoming','dueincoming','outgoing'])
         ->get();
         return response()->json([
             'msg' => 'Data Came',

@@ -21,5 +21,17 @@ class StockController extends Controller
                      'data' => $stock,
                 ],200);
     }
+    public function getStockList($id)
+    {
+        $purchase=Purchase::where('product_id','=',$id)
+        ->get();
+        $sell=Selling::where('product_id','=',$id)
+        ->get();
+        return response()->json([
+                     'msg' => 'Found Stock',
+                     'purchase' => $purchase,
+                     'sell' => $sell,
+                ],200);
+    }
     
 }

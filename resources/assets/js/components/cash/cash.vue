@@ -2,7 +2,7 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-            <h2>Item Profit List</h2>
+            <h2>Payment Sheet</h2>
                 <Table :columns="columns1" :data="dataCash"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
@@ -368,7 +368,8 @@
                     d.adminName=d.admin.name
                     if(d.type=='incoming' || d.type=='dueIncoming')
                     cashIn+=Math.abs(d.amount)
-                    if(d.type='outgoing')
+                    
+                    if(d.type=='outgoing')
                     cashOut+=Math.abs(d.amount)
 
                     currentCash=cashIn-cashOut
