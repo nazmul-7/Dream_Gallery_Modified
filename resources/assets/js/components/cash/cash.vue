@@ -1,11 +1,27 @@
 <template>
     <div>
         <Row>
+            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
+                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+            </Col>
             <Col class="dream-input-main" span="14" offset="1">
-            <h2>Payment Sheet</h2>
-                <Table :columns="columns1" :data="dataCash"></Table>
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem label="Type">
+                        <Select v-model="filterType" placeholder="Select Type"  filterable clearable>
+                                <Option value="debit" >Debit</Option>
+                                <Option value="credit">Credit</Option>
+                            </Select>
+                    </FormItem>
+                </Form>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="7" offset="1">
+            <h2>Total</h2>
             <p><b>Cash In</b>: {{cashIn}}</p>
             <p><b>Cash Out</b>: {{cashOut}}</p>
             <p><b>Current Cash</b>: {{currentCash}}</p>
@@ -70,6 +86,10 @@
         data () {
             return {
                 index:0,
+                search:'',
+                date:false,
+                filterDate:[],
+                filterType:[],
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -118,6 +138,37 @@
                     groupName:'',
                     
                 },
+                options2: {
+                    shortcuts: [
+                        {
+                            text: '1 week',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '1 month',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '3 months',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                return [start, end];
+                            }
+                        }
+                    ]
+                },
                 columns1: [ 
                     {
                         title: 'Admin',
@@ -147,7 +198,55 @@
             
         },
         computed: {
+            searchData()
+            {
+                if(this.filterType=="debit")
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return (data.type.toString().match('incoming') || data.type.toString().match('dueIncoming') ) &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.amount.toString().match(this.search) ||
+                     data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+                    )
 
+            
+                    }
+                    );
+
+                }
+                else if(this.filterType=="credit")
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.type.toString().match('outgoing') &&
+                    (
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.amount.toString().match(this.search) ||
+                     data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+                    )
+
+            
+                    }
+                    );
+
+                }
+                else{
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.amount.toString().match(this.search) ||
+                     data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+        
+                    }
+                );
+
+                }
+            },
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -181,6 +280,59 @@
 
         },
         methods: {
+            async getData(k)
+            {
+                if(!k[0])
+                {
+                    return
+                }
+                this.filterDate=k
+                if(k)
+                this.date=true
+                else
+                this.date=false
+
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/filterCash/${k[0]}/${k[1]}`
+
+                    })
+                var cashIn=0
+                var cashOut=0
+                var currentCash=0
+                for(let d of data.data){
+                    d.adminName=d.admin.name
+                    if(d.type=='incoming' || d.type=='dueIncoming')
+                    cashIn+=Math.abs(d.amount)
+                    
+                    if(d.type=='outgoing')
+                    cashOut+=Math.abs(d.amount)
+
+                    currentCash=cashIn-cashOut
+                    if(d.paymentFor=='customer' && d.uid)
+                    {
+                        d.customerName=d.customer.customerName
+
+                    }
+                    else if(d.paymentFor=='supplier' && d.uid)
+                    {
+                        d.supplierName=d.supplier.supplierName
+                    }
+                    
+                }
+                this.cashIn=Math.round(cashIn)
+                this.cashOut=Math.round(cashOut)
+                this.currentCash=Math.round(currentCash)
+                this.dataInvoice=data.data
+                this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+                console.log(k);
+            },
             async changedSupplier(k)
             {
                 console.log(k);

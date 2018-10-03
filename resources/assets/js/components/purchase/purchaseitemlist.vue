@@ -141,7 +141,7 @@
                     groupName:'',
                     
                 },
-                                options2: {
+                options2: {
                         shortcuts: [
                             {
                                 text: '1 week',

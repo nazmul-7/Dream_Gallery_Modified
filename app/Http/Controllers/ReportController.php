@@ -73,4 +73,19 @@ class ReportController extends Controller
        ],200);
 
     }
+    public function filterCash($from,$to)
+    {
+        $data=Paymentsheet::orderBy('id', 'desc')
+        ->with('admin')
+        ->with('customer')
+        ->with('supplier')
+        ->whereBetween('date', array($from, $to))
+        ->whereIn('type',['incoming','dueincoming','outgoing'])
+        ->get();
+
+        return response()->json([
+            'msg' => 'Data Came',
+            'data'=> $data,
+       ],200);
+    }
 }
