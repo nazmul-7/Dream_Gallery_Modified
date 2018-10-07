@@ -4,7 +4,7 @@
             <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
                 <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
             </Col>
-           <Col  class="dream-input-main" span="22" offset="1" v-if="date">
+           <Col  class="dream-input-main " span="22" offset="1" v-if="date">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -16,28 +16,21 @@
                                 <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{ supplier.supplierName }}</Option>
                             </Select>
                     </FormItem>
-                </Form>
+                    </Form>
+                     <Button @click="showEdit">Print</Button>
                 <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
+        </Col>
         </Row>
 
-      <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-           
-        </Form>
-
+      <Modal v-model="editModal" width="740">
+        <div  class="print">
+            <h2 style="text-align:center">Deams Gallery</h2>
+            <h3>Purchas List by Invoice</h3>
+            <Table :columns="columns1" :data="searchData"></Table>
         </div>
         <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
         </div>
+
     </Modal>
     <Modal v-model="deleteModal" width="360">
         <p slot="header" style="color:#f60;text-align:center">
@@ -258,6 +251,12 @@
 
         },
         methods: {
+            printTable()
+            {
+                console.log("Print")
+                window.print();
+
+            },
             async getData(k)
             {
                 if(!k[0])
@@ -406,12 +405,10 @@
                 }
                 
             },
-            showEdit (index) {
-                this.editObj.id=this.dataInvoice[index].id
-                this.editObj.invoice_id=this.dataInvoice[index].invoice_id
-                this.editObj.product_id=this.dataInvoice[index].product_id
-                this.UpdateValue.indexNumber=index
+            async showEdit (index) {
                 this.editModal=true
+                await new Promise(resolve => setTimeout(resolve, 500));
+                this.printTable();
             },
             showRemove (index) {
                 this.UpdateValue.id=this.dataInvoice[index].id
@@ -528,4 +525,20 @@
         text-align: center;
         font-size: 12px;
     }
+        @media print {
+    body * {
+        visibility: hidden;
+    }
+    .print, .print * {
+        visibility: visible;
+    }
+    .print {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    }
+    .hidden {
+display: none;
+}
 </style>

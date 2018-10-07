@@ -361,4 +361,5 @@
         vertical-align: middle;
         font-size: 22px;
     }
+
 </style>
