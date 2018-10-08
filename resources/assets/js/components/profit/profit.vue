@@ -35,17 +35,18 @@
             <p><b>Total Net Profit</b>: {{netProfit}}</p>
             </Col> -->
         </Row>
-        <Modal v-model="editModal" width="740" top="20px">
-        <div  class="print">
-            <h2 style="text-align:center">Dreams Gallery</h2>
-            <h3>ProfitList</h3>
-            <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
-            <Table :columns="columns1" :data="searchData"></Table>
-        </div>
-        <div slot="footer">
-        </div>
+        <Modal v-model="editModal" width="740" style="margin-top:20px;" >
+            <div  class="print">
+                <h2 style="text-align:center">Dreams Gallery</h2>
+                <h3>Profit List</h3>
+                <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
+                <Table :columns="columns1" :data="searchData"></Table>
+            </div>
+            <div slot="footer">
+                
+            </div>
 
-    </Modal>
+        </Modal>
 
      
     </div>
@@ -110,7 +111,7 @@
                     groupName:'',
                     
                 },
-                                options2: {
+                options2: {
                         shortcuts: [
                             {
                                 text: '1 week',

@@ -361,8 +361,10 @@
         vertical-align: middle;
         font-size: 22px;
     }
+
         @media print {
     body * {
+        
         visibility: hidden;
     }
     .print, .print * {

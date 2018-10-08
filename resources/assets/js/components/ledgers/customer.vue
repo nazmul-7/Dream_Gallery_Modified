@@ -1,31 +1,36 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="14" offset="1">
-                <h2>Balance Sheet</h2>
-                <table style="width:100%">
-                  <tr>
-                    <th>Date</th>
-                    <th>Type</th> 
-                    <th>ID</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                  </tr>
-                  <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.date}}</td>
-                    <td >{{data.type}}</td>
-                    <td>{{data.invoice_id}}</td>
-                    <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
-                    <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                    <td v-else-if="data.type ==='opening'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td >{{Math.abs(data.balance)}}</td>
-                  </tr>
+            <Col class="dream-input-main" span="14" offset="1" >
+                <left>
+                    <Button  align="left" @click="showPrint">Print</Button>
+                </left>
+                <div  class="print">
+                    <h2>Ledger Balance Sheet</h2>
+                    <table style="width:100%">
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th> 
+                        <th>ID</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                    </tr>
+                    <tr v-for="(data,i) in dataLedger" :key="i">
+                        <td >{{data.date}}</td>
+                        <td >{{data.type}}</td>
+                        <td>{{data.invoice_id}}</td>
+                        <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
+                        <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
+                        <td v-else>0</td>
+                        <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
+                        <td v-else-if="data.type ==='opening'">{{Math.abs(data.amount)}}</td>
+                        <td v-else>0</td>
+                        <td >{{Math.abs(data.balance)}}</td>
+                    </tr>
 
-                </table>
+                    </table>
+                </div>
             </Col>
 
             <Col class="dream-input-main" span="7" offset="1">
@@ -131,6 +136,12 @@
 
         },
         methods: {
+            async showPrint (index) {
+                this.editModal=true
+                await new Promise(resolve => setTimeout(resolve, 500));
+                console.log("Print")
+                window.print();
+            },
            
              showClear()
             {

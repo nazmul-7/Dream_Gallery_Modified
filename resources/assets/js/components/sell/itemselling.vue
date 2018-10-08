@@ -27,60 +27,22 @@
                             </Select>
                     </FormItem>                  
                 </Form>
+                <Button  align="left" @click="showPrint">Print</Button>
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
 
 
-      <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-           
-        </Form>
-
+        <Modal v-model="editModal" width="740" style="margin-top:20px;" >
+        <div  class="print">
+            <h2 style="text-align:center">Dreams Gallery</h2>
+            <h3>Sale List: Item Wise</h3>
+            <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
+            <Table :columns="columns1" :data="searchData"></Table>
         </div>
         <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
         </div>
-    </Modal>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Delete</span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want delete
 
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="remove">
-                <span v-if="!loading">Delete</span>
-                <span v-else>Deleting...</span>
-            </Button>
-        </div>
-    </Modal>
-     <Modal v-model="clearModel" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Clear </span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want clear invoice
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="clearForm">
-                <span v-if="!loading">Clear</span>
-                <span v-else>Loading...</span>
-            </Button>
-        </div>
     </Modal>
     </div>
 </template>
@@ -102,6 +64,7 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
+                filterDate:[],
                 dataSupplier: [],
                 currentSupplier: {
                     supplierName:'',
@@ -199,41 +162,6 @@
                         key: 'unitPrice'
                     },
 
-                    {   
-                        title: 'Action',
-                        key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showEdit(params.index)
-                                        }
-                                    }
-                                }, 'Edit'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showRemove(params.index)
-                                        }
-                                    }
-                                }, 'Delete')
-                            ]);
-                        }
-                    }
                 ],
 
                 
@@ -367,6 +295,12 @@
 
         },
         methods: {
+            async showPrint (index) {
+                this.editModal=true
+                await new Promise(resolve => setTimeout(resolve, 500));
+                console.log("Print")
+                window.print();
+            },
             async getData(k)
             {
                 if(!k[0])
