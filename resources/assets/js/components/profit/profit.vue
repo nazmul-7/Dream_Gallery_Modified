@@ -27,6 +27,7 @@
                             </Select>
                     </FormItem>                    
                 </Form>
+                <Button  align="left" @click="showPrint">Print</Button>
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <!-- <Col class="dream-input-main" span="7" offset="1">
@@ -34,6 +35,17 @@
             <p><b>Total Net Profit</b>: {{netProfit}}</p>
             </Col> -->
         </Row>
+        <Modal v-model="editModal" width="740" top="20px">
+        <div  class="print">
+            <h2 style="text-align:center">Dreams Gallery</h2>
+            <h3>ProfitList</h3>
+            <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
+            <Table :columns="columns1" :data="searchData"></Table>
+        </div>
+        <div slot="footer">
+        </div>
+
+    </Modal>
 
      
     </div>
@@ -60,6 +72,7 @@
                 totalUnitPrice:'',
                 netProfit:'',
                 dataCustomer: [],
+                filterDate: [],
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -270,6 +283,12 @@
 
         },
         methods: {
+            async showPrint (index) {
+                this.editModal=true
+                await new Promise(resolve => setTimeout(resolve, 500));
+                console.log("Print")
+                window.print();
+            },
             async getData(k)
             {
                 if(!k[0])

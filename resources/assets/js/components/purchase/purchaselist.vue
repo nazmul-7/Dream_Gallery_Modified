@@ -16,16 +16,17 @@
                                 <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{ supplier.supplierName }}</Option>
                             </Select>
                     </FormItem>
-                    </Form>
-                     <Button @click="showEdit">Print</Button>
+                </Form>
+                <Button  align="left" @click="showPrint">Print</Button>
                 <Table :columns="columns1" :data="searchData"></Table>
-        </Col>
+            </Col>
         </Row>
 
       <Modal v-model="editModal" width="740">
         <div  class="print">
-            <h2 style="text-align:center">Deams Gallery</h2>
+            <h2 style="text-align:center">Dreams Gallery</h2>
             <h3>Purchas List by Invoice</h3>
+            <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
             <Table :columns="columns1" :data="searchData"></Table>
         </div>
         <div slot="footer">
@@ -83,7 +84,9 @@
                 sending:false,
                 isCollapsed: false,
                 dataSupplier: [],
-                filterDate:[],
+                filterDate:[
+
+                ],
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -251,12 +254,7 @@
 
         },
         methods: {
-            printTable()
-            {
-                console.log("Print")
-                window.print();
 
-            },
             async getData(k)
             {
                 if(!k[0])
@@ -405,10 +403,11 @@
                 }
                 
             },
-            async showEdit (index) {
+            async showPrint (index) {
                 this.editModal=true
                 await new Promise(resolve => setTimeout(resolve, 500));
-                this.printTable();
+                console.log("Print")
+                window.print();
             },
             showRemove (index) {
                 this.UpdateValue.id=this.dataInvoice[index].id
@@ -525,20 +524,5 @@
         text-align: center;
         font-size: 12px;
     }
-        @media print {
-    body * {
-        visibility: hidden;
-    }
-    .print, .print * {
-        visibility: visible;
-    }
-    .print {
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
-    }
-    .hidden {
-display: none;
-}
+
 </style>
