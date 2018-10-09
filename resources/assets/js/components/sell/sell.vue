@@ -67,7 +67,7 @@
                         Clear
                     </Button>
 
-                    <Button type="primary" size="large" :loading="sending" @click="makeSell">
+                    <Button type="primary" size="large" :loading="sending" @click="showPrint">
                         <span v-if="!loading">Sell</span>
                         <span v-else>Loading...</span>
                     </Button>
@@ -113,7 +113,18 @@
                     
                 </Row>
             </Col>
-        </Row>
+        </Row>        
+        <Modal v-model="editModal"  :styles="{top: '5px', width:'110mm'}" >
+            <div  class="print">
+                <h2 style="text-align:center">Dreams Gallery</h2>
+                
+                <Table :columns="columns1" :data="formValue.productDetails"></Table>
+            </div>
+            <div slot="footer">
+                
+            </div>
+
+        </Modal>
     </div>
 </template>
 
@@ -126,6 +137,7 @@
                 clearModel:false,
                 loading:false,
                 sending:false,
+                editModal:false,
                 isCollapsed: false,
                 dataSearch:[],
                 dataGroup:[],
@@ -140,6 +152,18 @@
                     Outstanding:'',
 
                 },
+                                columns1: [ 
+                    {
+                        title: 'Item Name',
+                        key: 'productName'
+                    },
+
+                    {
+                        title: 'Color',
+                        key: 'color'
+                    },
+
+                ],
                 formValue: {
                      type:'purchase',
                      date:'',
@@ -193,6 +217,12 @@
 
         },
         methods: {
+            async showPrint (index) {
+                this.editModal=true
+                await new Promise(resolve => setTimeout(resolve, 500));
+                console.log("Print")
+                window.print();
+            },
             removeItem(index)
             {
                 

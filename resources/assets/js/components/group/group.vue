@@ -27,7 +27,7 @@
                                 v-model="formValue.groupName" @on-enter="groupAdd"></Input>
                             </FormItem>
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col  span="24">
                             <Button type="success" :loading="loading" @click="groupAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>

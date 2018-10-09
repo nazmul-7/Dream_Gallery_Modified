@@ -35,7 +35,7 @@
             <p><b>Total Net Profit</b>: {{netProfit}}</p>
             </Col> -->
         </Row>
-        <Modal v-model="editModal" width="740" style="margin-top:20px;" >
+        <Modal v-model="editModal" width="740" :styles="{top: '5px'}" >
             <div  class="print">
                 <h2 style="text-align:center">Dreams Gallery</h2>
                 <h3>Profit List</h3>

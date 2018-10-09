@@ -34,7 +34,7 @@
                             </FormItem>
 
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                         <Col span="24">
                             <Button type="success" :loading="loading" @click="ledgerAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
@@ -45,7 +45,7 @@
             </Col>
         </Row>
 
-      <Modal v-model="editModal" width="360">
+      <Modal v-model="editModal" width="360" :styles="{top: '20px'}">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
             <span> Edit {{UpdateValue.ledgerName}}</span>
