@@ -117,8 +117,74 @@
         <Modal v-model="editModal"  :styles="{top: '5px', width:'110mm'}" >
             <div  class="print">
                 <h2 style="text-align:center">Dreams Gallery</h2>
+                <p style="text-align:center"> 
+                    9th Floor, City Center Shopping Mall, Sylhet</br>
+                    world_first@yahoo.com</br>
+                    +88  01611-141115</br>
+                </p>
+                <hr/>
+                <p> 
+                    Cashier: Bokor Talukder</br>
+                    Invoice ID: INV1000002</br>
+                    Date: 25/01/2018 13:22</br>
+                </p>
                 
-                <Table :columns="columns1" :data="formValue.productDetails"></Table>
+                    <div id="table">
+                        <table>
+                            <tr class="tabletitle">
+                                <td class="item"><h2>SL</h2></td>
+                                <td class="item"><h2>Item</h2></td>
+                                <td class="Hours"><h2>Qty</h2></td>
+                                <td class="Rate"><h2>Sub Total</h2></td>
+                            </tr>
+
+                            <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
+                                <td class="tableitem"><p class="itemtext">{{ i }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
+                            </tr>
+
+                        
+
+
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Sub-total</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{totalPrice}}</h2></td>
+                            </tr>
+
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Discount %(-)</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{ formValue.discount}}</h2></td>
+                            </tr>
+                            <tr class="tabletitleDown">
+                                <td></td>
+                                <td class="Rate"><h2>Total</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{ formValue.total }}</h2></td>
+                            </tr>
+</hr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Cash Paid</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>$15,000.00</h2></td>
+                            </tr>
+							                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Cash Change</h2></td>
+                                <td></td>
+                                 <td class="payment"><h2>$55.00</h2></td>
+                            </tr>
+                        </table>
+                    </div><!--End Table-->
+                    <p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices. 
+                        </p>
+                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
             </div>
             <div slot="footer">
                 
@@ -509,7 +575,13 @@
     }
 </script>
 <style>
-    th, td {
+    th{
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+        text-align: left;
+    }
+    td {
         border: 1px solid black;
         border-collapse: collapse;
         padding: 5px;
@@ -541,4 +613,17 @@
         text-align: center;
         font-size: 12px;
     }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tabletitle {
+  font-size: .7em;
+  background: #EEE;
+}
+.tabletitleDown {
+  font-size: .7em;
+  background: #EEE;
+  border-bottom: 1px solid #000;
+}
 </style>
