@@ -57,6 +57,14 @@
                             <td colspan="7" style="text-align:right">Paid Amount</td>
                             <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"></InputNumber></td>
                         </tr>
+                        <tr >
+                            <td colspan="7" style="text-align:right">Cash Paid</td>
+                            <td  colspan="2"><InputNumber  :min="parseInt(formValue.total)"  v-model="formValue.cashPaid"></InputNumber></td>
+                        </tr>
+                        <tr >
+                            <td colspan="7" style="text-align:right">Change</td>
+                            <td  colspan="2"><InputNumber  v-model="formValue.cashPaid-formValue.paidAmount" disabled></InputNumber></td>
+                        </tr>
 
                     </table>
                 </Card>
@@ -67,7 +75,7 @@
                         Clear
                     </Button>
 
-                    <Button type="primary" size="large" :loading="sending" @click="showPrint">
+                    <Button type="primary" size="large" :loading="sending" @click="makeSell">
                         <span v-if="!loading">Sell</span>
                         <span v-else>Loading...</span>
                     </Button>
@@ -138,7 +146,7 @@
                                 <td class="Rate"><h2>Sub Total</h2></td>
                             </tr>
 
-                            <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
+                            <tr v-for="(item,i) in temp.productDetails" :key="i" class="service">
                                 <td class="tableitem"><p class="itemtext">{{ i }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
@@ -152,33 +160,33 @@
                                 <td></td>
                                 <td class="Rate"><h2>Sub-total</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{totalPrice}}</h2></td>
+                                <td class="payment"><h2>{{ temp.totalTotal }}</h2></td>
                             </tr>
 
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate"><h2>Discount %(-)</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{ formValue.discount}}</h2></td>
+                                <td class="payment"><h2>{{ temp.discount}}</h2></td>
                             </tr>
                             <tr class="tabletitleDown">
                                 <td></td>
                                 <td class="Rate"><h2>Total</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{ formValue.total }}</h2></td>
+                                <td class="payment"><h2>{{ temp.total }}</h2></td>
                             </tr>
-</hr>
+                            </hr>
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate"><h2>Cash Paid</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>$15,000.00</h2></td>
+                                <td class="payment"><h2>{{ temp.cashPaid }}</h2></td>
                             </tr>
-							                            <tr class="tabletitle">
+                            <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate"><h2>Cash Change</h2></td>
                                 <td></td>
-                                 <td class="payment"><h2>$55.00</h2></td>
+                                 <td class="payment"><h2>{{ temp.cashPaid-temp.paidAmount }}</h2></td>
                             </tr>
                         </table>
                     </div><!--End Table-->
@@ -187,6 +195,9 @@
                 <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
             </div>
             <div slot="footer">
+                    <Button type="primary" size="large"  @click="clearPrint">
+                        <span>Sell</span>
+                    </Button>
                 
             </div>
 
@@ -241,7 +252,11 @@
                      supplier_id: '',
                      customer_id: '',
                      reference_id: '',
-                     productDetails: []
+                     productDetails: [],
+                     cashPaid:0
+                },
+                temp:{
+
                 },
                
             }
@@ -278,6 +293,7 @@
                 for(let d of this.formValue.productDetails){
                     sum+= (parseInt(d.quantity)*parseInt(d.discountedPrice))
                 }
+                this.temp.totalTotal=sum
                 return sum
             },
 
@@ -347,7 +363,26 @@
                 this.formValue.reference_id=0
                 this.formValue.total=0
                 this.formValue.barCode=''
+                this.formValue.cashPaid=0
                 this.formValue.productDetails=[]
+
+            },
+            clearPrint()
+            {
+                console.log('clear')
+
+                this.temp.date=''
+                this.temp.discount=0
+                this.temp.paidAmount=0
+                this.temp.subTotal=0
+                this.temp.subQuantity=0
+                this.temp.supplier_id=0
+                this.temp.customer_id=0
+                this.temp.reference_id=0
+                this.temp.total=0
+                this.temp.cashPaid=0
+                this.temp.barCode=''
+                this.temp.productDetails=[]
 
             },
             dateConverter(key)
@@ -494,6 +529,7 @@
             },
             makeSell()
             {
+                this.temp=this.formValue
                 if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
                 {
                     this.i('Due Alart','This invoice will add due amount')
@@ -534,6 +570,7 @@
                     }
 
                 }
+                this.showPrint(1); 
                 this.clearForm();
                 
             },
