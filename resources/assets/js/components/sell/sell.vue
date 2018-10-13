@@ -146,7 +146,7 @@
                                 <td class="Rate"><h2>Sub Total</h2></td>
                             </tr>
 
-                            <tr v-for="(item,i) in temp.productDetails" :key="i" class="service">
+                            <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
                                 <td class="tableitem"><p class="itemtext">{{ i }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
@@ -160,33 +160,33 @@
                                 <td></td>
                                 <td class="Rate"><h2>Sub-total</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{ temp.totalTotal }}</h2></td>
+                                <td class="payment"><h2>{{ formValue.totalTotal }}</h2></td>
                             </tr>
 
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate"><h2>Discount %(-)</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{ temp.discount}}</h2></td>
+                                <td class="payment"><h2>{{ formValue.discount}}</h2></td>
                             </tr>
                             <tr class="tabletitleDown">
                                 <td></td>
                                 <td class="Rate"><h2>Total</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{ temp.total }}</h2></td>
+                                <td class="payment"><h2>{{ formValue.total }}</h2></td>
                             </tr>
                             </hr>
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate"><h2>Cash Paid</h2></td>
                                 <td></td>
-                                <td class="payment"><h2>{{ temp.cashPaid }}</h2></td>
+                                <td class="payment"><h2>{{ formValue.cashPaid }}</h2></td>
                             </tr>
                             <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate"><h2>Cash Change</h2></td>
                                 <td></td>
-                                 <td class="payment"><h2>{{ temp.cashPaid-temp.paidAmount }}</h2></td>
+                                 <td class="payment"><h2>{{ formValue.cashPaid-formValue.paidAmount }}</h2></td>
                             </tr>
                         </table>
                     </div><!--End Table-->
@@ -195,8 +195,8 @@
                 <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
             </div>
             <div slot="footer">
-                    <Button type="primary" size="large"  @click="clearPrint">
-                        <span>Sell</span>
+                    <Button type="primary" size="large"  @click="clearForm">
+                        <span>Clear and Exit</span>
                     </Button>
                 
             </div>
@@ -255,9 +255,8 @@
                      productDetails: [],
                      cashPaid:0
                 },
-                temp:{
+                temp:{},
 
-                },
                
             }
             
@@ -281,19 +280,26 @@
             totalQuantity()
             {
                 var total=0
-                for ( var i = 0; i < this.formValue.productDetails.length; i++) {
-                        total+=parseInt(this.formValue.productDetails[i].quantity)   
-                    }
-                    return total   
+                if(this.formValue.productDetails)
+                {
+                    for ( var i = 0; i < this.formValue.productDetails.length; i++) {
+                            total+=parseInt(this.formValue.productDetails[i].quantity)   
+                        }
+
+                }
+                return total   
             },
             
             totalPrice()
             {
                 let sum = 0 
-                for(let d of this.formValue.productDetails){
-                    sum+= (parseInt(d.quantity)*parseInt(d.discountedPrice))
+                if(this.formValue.productDetails)
+                {
+                    for(let d of this.formValue.productDetails){
+                        sum+= (parseInt(d.quantity)*parseInt(d.discountedPrice))
+                    }
+                    this.formValue.totalTotal=sum
                 }
-                this.temp.totalTotal=sum
                 return sum
             },
 
@@ -353,36 +359,28 @@
             {
                 console.log('clear')
 
-                this.formValue.date=''
-                this.formValue.discount=0
-                this.formValue.paidAmount=0
-                this.formValue.subTotal=0
-                this.formValue.subQuantity=0
-                this.formValue.supplier_id=0
-                this.formValue.customer_id=0
-                this.formValue.reference_id=0
-                this.formValue.total=0
-                this.formValue.barCode=''
-                this.formValue.cashPaid=0
-                this.formValue.productDetails=[]
+                this.formValue={}
+                this.editModal=false
+
+                
 
             },
             clearPrint()
             {
                 console.log('clear')
 
-                this.temp.date=''
-                this.temp.discount=0
-                this.temp.paidAmount=0
-                this.temp.subTotal=0
-                this.temp.subQuantity=0
-                this.temp.supplier_id=0
-                this.temp.customer_id=0
-                this.temp.reference_id=0
-                this.temp.total=0
-                this.temp.cashPaid=0
-                this.temp.barCode=''
-                this.temp.productDetails=[]
+                // this.temp.date=''
+                // this.temp.discount=0
+                // this.temp.paidAmount=0
+                // this.temp.subTotal=0
+                // this.temp.subQuantity=0
+                // this.temp.supplier_id=0
+                // this.temp.customer_id=0
+                // this.temp.reference_id=0
+                // this.temp.total=0
+                // this.temp.cashPaid=0
+                // this.temp.barCode=''
+                // this.temp.productDetails=[]
 
             },
             dateConverter(key)
@@ -529,7 +527,7 @@
             },
             makeSell()
             {
-                this.temp=this.formValue
+               
                 if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
                 {
                     this.i('Due Alart','This invoice will add due amount')
@@ -564,15 +562,15 @@
                         
                         this.s('Great!','Sell has been added successfully!')
                         this.loading=false
+                        this.showPrint(1);
+                        // this.temp=[...this.formValue]
+                        // this.clearForm();
                     }catch(e){
                         this.loading=false
                         this.e('Oops!','4Something went wrong, please try again!')
                     }
 
                 }
-                this.showPrint(1); 
-                this.clearForm();
-                
             },
 
         },

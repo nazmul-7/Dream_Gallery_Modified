@@ -42,6 +42,7 @@ Route::resource('/app/voucher','VoucherController');
 Route::resource('/app/purchase','PurchaseController');
 Route::resource('/app/sell','SellingController');
 Route::resource('/app/invoice','InvoiceController');
+Route::resource('/app/setting','SettingController');
 //filtered 
 Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
