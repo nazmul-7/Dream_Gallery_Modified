@@ -288,6 +288,7 @@
                     this.formValue.contact=''
                     this.formValue.email=''
                     this.formValue.zone=''
+                    this.formValue.opening=0
                 }catch(e){
                     this.loading=false
                     this.e('Oops!','Something went wrong, please try again!')

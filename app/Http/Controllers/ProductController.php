@@ -52,8 +52,8 @@ class ProductController extends Controller
         $purchase=Purchase::create([
             'admin_id' => $admin_id,
             'product_id' => $created->id,
-            'quantity' => $input['opening'],
-            'unitPrice' => -1,
+            'quantity' => $input['openingQuantity'],
+            'unitPrice' => $input['openingUnitPrice'],
 
         ]);
         $settings=Product::where('id', $created->id)->first();

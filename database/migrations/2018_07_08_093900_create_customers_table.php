@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->string('customerName');
             $table->string('address')->nullable();
-            $table->string('contact')->nullable();
+            $table->string('contact')->unique();
             $table->string('email')->nullable();
             $table->string('zone')->nullable();
             $table->string('opening')->nullable()->default(0);
