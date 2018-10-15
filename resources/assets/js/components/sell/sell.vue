@@ -124,7 +124,7 @@
         </Row>        
         <Modal v-model="editModal"  :styles="{top: '5px', width:'110mm'}" >
             <div  class="print">
-                <h2 style="text-align:center">Dreams Gallery</h2>
+                <h2 style="text-align:center">{{ shopData[0].companyName }}</h2>
                 <p style="text-align:center"> 
                     9th Floor, City Center Shopping Mall, Sylhet</br>
                     world_first@yahoo.com</br>
@@ -219,6 +219,7 @@
                 dataSearch:[],
                 dataGroup:[],
                 dataCustomer:[],
+                shopData:[],
                 dataInvoice: 
                 [],
                 currentCustomer:{
@@ -262,6 +263,7 @@
             
         },
         computed: {
+            
 
             rotateIcon () {
                 return [
@@ -602,6 +604,19 @@
 
             }catch(e){
                 this.e('Oops!','6Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/setting'
+                })
+                this.shopData=data
+                this.logo=data.companyLogo
+            this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
 

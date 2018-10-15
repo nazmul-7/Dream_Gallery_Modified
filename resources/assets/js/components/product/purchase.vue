@@ -89,7 +89,7 @@
                                 <br>
                                 <Row>
                                     <Col span="22">
-                                        <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                        <DatePicker type="datetime" v-model="currentSupplier.date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                     </Col>
                                 </Row>
                             </FormItem >
@@ -99,7 +99,7 @@
                 </Form>
                 <Col v-if="currentSupplier.supplierName" >
                     <h2>Supplier Info</h2>
-                    <h3>Supplier Name: {{currentSupplier.supplierName}}</h3>
+                    <h3>Supplier Name: {{ currentSupplier.supplierName}}</h3>
                     <h3>Number: {{currentSupplier.number}}</h3>
                     <h3>Email: {{currentSupplier.email}}</h3>
                     <h3>Address: {{currentSupplier.address}}</h3>
@@ -364,6 +364,7 @@
                 this.formValue.supplier_id=''
                 this.formValue.productDetails.splice(0,this.formValue.productDetails.length)
                 this.clearModel=false
+                this.currentSupplier={}
 
             },
             dateConverter(key)
@@ -401,7 +402,10 @@
                     })
                     if(data)
                     this.formValue.productDetails.push(data)
+                    else
+                    this.e('Oops!','No Data Found')
                     this.lf();
+                    this.formValue.barCode=''
 
                 }catch(e){
                     this.e('Oops!','Something went wrong, please try again!')

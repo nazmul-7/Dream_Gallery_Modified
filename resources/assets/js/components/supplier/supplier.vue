@@ -243,6 +243,7 @@
                         data: this.formValue
                     })
                     this.dataSupplier.unshift(data)
+                    this.formValue={}
                     this.s('Great!','Category has been added successfully!')
                     this.loading=false
                 }catch(e){
