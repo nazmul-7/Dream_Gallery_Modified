@@ -124,7 +124,7 @@
         </Row>        
         <Modal v-model="editModal"  :styles="{top: '5px', width:'110mm'}" >
             <div  class="print">
-                <h2 style="text-align:center">{{ shopData[0].companyName }}</h2>
+                <h2 style="text-align:center">{{ shopData.companyName }}</h2>
                 <p style="text-align:center"> 
                     9th Floor, City Center Shopping Mall, Sylhet</br>
                     world_first@yahoo.com</br>
@@ -147,7 +147,7 @@
                             </tr>
 
                             <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
-                                <td class="tableitem"><p class="itemtext">{{ i }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
@@ -362,6 +362,12 @@
                 console.log('clear')
 
                 this.formValue={}
+                this.formValue.discount=0
+                this.formValue.paidAmount=0.00
+                this.formValue.subTotal=0
+                this.formValue.subQuantity=0
+                this.formValue.total=0.00
+                this.formValue.cashPaid=0
                 this.editModal=false
 
                 
