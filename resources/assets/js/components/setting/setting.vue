@@ -39,8 +39,8 @@
 
 
                         <Col span="24">
-                            <FormItem label="Coumpany Discription">
-                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Coumpany Discription" v-model="formValue.companyInfo"></Input>
+                            <FormItem label="Invoice Note">
+                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder=" Discription" v-model="formValue.invoiceNote"></Input>
                             </FormItem>
                         </Col>
                         <Col span="24">
@@ -120,7 +120,7 @@
                         value: '-----'
                     },
                     {
-                        name: 'Company Discription',
+                        name: 'Invoice Note',
                         value: '-----'
                     },
                     {
@@ -182,7 +182,7 @@
                         data: this.formValue
                     })
                     this.data1[0].value=this.formValue.companyName
-                    this.data1[1].value=this.formValue.companyInfo
+                    this.data1[1].value=this.formValue.invoiceNote
                     this.data1[2].value=this.formValue.currencyType
                     this.data1[3].value=this.formValue.referenceBonus
                     this.data1[4].value=this.formValue.refererBonus

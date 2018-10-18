@@ -582,9 +582,6 @@
             },
 
         },
-
-
-
         async created()
         {
             this.ls();
@@ -621,7 +618,18 @@
                 this.logo=data.companyLogo
             this.lf();
 
-            }ca2
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+
+        }
+
+    }
+</script>
+<style>
+    th{
+        border: 1px solid black;
         border-collapse: collapse;
         padding: 5px;
         text-align: left;
