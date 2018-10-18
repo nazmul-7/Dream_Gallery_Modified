@@ -20,7 +20,9 @@ class CreateSettingsTable extends Migration
             $table->string('refererBonus')->nullable()->default(0);
             $table->string('companyName')->nullable();
             $table->string('companyLogo')->nullable();
-            $table->text('companyInfo')->nullable();
+            $table->string('contact')->nullable();
+            $table->text('address')->nullable();
+            $table->text('invoiceNote')->nullable();
 
 
             $table->timestamps();

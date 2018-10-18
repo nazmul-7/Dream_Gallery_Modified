@@ -5,10 +5,16 @@
                 <Form >
 
                     <Row :gutter="16">
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem label="Company Name" >
                                 <Input type="text" placeholder="Company Name" 
                                 v-model="formValue.companyName"></Input>
+                            </FormItem>
+                        </Col>
+                        
+                         <Col span="12">
+                            <FormItem label="Contact" >
+                                <Input type="text" placeholder="Contact Number" v-model="formValue.contact"></Input>
                             </FormItem>
                         </Col>
                         <Col span="12">
@@ -23,18 +29,26 @@
                             </FormItem>
                         </Col>
 
+
+
                          <Col span="12">
                             <FormItem label="Referer Bonus" >
                                 <Input type="text" placeholder="Bonus Amount" v-model="formValue.refererBonus"></Input>
                             </FormItem>
                         </Col>
-                        
+
+
                         <Col span="24">
                             <FormItem label="Coumpany Discription">
                                 <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Coumpany Discription" v-model="formValue.companyInfo"></Input>
                             </FormItem>
                         </Col>
-                         <Col class="dream-input-main-button" span="24">
+                        <Col span="24">
+                            <FormItem label="Adress">
+                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Adderss" v-model="formValue.address"></Input>
+                            </FormItem>
+                        </Col>
+                        <Col class="dream-input-main-button" span="24">
                             <Button type="success" :loading="loading" @click="settingSave">
                                 <span v-if="!loading">Update</span>
                                 <span v-else>Loading...</span>

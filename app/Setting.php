@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
 	protected $fillable = [
-        'companyName','companyLogo','companyInfo','currencyType', 'refererBonus' , 'referenceBonus'
+        'companyName','companyLogo','invoiceNote','currencyType', 'refererBonus' , 'referenceBonus','contact', 'address'
     ];
 }

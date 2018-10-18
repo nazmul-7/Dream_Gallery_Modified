@@ -621,18 +621,7 @@
                 this.logo=data.companyLogo
             this.lf();
 
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
-
-        }
-
-    }
-</script>
-<style>
-    th{
-        border: 1px solid black;
+            }ca2
         border-collapse: collapse;
         padding: 5px;
         text-align: left;
