@@ -32,6 +32,7 @@ class PaymentController extends Controller
         ->whereIn('type',['due','opening','dueincoming'])
         ->sum('amount');
         $ledger=Paymentsheet::where('uid',$id)
+        ->with('customer')
         ->where('paymentFor','customer')
         ->whereIn('type',['due','opening','dueincoming'])
         ->get();

@@ -187,7 +187,7 @@
                     this.data1[3].value=this.formValue.referenceBonus
                     this.data1[4].value=this.formValue.refererBonus
 
-                    this.s('Great!','Address information has been added successfully!')
+                    this.s('Great!','Settings information has been added successfully!')
                     
                     this.loading=false
                 }catch(e){

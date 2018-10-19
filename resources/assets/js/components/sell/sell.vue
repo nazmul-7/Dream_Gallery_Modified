@@ -22,7 +22,7 @@
                             <th>Unit Price</th>
                             <th>Stock</th>
                             <th>Quantity</th>
-                            <th>Price</th>
+                            <th>Total</th>
                             <th>Action</th>
 
                         </tr>
@@ -46,24 +46,24 @@
                             
                         </tr>
                         <tr >
-                            <td colspan="7" style="text-align:right">Discount</td>
+                            <td colspan="7" style="text-align:right">Discount %(-)</td>
                             <td  colspan="2"><InputNumber   :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
                         </tr>
                         <tr >
-                            <td colspan="7" style="text-align:right">Total</td>
+                            <td colspan="7" style="text-align:right">Net Payable</td>
                             <td  colspan="2"><InputNumber   :min="0" :max="parseInt(formValue.subTotal)" @on-change="total" v-model="formValue.total"></InputNumber ></td>
                         </tr>
                         <tr >
                             <td colspan="7" style="text-align:right">Paid Amount</td>
-                            <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"></InputNumber></td>
+                            <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"  @on-change="paidAmountChange"></InputNumber></td>
                         </tr>
                         <tr >
                             <td colspan="7" style="text-align:right">Cash Paid</td>
-                            <td  colspan="2"><InputNumber  :min="parseInt(formValue.total)"  v-model="formValue.cashPaid"></InputNumber></td>
+                            <td  colspan="2"><InputNumber  :min="parseInt(formValue.paidAmount)"  v-model="formValue.cashPaid"></InputNumber></td>
                         </tr>
                         <tr >
-                            <td colspan="7" style="text-align:right">Change</td>
-                            <td  colspan="2"><InputNumber  v-model="formValue.cashPaid-formValue.paidAmount" disabled></InputNumber></td>
+                            <td colspan="7" style="text-align:right">Change Amount</td>
+                            <td  colspan="2">{{ changeAmount }}</td>
                         </tr>
 
                     </table>
@@ -126,13 +126,13 @@
             <div  class="print">
                 <h2 style="text-align:center">{{ shopData.companyName }}</h2>
                 <p style="text-align:center"> 
-                    9th Floor, City Center Shopping Mall, Sylhet</br>
+                    {{ shopData.address }}</br>
                     world_first@yahoo.com</br>
-                    +88  01611-141115</br>
+                    {{ shopData.contact }}</br>
                 </p>
                 <hr/>
                 <p> 
-                    Cashier: Bokor Talukder</br>
+                    Sold by Bokor Talukder</br>
                     Invoice ID: INV1000002</br>
                     Date: 25/01/2018 13:22</br>
                 </p>
@@ -190,8 +190,9 @@
                             </tr>
                         </table>
                     </div><!--End Table-->
-                    <p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices. 
-                        </p>
+                    <p class="legal"> 
+                        {{ shopData.invoiceNote }}
+                    </p>
                 <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
             </div>
             <div slot="footer">
@@ -238,7 +239,7 @@
 
                     {
                         title: 'Color',
-                        key: 'color'
+                        key: 'color',
                     },
 
                 ],
@@ -263,7 +264,14 @@
             
         },
         computed: {
-            
+            changeAmount()
+            {
+                if(this.formValue.cashPaid>0)
+                    return this.formValue.cashPaid-this.formValue.paidAmount
+                else
+                    return 0
+
+            },
 
             rotateIcon () {
                 return [
@@ -307,6 +315,11 @@
 
         },
         methods: {
+            paidAmountChange()
+            {
+                this.formValue.cashPaid=this.formValue.paidAmount
+
+            },
             async showPrint (index) {
                 this.editModal=true
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -330,6 +343,7 @@
                 this.formValue.total=parseFloat(totalPrice)
                 this.formValue.paidAmount=parseFloat(totalPrice)
                 this.formValue.subTotal=parseFloat(totalPrice)
+                this.paidAmountChange()
 
   
             },
@@ -344,7 +358,8 @@
                 
                 this.formValue.total=afterDiscount
                 this.formValue.paidAmount=afterDiscount
-            },
+                this.paidAmountChange()
+        },
             total(){
                 var totalOld = this.formValue.subTotal
                 var discountAmount = totalOld - this.formValue.total
@@ -352,6 +367,7 @@
                 discount= Math.round(discount).toFixed(2)
                 this.formValue.discount=discount
                 this.formValue.paidAmount=this.formValue.total
+                this.paidAmountChange()
             },
             showClear()
             {
@@ -409,13 +425,25 @@
                 })
                 this.setCustomer(this.formValue.customer_id)
                 this.currentCustomer.outStanding=Math.abs(data.outStanding)
+                if(data.ledger[0].customer.barcode)
+                {
+                    console.log(data.ledger[0])
+                    this.formValue.discount=10
+
+                }
+                else
+                {
+                    console.log(data.ledger[0])
+
+                    this.formValue.discount=0
+                }
 
                 this.lf();
                 }catch(e){
-                    this.e('Oops!','2Something went wrong, please try again!')
+                    this.e('Oops!','Something went wrong, please try again!')
                 this.le();
                 }
-                this.formValue.discount=10
+
                 this.discount()
 
 
@@ -430,7 +458,6 @@
                     method: 'get',
                     url:`/app/payment/getOutstandingCustomer/${this.formValue.reference_id}`
                 })
-                this.setCustomer(this.formValue.reference_id)
                 this.currentCustomer.outStanding=Math.abs(data.outStanding)
 
                 this.lf();
@@ -438,6 +465,7 @@
                     this.e('Oops!','2Something went wrong, please try again!')
                 this.le();
                 }
+                if(this.formValue.discount<10)
                 this.formValue.discount=5
                 this.discount()
 
@@ -453,6 +481,7 @@
                         this.currentCustomer.number=this.dataCustomer[i].contact
                         this.currentCustomer.address=this.dataCustomer[i].address
                         this.currentCustomer.email=this.dataCustomer[i].email
+                        this.currentCustomer.barcode=this.dataCustomer[i].barcode
                     }
                     i++;
                 }

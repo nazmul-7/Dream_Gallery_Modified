@@ -86,13 +86,6 @@
                         </FormItem >
                     </Col>
                     <Col span="12">
-                        <FormItem  label="Price">
-                            <br/>
-                            <InputNumber placeholder="Selling Price" v-model="formValue.sellingPrice">
-                            </InputNumber>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
                         <FormItem  label="Opening Quantity">
                             <br/>
                             <InputNumber placeholder="Opening Quantity" v-model="formValue.openingQuantity">
@@ -106,7 +99,14 @@
                             </InputNumber>
                         </FormItem >
                     </Col>
-                    <Col span="24">
+                    <Col span="12">
+                        <FormItem  label="Price">
+                            <br/>
+                            <InputNumber placeholder="Selling Price" v-model="formValue.sellingPrice">
+                            </InputNumber>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
                         <FormItem  label="Image">
                         </FormItem >
                     </Col>

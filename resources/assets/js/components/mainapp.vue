@@ -66,7 +66,7 @@
                         </MenuItem>
                         <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">
                             <Icon type="ios-alert"></Icon>
-                            <span>Purchas</span>              
+                            <span>Purchase</span>              
                         </MenuItem>
                         <MenuItem name="returnproduct" :to="handleGoToMenu('/returnproduct')">
                             <Icon type="ios-alert"></Icon>
@@ -74,11 +74,11 @@
                         </MenuItem>
                         <MenuItem name="cashcollection" :to="handleGoToMenu('/cashcollection')">
                             <Icon type="ios-alert"></Icon>
-                            <span>Cash Collection</span>              
+                            <span>Collection</span>              
                         </MenuItem>
                         <MenuItem name="paytosupplier" :to="handleGoToMenu('/paytosupplier')">
                             <Icon type="ios-alert"></Icon>
-                            <span>Purchase Payment</span>              
+                            <span>Payment</span>              
                         </MenuItem>
                         <MenuItem name="voucher" :to="handleGoToMenu('/voucher')">
                             <Icon type="ios-alert"></Icon>

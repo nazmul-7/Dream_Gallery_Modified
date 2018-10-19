@@ -16,8 +16,8 @@
 
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem  label="SupplierName Name">
-                                <Input type="text" placeholder="SupplierName Name" 
+                            <FormItem  label="Supplier Name">
+                                <Input type="text" placeholder="Supplier Name" 
                                 v-model="formValue.supplierName" @on-enter="supplierAdd"></Input>
                             </FormItem >
                             <FormItem  label="Contact Number">
@@ -33,7 +33,7 @@
                             </FormItem>
                             <FormItem  label="Opening Balance">
                                 <Input type="text" placeholder="Amount" 
-                                v-model="formValue.opening"  @on-enter="customerAdd"></Input>
+                                v-model="formValue.opening"  @on-enter="supplierAdd"></Input>
                             </FormItem >
                             
                         </Col>
@@ -136,20 +136,16 @@
                         key: 'supplierName'
                     },
                     {
-                        title: 'Balance',
-                        key: 'balance'
-                    },
-                    {
                         title: 'Contact Number',
                         key: 'contact'
                     },
                     {
-                        title: 'Email',
-                        key: 'email'
-                    },
-                    {
                         title: 'Address',
                         key: 'address'
+                    },
+                    {
+                        title: 'Opening Balance',
+                        key: 'opening'
                     },
 
                     {   

@@ -71,10 +71,16 @@
         <div>
             <Form>
                 <Row :gutter="24">
-                    <Col span="24">
+                    <Col span="12">
                         <FormItem  label="Customer Name">
                             <Input type="text" placeholder="Customer Name" 
                             v-model="editObj.customerName"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="12">
+                        <FormItem  label="Membership Code">
+                            <Input type="text" placeholder="Membership Code" 
+                            v-model="editObj.barcode"></Input>
                         </FormItem >
                     </Col>
                     <Col span="12">
@@ -171,7 +177,8 @@
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        width: 250,
                     },
                     {
                         title: 'Contact',
@@ -182,8 +189,8 @@
                         key: 'zone'
                     },
                     {
-                        title: 'Email',
-                        key: 'email'
+                        title: 'Opening',
+                        key: 'opening'
                     },
                     {   
                         title: 'Action',
@@ -245,9 +252,8 @@
                 return this.dataCustomer.filter((data)=>{                    
                     return data.customerName.toUpperCase().match(this.search.toUpperCase()) 
                     || data.address.toUpperCase().match(this.search.toUpperCase())
-                    || data.contact.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.contact.toString().match(this.search.toString()) 
                     || data.zone.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.email.toUpperCase().match(this.search.toUpperCase()) 
                     ;
                     }
                 );
@@ -301,6 +307,7 @@
                 this.editObj.contact=this.dataCustomer[index].contact
                 this.editObj.email=this.dataCustomer[index].email
                 this.editObj.zone=this.dataCustomer[index].zone
+                this.editObj.barcode=this.dataCustomer[index].barcode
                 this.UpdateValue.customerName=this.dataCustomer[index].customerName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
