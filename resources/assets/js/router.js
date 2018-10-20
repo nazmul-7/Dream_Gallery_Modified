@@ -29,7 +29,8 @@ import paymentlist from './components/payment/paymentlist.vue'
 import cash from './components/cash/cash.vue'
 import customerledger from './components/ledgers/customer.vue'
 import supplierledger from './components/ledgers/supplier.vue'
-
+let onlyAdmin = ['Adminasdas']
+let adminAndSale = ['Admin', 'Sale']
 Vue.use(Router)
 export default new Router({
 	  mode: 'history',
@@ -38,142 +39,175 @@ export default new Router({
 	    {
 	      path: '/login',
 	      name: 'login',
-	      component: login
-	    },
+				component: login,
+				meta: {
+					allowed: onlyAdmin
+				}
+				
+				
+			},
+			
+
 	    {
 	      path: '/',
 	      name: 'home',
-	      component: home
+				component: home,
+				meta: {
+					allowed: onlyAdmin
+				}
+				
+
 	    },
 	    {
 	      path: '/setting',
 	      name: 'setting',
-	      component: setting
+				component: setting,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
     	{
 	      path: '/group',
 	      name: 'group',
-	      component: group
+				component: group,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
     	{
 	      path: '/category',
 	      name: 'category',
-	      component: category
+				component: category,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
     	{
 	      path: '/unit',
 	      name: 'unit',
-	      component: unit
+				component: unit,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
     	{
 	      path: '/product',
 	      name: 'product',
-	      component: product
+				component: product,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
     	{
 	      path: '/supplier',
 	      name: 'supplier',
-	      component: supplier
+				component: supplier,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
     	{
 	      path: '/customer',
 	      name: 'customer',
-	      component: customer
+				component: customer,
+				meta: {
+					allowed: onlyAdmin
+				}
 	    },
-    	{
-	      path: '/zone',
-	      name: 'zone',
-	      component: zone
-	    },
-    	{
-	      path: '/voucher',
-	      name: 'voucher',
-	      component: voucher
-	    },
-    	{
-	      path: '/ledgerhead',
-	      name: 'ledgerhead',
-	      component: ledgerhead
-	    },
-    	{
-	      path: '/purchase',
-	      name: 'purchase',
-	      component: purchase
-			},
-    	{
-	      path: '/stock',
-	      name: 'stock',
-	      component: stock
-			},
-			{
-	      path: '/sell',
-	      name: 'sell',
-	      component: sell
-	    },
-    	{
-	      path: '/paytosupplier',
-	      name: 'paytosupplier',
-	      component: paytosupplier
-			},
-			{
-	      path: '/cashcollection',
-	      name: 'cashcollection',
-	      component: cashcollection
-			},
-			{
-	      path: '/returnproduct',
-	      name: 'returnproduct',
-	      component: returnproduct
-			},
-			{
-	      path: '/order',
-	      name: 'order',
-	      component: order
-			},
-			{
-	      path: '/selllist',
-	      name: 'selllist',
-	      component: selllist
-			},
-			{
-	      path: '/itemselling',
-	      name: 'itemselling',
-	      component: itemselling
-			},
-			{
-	      path: '/purchaselist',
-	      name: 'purchaselist',
-	      component: purchaselist
-			},
-			{
-	      path: '/purchaseitemlist',
-	      name: 'purchaseitemlist',
-	      component: purchaseitemlist
-			},
-			{
-	      path: '/profit',
-	      name: 'profit',
-	      component: profit
-			},
-			{
-	      path: '/paymentlist',
-	      name: 'paymentlist',
-	      component: paymentlist
-			},
-			{
-	      path: '/cash',
-	      name: 'cash',
-	      component: cash
-	    },
-			{
-	      path: '/customerledger',
-	      name: 'customerledger',
-	      component: customerledger
-			},
-			{
-	      path: '/supplierledger',
-	      name: 'supplierledger',
-	      component: supplierledger
-	    },
+    	// {
+	    //   path: '/zone',
+	    //   name: 'zone',
+	    //   component: zone
+	    // },
+    	// {
+	    //   path: '/voucher',
+	    //   name: 'voucher',
+	    //   component: voucher
+	    // },
+    	// {
+	    //   path: '/ledgerhead',
+	    //   name: 'ledgerhead',
+	    //   component: ledgerhead
+	    // },
+    	// {
+	    //   path: '/purchase',
+	    //   name: 'purchase',
+	    //   component: purchase
+			// },
+    	// {
+	    //   path: '/stock',
+	    //   name: 'stock',
+	    //   component: stock
+			// },
+			// {
+	    //   path: '/sell',
+	    //   name: 'sell',
+	    //   component: sell
+	    // },
+    	// {
+	    //   path: '/paytosupplier',
+	    //   name: 'paytosupplier',
+	    //   component: paytosupplier
+			// },
+			// {
+	    //   path: '/cashcollection',
+	    //   name: 'cashcollection',
+	    //   component: cashcollection
+			// },
+			// {
+	    //   path: '/returnproduct',
+	    //   name: 'returnproduct',
+	    //   component: returnproduct
+			// },
+			// {
+	    //   path: '/order',
+	    //   name: 'order',
+	    //   component: order
+			// },
+			// {
+	    //   path: '/selllist',
+	    //   name: 'selllist',
+	    //   component: selllist
+			// },
+			// {
+	    //   path: '/itemselling',
+	    //   name: 'itemselling',
+	    //   component: itemselling
+			// },
+			// {
+	    //   path: '/purchaselist',
+	    //   name: 'purchaselist',
+	    //   component: purchaselist
+			// },
+			// {
+	    //   path: '/purchaseitemlist',
+	    //   name: 'purchaseitemlist',
+	    //   component: purchaseitemlist
+			// },
+			// {
+	    //   path: '/profit',
+	    //   name: 'profit',
+	    //   component: profit
+			// },
+			// {
+	    //   path: '/paymentlist',
+	    //   name: 'paymentlist',
+	    //   component: paymentlist
+			// },
+			// {
+	    //   path: '/cash',
+	    //   name: 'cash',
+	    //   component: cash
+	    // },
+			// {
+	    //   path: '/customerledger',
+	    //   name: 'customerledger',
+	    //   component: customerledger
+			// },
+			// {
+	    //   path: '/supplierledger',
+	    //   name: 'supplierledger',
+	    //   component: supplierledger
+	    // },
 		]
 })

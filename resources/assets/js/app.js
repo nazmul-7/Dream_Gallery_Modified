@@ -27,9 +27,29 @@ require('es6-object-assign').polyfill();
 
 // common methods 
 
+
 /*custom common methods*/
 import common from './common';
 Vue.mixin(common);
+
+let userType = window.authUser.userType
+console.log(authUser.userType)
+
+router.beforeEach((to, from, next) => {
+	//document.title=to.meta.title
+   
+    if(to.meta){
+        let allowed = to.meta.allowed
+        for(let a of allowed){
+            if(a!=userType){
+                return
+            }
+        }
+    }
+    
+    next();
+  
+  });
 
 
 Vue.component('mainapp', require('./components/mainapp.vue'));

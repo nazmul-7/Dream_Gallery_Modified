@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 
@@ -80,12 +80,12 @@ Route::get('/app/getStockList/{id}','StockController@getStockList');
 
 Route::get('/logout', function () {
 	Auth::logout();
-   Session::flush();
+    Session::flush();
 	Session::forget('url.intented');
-	return redirect("/");
+	return redirect("/login");
     
 });
 Auth::routes();
 Route::any('{slug}', [
    'uses' => 'StatusController@index',
-])->where('slug', '([A-z\d-\/_.]+)?');
+])->where('slug', '([A-z\d-\/_.]+)?')->middleware('auth');
