@@ -128,7 +128,7 @@
                         value: '-----'
                     },
                     {
-                        name: 'Account Opening Balance',
+                        name: 'Referer Bonus',
                         value: '-----'
                     },
                     {
@@ -207,7 +207,7 @@
                 })
                 this.formValue=data
                 this.data1[0].value=data.companyName
-                this.data1[1].value=data.companyInfo
+                this.data1[1].value=data.invoiceNote
                 this.data1[2].value=data.currencyType
                 this.data1[3].value=data.referenceBonus
                 this.data1[4].value=data.refererBonus

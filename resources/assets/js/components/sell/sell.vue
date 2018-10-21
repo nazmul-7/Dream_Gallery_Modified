@@ -466,7 +466,7 @@
                 this.le();
                 }
                 if(this.formValue.discount<10)
-                this.formValue.discount=5
+                this.formValue.discount=this.shopData.refererBonus
                 this.discount()
 
 
