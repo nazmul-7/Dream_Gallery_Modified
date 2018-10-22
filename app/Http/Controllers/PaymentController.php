@@ -8,6 +8,7 @@ use App\Purchase;
 use App\Invoice;
 use App\Payment;
 use App\Selling;
+use App\Bonus;
 use Auth;
 class PaymentController extends Controller
 {
@@ -28,18 +29,21 @@ class PaymentController extends Controller
     public function getOutstandingCustomer($id)
     {
         $outStanding=Paymentsheet::where('uid',$id)
-        ->where('paymentFor','customer')
-        ->whereIn('type',['due','opening','dueincoming'])
-        ->sum('amount');
+            ->where('paymentFor','customer')
+            ->whereIn('type',['due','opening','dueincoming'])
+            ->sum('amount');
         $ledger=Paymentsheet::where('uid',$id)
-        ->with('customer')
-        ->where('paymentFor','customer')
-        ->whereIn('type',['due','opening','dueincoming'])
-        ->get();
+            ->with('customer')
+            ->where('paymentFor','customer')
+            ->whereIn('type',['due','opening','dueincoming'])
+            ->get();
+        $bonus=Bonus::where('user_id',$id)
+            ->sum('amount');
         return response()->json([
             'msg' => 'Found',
             'outStanding'=> $outStanding,
             'ledger'=> $ledger,
+            'bonus'=> $bonus,
        ],200);
     }
     public function paymentSupplier(Request $request)

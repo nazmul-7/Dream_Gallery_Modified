@@ -6,8 +6,15 @@
                 <Col span="24" >
                     <Card>
                         <p>Product Code</p>
-                            <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                            v-model="formValue.barCode"></Input>  
+                            <Row>
+                                    <Col span="17">
+                                        <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                                        v-model="formValue.barCode"></Input>  
+                                    </Col>
+                                    <Col span="5" offset="1">
+                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                    </Col>
+                                </Row>
                     </Card>
                 </Col>
             <Col span="24">
@@ -87,13 +94,25 @@
                     <Form>
                         <Col span="22" offset="1">
                             <FormItem label="Customer">
-                                <Select v-model="formValue.customer_id" placeholder="Customer"  :remote-method="changedCustomer" filterable clearable>
+                                <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
                                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
+                        <Col span="11" offset="1" v-if="currentCustomer.status">
+                            <FormItem label="Bonus Amount">
+                                <br/>
+                                <InputNumber   v-model="currentCustomer.bonusAmount"></InputNumber >
+                            </FormItem>
+                        </Col>
+                        <Col span="11" offset="1" v-if="currentCustomer.status">
+                            <FormItem label="Bonus Amount">
+                                <br/>
+                                <InputNumber   v-model="formValue.bonusAmount"></InputNumber >
+                            </FormItem>
+                        </Col>
                         <Col span="22" offset="1">
-                            <FormItem  label="Buying Date">
+                            <FormItem placeholder="Company Name"   label="Buying Date">
                                 <br>
                                 <Row>
                                     <Col span="22">
@@ -104,7 +123,7 @@
                         </Col>
                         <Col span="22" offset="1">
                             <FormItem label="Reference">
-                                <Select v-model="formValue.reference_id" placeholder="Number" :remote-method="changedReference" filterable>
+                                <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable>
                                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
@@ -229,6 +248,9 @@
                     email:'',
                     address:'',
                     Outstanding:'',
+                    bonusAmount:null,
+                    status:false
+
 
                 },
                                 columns1: [ 
@@ -255,7 +277,8 @@
                      customer_id: '',
                      reference_id: '',
                      productDetails: [],
-                     cashPaid:0
+                     cashPaid:0,
+                     bonusAmount:null
                 },
                 temp:{},
 
@@ -429,13 +452,15 @@
                 {
                     console.log(data.ledger[0])
                     this.formValue.discount=10
+                    this.currentCustomer.bonusAmount=data.bonus
+                    this.currentCustomer.status=true
 
                 }
                 else
                 {
                     console.log(data.ledger[0])
-
                     this.formValue.discount=0
+                    this.currentCustomer.status=false
                 }
 
                 this.lf();
