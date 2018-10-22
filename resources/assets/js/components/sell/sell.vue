@@ -108,7 +108,7 @@
                         <Col span="11" offset="1" v-if="currentCustomer.status">
                             <FormItem label="Useing Bonus Amount">
                                 <br/>
-                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.status), parseInt(formValue.total))" @on-change="bonusChange"></InputNumber >
+                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.total))" @on-change="bonusChange"></InputNumber >
                             </FormItem>
                         </Col>
                         <Col span="22" offset="1">
