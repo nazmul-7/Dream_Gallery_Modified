@@ -99,16 +99,16 @@
                                 </Select>
                             </FormItem>
                         </Col>
-                        <Col span="11" offset="1" v-if="currentCustomer.status">
-                            <FormItem label="Bonus Amount">
+                        <Col span="11" offset="1" v-if="currentCustomer.status" disabled>
+                            <FormItem label="Total Bonus Amount">
                                 <br/>
-                                <InputNumber   v-model="currentCustomer.bonusAmount"></InputNumber >
+                                <InputNumber   v-model="currentCustomer.bonusAmount" ></InputNumber >
                             </FormItem>
                         </Col>
                         <Col span="11" offset="1" v-if="currentCustomer.status">
-                            <FormItem label="Bonus Amount">
+                            <FormItem label="Useing Bonus Amount">
                                 <br/>
-                                <InputNumber   v-model="formValue.bonusAmount"></InputNumber >
+                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.status), parseInt(formValue.total))" @on-change="bonusChange"></InputNumber >
                             </FormItem>
                         </Col>
                         <Col span="22" offset="1">
@@ -253,7 +253,7 @@
 
 
                 },
-                                columns1: [ 
+                columns1: [ 
                     {
                         title: 'Item Name',
                         key: 'productName'
@@ -287,6 +287,7 @@
             
         },
         computed: {
+
             changeAmount()
             {
                 if(this.formValue.cashPaid>0)
@@ -338,6 +339,12 @@
 
         },
         methods: {
+            bonusChange()
+            {
+                this.formValue.total=this.formValue.total-this.formValue.bonusAmount
+                this.quantityChange()
+
+            },
             paidAmountChange()
             {
                 this.formValue.cashPaid=this.formValue.paidAmount
