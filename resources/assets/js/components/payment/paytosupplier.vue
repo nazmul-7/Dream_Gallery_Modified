@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="14" offset="1">
+            <!-- <Col class="dream-input-main" span="14" offset="1">
                 <h2>Product List</h2>
 
                 <table style="width:100%">
@@ -25,8 +25,8 @@
                         <td >{{data.balance}}</td>
                     </tr>
                 </table>
-            </Col>
-            <Col class="dream-input-main" span="7" offset="1">
+            </Col> -->
+            <Col class="dream-input-main" span="18" offset="3">
                 <Form >
                     <Row :gutter="24">
                         <Col span="11" offset="1">
@@ -358,6 +358,8 @@
         async created()
         {
             this.ls();
+            const start = new Date();
+            this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
             try{
                 let {data} =await  axios({
                     method: 'get',

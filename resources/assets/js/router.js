@@ -29,6 +29,7 @@ import paymentlist from './components/payment/paymentlist.vue'
 import cash from './components/cash/cash.vue'
 import customerledger from './components/ledgers/customer.vue'
 import supplierledger from './components/ledgers/supplier.vue'
+import customerdue from './components/due/customer.vue'
 let onlyAdmin = ['Admin']
 let adminAndSale = ['Admin', 'Sale']
 Vue.use(Router)
@@ -266,6 +267,14 @@ export default new Router({
 				meta: {
 					allowed: onlyAdmin
 				}
-	    },
+			},
+			{
+	      path: '/customerdue',
+	      name: 'customerdue',
+	      component: customerdue,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},			
 		]
 })

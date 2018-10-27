@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\Purchase;
 use App\Invoice;
@@ -30,6 +31,23 @@ class StockController extends Controller
         return response()->json([
                      'msg' => 'Found Stock',
                      'purchase' => $purchase,
+                     'sell' => $sell,
+                ],200);
+    }
+    public function getStockUnion($id)
+    {
+        $purchase=DB::table('purchases')
+        ->select( 'admin_id as admin_id', 'invoice_id as invoice_id','product_id as product_id'
+        , 'quantity as quantity', 'unitPrice as unitPrice', 'date as date');
+        $sell=Selling::union($purchase)
+        ->select( 'admin_id as admin_id', 'invoice_id as invoice_id','product_id as product_id'
+        , 'quantity as quantity', 'unitPrice as unitPrice', 'date as date')
+        ->orderBy('date', 'desc')
+        ->with('admin')
+        ->with('invoice')
+        ->get();
+        return response()->json([
+                    'msg' => 'Found Stock',
                      'sell' => $sell,
                 ],200);
     }

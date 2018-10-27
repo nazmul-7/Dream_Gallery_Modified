@@ -89,7 +89,7 @@
                                 <br>
                                 <Row>
                                     <Col span="22">
-                                        <DatePicker type="datetime" v-model="currentSupplier.date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                        <DatePicker type="date" v-model="currentSupplier.date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                     </Col>
                                 </Row>
                             </FormItem >
@@ -507,6 +507,8 @@
         async created()
         {
             this.ls();
+            const start = new Date();
+            this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
             try{
                 let {data} =await  axios({
                     method: 'get',

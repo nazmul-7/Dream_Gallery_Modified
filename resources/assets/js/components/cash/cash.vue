@@ -4,7 +4,7 @@
             <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
                 <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
             </Col>
-            <Col class="dream-input-main" span="14" offset="1" v-if="date">
+            <Col class="dream-input-main" span="22" offset="1" v-if="date">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -19,14 +19,35 @@
                     </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <table style="width:100%">
+                    <tr>
+                        <th>Admin</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                        <th>Remarks</th> 
+                        <th>Date</th>
+                    </tr>
+                    <tr v-for="(data,i) in searchData" :key="i">
+                        <td >{{data.adminName}}</td>
+                        <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
+                        <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
+                        <td v-else>0</td>
+                        <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
+                        <td v-else>0</td>
+                        <td >{{data.balance}}</td>
+                        <td >{{data.remarks}}</td>
+                        <td >{{data.date}}</td>
+                    </tr>
+
+                    </table>
             </Col>
-            <Col class="dream-input-main" span="7" offset="1" v-if="date">
+            <!-- <Col class="dream-input-main" span="7" offset="1" v-if="date">
             <h2>Total</h2>
             <p><b>Cash In</b>: {{cashIn}}</p>
             <p><b>Cash Out</b>: {{cashOut}}</p>
             <p><b>Current Cash</b>: {{currentCash}}</p>
-            </Col>
+            </Col> -->
         </Row>
 
         <Modal v-model="editModal" width="740" style="margin-top:20px;" >
@@ -138,10 +159,6 @@
                         key: 'adminName'
                     },
                     {
-                        title: 'Paid for',
-                        key: 'paymentFor'
-                    },
-                    {
                         title: 'Amount',
                         key: 'amount'
                     },
@@ -163,41 +180,41 @@
         computed: {
             searchData()
             {
-                if(this.filterType=="debit")
-                {
-                return this.dataInvoice.filter((data)=>{                    
-                    return (data.type.toString().match('incoming') || data.type.toString().match('dueIncoming') ) &&
-                    (
-                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.amount.toString().match(this.search) ||
-                     data.remarks.toUpperCase().match(this.search.toUpperCase()) 
-                    )
+                // if(this.filterType=="debit")
+                // {
+                // return this.dataInvoice.filter((data)=>{                    
+                //     return (data.type.toString().match('incoming') || data.type.toString().match('dueIncoming') ) &&
+                //     (
+                //     data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                //      data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
+                //      data.id.toString().match(this.search) ||
+                //      data.amount.toString().match(this.search) ||
+                //      data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+                //     )
 
             
-                    }
-                    );
+                //     }
+                //     );
 
-                }
-                else if(this.filterType=="credit")
-                {
-                return this.dataInvoice.filter((data)=>{                    
-                    return data.type.toString().match('outgoing') &&
-                    (
-                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.amount.toString().match(this.search) ||
-                     data.remarks.toUpperCase().match(this.search.toUpperCase()) 
-                    )
+                // }
+                // else if(this.filterType=="credit")
+                // {
+                // return this.dataInvoice.filter((data)=>{                    
+                //     return data.type.toString().match('outgoing') &&
+                //     (
+                //     data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                //      data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
+                //      data.id.toString().match(this.search) ||
+                //      data.amount.toString().match(this.search) ||
+                //      data.remarks.toUpperCase().match(this.search.toUpperCase()) 
+                //     )
 
             
-                    }
-                    );
+                //     }
+                //     );
 
-                }
-                else{
+                // }
+                // else{
                 return this.dataInvoice.filter((data)=>{                    
                     return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
@@ -208,7 +225,7 @@
                     }
                 );
 
-                }
+                // }
             },
             rotateIcon () {
                 return [
@@ -267,18 +284,46 @@
                         url:`/app/filterCash/${k[0]}/${k[1]}`
 
                     })
-                var cashIn=0
-                var cashOut=0
-                var currentCash=0
+                // var cashIn=0
+                // var cashOut=0
+                // var currentCash=0
+                // for(let d of data.data){
+                //     d.adminName=d.admin.name
+                //     if(d.type=='incoming' || d.type=='dueIncoming')
+                //     cashIn+=Math.abs(d.amount)
+                    
+                //     if(d.type=='outgoing')
+                //     cashOut+=Math.abs(d.amount)
+
+                //     currentCash=cashIn-cashOut
+                //     if(d.paymentFor=='customer' && d.uid)
+                //     {
+                //         d.customerName=d.customer.customerName
+
+                //     }
+                //     else if(d.paymentFor=='supplier' && d.uid)
+                //     {
+                //         d.supplierName=d.supplier.supplierName
+                //     }
+                    
+                // }
+                // this.cashIn=Math.round(cashIn)
+                // this.cashOut=Math.round(cashOut)
+                // this.currentCash=Math.round(currentCash)
+                let balance={};
+                balance.balance=data.balance
+                balance.type='balance'
+                balance.date=k[0]
+                balance.adminName='Admin'
+                balance.remarks='Sheet Begining'
+                
+                
+                var temp=data.balance
                 for(let d of data.data){
                     d.adminName=d.admin.name
-                    if(d.type=='incoming' || d.type=='dueIncoming')
-                    cashIn+=Math.abs(d.amount)
-                    
-                    if(d.type=='outgoing')
-                    cashOut+=Math.abs(d.amount)
 
-                    currentCash=cashIn-cashOut
+                    temp=temp+d.amount
+                    d.balance=temp
                     if(d.paymentFor=='customer' && d.uid)
                     {
                         d.customerName=d.customer.customerName
@@ -290,9 +335,7 @@
                     }
                     
                 }
-                this.cashIn=Math.round(cashIn)
-                this.cashOut=Math.round(cashOut)
-                this.currentCash=Math.round(currentCash)
+                data.data.unshift(balance)
                 this.dataInvoice=data.data
                 this.lf();
 
@@ -408,7 +451,7 @@
                         data.data.supplierName=data.data.supplier.supplierName
                         this.dataInvoice.unshift(data.data)
                         
-                        this.s('Great!','Purchase has been added successfully!')
+                        this.s('Great!','Cash has been added successfully!')
                         this.loading=false
                     }catch(e){
                         this.loading=false
@@ -441,7 +484,7 @@
                     this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
                     this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
                     this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
-                    this.s('Great!','Category information has been updated successfully!')
+                    this.s('Great!','Cash information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false
@@ -459,7 +502,7 @@
                         url:`/app/invoice/${this.UpdateValue.id}`,
                     })
                     this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Invoice information has been removed successfully!')
+                    this.s('Great!','Cash information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false

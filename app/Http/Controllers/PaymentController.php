@@ -33,8 +33,9 @@ class PaymentController extends Controller
             ->whereIn('type',['due','opening','dueincoming'])
             ->sum('amount');
         $ledger=Paymentsheet::where('uid',$id)
-            ->with('customer')
-            ->where('paymentFor','customer')
+        ->with('customer')
+        ->with('admin')
+        ->where('paymentFor','customer')
             ->whereIn('type',['due','opening','dueincoming'])
             ->get();
         $bonus=Bonus::where('user_id',$id)
@@ -46,6 +47,49 @@ class PaymentController extends Controller
             'bonus'=> $bonus,
        ],200);
     }
+    public function getLedgerCustomer($id)
+    {
+        $outStanding=Paymentsheet::where('uid',$id)
+            ->where('paymentFor','customer')
+            ->whereIn('type',['due','opening','dueincoming','incoming'])
+            ->sum('amount');
+        $ledger=Paymentsheet::where('uid',$id)
+        ->with('customer')
+        ->with('admin')
+        ->where('paymentFor','customer')
+            ->whereIn('type',['due','opening','dueincoming','incoming'])
+            ->get();
+        $bonus=Bonus::where('user_id',$id)
+            ->sum('amount');
+        return response()->json([
+            'msg' => 'Found',
+            'outStanding'=> $outStanding,
+            'ledger'=> $ledger,
+            'bonus'=> $bonus,
+       ],200);
+    }
+    public function getLedgerSupplier($id)
+    {
+        $outStanding=Paymentsheet::where('uid',$id)
+            ->where('paymentFor','supplier')
+            ->whereIn('type',['due','opening','outgoing'])
+            ->sum('amount');
+        $ledger=Paymentsheet::where('uid',$id)
+        ->with('supplier')
+        ->with('admin')
+        ->where('paymentFor','supplier')
+            ->whereIn('type',['due','opening','outgoing'])
+            ->get();
+        $bonus=Bonus::where('user_id',$id)
+            ->sum('amount');
+        return response()->json([
+            'msg' => 'Found',
+            'outStanding'=> $outStanding,
+            'ledger'=> $ledger,
+            'bonus'=> $bonus,
+       ],200);
+    }
+    
     public function paymentSupplier(Request $request)
     {
         $admin_id=Auth::user()->id;

@@ -75,6 +75,10 @@ class ReportController extends Controller
     }
     public function filterCash($from,$to)
     {
+        $balance=Paymentsheet::orderBy('id', 'desc')
+        ->whereBetween('date', array('2018-01-01', $from))
+        ->whereIn('type',['incoming','dueincoming','outgoing'])
+        ->sum('amount');
         $data=Paymentsheet::orderBy('id', 'desc')
         ->with('admin')
         ->with('customer')
@@ -86,6 +90,7 @@ class ReportController extends Controller
         return response()->json([
             'msg' => 'Data Came',
             'data'=> $data,
-       ],200);
+            'balance'=> $balance,
+        ],200);
     }
 }

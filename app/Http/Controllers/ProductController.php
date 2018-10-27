@@ -46,7 +46,8 @@ class ProductController extends Controller
         //set barcode
          $barCode=$created->id+1000000000;
          $data=array(
-             'barCode' => $barCode
+             'barCode' => $barCode,
+             'averageBuyingPrice' => $input['openingUnitPrice']
           );
         Product::where('id',$created->id)->update($data);
         $purchase=Purchase::create([
@@ -54,6 +55,8 @@ class ProductController extends Controller
             'product_id' => $created->id,
             'quantity' => $input['openingQuantity'],
             'unitPrice' => $input['openingUnitPrice'],
+            
+            
 
         ]);
         $settings=Product::where('id', $created->id)->first();

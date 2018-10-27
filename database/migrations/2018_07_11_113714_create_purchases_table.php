@@ -20,6 +20,7 @@ class CreatePurchasesTable extends Migration
             $table->integer('product_id');
             $table->integer('quantity');
             $table->float('unitPrice');
+            $table->date('date');
             $table->integer('hasReturned')->default(0);
             $table->timestamps();
         });

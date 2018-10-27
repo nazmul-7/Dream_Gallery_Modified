@@ -8,6 +8,8 @@ use App\Purchase;
 use App\Invoice;
 use App\Paymentsheet;
 use App\Selling;
+use App\Bonus;
+use App\Setting;
 use Auth;
 class SellingController extends Controller
 {
@@ -71,8 +73,11 @@ class SellingController extends Controller
     public function store(Request $request)
     {
         $admin_id=Auth::user()->id;
+        $setting=Setting::first();
         $input=$request->all();
+
         // create invoice 
+        $paidAmount=$input['paidAmount']+$input['bonusAmount'];
         $invoice=Invoice::create([
             'admin_id' => $admin_id,
             'type' => 'sell',
@@ -81,11 +86,11 @@ class SellingController extends Controller
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
             'sellingPrice' => $input['total'],
-            'paidAmount' => $input['paidAmount'],
+            'paidAmount' => $paidAmount,
             'date' => $input['date'],
         ]);
 
-        if($input['total']==$input['paidAmount'])
+        if($input['total']==$paidAmount)
         {
             $paymentSheet=Paymentsheet::create([
                 'admin_id' => $admin_id,
@@ -113,8 +118,8 @@ class SellingController extends Controller
                 'remarks' => 'Sell To Customer',
                 'date' => $input['date'],
             ]);
-            $due=$input['total'] - $input['paidAmount'];
-            if($input['paidAmount'])
+            $due=$input['total'] - $paidAmount;
+            if($paidAmount)
             {
                 $paymentSheet=Paymentsheet::create([
                     'admin_id' => $admin_id,
@@ -122,9 +127,9 @@ class SellingController extends Controller
                     'type' => 'dueIncoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                     'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                     'uid' => $input['customer_id'],
-                    'amount' => $input['paidAmount'],
+                    'amount' => $paidAmount,
                     'paymentMethod' => 'cash',
-                    'remarks' => 'Due To Customer',
+                    'remarks' => 'Advance Cash on Sale To Customer',
                     'date' => $input['date'],
                 ]);
     
@@ -138,13 +143,49 @@ class SellingController extends Controller
                 'type' => 'discount',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['customer_id'],
-                'amount' => $input['totalPrice']-$input['total'],
+                'amount' => $input['total']-$input['totalPrice'],
                 'paymentMethod' => 'cash',
                 'remarks' => 'Discount To Customer',
                 'date' => $input['date'],
             ]);
         }
-        // make  purchase details 
+        if($input['bonusAmount']>0)
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'discount',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['customer_id'],
+                'amount' => $input['bonusAmount']*(-1),
+                'paymentMethod' => 'cash',
+                'remarks' => 'Customer Bonus Payment',
+                'date' => $input['date'],
+            ]);
+            $paymentSheet=Bonus::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'user_id' => $input['customer_id'],
+                'amount' => $input['bonusAmount']*-1,
+                'type' => 'withdraw',
+                'bonusBy' => '',
+                'date' => $input['date'],
+            ]);
+
+        }
+        if($input['reference_id'] &&  $input['customer_id'])
+        {
+            $paymentSheet=Bonus::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'user_id' => $input['reference_id'],
+                'amount' => ($paidAmount*$setting->referenceBonus)/100,
+                'type' => 'gift',
+                'bonusBy' => $input['customer_id'],
+                'date' => $input['date'],
+            ]);
+
+        }        // make  purchase details 
         foreach ($input['productDetails'] as $key => $value) {
             if(!$value['discount'])
             $value['discount']=0;
@@ -158,6 +199,8 @@ class SellingController extends Controller
                 'unitPrice' => $value['sellingPrice'],
                 'discount' => $value['discount'],
                 'profit' => $profit,
+                'date' => $input['date'],
+                
             ]);
         }
         // $created=Invoice::create($request->all());

@@ -108,23 +108,14 @@
                         <Col span="11" offset="1" v-if="currentCustomer.status">
                             <FormItem label="Useing Bonus Amount">
                                 <br/>
-                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.total))" @on-change="bonusChange"></InputNumber >
+                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.total))" @on-change="discount" ></InputNumber >
                             </FormItem>
                         </Col>
-                        <Col span="22" offset="1">
-                            <FormItem placeholder="Company Name"   label="Buying Date">
-                                <br>
-                                <Row>
-                                    <Col span="22">
-                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
-                                    </Col>
-                                </Row>
-                            </FormItem>
-                        </Col>
+
                         <Col span="22" offset="1">
                             <FormItem label="Reference">
                                 <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
+                                    <Option v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -278,8 +269,39 @@
                      reference_id: '',
                      productDetails: [],
                      cashPaid:0,
-                     bonusAmount:null
+                     bonusAmount:0
                 },
+                // options2: {
+                //         shortcuts: [
+                //             {
+                //                 text: '1 week',
+                //                 value () {
+                //                     const end = new Date();
+                //                     const start = new Date();
+                //                     start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                //                     return [start, end];
+                //                 }
+                //             },
+                //             {
+                //                 text: '1 month',
+                //                 value () {
+                //                     const end = new Date();
+                //                     const start = new Date();
+                //                     start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                //                     return [start, end];
+                //                 }
+                //             },
+                //             {
+                //                 text: '3 months',
+                //                 value () {
+                //                     const end = new Date();
+                //                     const start = new Date();
+                //                     start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                //                     return [start, end];
+                //                 }
+                //             }
+                //         ]
+                //     },
                 temp:{},
 
                
@@ -296,7 +318,14 @@
                     return 0
 
             },
+            flterMemberList()
+            {
+                    return this.dataCustomer.filter((data)=>{
+                    return (data.barcode);
+                        }
+                    );
 
+            },
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -316,9 +345,10 @@
                 var total=0
                 if(this.formValue.productDetails)
                 {
-                    for ( var i = 0; i < this.formValue.productDetails.length; i++) {
-                            total+=parseInt(this.formValue.productDetails[i].quantity)   
-                        }
+                    for ( var i = 0; i < this.formValue.productDetails.length; i++)
+                    {
+                        total+=parseInt(this.formValue.productDetails[i].quantity)   
+                    }
 
                 }
                 return total   
@@ -329,7 +359,8 @@
                 let sum = 0 
                 if(this.formValue.productDetails)
                 {
-                    for(let d of this.formValue.productDetails){
+                    for(let d of this.formValue.productDetails)
+                    {
                         sum+= (parseInt(d.quantity)*parseInt(d.discountedPrice))
                     }
                     this.formValue.totalTotal=sum
@@ -341,7 +372,7 @@
         methods: {
             bonusChange()
             {
-                this.formValue.total=this.formValue.total-this.formValue.bonusAmount
+                console.log(this.formValue.bonusAmount)
                 this.quantityChange()
 
             },
@@ -358,31 +389,26 @@
             },
             removeItem(index)
             {
-                
                 this.formValue.productDetails.splice(index,1)
                 this.quantityChange()
             },
             quantityChange()
             {
-                
                 var totalPrice=0
                 for ( let d of this.formValue.productDetails) {                  
                         totalPrice+=(d.quantity*d.discountedPrice)
                     }
-                totalPrice=Math.round(totalPrice).toFixed(2)
+                totalPrice=Math.round(totalPrice-(this.formValue.bonusAmount+0)).toFixed(2)
                 this.formValue.total=parseFloat(totalPrice)
                 this.formValue.paidAmount=parseFloat(totalPrice)
                 this.formValue.subTotal=parseFloat(totalPrice)
                 this.paidAmountChange()
-
-  
             },
             discount(){
                 var totalOld = this.formValue.subTotal
                 var discountAmount = (this.formValue.discount*this.formValue.subTotal)/100
                 var afterDiscount = totalOld - discountAmount
-                
-                afterDiscount= Math.round(afterDiscount).toFixed(2)*1
+                afterDiscount= Math.round(afterDiscount-(this.formValue.bonusAmount+0)).toFixed(2)*1
 
                 console.log(afterDiscount);
                 
@@ -395,8 +421,8 @@
                 var discountAmount = totalOld - this.formValue.total
                 var discount = (discountAmount*100)/totalOld
                 discount= Math.round(discount).toFixed(2)
-                this.formValue.discount=discount
-                this.formValue.paidAmount=this.formValue.total
+                this.formValue.discount=parseInt(discount)
+                this.formValue.paidAmount=parseFloat(this.formValue.total)
                 this.paidAmountChange()
             },
             showClear()
@@ -566,19 +592,21 @@
                     data.stock=ps-ss
                     data.quantity=1
                     for(let d of this.dataGroup){
+                        console.log('IU am')
                         if(d.groupName==data.groupName){
+                        console.log('IU am')
                             data.discount=d.discount
                         }
                     }
                    if(data.discount){
+                        console.log('IU am')
                         let d= (data.discount*data.sellingPrice)/100
                         data.discountedPrice= data.sellingPrice-d
                    }else{
+                        console.log('IU am')
                          data.discountedPrice= data.sellingPrice
                          data.discount=0
                    }
-
-                    let disco
 
                     this.formValue.productDetails.push(data)
                     this.quantityChange()
@@ -646,6 +674,8 @@
         async created()
         {
             this.ls();
+            const start = new Date();
+            this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
             try{
                 let {data} =await  axios({
                     method: 'get',

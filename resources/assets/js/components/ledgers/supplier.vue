@@ -6,24 +6,26 @@
 
                 <table style="width:100%">
                   <tr>
-                    <th>Date</th>
+                    <th>Admim</th>
                     <th>Type</th> 
-                    <th>ID</th>
                     <th>Debit</th>
                     <th>Credit</th>
                     <th>Balance</th>
+                    <th>Date</th>
                   </tr>
                   <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.date}}</td>
-                    <td >{{data.type}}</td>
-                    <td>{{data.invoice_id}}</td>
-                    <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
-                    <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
+                    <td >{{data.adminName}}</td>
+                    <td v-if="data.type ==='due'">Due</td>
+                    <td v-else-if="data.type ==='outgoing'">Payment</td>
+                    <td v-else-if="data.type ==='opening'">Opening Cash</td>
+                    <td v-else>Not define</td>
+                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
                     <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
                     <td v-else-if="data.type ==='opening'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
                     <td >{{Math.abs(data.balance)}}</td>
+                    <td >{{data.date}}</td>
                   </tr>
 
                 </table>
@@ -35,7 +37,7 @@
                         <Col span="22" offset="1">
                             <FormItem label="Supplier">
                                 <Select v-model="formValue.customer_id" placeholder="Supplier" @on-change="changed" filterable clearable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
+                                    <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{supplier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -115,7 +117,7 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                dataCustomer: [],
+                dataSupplier: [],
                 dataLedger: [],
                 formInvoice:
                 {
@@ -223,13 +225,13 @@
                 try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:`/app/payment/getOutstandingCustomer/${this.formValue.customer_id}`
+                    url:`/app/payment/getLedgerSupplier/${this.formValue.customer_id}`
                 })
                 this.formValue.outStanding=Math.abs(data.outStanding)
                 this.formValue.paidAmount=Math.abs(data.outStanding)
                 var temp=0
                 for(let d of data.ledger){
-                   
+                   d.adminName=d.admin.name
                     temp=temp+d.amount
                     d.balance=temp
                 }
@@ -336,9 +338,9 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/customer'
+                    url:'/app/supplier'
                 })
-                this.dataCustomer=data;
+                this.dataSupplier=data;
                 this.lf();
 
             }catch(e){

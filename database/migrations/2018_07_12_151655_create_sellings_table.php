@@ -22,6 +22,7 @@ class CreateSellingsTable extends Migration
             $table->float('unitPrice')->nullable();
             $table->float('discount')->nullable();
             $table->float('profit')->nullable();
+            $table->date('date');            
             $table->integer('hasReturned')->default(0);
             $table->timestamps();
         });

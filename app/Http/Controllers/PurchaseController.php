@@ -105,7 +105,8 @@ class PurchaseController extends Controller
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['unitPrice'],
-
+                'date' => $input['date'],
+                
             ]);
 
             Product::where('id',$product_id)->update([
@@ -230,6 +231,8 @@ class PurchaseController extends Controller
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['unitPrice'],
+                'date' => $input['date'],
+                
             ]);
         }
 

@@ -411,6 +411,9 @@
         async created()
         {
              this.ls();
+             const start = new Date();
+            this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            this.editObj.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
             // try{
             //     let {data} =await  axios({
             //         method: 'get',

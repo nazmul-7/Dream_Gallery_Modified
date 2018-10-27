@@ -100,6 +100,7 @@
                                 </template>
                                 <MenuItem name="itemselling" :to="handleGoToMenu('/itemselling')">Item Wise</MenuItem>
                                 <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Invoice Wise</MenuItem>
+                                <MenuItem name="customerdue" :to="handleGoToMenu('/customerdue')">Due List</MenuItem>
                             </Submenu>
                         </MenuItem>
                         <MenuItem name="3-2">                        
@@ -119,6 +120,7 @@
                                     Account
                                 </template>
                                 <MenuItem name="cash" :to="handleGoToMenu('/cash')">Cash Report</MenuItem>
+                                <MenuItem name="due" :to="handleGoToMenu('/due')">Due Report</MenuItem>
                             </Submenu>
                         </MenuItem>
                         <MenuItem name="3-4">                        
@@ -128,6 +130,16 @@
                                     Ledger
                                 </template>
                                 <MenuItem name="supplierledger" :to="handleGoToMenu('/supplierledger')">Supplier</MenuItem>
+                                <MenuItem name="customerledger" :to="handleGoToMenu('/customerledger')">Customer</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="3-5">                        
+                            <Submenu name="3-5-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Stock
+                                </template>
+                                <MenuItem name="stock" :to="handleGoToMenu('/stock')">Stock</MenuItem>
                                 <MenuItem name="customerledger" :to="handleGoToMenu('/customerledger')">Customer</MenuItem>
                             </Submenu>
                         </MenuItem>

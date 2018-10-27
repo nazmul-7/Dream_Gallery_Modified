@@ -28,6 +28,7 @@ class CreateProductsTable extends Migration
             $table->string('averageBuyingPrice')->default(0);
             $table->string('barCode')->nullable();
             $table->string('productImage')->nullable();
+            $table->date('date')->useCurrent();
             $table->string('openingQuantity')->nullable()->default(0);
             $table->string('openingUnitPrice')->nullable()->default(0);
             $table->timestamps();

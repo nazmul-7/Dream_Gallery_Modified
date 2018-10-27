@@ -60,6 +60,8 @@ Route::get('/app/getInvoiceProducts/{id}','InvoiceController@getInvoiceProducts'
 Route::get('/app/getStock/{id}','StockController@getStock');
 Route::get('/app/payment/getOutstanding/{id}','PaymentController@getOutstanding');
 Route::get('/app/payment/getOutstandingCustomer/{id}','PaymentController@getOutstandingCustomer');
+Route::get('/app/payment/getLedgerSupplier/{id}','PaymentController@getLedgerSupplier');
+Route::get('/app/payment/getLedgerCustomer/{id}','PaymentController@getLedgerCustomer');
 Route::post('/app/paymentSupplier','PaymentController@paymentSupplier');
 Route::post('/app/paymentCustomer','PaymentController@paymentCustomer');
 Route::post('/app/returnInvoice','InvoiceController@returnInvoice');
@@ -75,6 +77,7 @@ Route::get('/app/filterProfit/{from}/{to}','ReportController@filterProfit');
 Route::get('/app/filterPurchase/{from}/{to}','PurchaseController@filterPurchase');
 Route::get('/app/filterPurchaseItem/{from}/{to}','PurchaseController@filterPurchaseItem');
 Route::get('/app/getStockList/{id}','StockController@getStockList');
+Route::get('/app/getStockUnion/{id}','StockController@getStockUnion');
 
 
 

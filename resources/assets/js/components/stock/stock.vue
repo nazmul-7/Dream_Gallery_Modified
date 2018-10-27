@@ -4,9 +4,9 @@
             <Col class="dream-input-main" span="22" offset="1">
                 <Form >
                     <Row :gutter="24">
-                        <Col span="4" offset="10">
-                            <FormItem label="Customer">
-                                <Select v-model="formValue.product_id" placeholder="Customer Name" @on-change="getData" filterable clearable>
+                        <Col span="8" offset="8">
+                            <FormItem label="Select Product">
+                                <Select v-model="formValue.product_id" placeholder="Product Name" @on-change="getData" filterable clearable>
                                     <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{  product.productName}}</Option>
                                 </Select>
                             </FormItem>
@@ -18,14 +18,29 @@
                     </Row>
                 </Form>
             </Col>
-            <Col class="dream-input-main" span="10" offset="1">
-                <h2>Purchase</h2>
-                <Table :columns="columns1" :data="dataPurchase"></Table>
-            </Col>
-            <Col class="dream-input-main" span="10" offset="1">
-                <h2>Sale</h2>
-                <Table :columns="columns2" :data="dataSell"></Table>
-            </Col>
+            <Col class="dream-input-main" span="22" offset="1">
+                <Button  align="left">Print</Button>
+                <table style="width:100%">
+                    <tr>
+                        <th>Admin</th>
+                        <th>Date</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                    </tr>
+                    <tr v-for="(data,i) in dataSell" :key="i">
+                        <td v-if="data.type ==='opening'">Opening</td>
+                        <td v-else>{{data.adminName}}</td>
+                        <td >{{data.date}}</td>
+                        <td v-if="data.type ==='sell'">{{data.quantity}}*{{data.unitPrice}}</td>
+                        <td v-else>0</td>
+                        <td v-if="data.type ==='purchase'">{{data.quantity}}*{{data.unitPrice}}</td>
+                        <td v-else>0</td>
+                        <td >{{data.balance}}</td>
+                    </tr>
+
+                    </table>
+                </Col>
         </Row>
 
       <Modal v-model="editModal" width="360">
@@ -255,10 +270,27 @@
                 try{
                     let {data} =await  axios({
                         method: 'get',
-                        url:`/app/getStockList/${k}`
+                        url:`/app/getStockUnion/${k}`
 
                     })
-                    this.dataPurchase=data.purchase
+                    let temp=0
+                     for(let d of data.sell){
+                         if(d.invoice_id==0)
+                         {
+                             d.type='opening'
+                         }
+                         else
+                         {
+                             d.type=d.invoice.type
+                         }
+                        d.adminName=d.admin.name
+                        if(d.type=='sell')
+                        temp=temp-(d.quantity*d.unitPrice)
+                        else
+                        temp=temp+(d.quantity*d.unitPrice)
+
+                        d.balance=temp
+                    }
                     this.dataSell=data.sell
                     this.lf();
 
