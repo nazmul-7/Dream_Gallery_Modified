@@ -140,7 +140,6 @@
                                     Stock
                                 </template>
                                 <MenuItem name="stock" :to="handleGoToMenu('/stock')">Stock</MenuItem>
-                                <MenuItem name="customerledger" :to="handleGoToMenu('/customerledger')">Customer</MenuItem>
                             </Submenu>
                         </MenuItem>
                     </Submenu>
