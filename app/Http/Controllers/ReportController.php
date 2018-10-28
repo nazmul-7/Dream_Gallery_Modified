@@ -9,6 +9,7 @@ use App\Invoice;
 use App\Paymentsheet;
 use App\Payment;
 use App\Selling;
+use App\Customer;
 use Auth;
 class ReportController extends Controller
 {
@@ -92,5 +93,17 @@ class ReportController extends Controller
             'data'=> $data,
             'balance'=> $balance,
         ],200);
+    }
+    public function dueList()
+    {
+        $product=Customer::with(array('dueAmount' => function($q)
+            {
+                $q->selectRaw('id,  sum(amount) as balance');
+                $q->groupBy('amount');
+
+
+            }))
+            ->get();
+
     }
 }

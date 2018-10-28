@@ -78,6 +78,7 @@ Route::get('/app/filterPurchase/{from}/{to}','PurchaseController@filterPurchase'
 Route::get('/app/filterPurchaseItem/{from}/{to}','PurchaseController@filterPurchaseItem');
 Route::get('/app/getStockList/{id}','StockController@getStockList');
 Route::get('/app/getStockUnion/{id}','StockController@getStockUnion');
+Route::get('/app/dueList','ReportController@dueList');
 
 
 
