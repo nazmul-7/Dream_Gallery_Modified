@@ -149,10 +149,7 @@
                             <Icon type="ios-navigate"></Icon>
                            Security
                         </template>
-                        <MenuItem name="user" :to="handleGoToMenu('/user')">
-                            <Icon type="ios-info"></Icon>
-                            <span>New User</span>              
-                        </MenuItem>
+                        <MenuItem name="newuser" :to="handleGoToMenu('/newuser')">New User</MenuItem>
 
                         <MenuItem name="4-1">                        
                             <Submenu name="4-1-1">

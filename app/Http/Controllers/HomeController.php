@@ -25,4 +25,14 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    public function newUser(Request $request)
+    {
+        $created=User::create($request->all());
+        return $created;
+    }
+    public function userList()
+    {
+        $data=User::get();
+        return $data;
+    }     
 }

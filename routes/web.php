@@ -18,6 +18,8 @@
 
 
 Route::post('/app/login','LoginController@login');
+Route::post('/app/newUser','HomeController@newUser');
+Route::post('/app/userList','HomeController@userList');
 //update custom functions
 Route::post('/app/settingUpdate','SettingController@updateSetting');
 Route::post('/app/groupUpdate','GroupController@groupUpdate');

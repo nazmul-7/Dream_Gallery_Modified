@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1" >
+            <Col class="dream-input-main" span="14" offset="1" >
                 <left>
                     <Button  align="left" @click="showPrint">Print</Button>
                 </left>
@@ -29,7 +29,6 @@
                         <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                        <td v-else-if="data.type ==='opening'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td >{{Math.abs(data.balance)}}</td>
                         <td >{{data.date}}</td>

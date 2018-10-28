@@ -36,8 +36,8 @@ class PaymentController extends Controller
         ->with('customer')
         ->with('admin')
         ->where('paymentFor','customer')
-            ->whereIn('type',['due','opening','dueincoming'])
-            ->get();
+        ->whereIn('type',['due','opening','dueincoming'])
+        ->get();
         $bonus=Bonus::where('user_id',$id)
             ->sum('amount');
         return response()->json([

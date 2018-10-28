@@ -12,7 +12,7 @@ class Customer extends Model
     ];
     public function dueAmount()
     {
-       return $this->hasOne('App\Paymentsheet','uid');
+       return $this->belongsTo('App\Paymentsheet','uid');
     } 
 
 }

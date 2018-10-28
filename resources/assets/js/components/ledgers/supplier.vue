@@ -22,7 +22,6 @@
                     <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
                     <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                    <td v-else-if="data.type ==='opening'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>
                     <td >{{Math.abs(data.balance)}}</td>
                     <td >{{data.date}}</td>

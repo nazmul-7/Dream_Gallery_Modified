@@ -30,6 +30,7 @@ import cash from './components/cash/cash.vue'
 import customerledger from './components/ledgers/customer.vue'
 import supplierledger from './components/ledgers/supplier.vue'
 import customerdue from './components/due/customer.vue'
+import newuser from './components/admin/newuser.vue'
 let onlyAdmin = ['Admin']
 let adminAndSale = ['Admin', 'Sale']
 Vue.use(Router)
@@ -272,6 +273,14 @@ export default new Router({
 	      path: '/customerdue',
 	      name: 'customerdue',
 	      component: customerdue,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/newuser',
+	      name: 'newuser',
+	      component: newuser,
 				meta: {
 					allowed: onlyAdmin
 				}

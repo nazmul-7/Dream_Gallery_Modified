@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\Purchase;
 use App\Invoice;
@@ -96,14 +97,18 @@ class ReportController extends Controller
     }
     public function dueList()
     {
-        $product=Customer::with(array('dueAmount' => function($q)
-            {
-                $q->selectRaw('id,  sum(amount) as balance');
-                $q->groupBy('amount');
-
-
-            }))
-            ->get();
+        // $product=Customer::with(array('dueAmount' => function($q)
+        //     {
+        //         $q->selectRaw('sum(amount) as dueBalance');
+        //         $q->groupBy('amount');
+        //     }))
+        //     ->get();
+        $orders = Paymentsheet::with('customer')
+                ->select('uid', DB::raw('SUM(amount) as total_due'),'date')
+                ->groupBy('uid')
+                ->whereIn('type',['due','opening','dueincoming'])
+                ->get();
+            return $orders;
 
     }
 }
