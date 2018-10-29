@@ -69,29 +69,46 @@
                     </Col>
                 </Row>
             </Col>
-            <Col class="dream-input-main" span="7" offset="1">
-                <Row> 
-                    <Form>
-                        <Col span="22" offset="1">
-                            <FormItem label="Supplier">
-                                <Select v-model="formValue.customer_id" placeholder="Supplier" filterable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <Col span="22" offset="1">
-                            <FormItem  label="Buying Date">
-                                <br>
-                                <Row>
-                                    <Col span="22">
-                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+            <Row>
+                <Col span="7" offset="1">
+                    <Row> 
+                        <Col class="dream-input-main" span="22" offset="1">
+                            <Row> 
+                                <Form>
+                                    <Col span="22" offset="1">
+                                        <FormItem label="Supplier">
+                                            <Select v-model="formValue.customer_id" placeholder="Supplier" filterable>
+                                                <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
+                                            </Select>
+                                        </FormItem>
                                     </Col>
-                                </Row>
-                            </FormItem>
+                                    <Col span="22" offset="1">
+                                        <FormItem  label="Buying Date">
+                                            <br>
+                                            <Row>
+                                                <Col span="22">
+                                                    <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                                </Col>
+                                            </Row>
+                                        </FormItem>
+                                    </Col>
+                                </Form>
+                            </Row>
                         </Col>
-                    </Form>
-                </Row>
-            </Col>
+                        <Col class="dream-input-main" span="22" offset="1">
+                            <Row> 
+                                <Form>
+                                    <Col span="22" offset="1">
+                                        <Button type="error" size="large"  @click="returnAll" long>
+                                            Return All
+                                        </Button>
+                                    </Col>
+                                </Form>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
         </Row>
     </div>
 </template>
@@ -166,6 +183,10 @@
 
         },
         methods: {
+            returnAll()
+            {
+                
+            },
             removeItem(index)
             {
                 this.formValue.productDetails[index].quantity=0
