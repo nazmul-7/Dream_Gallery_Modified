@@ -183,8 +183,21 @@
 
         },
         methods: {
-            returnAll()
+            async returnAll()
             {
+                this.clearData()
+                    try{
+                    let {data} =await axios({
+                        method: 'get',
+                        url:`/app/returnAll/${this.formValue.invoice_id}`,
+                        })
+                        this.s('Success!',data)
+                        this.lf();
+
+                    }catch(e){
+                        this.e('Oops!','Something went wrong, please try again!')
+                        this.le();
+                    }
                 
             },
             removeItem(index)
