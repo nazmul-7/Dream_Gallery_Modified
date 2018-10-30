@@ -211,7 +211,7 @@
                     }
                 this.clearData()
             },
-            addProduct()
+            async addProduct()
             {
                 if(this.formValue.barCode)
                 {
