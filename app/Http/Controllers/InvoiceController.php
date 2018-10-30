@@ -232,86 +232,20 @@ class InvoiceController extends Controller
         $admin_id=Auth::user()->id;        
         $invoice=Invoice::where('id',$id)
         ->update([
-            'totalQuantity' => '0',
-            'totalPrice' => '0',
-            'customer_id' => '0',
-            'discount' => $input['discount'],
-            'sellingPrice' => $input['total'],
-            'paidAmount' => $input['paidAmount'],
+            'totalQuantity' => 0,
+            'totalPrice' => 0,
+            'discount' => 0,
+            'sellingPrice' => 0,
+            'paidAmount' => 0,
             'date' => $input['date'],
         ]);
-        $currentSheets=Paymentsheet::where('invoice_id',$input['invoice_id'])
-        ->get();
-        foreach($currentSheets as $sheet )
-        {
-            if($sheet->type="incoming")
-            {
-                $paymentSheet=Paymentsheet::where('id',$sheet->id)
-                ->update([
-                    'uid' => $input['customer_id'],
-                    'amount' => $input['total'],
-                    'date' => $input['date'],
-                ]);
-
-            }
-            if($sheet->type="due")
-            {
-                $paymentSheet=Paymentsheet::where('id',$sheet->id)
-                ->update([
-                    'uid' => $input['customer_id'],
-                    'amount' => $input['total']*-1,
-                    'date' => $input['date'],
-                ]);
-
-            }
-            if($sheet->type="dueIncoming")
-            {
-                $paymentSheet=Paymentsheet::where('id',$sheet->id)
-                ->update([
-                    'uid' => $input['customer_id'],
-                    'amount' => $input['paidAmount'],
-                    'date' => $input['date'],
-                ]);
-
-            }
-            if($sheet->type="outgoing")
-            {
-                $paymentSheet=Paymentsheet::where('id',$sheet->id)
-                ->update([
-                    'uid' => $input['customer_id'],
-                    'amount' =>$input['subTotal']-$input['total'],
-                    'date' => $input['date'],
-                ]);
-
-            }
-            
-        }
-       
-        // make  purchase details 
-        foreach ($input['productDetails'] as $key => $value) {
-            if($value['quantity']==0)
-            {
-                $sell=Selling::where('id',$value['id'] )
-                ->update([
-                    'quantity' => $value['quantity'],
-                    'unitPrice' => 0,
-                    'discount' => 0,
-                    'profit' => 0,
-                ]);
-    
-            }
-            else
-            {
-                $profit= $value['discountedPrice'] - $value['product']['averageBuyingPrice'];
-                $sell=Selling::where('id',$value['id'] )
-                ->update([
-                    'quantity' => $value['quantity'],
-                    'unitPrice' => $value['product']['sellingPrice'],
-                    'discount' => $value['discount'],
-                    'profit' => $profit,
-                ]);
-            }
-        }
+        $deleteAllPayment=Paymentsheet::where('invoice_id',$id)
+        ->delete();
+        $deleteAllSelling=Selling::where('invoice_id',$id)
+        ->delete();
+        $deleteAllBonus=Bonus::where('invoice_id',$id)
+        ->delete();
+        
 
 
          return response()->json([
