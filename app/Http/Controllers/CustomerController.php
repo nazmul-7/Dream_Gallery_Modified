@@ -49,7 +49,7 @@ class CustomerController extends Controller
             'type' => 'opening',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $created->id,
-            'amount' => $input['opening'],
+            'amount' => $input['opening']*-1,
             'paymentMethod' => 'due',
             'remarks' => 'Opening',
         ]);
