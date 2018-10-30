@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Invoice;
 use App\Selling;
+use App\Bonus;
 use App\Paymentsheet;
 
 
@@ -237,7 +238,6 @@ class InvoiceController extends Controller
             'discount' => 0,
             'sellingPrice' => 0,
             'paidAmount' => 0,
-            'date' => $input['date'],
         ]);
         $deleteAllPayment=Paymentsheet::where('invoice_id',$id)
         ->delete();

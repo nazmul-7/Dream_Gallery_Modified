@@ -67,7 +67,7 @@ Route::get('/app/payment/getLedgerCustomer/{id}','PaymentController@getLedgerCus
 Route::post('/app/paymentSupplier','PaymentController@paymentSupplier');
 Route::post('/app/paymentCustomer','PaymentController@paymentCustomer');
 Route::post('/app/returnInvoice','InvoiceController@returnInvoice');
-Route::post('/app/returnAll/{id}','InvoiceController@returnAll');
+Route::get('/app/returnAll/{id}','InvoiceController@returnAll');
 
 //list
 Route::get('/app/sellitemlist','SellingController@sellitemlist');

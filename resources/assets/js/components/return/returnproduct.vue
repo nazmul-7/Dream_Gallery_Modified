@@ -2,11 +2,22 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Row :gutter="24">
-                    <Col span="24">
+                <Row>
+                    <Col span="24" >
                         <Card>
-                            <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                            v-model="formValue.barCode"></Input>  
+                                <Row  :gutter="24">
+                                    
+                                        <Col span="12">
+                                        <p>Invoice Code</p>
+                                            <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                                            v-model="formValue.barCode"></Input>  
+                                        </Col>
+                                        <Col span="12">
+                                        <p>Product Code</p>
+                                            <Input type="text" placeholder="Barcode" @on-enter="addProduct" 
+                                            v-model="formValue.barCode"></Input>  
+                                        </Col>
+                                    </Row>
                         </Card>
                     </Col>
                     <Col span="24">
@@ -69,7 +80,7 @@
                     </Col>
                 </Row>
             </Col>
-            <Row>
+
                 <Col span="7" offset="1">
                     <Row> 
                         <Col class="dream-input-main" span="22" offset="1">
@@ -108,7 +119,7 @@
                         </Col>
                     </Row>
                 </Col>
-            </Row>
+
         </Row>
     </div>
 </template>
@@ -185,20 +196,95 @@
         methods: {
             async returnAll()
             {
-                this.clearData()
+                
                     try{
                     let {data} =await axios({
                         method: 'get',
                         url:`/app/returnAll/${this.formValue.invoice_id}`,
                         })
-                        this.s('Success!',data)
+                        this.s('Success!')
                         this.lf();
 
                     }catch(e){
                         this.e('Oops!','Something went wrong, please try again!')
                         this.le();
                     }
-                
+                this.clearData()
+            },
+            addProduct()
+            {
+                if(this.formValue.barCode)
+                {
+                    if(this.formValue.productDetails)
+                    {
+                    for(let d of this.formValue.productDetails)
+                    {
+                        if(d.barCode == this.formValue.barCode){
+                            if(d.stock==d.quantity){
+                                return this.i('You have acceded the available stock')
+                            }
+                            d.quantity++
+                            this.quantityChange()
+                            this.formValue.barCode=null
+                             return 
+
+                            }
+                        }
+                    }
+                    
+                }
+                try{
+                let {data} =await axios({
+                    method: 'get',
+                    url:`/app/searchProduct/${this.formValue.barCode}`,
+                    })
+                    let ps=0,ss=0
+                    console.log(data)
+                    if(data.purchase_stock){
+                        ps=data.purchase_stock.stock
+                        
+                    }
+                    else
+                    {
+                    this.e('Oops!','No Purchase Stock')
+                    return
+                    }
+
+
+                    if(data.sell_stock){
+                        console.log('IU am')
+                        ss=data.sell_stock.stock
+                    }
+                    data.stock=ps-ss
+                    data.quantity=1
+                    for(let d of this.dataGroup){
+                        console.log('IU am')
+                        if(d.groupName==data.groupName){
+                        console.log('IU am')
+                            data.discount=d.discount
+                        }
+                    }
+                   if(data.discount){
+                        console.log('IU am')
+                        let d= (data.discount*data.sellingPrice)/100
+                        data.discountedPrice= data.sellingPrice-d
+                   }else{
+                        console.log('IU am')
+                         data.discountedPrice= data.sellingPrice
+                         data.discount=0
+                   }
+
+                    this.formValue.productDetails.push(data)
+                    this.quantityChange()
+                    this.lf();
+                    this.formValue.barCode=null
+
+                }catch(e){
+                    console.log(0)
+                    this.e('Oops!','3Something went wrong, please try again!')
+                    this.le();
+                }
+
             },
             removeItem(index)
             {
