@@ -38,13 +38,15 @@ class StockController extends Controller
     {
         $purchase=DB::table('purchases')
         ->select( 'admin_id as admin_id', 'invoice_id as invoice_id','product_id as product_id'
-        , 'quantity as quantity', 'unitPrice as unitPrice');
+        , 'quantity as quantity', 'unitPrice as unitPrice')
+        ->where('product_id',$id);
         $sell=Selling::union($purchase)
         ->select( 'admin_id as admin_id', 'invoice_id as invoice_id','product_id as product_id'
         , 'quantity as quantity', 'unitPrice as unitPrice')
         ->orderBy('invoice_id', 'asc')
         ->with('admin')
         ->with('invoice')
+        ->where('product_id',$id)
         ->get();
         return response()->json([
                     'msg' => 'Found Stock',

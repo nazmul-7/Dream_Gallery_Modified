@@ -69,13 +69,18 @@
                                     <td colspan="7" style="text-align:right">Total</td>
                                     <td><InputNumber v-if="formValue.total>0"  :min="0" :max="formValue.subTotal" @on-change="total" v-model="formValue.total"></InputNumber ></td>
                                 </tr>
-                                <tr v-if="formValue.newProductFlag">
-                                    <td colspan="7" style="text-align:right">Previous Paid Amound</td>
-                                    <td><InputNumber  :min="0" :max="formValue.oldTotal" @on-change="total" v-model="formValue.oldTotal"></InputNumber ></td>
+                                
+                                <tr>
+                                    <td colspan="7" style="text-align:right">Previous Paid Amount</td>
+                                    <td><InputNumber  :min="0" :max="formValue.oldTotal" @on-change="total" v-model="formValue.oldTotal" disabled></InputNumber ></td>
+                                </tr>
+                                <tr v-if="formValue.dueAmount">
+                                    <td colspan="7" style="text-align:right">Previous Due</td>
+                                    <td><InputNumber  :min="0" :max="formValue.dueAmount" @on-change="total" v-model="formValue.dueAmount" disabled></InputNumber ></td>
                                 </tr>
                                 <tr >
                                     <td colspan="7" style="text-align:right">Paid Amount</td>
-                                    <td><InputNumber  v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
+                                    <td><InputNumber :min="formValue.dueAmount" :max="formValue.subTotal-formValue.oldTotal" v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
                                 </tr>
 
                             </table>
@@ -117,7 +122,7 @@
                                             <br>
                                             <Row>
                                                 <Col span="22">
-                                                    <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                                    <DatePicker v-model="date" type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                                                 </Col>
                                             </Row>
                                         </FormItem>
@@ -148,6 +153,7 @@
         data () {
             return {
                 index:0,
+                date:'',
                 searchValue:'',
                 clearModel:false,
                 loading:false,
@@ -174,6 +180,7 @@
                      newProduct: [],
                      productCode:'',
                      bonusAmount:null,
+                     dueAmount:null,
                 },
                
             }
@@ -339,9 +346,9 @@
                         totalPriceN+=(d.quantity*d.discountedPrice)
                     }
                 totalPrice=Math.round(totalPrice+totalPriceN).toFixed(2)
-                this.formValue.totalQuantity=Math.round(totalQuantity+totalQuantityN).toFixed(2)
+                this.formValue.totalQuantity=totalQuantity+totalQuantityN
                 this.formValue.total=parseFloat(totalPrice)
-                this.formValue.paidAmount=parseFloat(totalPrice-this.formValue.oldTotal-this.formValue.bonusAmount)
+                this.formValue.paidAmount=parseFloat(totalPrice-this.formValue.oldTotal-this.formValue.bonusAmount-this.formValue.dueAmount)
                 this.formValue.subTotal=parseFloat(totalPrice)
                 this.discount()
 
@@ -353,7 +360,7 @@
                 var afterDiscount = totalOld - discountAmount
                 afterDiscount= Math.round(afterDiscount).toFixed(2)
                 this.formValue.total=parseFloat(afterDiscount)
-                this.formValue.paidAmount=parseFloat(afterDiscount-this.formValue.oldTotal-this.formValue.bonusAmount)
+                this.formValue.paidAmount=parseFloat(afterDiscount-this.formValue.oldTotal-this.formValue.bonusAmount-this.formValue.dueAmount)
             },
             total(){
                 var totalOld = this.formValue.subTotal
@@ -361,7 +368,7 @@
                 var discount = (discountAmount*100)/totalOld
                 discount= Math.round(discount).toFixed(2)
                 this.formValue.discount=discount
-                this.formValue.paidAmount=this.formValue.total
+                this.formValue.paidAmount=this.formValue.total-this.formValue.oldTotal-this.formValue.bonusAmount-this.formValue.dueAmount
             },
             showClear()
             {
@@ -423,11 +430,13 @@
                             
                             this.formValue.subTotal=this.dataSearch.totalPrice
                             this.formValue.totalQuantity=this.dataSearch.totalQuantity
-                            this.formValue.paidAmount=this.dataSearch.paidAmount
                             this.formValue.total=this.dataSearch.sellingPrice
                             this.formValue.discount=this.dataSearch.discount
                             this.formValue.date=this.dataSearch.date
-                            this.formValue.oldTotal=this.formValue.paidAmount
+                            this.formValue.oldTotal=this.dataSearch.paidAmount
+                            this.formValue.dueAmount=data.due*-1
+                            this.formValue.discountAmount=data.discount*-1
+                            this.formValue.paidAmount=this.dataSearch.sellingPrice-this.dataSearch.paidAmount-this.formValue.dueAmount
                             if(data.bonus)
                             {
                                 this.formValue.bonusAmount=(data.bonus.amount*-1)
@@ -440,9 +449,7 @@
                         }
                 
                     
-                }
-                
-                
+                }  
             },
             async setData()
             {
@@ -455,6 +462,8 @@
                         url:`/app/searchInvoice/${this.formValue.barCode}`,
                         })
                         this.dataSearch=data;
+                        this.formValue.customer_id=data.customer.id;
+                        this.date=data.date;
                         this.addProduct()
                         this.lf();
 
