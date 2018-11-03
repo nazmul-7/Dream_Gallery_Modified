@@ -129,10 +129,14 @@ class InvoiceController extends Controller
         $product=Selling::where('invoice_id',$id)
         ->with('product')
         ->get();
+        $bonus=Bonus::where('invoice_id',$id)
+        ->where('type','withdraw')
+        ->first();
 
          return response()->json([
                 'msg' => 'Inserted',
                 'data' => $product,
+                'bonus' => $bonus,
             ],200);
     }
     public function returnInvoice(Request $request)
@@ -140,10 +144,11 @@ class InvoiceController extends Controller
         $admin_id=Auth::user()->id;        
         $input=$request->all();
         // update invoice 
-        $invoice=Invoice::where('id',$input['invoice_id'])
-        ->update([
+        $invoice=Invoice::create([
+            'admin_id' => $admin_id,
+            'type' => 'sell',
             'totalQuantity' => $input['totalQuantity'],
-            'totalPrice' => $input['subTotal'],
+            'totalPrice' => $input['totalPrice'],
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
             'sellingPrice' => $input['total'],

@@ -61,10 +61,6 @@
                                     <td colspan="2">{{formValue.subTotal}}</td>
                                     
                                 </tr>
-                                <tr v-if="formValue.oldTotal>0">
-                                    <td colspan="7" style="text-align:right">Previous Paid Amound</td>
-                                    <td><InputNumber  :min="0" :max="formValue.oldTotal" @on-change="total" v-model="formValue.oldTotal"></InputNumber ></td>
-                                </tr>
                                 <tr >
                                     <td colspan="7" style="text-align:right">Discount</td>
                                     <td><InputNumber  v-if="formValue.subTotal>0"  :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
@@ -72,6 +68,10 @@
                                 <tr >
                                     <td colspan="7" style="text-align:right">Total</td>
                                     <td><InputNumber v-if="formValue.total>0"  :min="0" :max="formValue.subTotal" @on-change="total" v-model="formValue.total"></InputNumber ></td>
+                                </tr>
+                                <tr v-if="formValue.newProductFlag">
+                                    <td colspan="7" style="text-align:right">Previous Paid Amound</td>
+                                    <td><InputNumber  :min="0" :max="formValue.oldTotal" @on-change="total" v-model="formValue.oldTotal"></InputNumber ></td>
                                 </tr>
                                 <tr >
                                     <td colspan="7" style="text-align:right">Paid Amount</td>
@@ -85,7 +85,7 @@
                                 </Button>
 
                                 <Button type="primary" size="large" :loading="sending" @click="makeReturn">
-                                    <span v-if="!loading">Update Sell</span>
+                                    <span v-if="!loading">Exchange</span>
                                     <span v-else>Loading...</span>
                                 </Button>
                             </Col>
@@ -100,14 +100,20 @@
                             <Row> 
                                 <Form>
                                     <Col span="22" offset="1">
-                                        <FormItem label="Supplier">
-                                            <Select v-model="formValue.customer_id" placeholder="Supplier" filterable>
+                                        <FormItem label="Customer">
+                                            <Select v-model="formValue.customer_id" placeholder="Customer" filterable>
                                                 <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
                                             </Select>
                                         </FormItem>
                                     </Col>
+                                    <Col span="22" offset="1" v-if="formValue.bonusAmount">
+                                        <FormItem label="Customer">
+                                            <Input v-model="formValue.bonusAmount" >
+                                            </Input>
+                                        </FormItem>
+                                    </Col>
                                     <Col span="22" offset="1">
-                                        <FormItem  label="Buying Date">
+                                        <FormItem label="Buying Date">
                                             <br>
                                             <Row>
                                                 <Col span="22">
@@ -163,9 +169,11 @@
                      supplier_id: '',
                      customer_id: '',
                      productDetails: [],
-                     newProductFlag: true,
+                     productDetailsInvoice: [],
+                     newProductFlag: false,
                      newProduct: [],
-                     productCode:''
+                     productCode:'',
+                     bonusAmount:null,
                 },
                
             }
@@ -230,7 +238,11 @@
             },
             async addNewSale()
             {
-               
+                if(!this.formValue.newProductFlag)
+                {
+                    this.formValue.newProductFlag=true
+
+                }
 
                 if(this.formValue.productCode)
                 {
@@ -316,12 +328,6 @@
             },
             quantityChange()
             {
-                if(this.formValue.newProductFlag)
-                {
-                this.formValue.oldTotal=this.formValue.paidAmount
-                this.formValue.newProductFlag=false
-
-                }
                 
                 var totalPrice=0,totalQuantity=0,totalQuantityN=0,totalPriceN=0
                 for ( let d of this.formValue.productDetails) {
@@ -335,7 +341,7 @@
                 totalPrice=Math.round(totalPrice+totalPriceN).toFixed(2)
                 this.formValue.totalQuantity=Math.round(totalQuantity+totalQuantityN).toFixed(2)
                 this.formValue.total=parseFloat(totalPrice)
-                this.formValue.paidAmount=parseFloat(totalPrice-this.formValue.oldTotal)
+                this.formValue.paidAmount=parseFloat(totalPrice-this.formValue.oldTotal-this.formValue.bonusAmount)
                 this.formValue.subTotal=parseFloat(totalPrice)
                 this.discount()
 
@@ -347,7 +353,7 @@
                 var afterDiscount = totalOld - discountAmount
                 afterDiscount= Math.round(afterDiscount).toFixed(2)
                 this.formValue.total=parseFloat(afterDiscount)
-                this.formValue.paidAmount=parseFloat(afterDiscount-this.formValue.oldTotal)
+                this.formValue.paidAmount=parseFloat(afterDiscount-this.formValue.oldTotal-this.formValue.bonusAmount)
             },
             total(){
                 var totalOld = this.formValue.subTotal
@@ -410,15 +416,23 @@
                                         c.discountedPrice= c.unitPrice
                                 }
                             }
+                            
                             this.formValue.invoice_id=this.dataSearch.id
                             this.formValue.productDetails=data.data
+                            this.formValue.productDetailsInvoice=data.data
+                            
                             this.formValue.subTotal=this.dataSearch.totalPrice
                             this.formValue.totalQuantity=this.dataSearch.totalQuantity
                             this.formValue.paidAmount=this.dataSearch.paidAmount
                             this.formValue.total=this.dataSearch.sellingPrice
                             this.formValue.discount=this.dataSearch.discount
                             this.formValue.date=this.dataSearch.date
-                            this.quantityChange()
+                            this.formValue.oldTotal=this.formValue.paidAmount
+                            if(data.bonus)
+                            {
+                                this.formValue.bonusAmount=(data.bonus.amount*-1)
+                            }
+
                         }catch(e){
                             this.e('Oops!','Something went wrong, please try again!')
                             this.le()
@@ -456,7 +470,7 @@
             
             makeReturn()
             {
-                if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
+                if(Math.round(this.formValue.paidAmount+this.formValue.bonusAmount+this.formValue.oldTotal) != Math.round(this.formValue.total) )
                 {
                     this.i('Due Alart','This invoice will add due amount')
                     if(!this.formValue.customer_id)
@@ -486,7 +500,7 @@
                             data: this.formValue
                         })
                         
-                        this.s('Great!','Sell has been added successfully!')
+                        this.s('Great!','Return has been added successfully!')
                         this.loading=false
                         this.clearData()
                     }catch(e){
