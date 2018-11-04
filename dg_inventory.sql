@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2018 at 12:01 PM
+-- Generation Time: Nov 04, 2018 at 04:48 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -25,6 +25,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bonuses`
+--
+
+CREATE TABLE `bonuses` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bonusBy` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -41,12 +60,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `catName`, `group_id`, `created_at`, `updated_at`) VALUES
-(1, 'Backpack', 2, '2018-09-24 04:31:19', '2018-09-24 04:32:17'),
-(3, 'Parse', 2, '2018-09-24 04:31:29', '2018-09-24 04:31:29'),
-(4, 'Wallet', 2, '2018-09-24 04:31:36', '2018-09-24 04:31:36'),
-(5, 'BB Cream', 3, '2018-09-24 04:31:52', '2018-09-24 04:31:52'),
-(6, 'Flat', 1, '2018-09-24 04:32:05', '2018-09-24 04:32:05'),
-(7, 'Heel', 1, '2018-09-24 04:32:10', '2018-09-24 04:32:10');
+(1, 'HEEL', 1, '2018-11-04 09:37:58', '2018-11-04 09:37:58');
 
 -- --------------------------------------------------------
 
@@ -58,9 +72,10 @@ CREATE TABLE `customers` (
   `id` int(10) UNSIGNED NOT NULL,
   `customerName` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `zone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `barcode` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `opening` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `balance` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -71,13 +86,10 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `customerName`, `address`, `contact`, `email`, `zone`, `opening`, `balance`, `created_at`, `updated_at`) VALUES
-(1, 'zubaer haque', '15 sebok, Mirabazaar', '0198765321', 'zubaer.haque@gmail.com', 'Dhaka', '0', '0', '2018-09-24 09:38:18', '2018-09-24 09:38:18'),
-(2, 'Sayem Ahmed', 'Dakshin Surma', '017121615', 'sayemahmed1615@gmail.com', 'Sylhet', '1500', '0', '2018-09-25 01:22:06', '2018-09-25 01:22:06'),
-(3, 'manzur kader', 'lund university', '011111111', 'zubaerhaque@gmail.com', 'Dhaka', '5000', '0', '2018-09-25 01:25:40', '2018-09-25 01:25:40'),
-(4, 'zubaer haqueaaa', '15 sebok, Mirabazaar', '32165749', 'zubaeraaaa.haque@gmail.com', NULL, '0', '0', '2018-10-14 10:01:19', '2018-10-14 10:01:19'),
-(5, 'manzur kader', 'lund university', '547468452', 'zussssbaerhaque@gmail.com', 'Sylhet', '3524654', '0', '2018-10-14 10:01:31', '2018-10-14 10:01:31'),
-(6, 'manzur kader', 'lund university', '857453120', 'zubaerhaque@gmail.com', 'Dhaka', '6555', '0', '2018-10-14 10:02:30', '2018-10-14 10:02:30');
+INSERT INTO `customers` (`id`, `customerName`, `address`, `contact`, `email`, `zone`, `barcode`, `opening`, `balance`, `created_at`, `updated_at`) VALUES
+(1, 'Zubaer', 'Amberkhana', '01722876856', 'zubaer@gmail.com', 'Sylhet', '2', '500', '0', '2018-11-04 09:38:47', '2018-11-04 09:41:32'),
+(2, 'Sayem Ahmed', 'Dakshin Surma,Sylhet', '017121506', 'sayemahmed@gmailcom', 'Sylhet', '1', '0', '0', '2018-11-04 09:39:42', '2018-11-04 09:41:11'),
+(3, 'Manzur Kader', 'Savar', '0198765412', 'Manzurkader@gmail.com', 'Dhaka', NULL, '0', '0', '2018-11-04 09:40:48', '2018-11-04 09:40:48');
 
 -- --------------------------------------------------------
 
@@ -98,9 +110,7 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `groupName`, `discount`, `created_at`, `updated_at`) VALUES
-(1, 'Shoe', 0, '2018-09-24 04:31:00', '2018-09-24 04:31:00'),
-(2, 'Bag', 0, '2018-09-24 04:31:04', '2018-09-24 04:31:04'),
-(3, 'Makeup', 0, '2018-09-24 04:31:08', '2018-09-24 04:31:08');
+(1, 'SHOE', 0, '2018-11-04 09:37:19', '2018-11-04 09:37:41');
 
 -- --------------------------------------------------------
 
@@ -124,19 +134,6 @@ CREATE TABLE `invoices` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `invoices`
---
-
-INSERT INTO `invoices` (`id`, `admin_id`, `type`, `totalQuantity`, `totalPrice`, `discount`, `sellingPrice`, `paidAmount`, `customer_id`, `supplier_id`, `date`, `created_at`, `updated_at`) VALUES
-(1, 1, 'purchase', 20, 10900.00, 0, 0.00, 0.00, 0, 5, '2018-09-25', '2018-09-25 05:34:09', '2018-09-25 05:34:09'),
-(2, 1, 'sell', 2, 2650.00, 10, 2385.00, 2385.00, 3, 0, '2018-09-25', '2018-09-25 05:35:24', '2018-09-25 05:35:24'),
-(3, 1, 'purchase', 5000, 100000.00, 0, 0.00, 0.00, 0, 5, '2018-10-09', '2018-10-10 05:08:27', '2018-10-10 05:08:27'),
-(4, 1, 'sell', 1, 1500.00, 0, 1500.00, 1500.00, NULL, 0, NULL, '2018-10-11 05:08:07', '2018-10-11 05:08:07'),
-(5, 1, 'purchase', 10, 100.00, 0, 0.00, 0.00, 0, 6, '2018-10-16', '2018-10-15 02:08:19', '2018-10-15 02:08:19'),
-(6, 1, 'purchase', 5, 2600.00, 0, 0.00, 0.00, 0, 5, '2018-10-23', '2018-10-15 03:04:02', '2018-10-15 03:04:02'),
-(7, 1, 'sell', 3, 3450.00, 0, 3450.00, 3450.00, NULL, 0, NULL, '2018-10-16 05:53:51', '2018-10-16 05:53:51');
-
 -- --------------------------------------------------------
 
 --
@@ -150,17 +147,6 @@ CREATE TABLE `ledger_heads` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `ledger_heads`
---
-
-INSERT INTO `ledger_heads` (`id`, `ledgerName`, `type`, `created_at`, `updated_at`) VALUES
-(1, 'Bkash', 'Income', '2018-09-26 01:44:57', '2018-09-26 01:44:57'),
-(2, 'Bkash', 'Expence', '2018-09-26 01:46:05', '2018-09-26 01:46:05'),
-(3, 'Cash Back', 'Income', '2018-09-26 01:46:33', '2018-09-26 01:46:33'),
-(4, 'Foods and Drinks', 'Expence', '2018-09-26 01:46:58', '2018-09-26 01:46:58'),
-(5, 'Courier', 'Expence', '2018-09-26 01:47:07', '2018-09-26 01:47:07');
 
 -- --------------------------------------------------------
 
@@ -179,23 +165,24 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(69, '2014_10_12_000000_create_users_table', 1),
-(70, '2014_10_12_100000_create_password_resets_table', 1),
-(71, '2018_06_30_123738_create_unit_types_table', 1),
-(72, '2018_06_30_134223_create_settings_table', 1),
-(73, '2018_07_02_122958_create_groups_table', 1),
-(74, '2018_07_03_100018_create_categories_table', 1),
-(75, '2018_07_03_155050_create_products_table', 1),
-(76, '2018_07_05_111105_create_suppliers_table', 1),
-(77, '2018_07_08_093900_create_customers_table', 1),
-(78, '2018_07_08_095258_create_zones_table', 1),
-(79, '2018_07_08_113758_create_ledger_heads_table', 1),
-(80, '2018_07_08_113817_create_vouchers_table', 1),
-(81, '2018_07_11_112119_create_invoices_table', 1),
-(82, '2018_07_11_113714_create_purchases_table', 1),
-(83, '2018_07_12_150021_create_paymentsheets_table', 1),
-(84, '2018_07_12_151655_create_sellings_table', 1),
-(85, '2018_07_14_154542_create_payments_table', 1);
+(105, '2014_10_12_000000_create_users_table', 1),
+(106, '2014_10_12_100000_create_password_resets_table', 1),
+(107, '2018_06_30_123738_create_unit_types_table', 1),
+(108, '2018_06_30_134223_create_settings_table', 1),
+(109, '2018_07_02_122958_create_groups_table', 1),
+(110, '2018_07_03_100018_create_categories_table', 1),
+(111, '2018_07_03_155050_create_products_table', 1),
+(112, '2018_07_05_111105_create_suppliers_table', 1),
+(113, '2018_07_08_093900_create_customers_table', 1),
+(114, '2018_07_08_095258_create_zones_table', 1),
+(115, '2018_07_08_113758_create_ledger_heads_table', 1),
+(116, '2018_07_08_113817_create_vouchers_table', 1),
+(117, '2018_07_11_112119_create_invoices_table', 1),
+(118, '2018_07_11_113714_create_purchases_table', 1),
+(119, '2018_07_12_150021_create_paymentsheets_table', 1),
+(120, '2018_07_12_151655_create_sellings_table', 1),
+(121, '2018_07_14_154542_create_payments_table', 1),
+(122, '2018_10_21_062806_create_bonuses_table', 1);
 
 -- --------------------------------------------------------
 
@@ -226,14 +213,6 @@ CREATE TABLE `payments` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `admin_id`, `uid`, `type`, `date`, `paidAmount`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 'incoming', '2018-09-07', 500.00, '2018-09-25 01:36:58', '2018-09-25 01:36:58'),
-(2, 1, 5, 'outgoing', '2018-10-17', 5000.00, '2018-10-03 05:01:28', '2018-10-03 05:01:28');
-
 -- --------------------------------------------------------
 
 --
@@ -260,27 +239,11 @@ CREATE TABLE `paymentsheets` (
 --
 
 INSERT INTO `paymentsheets` (`id`, `admin_id`, `uid`, `amount`, `type`, `paymentFor`, `remarks`, `paymentMethod`, `invoice_id`, `date`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 0.00, 'due', 'customer', 'Opening', 'due', NULL, NULL, '2018-09-24 09:38:18', '2018-09-24 09:38:18'),
-(2, 1, 3, 0.00, 'due', 'supplier', 'Opening', 'due', NULL, NULL, '2018-09-25 01:17:25', '2018-09-25 01:17:25'),
-(3, 1, 4, 0.00, 'opening', 'supplier', 'Opening', 'due', NULL, NULL, '2018-09-25 01:19:11', '2018-09-25 01:19:11'),
-(4, 1, 2, -1500.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-09-25 01:22:06', '2018-09-25 01:22:06'),
-(5, 1, 3, -5000.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-09-25 01:25:40', '2018-09-25 01:25:40'),
-(6, 1, 3, 500.00, 'dueIncoming', 'customer', 'Paid by Customer', 'cash', 0, '2018-09-07', '2018-09-25 01:36:58', '2018-09-25 01:36:58'),
-(7, 1, 5, -500000.00, 'opening', 'supplier', 'Opening', 'due', NULL, NULL, '2018-09-25 02:06:06', '2018-09-25 02:06:06'),
-(8, 1, 5, 10900.00, 'due', 'supplier', 'Purchased From Supplier', 'due', 1, '2018-09-25', '2018-09-25 05:34:09', '2018-09-25 05:34:09'),
-(9, 1, 3, 2385.00, 'incoming', 'customer', 'Sell To Customer', 'cash', 2, '2018-09-25', '2018-09-25 05:35:24', '2018-09-25 05:35:24'),
-(10, 1, 3, 265.00, 'discount', 'customer', 'Discount To Customer', 'cash', 2, '2018-09-25', '2018-09-25 05:35:24', '2018-09-25 05:35:24'),
-(11, 1, NULL, 200.00, 'incoming', 'voucher', 'Voucher : Cash Back', 'Cash Back', NULL, '2018-10-04', '2018-10-03 02:15:25', '2018-10-03 02:15:25'),
-(12, 1, 5, -5000.00, 'outgoing', 'supplier', 'Pay to Supplier', 'cash', 0, '2018-10-17', '2018-10-03 05:01:28', '2018-10-03 05:01:28'),
-(13, 1, 5, 100000.00, 'due', 'supplier', 'Purchased From Supplier', 'due', 3, '2018-10-09', '2018-10-10 05:08:27', '2018-10-10 05:08:27'),
-(14, 1, NULL, 1500.00, 'incoming', 'customer', 'Sell To Customer', 'cash', 4, NULL, '2018-10-11 05:08:07', '2018-10-11 05:08:07'),
-(15, 1, 4, 0.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-10-14 10:01:19', '2018-10-14 10:01:19'),
-(16, 1, 5, -999999.99, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-10-14 10:01:31', '2018-10-14 10:01:31'),
-(17, 1, 6, -6555.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-10-14 10:02:30', '2018-10-14 10:02:30'),
-(18, 1, 6, 0.00, 'opening', 'supplier', 'Opening', 'due', NULL, NULL, '2018-10-15 02:01:50', '2018-10-15 02:01:50'),
-(19, 1, 6, 100.00, 'due', 'supplier', 'Purchased From Supplier', 'due', 5, '2018-10-16', '2018-10-15 02:08:19', '2018-10-15 02:08:19'),
-(20, 1, 5, 2600.00, 'due', 'supplier', 'Purchased From Supplier', 'due', 6, '2018-10-23', '2018-10-15 03:04:02', '2018-10-15 03:04:02'),
-(21, 1, NULL, 3450.00, 'incoming', 'customer', 'Sell To Customer', 'cash', 7, NULL, '2018-10-16 05:53:51', '2018-10-16 05:53:51');
+(1, 1, 1, 500.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-11-04 09:38:47', '2018-11-04 09:38:47'),
+(2, 1, 2, 0.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-11-04 09:39:42', '2018-11-04 09:39:42'),
+(3, 1, 3, 0.00, 'opening', 'customer', 'Opening', 'due', NULL, NULL, '2018-11-04 09:40:48', '2018-11-04 09:40:48'),
+(4, 1, 1, 50000.00, 'opening', 'supplier', 'Opening', 'due', NULL, NULL, '2018-11-04 09:42:18', '2018-11-04 09:42:18'),
+(5, 1, 2, 0.00, 'opening', 'supplier', 'Opening', 'due', NULL, NULL, '2018-11-04 09:42:48', '2018-11-04 09:42:48');
 
 -- --------------------------------------------------------
 
@@ -303,18 +266,12 @@ CREATE TABLE `products` (
   `averageBuyingPrice` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `barCode` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `productImage` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `opening` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `date` date NOT NULL,
+  `openingQuantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `openingUnitPrice` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`id`, `admin_id`, `productName`, `groupName`, `catName`, `brand`, `unit`, `size`, `color`, `model`, `sellingPrice`, `averageBuyingPrice`, `barCode`, `productImage`, `opening`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Xoxo', 'Shoe', 'Flat', 'Codiciva', 'Pair', '6', 'Red', 'X1', '1500', '308.69565217391306', '1000000001', NULL, '0', '2018-09-24 08:49:42', '2018-10-15 03:04:02'),
-(2, 1, 'Xoxo', 'Shoe', 'Flat', 'vALIN', 'Dozon', '6', 'Red', 'X1', '1150', '20.934318227191056', '1000000002', NULL, '0', '2018-09-24 08:53:29', '2018-10-10 05:08:27');
 
 -- --------------------------------------------------------
 
@@ -329,22 +286,11 @@ CREATE TABLE `purchases` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `unitPrice` double(8,2) NOT NULL,
+  `date` date NOT NULL,
   `hasReturned` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `purchases`
---
-
-INSERT INTO `purchases` (`id`, `admin_id`, `invoice_id`, `product_id`, `quantity`, `unitPrice`, `hasReturned`, `created_at`, `updated_at`) VALUES
-(1, 1, 0, 2, 0, -1.00, 0, '2018-09-24 08:53:29', '2018-09-24 08:53:29'),
-(2, 1, 1, 1, 10, 550.00, 0, '2018-09-25 05:34:09', '2018-09-25 05:34:09'),
-(3, 1, 1, 2, 10, 540.00, 0, '2018-09-25 05:34:09', '2018-09-25 05:34:09'),
-(4, 1, 3, 2, 5000, 20.00, 0, '2018-10-10 05:08:27', '2018-10-10 05:08:27'),
-(5, 1, 5, 1, 10, 10.00, 0, '2018-10-15 02:08:19', '2018-10-15 02:08:19'),
-(6, 1, 6, 1, 5, 520.00, 0, '2018-10-15 03:04:02', '2018-10-15 03:04:02');
 
 -- --------------------------------------------------------
 
@@ -361,20 +307,11 @@ CREATE TABLE `sellings` (
   `unitPrice` double(8,2) DEFAULT NULL,
   `discount` double(8,2) DEFAULT NULL,
   `profit` double(8,2) DEFAULT NULL,
+  `date` date NOT NULL,
   `hasReturned` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `sellings`
---
-
-INSERT INTO `sellings` (`id`, `admin_id`, `invoice_id`, `product_id`, `quantity`, `unitPrice`, `discount`, `profit`, `hasReturned`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, 1, 1500.00, 0.00, 950.00, 0, '2018-09-25 05:35:24', '2018-09-25 05:35:24'),
-(2, 1, 2, 2, 1, 1150.00, 0.00, 610.00, 0, '2018-09-25 05:35:24', '2018-09-25 05:35:24'),
-(3, 1, 4, 1, 1, 1500.00, 0.00, 950.00, 0, '2018-10-11 05:08:07', '2018-10-11 05:08:07'),
-(4, 1, 7, 2, 3, 1150.00, 0.00, 1129.07, 0, '2018-10-16 05:53:51', '2018-10-16 05:53:51');
 
 -- --------------------------------------------------------
 
@@ -389,9 +326,9 @@ CREATE TABLE `settings` (
   `refererBonus` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `companyName` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `companyLogo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
   `invoiceNote` text COLLATE utf8mb4_unicode_ci,
-  `contact` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -400,8 +337,8 @@ CREATE TABLE `settings` (
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `currencyType`, `referenceBonus`, `refererBonus`, `companyName`, `companyLogo`, `invoiceNote`, `contact`, `address`, `created_at`, `updated_at`) VALUES
-(1, 'BDT', '0', '0', 'Dreams gallery', 'asd', 'Dont Come Back', '01732165498', 'City Center', NULL, '2018-10-18 04:00:52');
+INSERT INTO `settings` (`id`, `currencyType`, `referenceBonus`, `refererBonus`, `companyName`, `companyLogo`, `contact`, `address`, `invoiceNote`, `created_at`, `updated_at`) VALUES
+(1, 'BDT', '5', '8', 'Dreams Gallery', NULL, '+8801611115116', 'City Center,Sylhet', 'Never Buy Again', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -426,9 +363,8 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `supplierName`, `address`, `contact`, `email`, `opening`, `balance`, `created_at`, `updated_at`) VALUES
-(4, 'Kupaa', 'China', '3216548', 'kupa', '0', '0', '2018-09-25 01:19:11', '2018-09-25 01:19:11'),
-(5, 'Z', 'lund university\nlund', '213', 'zubaerhaque@gmail.com', '500000', '0', '2018-09-25 02:06:06', '2018-09-25 02:06:06'),
-(6, 'asd', 'Dakshin Surma', '01712211615', 'sayemahmed1615@gmail.com', '0', '0', '2018-10-15 02:01:50', '2018-10-15 02:01:50');
+(1, 'Vera', 'China RA, No Online, CC', '017987654', 'vera@verachina.com', '50000', '0', '2018-11-04 09:42:18', '2018-11-04 09:42:18'),
+(2, 'Vola', 'I habve no road4, no houe, china 33', '0114445556', 'asd@nomail.com', '0', '0', '2018-11-04 09:42:48', '2018-11-04 09:42:48');
 
 -- --------------------------------------------------------
 
@@ -448,8 +384,10 @@ CREATE TABLE `unit_types` (
 --
 
 INSERT INTO `unit_types` (`id`, `unitName`, `created_at`, `updated_at`) VALUES
-(1, 'Pair', '2018-09-24 04:30:41', '2018-09-24 04:30:41'),
-(2, 'Dozon', '2018-09-24 04:30:50', '2018-09-24 04:30:50');
+(1, 'PCS', '2018-11-04 09:36:35', '2018-11-04 09:36:35'),
+(2, 'PAIR', '2018-11-04 09:36:40', '2018-11-04 09:36:40'),
+(3, 'DOZON', '2018-11-04 09:36:43', '2018-11-04 09:36:43'),
+(4, 'BOX', '2018-11-04 09:36:51', '2018-11-04 09:36:51');
 
 -- --------------------------------------------------------
 
@@ -462,6 +400,7 @@ CREATE TABLE `users` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userType` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Editor',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -471,8 +410,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'zubaer haque', 'zubaer.haque@gmail.com', '$2y$10$QAZgT4wpEYvOgTLhZGwYC.AZpqVqvSK5wG3b4WwnAIjmSh9sPtXM6', 'D4bN5zIlyrRshLoqymVoEwkqKO0ENEf1WI6F4JsBiaRBEZFZg5AEwZglxHZB', '2018-09-24 04:30:28', '2018-09-24 04:30:28');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `userType`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'zubaer haque', 'zubaer.haque@gmail.com', '$2y$10$7Niqqq0y/8rXbXJ364jUxes7B/ZiucnVpsCDScnVnwfSYXIXA5bxO', 'Admin', '4K3xjHFblMm14iZWw1QJzM3liHhHIGMxOKspgztfgw97H9jgsVmy5mUWFTBk', '2018-11-04 04:53:59', '2018-11-04 04:53:59');
 
 -- --------------------------------------------------------
 
@@ -492,13 +431,6 @@ CREATE TABLE `vouchers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `vouchers`
---
-
-INSERT INTO `vouchers` (`id`, `admin_id`, `ledgerName`, `type`, `amount`, `date`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 0, 'Cash Back', 'Income', 200, '2018-10-03 18:00:00', 'Card Cash Back', '2018-10-03 02:15:25', '2018-10-03 02:15:25');
-
 -- --------------------------------------------------------
 
 --
@@ -517,31 +449,41 @@ CREATE TABLE `zones` (
 --
 
 INSERT INTO `zones` (`id`, `zoneName`, `created_at`, `updated_at`) VALUES
-(1, 'Sylhet', '2018-09-24 04:32:33', '2018-09-24 04:32:33'),
-(2, 'Dhaka', '2018-09-24 04:32:37', '2018-09-24 04:32:37');
+(1, 'Sylhet', '2018-11-04 09:38:14', '2018-11-04 09:38:14'),
+(2, 'Dhaka', '2018-11-04 09:38:17', '2018-11-04 09:38:17'),
+(3, 'Chittagong', '2018-11-04 09:38:22', '2018-11-04 09:38:22');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `bonuses`
+--
+ALTER TABLE `bonuses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `categories_catname_unique` (`catName`),
   ADD KEY `categories_group_id_foreign` (`group_id`);
 
 --
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `customers_contact_unique` (`contact`);
 
 --
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `groups_groupname_unique` (`groupName`);
 
 --
 -- Indexes for table `invoices`
@@ -607,7 +549,8 @@ ALTER TABLE `settings`
 -- Indexes for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `suppliers_contact_unique` (`contact`);
 
 --
 -- Indexes for table `unit_types`
@@ -639,70 +582,76 @@ ALTER TABLE `zones`
 --
 
 --
+-- AUTO_INCREMENT for table `bonuses`
+--
+ALTER TABLE `bonuses`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ledger_heads`
 --
 ALTER TABLE `ledger_heads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `paymentsheets`
 --
 ALTER TABLE `paymentsheets`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sellings`
 --
 ALTER TABLE `sellings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -714,13 +663,13 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `unit_types`
 --
 ALTER TABLE `unit_types`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -732,13 +681,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `vouchers`
 --
 ALTER TABLE `vouchers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `zones`
 --
 ALTER TABLE `zones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

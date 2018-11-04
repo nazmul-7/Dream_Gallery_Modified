@@ -120,7 +120,7 @@
                                     Account
                                 </template>
                                 <MenuItem name="cash" :to="handleGoToMenu('/cash')">Cash Report</MenuItem>
-                                <MenuItem name="due" :to="handleGoToMenu('/due')">Due Report</MenuItem>
+                                <MenuItem name="customerdue" :to="handleGoToMenu('/customerdue')">Due Report</MenuItem>
                             </Submenu>
                         </MenuItem>
                         <MenuItem name="3-4">                        

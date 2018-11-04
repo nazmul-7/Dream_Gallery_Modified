@@ -107,6 +107,7 @@ class ReportController extends Controller
                 ->select('uid', DB::raw('SUM(amount) as total_due'),'date')
                 ->groupBy('uid')
                 ->whereIn('type',['due','opening','dueincoming'])
+                ->where('paymentFor','customer')
                 ->get();
             return $orders;
 
