@@ -6,13 +6,13 @@
                     <Button  align="left" @click="showPrint">Print</Button>
                 </left>
                 <div  class="print">
-                    <h2>Ledger Due Sheet</h2>
+                    <h2>Customer Outstanding</h2>
                     <table style="width:100%">
                     <tr>
-                        <th>Name</th> 
-                        <th>amount</th>
+                        <th>Customer Name</th> 
+                        <th>Amount</th>
                     </tr>
-                    <tr v-for="(data,i) in dataCustomer" :key="i">
+                    <tr v-for="(data,i) in searchData" :key="i">
                         <td >{{data.customerName}}</td>
                         <td >{{Math.abs(data.total_due)}}</td>
                     </tr>
@@ -37,7 +37,7 @@
                         </Col> -->
                     </Row>
                 </Form>
-            </Col> -->
+            </Col>
         </Row>
 
     </div>
@@ -90,6 +90,13 @@
             
         },
         computed: {
+            searchData()
+            {
+                return this.dataCustomer.filter((data)=>{                    
+                    return data.total_due>0
+                        }
+                    );
+            },
             
             rotateIcon () {
                 return [

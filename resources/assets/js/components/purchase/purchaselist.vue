@@ -157,10 +157,10 @@
                         ]
                     },
                 columns1: [
-                    {
-                        title: 'Invoice ID',
-                        key: 'id'
-                    },
+                    // {
+                    //     title: 'Invoice ID',
+                    //     key: 'id'
+                    // },
                     {
                         title: 'Admin',
                         key: 'adminName'

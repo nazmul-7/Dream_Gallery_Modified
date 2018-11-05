@@ -36,7 +36,7 @@
                             <FormItem label="Select">
                                 <Select v-model="formValue.userType">
                                     <Option value="Admin">Admin</Option>
-                                    <Option value="Editor">Editor</Option>
+                                    <Option value="Editor">Sales Executive</Option>
                                 </Select>
                             </FormItem>
                         </Col>

@@ -32,6 +32,11 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
+    public function phptest()
+    {
+        return date("Y-m-d");
+        
+    }
 
     /**
      * Get a validator for an incoming registration request.

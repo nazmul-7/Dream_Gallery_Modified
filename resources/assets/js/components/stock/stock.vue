@@ -22,16 +22,16 @@
                 <Button  align="left">Print</Button>
                 <table style="width:100%">
                     <tr>
-                        <th>Admin</th>
                         <th>Date</th>
+                        <th>Admin</th>
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>Balance</th>
                     </tr>
                     <tr v-for="(data,i) in dataSell" :key="i">
+                        <td >{{data.date}}</td>
                         <td v-if="data.type ==='opening'">Opening</td>
                         <td v-else>{{data.adminName}}</td>
-                        <td >{{data.date}}</td>
                         <td v-if="data.type ==='sell'">{{data.quantity}}*{{data.unitPrice}}</td>
                         <td v-else>0</td>
                         <td v-if="data.type ==='purchase'">{{data.quantity}}*{{data.unitPrice}}</td>

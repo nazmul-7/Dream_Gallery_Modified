@@ -1,39 +1,10 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="14" offset="1">
-                            <h2>Product List</h2>
-
-                <table style="width:100%">
-                  <tr>
-                    <th>Admim</th>
-                    <th>Type</th> 
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                    <th>Date</th>
-                  </tr>
-                  <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.adminName}}</td>
-                    <td v-if="data.type ==='due'">Due</td>
-                    <td v-else-if="data.type ==='outgoing'">Payment</td>
-                    <td v-else-if="data.type ==='opening'">Opening Cash</td>
-                    <td v-else>Not define</td>
-                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td >{{Math.abs(data.balance)}}</td>
-                    <td >{{data.date}}</td>
-                  </tr>
-
-                </table>
-            </Col>
-
-            <Col class="dream-input-main" span="7" offset="1">
+            <Col class="dream-input-main" span="22" offset="1">
                 <Form >
                     <Row :gutter="24">
-                        <Col span="22" offset="1">
+                        <Col span="8" offset="8">
                             <FormItem label="Supplier">
                                 <Select v-model="formValue.customer_id" placeholder="Supplier" @on-change="changed" filterable clearable>
                                     <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{supplier.supplierName}}</Option>
@@ -44,6 +15,34 @@
                     </Row>
                 </Form>
             </Col>
+            <Col class="dream-input-main" span="22" offset="1">
+                <h2>Supplier Ledger</h2>
+                <table style="width:100%">
+                  <tr>
+                    <th>Date</th>
+                    <th>Admin</th>
+                    <th>Type</th> 
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Balance</th>
+                  </tr>
+                  <tr v-for="(data,i) in dataLedger" :key="i">
+                    <td >{{data.date}}</td>
+                    <td >{{data.adminName}}</td>
+                    <td v-if="data.type ==='due'">Due</td>
+                    <td v-else-if="data.type ==='outgoing'">Payment</td>
+                    <td v-else-if="data.type ==='opening'">Opening Cash</td>
+                    <td v-else>Not define</td>
+                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
+                    <td v-else>0</td>
+                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
+                    <td v-else>0</td>
+                    <td >{{Math.abs(data.balance)}}</td>
+                  </tr>
+
+                </table>
+            </Col>
+
         </Row>
         <Row>
         </Row>

@@ -45,7 +45,7 @@ class SupplierController extends Controller
         $input=$request->all();
         if($input['opening'])
         $input['opening']=$input['opening']*-1;
-
+        $date=date("Y-m-d");
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
             'type' => 'opening',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
@@ -54,6 +54,7 @@ class SupplierController extends Controller
             'amount' => $input['opening']*-1,
             'paymentMethod' => 'due',
             'remarks' => 'Opening',
+            'data' => $date,
         ]);
         return $settings;
 

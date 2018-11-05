@@ -21,23 +21,23 @@
                 <Button  align="left" @click="showPrint">Print</Button>
                 <table style="width:100%">
                     <tr>
+                        <th>Date</th>
                         <th>Admin</th>
+                        <th>Remarks</th> 
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>Balance</th>
-                        <th>Remarks</th> 
-                        <th>Date</th>
                     </tr>
                     <tr v-for="(data,i) in searchData" :key="i">
+                        <td >{{data.date}}</td>
                         <td >{{data.adminName}}</td>
+                        <td >{{data.remarks}}</td>
                         <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
                         <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td >{{data.balance}}</td>
-                        <td >{{data.remarks}}</td>
-                        <td >{{data.date}}</td>
                     </tr>
 
                     </table>
@@ -314,8 +314,8 @@
                 balance.balance=data.balance
                 balance.type='balance'
                 balance.date=k[0]
-                balance.adminName='Admin'
-                balance.remarks='Sheet Begining'
+                balance.adminName='Opening'
+                balance.remarks='Opening Balance'
                 
                 
                 var temp=data.balance

@@ -49,12 +49,14 @@ class ProductController extends Controller
              'barCode' => $barCode,
              'averageBuyingPrice' => $input['openingUnitPrice']
           );
+          $date=date("Y-m-d");
         Product::where('id',$created->id)->update($data);
         $purchase=Purchase::create([
             'admin_id' => $admin_id,
             'product_id' => $created->id,
             'quantity' => $input['openingQuantity'],
             'unitPrice' => $input['openingUnitPrice'],
+            'date' => $date,
             
             
 

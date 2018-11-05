@@ -50,6 +50,7 @@ Route::get('/app/categoryFiltered/{id}','CategoryController@categoryFiltered');
 Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
 Route::get('/app/searchProduct/{id}','PurchaseController@searchProduct');
 Route::get('/app/searchInvoice/{id}','InvoiceController@searchInvoice');
+Route::get('/php/test','HomeController@phptest');
 
 //uploads
 Route::post('/app/setting/upload','SettingController@upload');
