@@ -6,7 +6,7 @@
                     <Button  align="left" @click="showPrint">Print</Button>
                 </left>
                 <div  class="print">
-                    <h2>Ledger Balance Sheet</h2>
+                    <h2>Customer Ledger</h2>
                     <table style="width:100%">
                     <tr>
                         <th>Admin</th> 

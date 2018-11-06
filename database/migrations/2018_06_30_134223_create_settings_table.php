@@ -21,6 +21,7 @@ class CreateSettingsTable extends Migration
             $table->string('companyName')->nullable();
             $table->string('companyLogo')->nullable();
             $table->string('contact')->nullable();
+            $table->string('openingCash')->nullable();
             $table->text('address')->nullable();
             $table->text('invoiceNote')->nullable();
 

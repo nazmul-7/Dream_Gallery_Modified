@@ -518,48 +518,7 @@
 
         async created()
         {
-            this.ls();
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/cash' //1=purchases
-
-                })
-                var cashIn=0
-                var cashOut=0
-                var currentCash=0
-                for(let d of data.data){
-                    d.adminName=d.admin.name
-                    if(d.type=='incoming' || d.type=='dueIncoming')
-                    cashIn+=Math.abs(d.amount)
-                    
-                    if(d.type=='outgoing')
-                    cashOut+=Math.abs(d.amount)
-
-                    currentCash=cashIn-cashOut
-                    if(d.paymentFor=='customer' && d.uid)
-                    {
-                        d.customerName=d.customer.customerName
-
-                    }
-                    else if(d.paymentFor=='supplier' && d.uid)
-                    {
-                        d.supplierName=d.supplier.supplierName
-                    }
-                    
-                }
-                this.cashIn=Math.round(cashIn)
-                this.cashOut=Math.round(cashOut)
-                this.currentCash=Math.round(currentCash)
-                this.dataCash=data.data
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
-
-            
+   
         }
 
     }

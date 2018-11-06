@@ -1,108 +1,45 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="22" offset="1">
+            <Col class="dream-input-main" span="22" offset="1" >
+                <left>
+                    <Button  align="left" @click="showPrint">Print</Button>
+                </left>
+                <div  class="print">
+                    <h2>Customer Outstanding</h2>
+                    <table style="width:100%">
+                    <tr>
+                        <th>Customer Name</th> 
+                        <th>Amount</th>
+                    </tr>
+                    <tr v-for="(data,i) in searchData" :key="i">
+                        <td >{{data.customerName}}</td>
+                        <td >{{Math.abs(data.total_due)}}</td>
+                    </tr>
+
+                    </table>
+                </div>
+            </Col>
+
+            <!-- <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
-                        <Col span="9" offset="2">
-                            <FormItem label="Supplier">
-                                <Select v-model="formValue.customer_id" placeholder="Supplier" @on-change="changed" filterable clearable>
-                                    <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{supplier.supplierName}}</Option>
+                        <Col span="22" offset="1">
+                            <FormItem label="Customer">
+                                <Select v-model="formValue.customer_id" placeholder="Customer Name" @on-change="changed" filterable clearable>
+                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
-                        <Col span="9" offset="2">
-                            <FormItem label="Choose Dates">
-                                <br/>
-                                <DatePicker type="daterange" placement="bottom-end" @on-change="dateRangeConverter" placeholder="Select date" style="width: 200px"></DatePicker>
-                            </FormItem>
-                        </Col>                        
+                        <!-- <Col span="22" offset="1" v-if="user">
+                            <h2>Customer Info</h2>
+                            <p></p>
+                        </Col> -->
                     </Row>
                 </Form>
             </Col>
-            <Col class="dream-input-main" span="22" offset="1">
-                <h2>Supplier Ledger</h2>
-                <table style="width:100%">
-                  <tr>
-                    <th>Date</th>
-                    <th>Admin</th>
-                    <th>Type</th> 
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                  </tr>
-                  <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.date}}</td>
-                    <td >{{data.adminName}}</td>
-                    <td v-if="data.type ==='due'">Due</td>
-                    <td v-else-if="data.type ==='outgoing'">Payment</td>
-                    <td v-else-if="data.type ==='opening'">Opening Cash</td>
-                    <td v-else>Not define</td>
-                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td >{{Math.abs(data.balance)}}</td>
-                  </tr>
-
-                </table>
-            </Col>
-
-        </Row>
-        <Row>
         </Row>
 
-        <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.catName}} {{editObj.group_id}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-           
-        </Form>
-
-
-        </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
-        </div>
-    </Modal>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Delete</span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want delete
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="remove">
-                <span v-if="!loading">Delete</span>
-                <span v-else>Deleting...</span>
-            </Button>
-        </div>
-    </Modal>
-     <Modal v-model="clearModel" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Clear </span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want clear invoice
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="clearForm">
-                <span v-if="!loading">Clear</span>
-                <span v-else>Loading...</span>
-            </Button>
-        </div>
-    </Modal>
     </div>
 </template>
 
@@ -111,7 +48,7 @@
         data () {
             return {
                 index:0,
-                dateRange:[],
+                user:0,
                 balance:null,
                 date:null,
                 searchValue:'',
@@ -121,7 +58,7 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                dataSupplier: [],
+                dataCustomer: [],
                 dataLedger: [],
                 formInvoice:
                 {
@@ -153,6 +90,13 @@
             
         },
         computed: {
+            searchData()
+            {
+                return this.dataCustomer.filter((data)=>{                    
+                    return data.total_due>0
+                        }
+                    );
+            },
             
             rotateIcon () {
                 return [
@@ -187,32 +131,25 @@
 
         },
         methods: {
+            async showPrint (index) {
+                this.editModal=true
+                await new Promise(resolve => setTimeout(resolve, 500));
+                console.log("Print")
+                window.print();
+            },
            
              showClear()
             {
                 this.clearModel=true
             },
             clearForm(){
-                this.emptyEnteredData()
                 this.dataLedger.splice(0,this.dataLedger.length)
                 this.clearModel=false
-            },
-            emptyEnteredData()
-            {
-                this.formValue.customer_id=''
-                this.formValue.date=''
-                this.date=''
-                this.formValue.outStanding=''
-                this.formValue.paidAmount=''
             },
             dateConverter(key)
             {
                 this.formValue.date=key
 
-            },
-            dateRangeConverter(key)
-            {
-                this.dateRange=key
             },
             addProduct(k){
                 if(this.searchValue)
@@ -226,20 +163,23 @@
                 if(!k)
                 {
                     this.clearForm()
+                    this.user=0
                     return
+                    
                 }
+                this.user=1
                 console.log(this.formValue.customer_id)
                 this.ls();
                 try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:`/app/payment/getLedgerSupplier/${this.formValue.customer_id}`
+                    url:`/app/payment/getLedgerCustomer/${this.formValue.customer_id}`
                 })
                 this.formValue.outStanding=Math.abs(data.outStanding)
                 this.formValue.paidAmount=Math.abs(data.outStanding)
                 var temp=0
                 for(let d of data.ledger){
-                   d.adminName=d.admin.name
+                    d.adminName=d.admin.name
                     temp=temp+d.amount
                     d.balance=temp
                 }
@@ -346,9 +286,12 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/supplier'
+                    url:'/app/dueList'
                 })
-                this.dataSupplier=data;
+                for(let d of data){
+                    d.customerName=d.customer.customerName
+                }
+                this.dataCustomer=data;
                 this.lf();
 
             }catch(e){
