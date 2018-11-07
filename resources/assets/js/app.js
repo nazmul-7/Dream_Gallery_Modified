@@ -15,7 +15,12 @@ import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css';
 // import VueBarcode from 'vue-barcode';
 import VueBarcode from '@xkeshi/vue-barcode';
+import Bars from 'vuebars'
+import Chart from 'chart.js';
+import VueGoogleCharts from 'vue-google-charts'
 
+Vue.use(VueGoogleCharts)
+Vue.use(Bars)
 Vue.use(iView, { locale });
 //barcode source https://github.com/xkeshi/vue-barcode
 

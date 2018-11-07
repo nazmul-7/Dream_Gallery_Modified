@@ -20,6 +20,9 @@
 Route::post('/app/login','LoginController@login');
 Route::post('/app/create','Auth/RegisterController@newUser');
 Route::post('/app/userList','HomeController@userList');
+//dashboard
+Route::get('/app/salesData/{from}/{to}','DashboardController@salesData');
+
 //update custom functions
 Route::post('/app/settingUpdate','SettingController@updateSetting');
 Route::post('/app/groupUpdate','GroupController@groupUpdate');
