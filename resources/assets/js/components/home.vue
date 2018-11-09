@@ -185,14 +185,26 @@
 			},
 			async dateConverter(k)
 			{
+                console.log(k)
 				 try{
                     let {data} =await  axios({
                         method: 'get',
                         url:`/app/salesData/${k[0]}/${k[1]}`
-
                     })
-
-                    
+                    this.chartData.splice(1,this.chartData.length)
+                        console.log(this.chartData)
+                    let i=0;
+                    let array=[]
+                    for(let d of data.sales){
+                        array[0]=d.date
+                        array[1]=d.total_sale
+                        array[2]=data.profit[i].total_profit
+                        this.chartData.push(array)
+                        array=[]
+                        i++
+                        console.log(k)
+                    }
+                        
                     this.lf();
 
                 }catch(e){

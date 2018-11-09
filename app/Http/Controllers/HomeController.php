@@ -64,12 +64,13 @@ class HomeController extends Controller
     }
     public function newUser(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'email' => $data['userType'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $user=new User;
+        $user->name=$request->input('user_profile_name');
+        $user->email=$request->input('email');
+        $user->userType=$request->input('userType');
+        $user->password=bcrypt($request->input('password'));
+        $user->save();
+        return $user;
     }
     public function userList()
     {

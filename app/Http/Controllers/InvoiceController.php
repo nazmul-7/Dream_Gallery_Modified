@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Invoice;
+use App\Purchase;
 use App\Selling;
 use App\Bonus;
 use App\Paymentsheet;
@@ -86,7 +87,15 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         $destroy = Invoice::where('id','=',$id)
-          ->first();
+            ->first();
+            $selling = Selling::where('invoice_id','=',$id)
+            ->delete();
+            $purchase = Purchase::where('invoice_id','=',$id)
+            ->delete();
+            $paymentsheet = Paymentsheet::where('invoice_id','=',$id)
+            ->delete();
+            $bonus = Bonus::where('invoice_id','=',$id)
+            ->delete();
           if($destroy->count()){
             $destroy->delete();
             return response()->json(['msg'=>'success','status'=>$id]);

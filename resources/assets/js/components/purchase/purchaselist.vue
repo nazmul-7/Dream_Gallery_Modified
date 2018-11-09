@@ -181,6 +181,41 @@
                         title: 'Date',
                         key: 'date'
                     },
+                                        {   
+                        title: 'Action',
+                        key: 'action',
+                        width: 200,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                // h('Button', {
+                                //     props: {
+                                //         type: 'primary',
+                                //         size: 'small'
+                                //     },
+                                //     style: {
+                                //         marginRight: '5px'
+                                //     },
+                                //     on: {
+                                //         click: () => {
+                                //             this.showView(params.index)
+                                //         }
+                                //     }
+                                // }, 'View'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showRemove(params.index)
+                                        }
+                                    }
+                                }, 'Remove')
+                            ]);
+                        }
+                    }
                     
                 ],
 
@@ -414,7 +449,7 @@
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
-            async edit(){
+            async showView(){
                 this.sending=true
                 try{
                     let {data} =await  axios({

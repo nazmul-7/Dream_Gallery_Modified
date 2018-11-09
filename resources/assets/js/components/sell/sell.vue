@@ -492,7 +492,6 @@
                 else
                 {
                     console.log(data.ledger[0])
-                    this.formValue.discount=0
                     this.currentCustomer.status=false
                 }
 
