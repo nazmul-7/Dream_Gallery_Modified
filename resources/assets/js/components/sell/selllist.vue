@@ -1,10 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
-                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-            </Col>
-           <Col  class="dream-input-main" span="22" offset="1" v-if="date">
+           <Col  class="dream-input-main" span="22" offset="1" >
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -12,7 +9,7 @@
                         </Input>
                     </FormItem>
                     <FormItem label="Customer">
-                        <Select v-model="filterCustomer" placeholder="Select group"  filterable clearable>
+                        <Select v-model="filterCustomer" placeholder="Select Customer"  filterable clearable>
                                 <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
                             </Select>
                     </FormItem>
@@ -21,9 +18,12 @@
                                 <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
                             </Select>
                     </FormItem>
+                    <FormItem label="Date">
+                        <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                    </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
             </Col>
         </Row>
 
@@ -39,6 +39,79 @@
             </div>
 
         </Modal>
+
+        <Modal v-model="viewModal"  :styles="{top: '5px', width:'110mm'}" >
+            <div  class="print">
+                <h2 style="text-align:center">{{ shopData.companyName }}</h2>
+                <p style="text-align:center"> 
+                    {{ shopData.address }}</br>
+                    world_first@yahoo.com</br>
+                    {{ shopData.contact }}</br>
+                </p>
+                <hr/>
+                <p> 
+                    Sold by Bokor Talukder</br>
+                    Invoice ID: {{viewInvoice.id}}</br>
+                    Date: {{viewInvoice.created_at}}</br>
+                </p>
+                
+                    <div id="table">
+                        <table>
+                            <tr class="tabletitle">
+                                <td class="item">SL</td>
+                                <td class="item">Item</td>
+                                <td class="Hours">Qty</td>
+                                <td class="Rate">Sub Total</td>
+                            </tr>
+
+                            <tr v-for="(item,i) in viewSelling" :key="i" class="service">
+                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.product.productName }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>                                
+                                <td class="tableitem"><p class="itemtext">{{ ( item.product.sellingPrice-((item.discount*item.product.sellingPrice)/100) )*item.quantity }}</p></td>
+                            </tr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Sub-total</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.totalPrice }}</td>
+                            </tr>
+
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Discount %(-)</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.discount }}</td>
+                            </tr>
+                            <tr class="tabletitleDown">
+                                <td></td>
+                                <td class="Rate">Total</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.sellingPrice }}</td>
+                            </tr>
+                            </hr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Cash Paid</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.paidAmount }}</td>
+                            </tr>
+                        </table>
+                    </div><!--End Table-->
+                    <p class="legal"> 
+                        {{ shopData.invoiceNote }}
+                    </p>
+                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+            </div>
+            <!-- <div slot="footer">
+                    <Button type="primary" size="large"  @click="clearForm">
+                        <span>Clear and Exit</span>
+                    </Button>
+                
+            </div>
+ -->
+        </Modal>
+
     </div>
 </template>
 
@@ -46,6 +119,9 @@
     export default {
         data () {
             return {
+                shopData:[],
+                viewSelling:{},
+                viewModal:false,
                 date:false,
                 index:0,
                 search:'',
@@ -60,6 +136,7 @@
                 isCollapsed: false,
                 dataSupplier: [],
                 filterDate:[],
+                viewInvoice:{},
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -131,40 +208,24 @@
                     },
                 columns1: [
                     {
-                        title: 'Invoice ID',
-                        key: 'id'
+                        title: 'Date',
+                        key: 'date'
                     },
                     {
-                        title: 'Admin',
-                        key: 'adminName'
+                        title: 'Invoice ID',
+                        key: 'id'
                     },
                     {
                         title: 'Customer',
                         key: 'customerName'
                     },
                     {
-                        title: 'Total Quantity',
-                        key: 'totalQuantity'
-                    },
-                    {
-                        title: 'Total Price',
+                        title: 'Sales Amount',
                         key: 'totalPrice'
                     },
                     {
-                        title: 'Discount',
-                        key: 'discount'
-                    },
-                    {
-                        title: 'Paid Amount',
-                        key: 'paidAmount'
-                    },
-                    {
-                        title: 'Total Price',
-                        key: 'totalPrice'
-                    },
-                    {
-                        title: 'Date',
-                        key: 'date'
+                        title: 'Admin',
+                        key: 'adminName'
                     },
 
                 ],
@@ -280,6 +341,20 @@
 
         },
         methods: {
+            async rowSelect(k)
+            {
+                this.viewModal=true
+                this.viewInvoice=k
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/sell/${this.viewInvoice.id}`,
+                    })
+                    this.viewSelling=data
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                }
+            },
             async showPrint (index) {
                 this.editModal=true
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -492,6 +567,29 @@
         async created()
         {
             this.ls();
+            const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            let date2=end.getFullYear()+'-'+(end.getMonth()+1)+'-'+end.getDate();
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/filterSale/${date2}/${date2}`
+
+                })
+                for(let d of data){
+                    d.adminName=d.admin.name
+                    if(d.customer)
+                    d.customerName=d.customer.customerName
+                }
+                this.dataInvoice=data
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
             try{
                 let {data} =await  axios({
                     method: 'get',
@@ -511,6 +609,18 @@
                 })
                 this.dataZone=data;
                 this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/setting'
+                })
+                this.shopData=data
+            this.lf();
 
             }catch(e){
                 this.e('Oops!','Something went wrong, please try again!')

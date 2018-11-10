@@ -15,6 +15,10 @@ class Invoice extends Model
     {
        return $this->belongsTo('App\Customer');
     } 
+    public function selling()
+    {
+       return $this->belongsTo('App\Selling');
+    } 
     public function supplier()
     {
        return $this->belongsTo('App\Supplier');

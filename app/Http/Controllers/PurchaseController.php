@@ -61,7 +61,13 @@ class PurchaseController extends Controller
     {
         $admin_id=Auth::user()->id;
         $input=$request->all();
-
+        if(!$input['supplier_id'])
+        {
+            $input['supplier_id']=1;
+            $input['totalPrice']=$input['totalPrice']*-1;
+            
+        }
+        
         // create invoice 
         $invoice=Invoice::create([
             'admin_id' => $admin_id,

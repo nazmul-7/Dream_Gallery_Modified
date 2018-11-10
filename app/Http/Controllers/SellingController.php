@@ -75,7 +75,9 @@ class SellingController extends Controller
         $admin_id=Auth::user()->id;
         $setting=Setting::first();
         $input=$request->all();
-
+        if(!$input['customer_id'])
+        $input['customer_id']=1;
+        
         // create invoice 
         $paidAmount=$input['paidAmount']+$input['bonusAmount'];
         $invoice=Invoice::create([
@@ -224,7 +226,11 @@ class SellingController extends Controller
      */
     public function show($id)
     {
-        //
+        $data=Selling::with('product')
+        ->where('invoice_id',$id)
+        ->orderBy('id', 'asc')
+        ->get();
+        return $data;
     }
 
     /**
