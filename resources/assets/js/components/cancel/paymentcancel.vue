@@ -463,7 +463,7 @@
                 try{
                     let {data} =await  axios({
                         method: 'delete',
-                        url:`/app/invoice/${this.UpdateValue.id}`,
+                        url:`/app/paymentCancel/${this.UpdateValue.id}`,
                     })
                     this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
                     this.s('Great!','Invoice information has been removed successfully!')
