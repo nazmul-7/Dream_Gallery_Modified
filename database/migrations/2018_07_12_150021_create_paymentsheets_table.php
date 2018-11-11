@@ -23,6 +23,8 @@ class CreatePaymentsheetsTable extends Migration
             $table->string('remarks')->nullable();
             $table->string('paymentMethod')->nullable()->default('cash'); 
             $table->integer('invoice_id')->nullable();
+            $table->integer('payment_id')->nullable();
+            $table->integer('voucher_id')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
         });

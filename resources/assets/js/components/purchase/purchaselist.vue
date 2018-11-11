@@ -1,10 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
-                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-            </Col>
-           <Col  class="dream-input-main " span="22" offset="1" v-if="date">
+           <Col  class="dream-input-main " span="22" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -16,9 +13,12 @@
                                 <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{ supplier.supplierName }}</Option>
                             </Select>
                     </FormItem>
+                    <FormItem label="Date">
+                        <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                    </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
             </Col>
         </Row>
 
@@ -65,6 +65,52 @@
             </Button>
         </div>
     </Modal>
+    <Modal v-model="viewModal"  :styles="{top: '5px', width:'110mm'}" >
+            <div  class="print">
+                
+                    <div id="table">
+                        <table>
+                            <tr class="tabletitle">
+                                <td class="item">SL</td>
+                                <td class="item">Item</td>
+                                <td class="item">Color</td>
+                                <td class="item">Size</td>
+                                <td class="Hours">Qty</td>
+                                <td class="Rate">Sub Total</td>
+                            </tr>
+
+                            <tr v-for="(item,i) in viewPurchase" :key="i" class="service">
+                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.product.productName }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.product.color }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.product.size }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>                                
+                                <td class="tableitem"><p class="itemtext">{{  item.unitPrice*item.quantity }}</p></td>
+                            </tr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Sub-total</td>
+                                <td></td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.totalQuantity }}</td>
+                                <td class="payment">{{ viewInvoice.totalPrice }}</td>
+                            </tr>
+                        </table>
+                    </div><!--End Table-->
+                    <p class="legal"> 
+                    </p>
+                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+            </div>
+            <!-- <div slot="footer">
+                    <Button type="primary" size="large"  @click="clearForm">
+                        <span>Clear and Exit</span>
+                    </Button>
+                
+            </div>
+ -->
+        </Modal>
+
+
     </div>
 </template>
 
@@ -73,6 +119,9 @@
         data () {
             return {
                 date:false,
+                viewModal:false,
+                viewPurchase:{},
+                viewInvoice:{},
                 index:0,
                 search:'',
                 filterSupplier:'',
@@ -162,60 +211,60 @@
                     //     key: 'id'
                     // },
                     {
-                        title: 'Admin',
-                        key: 'adminName'
+                        title: 'Date',
+                        key: 'date'
+                    },
+                    {
+                        title: 'Invoice ID',
+                        key: 'id'
                     },
                     {
                         title: 'Supplier',
                         key: 'supplierName'
                     },
                     {
-                        title: 'Total Quantity',
-                        key: 'totalQuantity'
-                    },
-                    {
                         title: 'Total Price',
                         key: 'totalPrice'
                     },
                     {
-                        title: 'Date',
-                        key: 'date'
+                        title: 'Admin',
+                        key: 'adminName'
                     },
-                                        {   
-                        title: 'Action',
-                        key: 'action',
-                        width: 200,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                // h('Button', {
-                                //     props: {
-                                //         type: 'primary',
-                                //         size: 'small'
-                                //     },
-                                //     style: {
-                                //         marginRight: '5px'
-                                //     },
-                                //     on: {
-                                //         click: () => {
-                                //             this.showView(params.index)
-                                //         }
-                                //     }
-                                // }, 'View'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showRemove(params.index)
-                                        }
-                                    }
-                                }, 'Remove')
-                            ]);
-                        }
-                    }
+                    // {   
+                    //     title: 'Action',
+                    //     key: 'action',
+                    //     width: 200,
+                    //     align: 'center',
+                    //     render: (h, params) => {
+                    //         return h('div', [
+                    //             // h('Button', {
+                    //             //     props: {
+                    //             //         type: 'primary',
+                    //             //         size: 'small'
+                    //             //     },
+                    //             //     style: {
+                    //             //         marginRight: '5px'
+                    //             //     },
+                    //             //     on: {
+                    //             //         click: () => {
+                    //             //             this.showView(params.index)
+                    //             //         }
+                    //             //     }
+                    //             // }, 'View'),
+                    //             h('Button', {
+                    //                 props: {
+                    //                     type: 'error',
+                    //                     size: 'small'
+                    //                 },
+                    //                 on: {
+                    //                     click: () => {
+                    //                         this.showRemove(params.index)
+                    //                     }
+                    //                 }
+                    //             }, 'Remove')
+                    //         ]);
+                    //     }
+                    // }
                     
                 ],
 
@@ -289,7 +338,20 @@
 
         },
         methods: {
-
+            async rowSelect(k)
+            {
+                this.viewModal=true
+                this.viewInvoice=k
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/purchase/${this.viewInvoice.id}`,
+                    })
+                    this.viewPurchase=data
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                }
+            },
             async getData(k)
             {
                 if(!k[0])
@@ -495,6 +557,29 @@
         async created()
         {
             this.ls();
+            const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            let date2=end.getFullYear()+'-'+(end.getMonth()+1)+'-'+end.getDate();
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/filterPurchase/${date2}/${date2}`
+
+                })
+                    for(let d of data){
+                        d.adminName=d.admin.name
+                        if(d.supplier)
+                        d.supplierName=d.supplier.supplierName
+                    }
+                    this.dataInvoice=data
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
             try{
                 let {data} =await  axios({
                     method: 'get',

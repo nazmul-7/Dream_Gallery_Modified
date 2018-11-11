@@ -105,6 +105,7 @@ class PaymentController extends Controller
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
             'invoice_id' => 0,// 0 if its payment or voucher
+            'payment_id' => $invoice->id,
             'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $input['supplier_id'],
@@ -136,6 +137,7 @@ class PaymentController extends Controller
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
             'invoice_id' => 0,// 0 if its payment or voucher
+            'payment_id' => $invoice->id,
             'type' => 'dueIncoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
             'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
             'uid' => $input['customer_id'],
@@ -151,5 +153,33 @@ class PaymentController extends Controller
                  'msg' => 'Inserted',
                  'data'=> $data,
             ],200);
+    }
+    function paymentList($from,$to)
+    {
+        $data=Payment::where('type','outgoing')
+        ->with('admin')
+        ->with('supplier')
+        ->whereBetween('date', array($from, $to))        
+        ->get();
+        return $data;
+        
+    }
+    function collectionList($form,$to)
+    {
+        $data=Payment::where('type','incoming')
+        ->with('admin')
+        ->with('customer')
+        ->whereBetween('date', array($from, $to))
+        ->get();
+        return $data;
+        
+    }
+    function paymentCancel($id)
+    {
+        
+    }
+    function collectionCancel($id)
+    {
+        
     }
 }

@@ -140,7 +140,11 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $data=Purchase::with('product')
+        ->where('invoice_id',$id)
+        ->orderBy('id', 'asc')
+        ->get();
+        return $data;
     }
 
     /**

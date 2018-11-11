@@ -32,6 +32,12 @@ import supplierledger from './components/ledgers/supplier.vue'
 import customeroutstanding from './components/due/customeroutstanding.vue'
 import supplieroutstanding from './components/due/supplieroutstanding.vue'
 import newuser from './components/admin/newuser.vue'
+//cancel
+import purchasecancel from './components/cancel/purchasecancel.vue'
+import salecancel from './components/cancel/salecancel.vue'
+import collectioncancel from './components/cancel/collectioncancel.vue'
+import paymentcancel from './components/cancel/paymentcancel.vue'
+
 let onlyAdmin = ['Admin']
 let adminAndSale = ['Admin', 'Sale']
 Vue.use(Router)
@@ -293,6 +299,40 @@ export default new Router({
 				meta: {
 					allowed: onlyAdmin
 				}
-			},			
+			},
+			//cancle
+			{
+	      path: '/purchasecancel',
+	      name: 'purchasecancel',
+	      component: purchasecancel,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/salecancel',
+	      name: 'salecancel',
+	      component: salecancel,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/collectioncancel',
+	      name: 'collectioncancel',
+	      component: collectioncancel,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/paymentcancel',
+	      name: 'paymentcancel',
+	      component: paymentcancel,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+						
 		]
 })

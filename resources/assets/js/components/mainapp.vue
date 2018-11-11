@@ -60,29 +60,41 @@
                             <Icon type="ios-navigate"></Icon>
                            Task
                         </template>
-                        <MenuItem name="sell" :to="handleGoToMenu('/sell')">
-                            <Icon type="ios-alert"></Icon>
-                            <span>Sale</span>              
-                        </MenuItem>
                         <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">
                             <Icon type="ios-alert"></Icon>
                             <span>Purchase</span>              
+                        </MenuItem>
+                        <MenuItem name="sell" :to="handleGoToMenu('/sell')">
+                            <Icon type="ios-alert"></Icon>
+                            <span>Sale</span>              
                         </MenuItem>
                         <MenuItem name="returnproduct" :to="handleGoToMenu('/returnproduct')">
                             <Icon type="ios-alert"></Icon>
                             <span>Return</span>              
                         </MenuItem>
-                        <MenuItem name="cashcollection" :to="handleGoToMenu('/cashcollection')">
-                            <Icon type="ios-alert"></Icon>
-                            <span>Collection</span>              
-                        </MenuItem>
                         <MenuItem name="paytosupplier" :to="handleGoToMenu('/paytosupplier')">
                             <Icon type="ios-alert"></Icon>
                             <span>Payment</span>              
                         </MenuItem>
+                        <MenuItem name="cashcollection" :to="handleGoToMenu('/cashcollection')">
+                            <Icon type="ios-alert"></Icon>
+                            <span>Collection</span>              
+                        </MenuItem>
                         <MenuItem name="voucher" :to="handleGoToMenu('/voucher')">
                             <Icon type="ios-alert"></Icon>
                             <span>Voucher Posting</span>              
+                        </MenuItem>
+                        <MenuItem name="2-1">                        
+                            <Submenu name="2-1-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Cancel
+                                </template>
+                                <MenuItem name="purchasecancel" :to="handleGoToMenu('/purchasecancel')">Purchase</MenuItem>
+                                <MenuItem name="salecancel" :to="handleGoToMenu('/salecancel')">Sale</MenuItem>
+                                <MenuItem name="paymentcancel" :to="handleGoToMenu('/paymentcancel')">Payment</MenuItem>
+                                <MenuItem name="collectioncancel" :to="handleGoToMenu('/collectioncancel')">Collection</MenuItem>
+                            </Submenu>
                         </MenuItem>
                     </Submenu>
                     <!-- menu -->
@@ -91,8 +103,9 @@
                             <Icon type="ios-navigate"></Icon>
                            Reports
                         </template>
-                        <MenuItem name="profit" :to="handleGoToMenu('/profit')">Profits</MenuItem>
-                        <MenuItem name="3-1">                        
+                        <MenuItem name="purchaselist" :to="handleGoToMenu('/purchaselist')">Purchase Report</MenuItem>
+                        <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Sale Report</MenuItem>
+                        <!-- <MenuItem name="3-1">                        
                             <Submenu name="3-1-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
@@ -102,17 +115,16 @@
                                 <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Invoice Wise</MenuItem>
                                 <MenuItem name="customerdue" :to="handleGoToMenu('/customerdue')">Due List</MenuItem>
                             </Submenu>
-                        </MenuItem>
-                        <MenuItem name="3-2">                        
+                        </MenuItem> -->
+                        <!-- <MenuItem name="3-2">                        
                             <Submenu name="3-2-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
                                     Purchas
                                 </template>
-                                <MenuItem name="purchaselist" :to="handleGoToMenu('/purchaselist')">Invoice Wise</MenuItem>
                                 <MenuItem name="purchaseitemlist" :to="handleGoToMenu('/purchaseitemlist')">Item Wise</MenuItem>
                             </Submenu>
-                        </MenuItem>                        
+                        </MenuItem>                         -->
                         <MenuItem name="3-3">                        
                             <Submenu name="3-3-1">
                                 <template slot="title">
@@ -142,6 +154,7 @@
                                 <MenuItem name="stock" :to="handleGoToMenu('/stock')">Stock</MenuItem>
                             </Submenu>
                         </MenuItem>
+                        <MenuItem name="profit" :to="handleGoToMenu('/profit')">Profits</MenuItem>
                     </Submenu>
                     <!-- menu -->
                     <Submenu name="4">
