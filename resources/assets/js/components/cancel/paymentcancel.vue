@@ -294,7 +294,7 @@
                 try{
                     let {data} =await  axios({
                         method: 'get',
-                        url:`/app/filterPurchase/${k[0]}/${k[1]}`
+                        url:`/app/paymentList/${k[0]}/${k[1]}`
 
                     })
                     for(let d of data){
@@ -459,10 +459,11 @@
                 }
             },
             async remove(){
+                console.log(this.UpdateValue.id)
                 this.sending=true
                 try{
                     let {data} =await  axios({
-                        method: 'delete',
+                        method: 'get',
                         url:`/app/paymentCancel/${this.UpdateValue.id}`,
                     })
                     this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)

@@ -147,7 +147,7 @@ class PaymentController extends Controller
             'remarks' => 'Paid by Customer',
         ]);
 
-        $data=Paymentsheet::where('id',$paymentSheet->id)
+        $data=Payment::where('id',$paymentSheet->id)
         ->first();        
          return response()->json([
                  'msg' => 'Inserted',
@@ -164,7 +164,7 @@ class PaymentController extends Controller
         return $data;
         
     }
-    function collectionList($form,$to)
+    function collectionList($from,$to)
     {
         $data=Payment::where('type','incoming')
         ->with('admin')
@@ -176,10 +176,25 @@ class PaymentController extends Controller
     }
     function paymentCancel($id)
     {
+        $payment = Payment::where('id','=',$id)
+            ->delete();
+        $paymentsheet = Paymentsheet::where('payment_id','=',$id)
+            ->delete();
+        return response()->json(['msg'=>'success','status'=>$id]);
+
         
     }
     function collectionCancel($id)
     {
+        $payment = Payment::where('id','=',$id)
+        ->delete();
+        $paymentsheet = Paymentsheet::where('payment_id','=',$id)
+            ->delete();
+        if($paymentsheet->count()){
+            return response()->json(['msg'=>'success','status'=>$id]);
+        } else {
+            return response()->json(['msg'=>'error','status'=>$id]);
+        }
         
     }
 }
