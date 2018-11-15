@@ -20,30 +20,25 @@
                                 v-model="formValue.customerName"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem  label="Contact Number">
                             <Input type="text" placeholder="Number" 
                             v-model="formValue.contact"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="12">
-                            <FormItem  label="Email">
-                                <Input type="text" placeholder="Email" 
-                                v-model="formValue.email"  @on-enter="customerAdd"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="12">
-                            <FormItem  label="Address">
-                                <Input type="text" placeholder="Address" 
-                                v-model="formValue.address"  @on-enter="customerAdd"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem label="Zone">
                                 <Select v-model="formValue.zone" placeholder="Select group">
                                     <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
                                 </Select>
                             </FormItem>
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Address">
+                            <Input type="textarea"
+                             :autosize="{minRows: 4,maxRows: 5}"
+                              placeholder=" Address" 
+                              v-model="editObj.address"></Input>                            </FormItem >
                         </Col>
                         <Col span="24">
                             <FormItem  label="Opening Balance">
@@ -97,8 +92,10 @@
                     </Col>
                     <Col span="12">
                         <FormItem  label="Address">
-                            <Input type="text" placeholder="Address" 
-                            v-model="editObj.address"></Input>
+                            <Input type="textarea"
+                             :autosize="{minRows: 4,maxRows: 5}"
+                              placeholder=" Address" 
+                              v-model="editObj.address"></Input>
                         </FormItem >
                     </Col>
                     <Col span="12">
@@ -178,7 +175,6 @@
                     {
                         title: 'Address',
                         key: 'address',
-                        width: 250,
                     },
                     {
                         title: 'Contact',
@@ -189,7 +185,7 @@
                         key: 'zone'
                     },
                     {
-                        title: 'Opening',
+                        title: 'Opening Balance',
                         key: 'opening'
                     },
                     {   
@@ -234,7 +230,7 @@
                 formValue: {
                     customerName:'',
                     address:'',
-                    contact:'',
+                    contact:'+880',
                     email:'',
                     zone:'',
                     opening:0,

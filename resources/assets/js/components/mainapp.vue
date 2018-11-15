@@ -6,6 +6,7 @@
             <Sider width="250" ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
                 <Menu  theme="dark" width="auto" :class="menuitemClasses" @on-select="goToLink">
                     <!-- menu -->
+                    <MenuItem name="/" :to="handleGoToMenu('/')">Dashboard</MenuItem>
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-navigate"></Icon>
@@ -19,6 +20,7 @@
                                 </template>
                                 <MenuItem name="setting" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
                                 <MenuItem name="unit" :to="handleGoToMenu('/unit')">Unit Type</MenuItem>
+                                <MenuItem name="zone" :to="handleGoToMenu('/zone')">Zone</MenuItem>
                             </Submenu>
                         </MenuItem>
                         <MenuItem name="1-2">                        
@@ -49,7 +51,6 @@
                                 </template>
                                 <MenuItem name="customer" :to="handleGoToMenu('/customer')">Customer</MenuItem>
                                 <MenuItem name="supplier" :to="handleGoToMenu('/supplier')">Supplier</MenuItem>
-                                <MenuItem name="zone" :to="handleGoToMenu('/zone')">Zone</MenuItem>
                                 <MenuItem name="ledgerhead" :to="handleGoToMenu('/ledgerhead')">Ledger Haed</MenuItem>
                             </Submenu>
                         </MenuItem>

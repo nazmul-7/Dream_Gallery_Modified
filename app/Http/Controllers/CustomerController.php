@@ -16,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data=Customer::orderBy('id', 'desc')->get();
+        $data=Customer::orderBy('customerName', 'asc')->get();
         return $data;
     }
 
