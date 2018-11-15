@@ -18,7 +18,7 @@
                     </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
-                <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
+                <Table :columns="columns1" :data="searchData" @on-row-dblclick="rowSelect"></Table>
             </Col>
         </Row>
 
