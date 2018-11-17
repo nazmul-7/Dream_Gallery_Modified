@@ -471,6 +471,11 @@
 
             async changedCustomer(k)
             {
+                if(!k)
+                {
+                    this.formValue.customer_id=null
+                    return
+                }
                 console.log(k);
                 console.log(this.formValue.customer_id);
                 this.ls();
@@ -554,7 +559,9 @@
                     {
                         if(d.barCode == this.formValue.barCode){
                             if(d.stock==d.quantity){
-                                return this.i('You have acceded the available stock')
+                                this.formValue.barCode=null
+                                return this.i('You have crossed the available stock')
+                                
                             }
                             d.quantity++
                             this.quantityChange()

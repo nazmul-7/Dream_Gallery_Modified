@@ -38,6 +38,8 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Dhaka');
+        $date=date("Y-m-d");
         $admin_id=Auth::user()->id;
         $created=Customer::create($request->all());
         $input=$request->all();
@@ -49,6 +51,7 @@ class CustomerController extends Controller
             'uid' => $created->id,
             'amount' => $input['opening']*-1,
             'paymentMethod' => 'due',
+            'date'=> $date,
             'remarks' => 'Opening',
         ]);
          return response()->json([
