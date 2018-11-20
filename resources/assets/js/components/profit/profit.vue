@@ -1,10 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
-                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-            </Col>
-            <Col class="dream-input-main" span="22" offset="1" v-if="date">
+           <Col  class="dream-input-main" span="22" offset="1" >
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -13,29 +10,24 @@
                     </FormItem>
                     <FormItem label="Customer">
                         <Select v-model="filterCustomer" placeholder="Select Customer"  filterable clearable>
-                                <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{ customer.customerName }}</Option>
+                                <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
                             </Select>
                     </FormItem>
-                    <FormItem label="Group">
-                        <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable>
-                                <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{ group.groupName }}</Option>
+                    <FormItem label="Zone">
+                        <Select v-model="filterZone" placeholder="Select Zone"  filterable clearable>
+                                <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
                             </Select>
                     </FormItem>
-                    <FormItem label="Product">
-                        <Select v-model="filterProduct" placeholder="Select Product"  filterable clearable>
-                                <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{ product.productName }}</Option>
-                            </Select>
-                    </FormItem>                    
+                    <FormItem label="Date">
+                        <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                    </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
             </Col>
-            <!-- <Col class="dream-input-main" span="7" offset="1">
-            <p><b>Total Gross Profit</b>: {{grossProfit}}</p>
-            <p><b>Total Net Profit</b>: {{netProfit}}</p>
-            </Col> -->
         </Row>
-        <Modal v-model="editModal" width="740" :styles="{top: '5px'}" >
+
+        <Modal v-model="editModal" width="740" style="margin-top:20px;" >
             <div  class="print">
                 <h2 style="text-align:center">Dreams Gallery</h2>
                 <h3>Profit List</h3>
@@ -48,7 +40,78 @@
 
         </Modal>
 
-     
+        <Modal v-model="viewModal"  :styles="{top: '5px', width:'110mm'}" >
+            <div  class="print">
+                <h2 style="text-align:center">{{ shopData.companyName }}</h2>
+                <p style="text-align:center"> 
+                    {{ shopData.address }}</br>
+                    world_first@yahoo.com</br>
+                    {{ shopData.contact }}</br>
+                </p>
+                <hr/>
+                <p> 
+                    Sold by Bokor Talukder</br>
+                    Invoice ID: {{viewInvoice.id}}</br>
+                    Date: {{viewInvoice.created_at}}</br>
+                </p>
+                
+                    <div id="table">
+                        <table>
+                            <tr class="tabletitle">
+                                <td class="item">SL</td>
+                                <td class="item">Item</td>
+                                <td class="Hours">Qty</td>
+                                <td class="Rate">Sub Total</td>
+                            </tr>
+
+                            <tr v-for="(item,i) in viewSelling" :key="i" class="service">
+                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.product.productName }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>                                
+                                <td class="tableitem"><p class="itemtext">{{ item.product.profit*item.quantity }}</p></td>
+                            </tr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Sub-total</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.totalPrice }}</td>
+                            </tr>
+
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Discount %(-)</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.discount }}</td>
+                            </tr>
+                            <tr class="tabletitleDown">
+                                <td></td>
+                                <td class="Rate">Total</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.sellingPrice }}</td>
+                            </tr>
+                            </hr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate">Cash Paid</td>
+                                <td></td>
+                                <td class="payment">{{ viewInvoice.paidAmount }}</td>
+                            </tr>
+                        </table>
+                    </div><!--End Table-->
+                    <p class="legal"> 
+                        {{ shopData.invoiceNote }}
+                    </p>
+                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+            </div>
+            <!-- <div slot="footer">
+                    <Button type="primary" size="large"  @click="clearForm">
+                        <span>Clear and Exit</span>
+                    </Button>
+                
+            </div>
+ -->
+        </Modal>
+
     </div>
 </template>
 
@@ -56,12 +119,14 @@
     export default {
         data () {
             return {
+                shopData:[],
+                viewSelling:{},
+                viewModal:false,
+                date:false,
                 index:0,
                 search:'',
-                date:false,
-                filterProduct:'',
-                filterGroup:'',
                 filterCustomer:'',
+                filterZone:'',
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -69,11 +134,9 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                grossProfit:'',
-                totalUnitPrice:'',
-                netProfit:'',
-                dataCustomer: [],
-                filterDate: [],
+                dataSupplier: [],
+                filterDate:[],
+                viewInvoice:{},
                 currentSupplier: {
                     supplierName:'',
                     number:'',
@@ -82,10 +145,11 @@
                     outStanding:'',
                 
                 },
+                
                 dataSearch:[],
-                dataCategory: [],
-                dataInvoice: 
-                [],
+                dataCustomer: [],
+                dataInvoice:[],
+                dataZone:[],
                 formInvoice:
                 {
                     type:'purchase',
@@ -142,27 +206,26 @@
                             }
                         ]
                     },
-                columns1: [ 
+                columns1: [
                     {
-                        title: 'Item Name',
-                        key: 'productName'
-                    },
-
-                    {
-                        title: 'Quantity',
-                        key: 'quantity'
+                        title: 'Date',
+                        key: 'date'
                     },
                     {
-                        title: 'Selling Price',
-                        key: 'unitPrice'
+                        title: 'Invoice ID',
+                        key: 'id'
                     },
                     {
-                        title: 'Unit Profit',
-                        key: 'profit'
+                        title: 'Customer',
+                        key: 'customerName'
                     },
                     {
-                        title: 'Total Profit',
-                        key: 'totalProfit'
+                        title: 'Profit Amount',
+                        key: 'totalPrice'
+                    },
+                    {
+                        title: 'Admin',
+                        key: 'adminName'
                     },
 
                 ],
@@ -174,49 +237,20 @@
         computed: {
             searchData()
             {
-                if(this.filterProduct && this.filterCustomer && this.filterGroup)
+                if(this.filterCustomer && this.filterZone)
                 {
                 return this.dataInvoice.filter((data)=>{                    
-                    return (data.product.id.toString().toUpperCase().match(this.filterProduct.toString().toUpperCase()) &&
-                    data.customer_id.toString().toUpperCase().match(this.filterCustomer.toString().toUpperCase()) &&
-                    data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) ) 
+                    return (data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
+                    data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) ) 
                     &&
                     (
-                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.quantity.toString().match(this.search) ||
-                    data.profit.toString().match(this.search) ||
-                    data.unitPrice.toString().match(this.search)
-                    )            
-                    }
-                    );
-
-                }
-                else if(this.filterCategory)
-                {
-                return this.dataInvoice.filter((data)=>{                    
-                    return data.product.catName.toUpperCase().match(this.filterCategory.toUpperCase()) &&
-                    (
-                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.quantity.toString().match(this.search) ||
-                    data.profit.toString().match(this.search) ||
-                    data.unitPrice.toString().match(this.search)
-                    )
-
-            
-                    }
-                    );
-
-                }
-                else if(this.filterGroup)
-                {
-                return this.dataInvoice.filter((data)=>{                    
-                    return data.product.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
-                    &&
-                    (
-                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.quantity.toString().match(this.search) ||
-                    data.profit.toString().match(this.search) ||
-                    data.unitPrice.toString().match(this.search)
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
                     )            
                     }
                     );
@@ -225,32 +259,55 @@
                 else if(this.filterCustomer)
                 {
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.customer_id.toString().match(this.filterCustomer) 
+                    return data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
+                    (
+                        data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
+                    )
+
+            
+                    }
+                    );
+
+                }
+                else if(this.filterZone)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) 
                     &&
                     (
-                    data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.quantity.toString().match(this.search) ||
-                    data.profit.toString().match(this.search) ||
-                    data.unitPrice.toString().match(this.search)
-
+                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
                     )            
                     }
                     );
 
-                }                
+                }
                 else{
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.productName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.quantity.toString().match(this.search) ||
-                    data.profit.toString().match(this.search) ||
-                    data.unitPrice.toString().match(this.search)
+                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search) ||
+                     data.discount.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search)
         
                     }
                 );
 
                 }
             },
-
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -284,6 +341,20 @@
 
         },
         methods: {
+            async rowSelect(k)
+            {
+                this.viewModal=true
+                this.viewInvoice=k
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/sell/${this.viewInvoice.id}`,
+                    })
+                    this.viewSelling=data
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                }
+            },
             async showPrint (index) {
                 this.editModal=true
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -305,31 +376,22 @@
                 try{
                     let {data} =await  axios({
                         method: 'get',
-                        url:`/app/filterProfit/${k[0]}/${k[1]}`
+                        url:`/app/filterSale/${k[0]}/${k[1]}`
 
                     })
-
-                    var grossProfit=0
-                    var totalUnitBuying=0
-                    var itemUnitPrice=0
-                    var unitBuying=0
-                    for(let d of data.sell){
-                        itemUnitPrice=d.unitPrice*d.quantity
-                        d.totalProfit=d.profit*d.quantity
-                        unitBuying=itemUnitPrice-d.totalProfit
-                        d.productName=d.product.productName
-                        grossProfit+=d.totalProfit
-                        totalUnitBuying+=unitBuying
+                    for(let d of data){
+                        d.adminName=d.admin.name
+                        if(d.customer)
+                        d.customerName=d.customer.customerName
                     }
-                    this.netProfit=Math.round(data.totalSelling-totalUnitBuying)
-                    this.grossProfit=Math.round(grossProfit)    
-                    this.dataInvoice=data.sell
+                    this.dataInvoice=data
                     this.lf();
 
                 }catch(e){
                     this.e('Oops!','Something went wrong, please try again!')
                 this.le();
                 }
+                console.log(k);
             },
             async changedSupplier(k)
             {
@@ -413,8 +475,91 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
+            async makePurchase(){
+                //invoice added
+                this.formValue.totalPrice=this.totalPrice
+                this.formValue.totalQuantity=this.totalQuantity
+                if( !this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id|| !this.formValue.date)
+                {
+                    this.loading=false
+                    this.e('Oops!','You nedd to enter Stock and Price in All Fields')
 
+                }
+                else
+                {
+                    this.loading=true
+                    try{
+                        let {data} =await  axios({
+                            method: 'post',
+                            url:'/app/purchase',
+                            data: this.formValue
+                        })
+                        this.clearForm()
+                        
+                        data.data.supplierName=data.data.supplier.supplierName
+                        this.dataInvoice.unshift(data.data)
+                        
+                        this.s('Great!','Purchase has been added successfully!')
+                        this.loading=false
+                    }catch(e){
+                        this.loading=false
+                        this.e('Oops!','Something went wrong, please try again!')
+                    }
 
+                }
+                
+            },
+            showEdit (index) {
+                this.editObj.id=this.dataInvoice[index].id
+                this.editObj.invoice_id=this.dataInvoice[index].invoice_id
+                this.editObj.product_id=this.dataInvoice[index].product_id
+                this.UpdateValue.indexNumber=index
+                this.editModal=true
+            },
+            showRemove (index) {
+                this.UpdateValue.id=this.dataInvoice[index].id
+                this.UpdateValue.indexNumber=index
+                this.deleteModal=true
+            },
+            async edit(){
+                this.sending=true
+                try{
+                    let {data} =await  axios({
+                        method: 'post',
+                        url:'/app/categoryUpdate',
+                        data: this.editObj
+                    })
+                    this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
+                    this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
+                    this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
+                    this.s('Great!','Category information has been updated successfully!')
+                    
+                    this.sending=false
+                    this.editModal=false
+                }catch(e){
+                    this.sending=false
+                    this.editModal=false
+                    this.e('Oops!','Something went wrong, please try again!')
+                }
+            },
+            async remove(){
+                this.sending=true
+                try{
+                    let {data} =await  axios({
+                        method: 'delete',
+                        url:`/app/invoice/${this.UpdateValue.id}`,
+                    })
+                    this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','Invoice information has been removed successfully!')
+                    
+                    this.sending=false
+                    this.deleteModal=false
+                }catch(e){
+                    this.sending=false
+                    this.deleteModal=false
+                    this.e('Oops!','Something went wrong, please try again!')
+                }
+            }
         },
 
 
@@ -422,6 +567,29 @@
         async created()
         {
             this.ls();
+            const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            let date2=end.getFullYear()+'-'+(end.getMonth()+1)+'-'+end.getDate();
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/filterSale/${date2}/${date2}`
+
+                })
+                for(let d of data){
+                    d.adminName=d.admin.name
+                    if(d.customer)
+                    d.customerName=d.customer.customerName
+                }
+                this.dataInvoice=data
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
             try{
                 let {data} =await  axios({
                     method: 'get',
@@ -437,9 +605,9 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/group'
+                    url:'/app/zone'
                 })
-                this.dataGroup=data;
+                this.dataZone=data;
                 this.lf();
 
             }catch(e){
@@ -449,42 +617,16 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/product'
+                    url:'/app/setting'
                 })
-                this.dataProduct=data;
-                this.lf();
+                this.shopData=data
+            this.lf();
 
             }catch(e){
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/getProductProfit' //1=purchases
 
-                })
-                var grossProfit=0
-                var totalUnitBuying=0
-                var itemUnitPrice=0
-                var unitBuying=0
-                for(let d of data.sell){
-                    itemUnitPrice=d.unitPrice*d.quantity
-                    d.totalProfit=d.profit*d.quantity
-                    unitBuying=itemUnitPrice-d.totalProfit
-                    d.productName=d.product.productName
-                    grossProfit+=d.totalProfit
-                    totalUnitBuying+=unitBuying
-                }
-                this.netProfit=Math.round(data.totalSelling-totalUnitBuying)
-                this.grossProfit=Math.round(grossProfit)    
-                this.dataInvoice=data.sell
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
 
             
         }

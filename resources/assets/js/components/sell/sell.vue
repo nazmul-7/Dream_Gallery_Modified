@@ -7,14 +7,14 @@
                     <Card>
                         <p>Product Code</p>
                             <Row>
-                                    <Col span="17">
-                                        <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                                        v-model="formValue.barCode"></Input>  
-                                    </Col>
-                                    <Col span="5" offset="1">
-                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
-                                    </Col>
-                                </Row>
+                                <Col span="17">
+                                    <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                                    v-model="formValue.barCode"></Input>  
+                                </Col>
+                                <Col span="5" offset="1">
+                                    <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                </Col>
+                            </Row>
                     </Card>
                 </Col>
             <Col span="24">
