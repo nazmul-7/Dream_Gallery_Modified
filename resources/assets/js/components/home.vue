@@ -197,8 +197,8 @@
                     let array=[]
                     for(let d of data.sales){
                         array[0]=d.date
-                        array[1]=d.total_sale
-                        array[2]=data.profit[i].total_profit
+                        array[1]=d.total_sale*d.total_quantity
+                        array[2]=data.profit[i].total_profit*data.profit[i].total_quantity
                         this.chartData.push(array)
                         array=[]
                         i++
@@ -262,8 +262,8 @@
 				let array=[]
 				for(let d of data.sales){
                     array[0]=d.date
-                    array[1]=d.total_sale
-                    array[2]=data.profit[i].total_profit
+                    array[1]=d.total_sale*data.profit[i].total_quantity
+                    array[2]=data.profit[i].total_profit*data.profit[i].total_quantity
 					this.chartData.push(array)
 					array=[]
 					i++

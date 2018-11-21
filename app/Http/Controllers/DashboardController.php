@@ -44,8 +44,12 @@ class DashboardController extends Controller
         ->select('date', DB::raw('SUM(unitPrice) as total_sale'))
         ->groupBy('date')
         ->get();
+        $quantity = Selling::whereBetween('date', array($from, $to))        
+        ->select('date', DB::raw('SUM(quantity) as total_quantity'))
+        ->groupBy('date')
+        ->get();
         $profit = Selling::whereBetween('date', array($from, $to)) 
-        ->select('date', DB::raw('SUM(profit) as total_profit'))
+        ->select('date', DB::raw('SUM(quantity) as total_quantity'))
         ->groupBy('date')
         ->get();
 
@@ -60,6 +64,7 @@ class DashboardController extends Controller
                 'supplierOutstanding' => $supplierOutstanding,
                 'sales' => $sales,
                 'profit' => $profit,
+                'quantity' => $quantity,
             ],200);
 
     }

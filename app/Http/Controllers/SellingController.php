@@ -31,8 +31,10 @@ class SellingController extends Controller
         $data=Invoice::where('type','sell')
         ->whereBetween('date', array($from, $to))
         ->with('admin')
+        ->with('selling')
         ->with('customer')
-        ->orderBy('id', 'desc')->get();
+        ->orderBy('id', 'desc')
+        ->get();
         return $data;
     }
     public function filterSaleItem($from,$to)

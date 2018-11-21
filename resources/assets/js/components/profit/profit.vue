@@ -61,29 +61,33 @@
                                 <td class="item">SL</td>
                                 <td class="item">Item</td>
                                 <td class="Hours">Qty</td>
-                                <td class="Rate">Sub Total</td>
+                                <td class="Rate">Sales Price</td>
+                                <td class="Rate">Cost</td>
+                                <td class="Rate">Profit</td>
                             </tr>
 
                             <tr v-for="(item,i) in viewSelling" :key="i" class="service">
                                 <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.product.productName }}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>                                
-                                <td class="tableitem"><p class="itemtext">{{ item.product.profit*item.quantity }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.unitPrice }}</p></td>                                
+                                <td class="tableitem"><p class="itemtext">{{ item.unitPrice-item.profit }}</p></td>                                
+                                <td class="tableitem"><p class="itemtext">{{ item.profit*item.quantity }}</p></td>
                             </tr>
-                            <tr class="tabletitle">
+                            <!-- <tr class="tabletitle">
                                 <td></td>
                                 <td class="Rate">Sub-total</td>
                                 <td></td>
                                 <td class="payment">{{ viewInvoice.totalPrice }}</td>
-                            </tr>
+                            </tr> -->
 
                             <tr class="tabletitle">
                                 <td></td>
-                                <td class="Rate">Discount %(-)</td>
+                                <td class="Rate">Profit (%)</td>
                                 <td></td>
-                                <td class="payment">{{ viewInvoice.discount }}</td>
+                                <td class="payment">{{ viewInvoice.profitPercentage }}</td>
                             </tr>
-                            <tr class="tabletitleDown">
+                            <!-- <tr class="tabletitleDown">
                                 <td></td>
                                 <td class="Rate">Total</td>
                                 <td></td>
@@ -95,7 +99,7 @@
                                 <td class="Rate">Cash Paid</td>
                                 <td></td>
                                 <td class="payment">{{ viewInvoice.paidAmount }}</td>
-                            </tr>
+                            </tr> -->
                         </table>
                     </div><!--End Table-->
                     <p class="legal"> 
@@ -220,8 +224,16 @@
                         key: 'customerName'
                     },
                     {
-                        title: 'Profit Amount',
+                        title: 'Sales Amount',
                         key: 'totalPrice'
+                    },
+                    {
+                        title: 'Cost',
+                        key: 'costPrice'
+                    },
+                    {
+                        title: 'Profit',
+                        key: 'profitPrice'
                     },
                     {
                         title: 'Admin',
@@ -345,6 +357,8 @@
             {
                 this.viewModal=true
                 this.viewInvoice=k
+                this.viewInvoice.profitPercentage=Math.round((this.viewInvoice.profitPrice*100)/this.viewInvoice.sellingPrice).toFixed(2)
+
                 try{
                     let {data} =await  axios({
                         method: 'get',
@@ -580,6 +594,14 @@
                 })
                 for(let d of data){
                     d.adminName=d.admin.name
+                    d.costPrice=0
+                    d.profitPrice=0
+                    for(let dd of d.selling)
+                    {
+                        d.costPrice=d.costPrice+(dd.unitPrice-dd.profit)
+                        d.profitPrice=d.profitPrice+dd.profit
+
+                    }
                     if(d.customer)
                     d.customerName=d.customer.customerName
                 }

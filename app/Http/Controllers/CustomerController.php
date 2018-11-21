@@ -43,7 +43,7 @@ class CustomerController extends Controller
         $admin_id=Auth::user()->id;
         $created=Customer::create($request->all());
         $input=$request->all();
-        if($input['opening'])
+        //if($input['opening'])
         $paymentSheet=Paymentsheet::create([
             'admin_id' => $admin_id,
             'type' => 'opening',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
