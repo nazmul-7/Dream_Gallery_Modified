@@ -553,7 +553,7 @@
                     {
                         if(d.sell_stock!==null)
                         {
-                            d.currentStock=d.puchase_stock.stock-d.sell_stock.stock
+                            d.currentStock=d.purchase_stock.stock-d.sell_stock.stock
                         }
                         else
                         {
