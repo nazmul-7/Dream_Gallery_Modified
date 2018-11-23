@@ -23,7 +23,7 @@ Vue.use(VueGoogleCharts)
 Vue.use(Bars)
 Vue.use(iView, { locale });
 //barcode source https://github.com/xkeshi/vue-barcode
-
+// npm install chart.js --save
 /*import lodash*/
 window._ = require('lodash');
 require('es6-promise').polyfill();

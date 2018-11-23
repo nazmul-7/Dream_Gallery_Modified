@@ -87,6 +87,7 @@ Route::get('/app/filterPurchaseItem/{from}/{to}','PurchaseController@filterPurch
 Route::get('/app/getStockList/{id}','StockController@getStockList');
 Route::get('/app/getStockUnion/{id}','StockController@getStockUnion');
 Route::get('/app/dueList','ReportController@dueList');
+Route::get('/app/getStockItem','StockController@getStockItem');
 
 Route::get('/app/paymentList/{from}/{to}','PaymentController@paymentList');
 Route::get('/app/collectionList/{from}/{to}','PaymentController@collectionList');

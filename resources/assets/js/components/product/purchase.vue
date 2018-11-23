@@ -2,84 +2,84 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <Card>
-                        <p>Product Code</p>
-                                    <Input type="text" placeholder="Barcode" 
-                                    v-model="formValue.barCode"  @on-enter="setData" ></Input>
-                                </FormItem >
-                            </Card>
-                        </Col>
-                        <!-- <Col span="11" offset="1">
-                            <FormItem  label="Search Product">
-                                <br>
-                                <Row >
-                                    <Col span="22">
-                                        <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
-                                                <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
-                                                    <span class="demo-auto-complete-title">{{ option.model }}</span>
-                                                    <span class="demo-auto-complete-count">{{option.groupName}} | {{option.catName}} | {{option.color}} | {{option.size}} | {{option.sellingPrice}}</span>
-                                                </Option>
-
-                                        </AutoComplete>
-                                    </Col>
-                                </Row>
+                <Row :gutter="24">
+                    <Col span="24">
+                        <Card>
+                    <p>Product Code</p>
+                                <Input type="text" placeholder="Barcode" 
+                                v-model="formValue.barCode"  @on-enter="setData" ></Input>
                             </FormItem >
-                        </Col> -->
-                        <Col span="24">
-                            <Card>
-                                <p slot="title">Product List</p>
-                                <table style="width:100%">
-                                <tr>
-                                    <th>Model</th>
-                                    <th>Color</th> 
-                                    <th>Size</th>
-                                    <th>Quantity</th>
-                                    <th>Buying Price</th>
-                                    <th>Action</th>
-                                </tr>
-                                <tr v-for="(data,i) in formValue.productDetails" :key="i">
-                                    <td >{{data.model}}</td>
-                                    <td >{{data.color}}</td>
-                                    <td>{{data.size}}</td>
-                                    <td><input type="number" v-model="data.quantity"></input></td>
-                                    <td><input type="number" v-model="data.unitPrice"></input></td>
-                                    <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
-                                </tr>
-                                <tr >
-                                    <td colspan="3" style="text-align:right">Total </td>
-                                    <td >{{totalQuantity}}</td>
-                                    <td >{{totalPrice}}</td>
-                                    <td > <Button type="error" size="large"  @click="showClear">
-                                        Clear All
-                                        </Button>
-                                    </td>
-                                    
-                                </tr>
+                        </Card>
+                    </Col>
+                    <!-- <Col span="11" offset="1">
+                        <FormItem  label="Search Product">
+                            <br>
+                            <Row >
+                                <Col span="22">
+                                    <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
+                                            <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
+                                                <span class="demo-auto-complete-title">{{ option.model }}</span>
+                                                <span class="demo-auto-complete-count">{{option.groupName}} | {{option.catName}} | {{option.color}} | {{option.size}} | {{option.sellingPrice}}</span>
+                                            </Option>
 
-                                </table>
-                                <Row>
-                                    <Col>
-                                    
-                                        <Button type="primary" size="large" :loading="sending" @click="makePurchase">
-                                            <span v-if="!loading">Purchase</span>
-                                            <span v-else>Loading...</span>
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </Col>
-                    </Row>
+                                    </AutoComplete>
+                                </Col>
+                            </Row>
+                        </FormItem >
+                    </Col> -->
+                    <Col span="24">
+                        <Card>
+                            <p slot="title">Product List</p>
+                            <table style="width:100%">
+                            <tr>
+                                <th>Name</th>
+                                <th>Model</th>
+                                <th>Color</th> 
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th>Buying Price</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr v-for="(data,i) in formValue.productDetails" :key="i">
+                                <td >{{data.productName}}</td>
+                                <td >{{data.model}}</td>
+                                <td >{{data.color}}</td>
+                                <td>{{data.size}}</td>
+                                <td><InputNumber v-model="data.quantity"></InputNumber></td>
+                                <td><InputNumber v-model="data.unitPrice"></InputNumber></td>
+                                <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
+                            </tr>
+                            <tr >
+                                <td colspan="4" style="text-align:right">Total </td>
+                                <td >{{totalQuantity}}</td>
+                                <td >{{totalPrice}}</td>
+                                <td > <Button type="error" size="large"  @click="showClear">
+                                    Clear All
+                                    </Button>
+                                </td>
+                                
+                            </tr>
+
+                            </table>
+                            <Row>
+                                <Col>
+                                
+                                    <Button type="primary" size="large" :loading="sending" @click="makePurchase">
+                                        <span v-if="!loading">Purchase</span>
+                                        <span v-else>Loading...</span>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                </Row>
             </Col>
-
-
              <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
                         <Col span="11" offset="1">
                             <FormItem label="Supplier">
-                                <Select v-model="formValue.supplier_id" placeholder="Supplier" :remote-method="changedSupplier" filterable>
+                                <Select v-model="formValue.supplier_id" placeholder="Supplier" :remote-method="changedSupplier" filterable clearable>
                                     <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
                                 </Select>
                             </FormItem>
@@ -106,13 +106,6 @@
                     <h3>Outstanding: {{currentSupplier.outStanding}}</h3>
                 </Col>
              </Col>
-        </Row>
-
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-            <h2>Invoice List</h2>
-                <Table :columns="columns1" :data="dataInvoice"></Table>
-            </Col>
         </Row>
 
       <Modal v-model="editModal" width="360">
@@ -401,7 +394,11 @@
                     url:`/app/searchProduct/${this.formValue.barCode}`,
                     })
                     if(data)
-                    this.formValue.productDetails.push(data)
+                    {
+                        data.quantity=0
+                        data.unitPrice=0
+                        this.formValue.productDetails.push(data)
+                    }
                     else
                     this.e('Oops!','No Data Found')
                     this.lf();

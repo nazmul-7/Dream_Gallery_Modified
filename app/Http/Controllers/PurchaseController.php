@@ -102,7 +102,7 @@ class PurchaseController extends Controller
             ->sum('quantity');
 
            $currentStock=$inStock - $outStock;
-
+//average price for product formula
            $average= ( ($value['averageBuyingPrice']*$currentStock) + ($value['unitPrice']*$value['quantity'] ) ) / ( $currentStock + $value['quantity'] );
            $calculation = 'math: '.$value['averageBuyingPrice'].'*'.$currentStock. '+'. $value['unitPrice'].'*'.$value['quantity']. '/' .$currentStock .'+'. $value['quantity']. '=' .$average;
             $purchase=Purchase::create([

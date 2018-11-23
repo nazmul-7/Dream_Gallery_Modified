@@ -53,5 +53,27 @@ class StockController extends Controller
                      'sell' => $sell,
                 ],200);
     }
+    public function getStockItem()
+    {
+        $product=Product::with(array('purchaseStock' => function($q)
+        {
+            $q->selectRaw('id, product_id, sum(quantity) as stock');
+            $q->groupBy('product_id');
+
+
+        }))->with(array('sellStock' => function($q)
+        {
+            $q->selectRaw('id, product_id, sum(quantity) as stock');
+            $q->groupBy('product_id');
+
+
+        }))
+        ->get();
+
+        return response()->json([
+                     'msg' => 'Found Stock',
+                     'product' => $product,
+                ],200);
+    }
     
 }

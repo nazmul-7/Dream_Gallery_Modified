@@ -106,6 +106,13 @@
                         </template>
                         <MenuItem name="purchaselist" :to="handleGoToMenu('/purchaselist')">Purchase Report</MenuItem>
                         <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Sale Report</MenuItem>
+                        <MenuItem name="paymentreport" :to="handleGoToMenu('/paymentreport')">
+                        Payment Report            
+                        </MenuItem>
+                        <MenuItem name="collectionreport" :to="handleGoToMenu('/collectionreport')">
+                        Collection Report         
+                        </MenuItem>
+
                         <!-- <MenuItem name="3-1">                        
                             <Submenu name="3-1-1">
                                 <template slot="title">
@@ -150,12 +157,24 @@
                             <Submenu name="3-5-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
-                                    Stock
+                                    Stock Report
                                 </template>
-                                <MenuItem name="stock" :to="handleGoToMenu('/stock')">Stock</MenuItem>
+                                <MenuItem name="stock" :to="handleGoToMenu('/stock')">Product Ledger</MenuItem>
+                                <MenuItem name="currentstock" :to="handleGoToMenu('/currentstock')">Current Stock</MenuItem>
                             </Submenu>
                         </MenuItem>
-                        <MenuItem name="profit" :to="handleGoToMenu('/profit')">Profits</MenuItem>
+                        <MenuItem name="3-6">                        
+                            <Submenu name="3-6-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
+                                    Others Report
+                                </template>
+                                <MenuItem name="profit" :to="handleGoToMenu('/profit')">Gross Profit</MenuItem>
+                                <MenuItem name="profit" :to="handleGoToMenu('/profit')">Net Profit</MenuItem>
+                                <MenuItem name="supplieroutstanding" :to="handleGoToMenu('/supplieroutstanding')">Supplier Outstanding</MenuItem>
+                                <MenuItem name="customeroutstanding" :to="handleGoToMenu('/customeroutstanding')">Customer Outstanding</MenuItem>
+                            </Submenu>
+                        </MenuItem>
                     </Submenu>
                     <!-- menu -->
                     <Submenu name="4">

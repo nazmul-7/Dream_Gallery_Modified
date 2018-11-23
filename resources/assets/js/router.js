@@ -32,11 +32,14 @@ import supplierledger from './components/ledgers/supplier.vue'
 import customeroutstanding from './components/due/customeroutstanding.vue'
 import supplieroutstanding from './components/due/supplieroutstanding.vue'
 import newuser from './components/admin/newuser.vue'
+import collectionreport from './components/reports/collectionreport.vue'
+import paymentreport from './components/reports/paymentreport.vue'
 //cancel
 import purchasecancel from './components/cancel/purchasecancel.vue'
 import salecancel from './components/cancel/salecancel.vue'
 import collectioncancel from './components/cancel/collectioncancel.vue'
 import paymentcancel from './components/cancel/paymentcancel.vue'
+import currentstock from './components/stock/currentstock.vue'
 
 let onlyAdmin = ['Admin']
 let adminAndSale = ['Admin', 'Sale']
@@ -333,6 +336,31 @@ export default new Router({
 					allowed: onlyAdmin
 				}
 			},
+			{
+	      path: '/collectionreport',
+	      name: 'collectionreport',
+	      component: collectionreport,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/paymentreport',
+	      name: 'paymentreport',
+	      component: paymentreport,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/currentstock',
+	      name: 'currentstock',
+	      component: currentstock,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			
 						
 		]
 })
