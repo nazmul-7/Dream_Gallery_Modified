@@ -112,7 +112,7 @@
                                         </FormItem>
                                     </Col>
                                     <Col span="22" offset="1" v-if="formValue.bonusAmount">
-                                        <FormItem label="Customer">
+                                        <FormItem label="Bonus Amount">
                                             <Input v-model="formValue.bonusAmount" >
                                             </Input>
                                         </FormItem>
@@ -440,6 +440,8 @@
                             if(data.bonus)
                             {
                                 this.formValue.bonusAmount=(data.bonus.amount*-1)
+                                this.formValue.paidAmount=this.formValue.paidAmount-this.formValue.bonusAmount
+
                             }
 
                         }catch(e){

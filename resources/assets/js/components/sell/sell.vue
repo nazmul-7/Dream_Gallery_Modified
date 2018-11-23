@@ -95,7 +95,10 @@
                         <Col span="22" offset="1">
                             <FormItem label="Customer">
                                 <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
+                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
+                                        <span>{{customer.customerName}}</span>
+                                        <span style="float:right;color:#ccc">{{customer.contact}}</span>
+            </Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -108,7 +111,7 @@
                         <Col span="11" offset="1" v-if="currentCustomer.status">
                             <FormItem label="Useing Bonus Amount">
                                 <br/>
-                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.total))" @on-change="discount" ></InputNumber >
+                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.totalTotal))" @on-change="discount" ></InputNumber >
                             </FormItem>
                         </Col>
 
@@ -312,8 +315,8 @@
 
             changeAmount()
             {
-                if(this.formValue.cashPaid>0)
-                    return this.formValue.cashPaid-this.formValue.paidAmount
+                if(this.formValue.cashPaid)
+                    return (this.formValue.cashPaid-this.formValue.paidAmount)
                 else
                     return 0
 
@@ -440,6 +443,7 @@
                 this.formValue.subQuantity=0
                 this.formValue.total=0.00
                 this.formValue.cashPaid=0
+                this.currentCustomer={}
                 this.editModal=false
 
                 
@@ -492,7 +496,6 @@
                     this.formValue.discount=10
                     this.currentCustomer.bonusAmount=data.bonus
                     this.currentCustomer.status=true
-
                 }
                 else
                 {
@@ -524,11 +527,11 @@
 
                 this.lf();
                 }catch(e){
-                    this.e('Oops!','2Something went wrong, please try again!')
+                    this.e('Oops!','Something went wrong, please try again!')
                 this.le();
                 }
                 if(this.formValue.discount<10)
-                this.formValue.discount=this.shopData.refererBonus
+                this.formValue.discount=this.shopData.referenceBonus
                 this.discount()
 
 
@@ -592,24 +595,19 @@
 
 
                     if(data.sell_stock){
-                        console.log('IU am')
                         ss=data.sell_stock.stock
                     }
                     data.stock=ps-ss
                     data.quantity=1
                     for(let d of this.dataGroup){
-                        console.log('IU am')
                         if(d.groupName==data.groupName){
-                        console.log('IU am')
                             data.discount=d.discount
                         }
                     }
                    if(data.discount){
-                        console.log('IU am')
                         let d= (data.discount*data.sellingPrice)/100
                         data.discountedPrice= data.sellingPrice-d
                    }else{
-                        console.log('IU am')
                          data.discountedPrice= data.sellingPrice
                          data.discount=0
                    }
@@ -621,7 +619,7 @@
 
                 }catch(e){
                     console.log(0)
-                    this.e('Oops!','3Something went wrong, please try again!')
+                    this.e('Oops!','Something went wrong, please try again!')
                     this.le();
                 }
             },

@@ -80,5 +80,8 @@
         vertical-align: middle;
         font-size: 22px;
     }
-
+.ivu-layout-sider-children{
+    height: 100vh !important;
+    overflow: auto !important;
+}
 

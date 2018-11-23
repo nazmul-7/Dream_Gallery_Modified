@@ -38,7 +38,7 @@
                             <Input type="textarea"
                              :autosize="{minRows: 4,maxRows: 5}"
                               placeholder=" Address" 
-                              v-model="editObj.address"></Input>                            </FormItem >
+                              v-model="formValue.address"></Input>                            </FormItem >
                         </Col>
                         <Col span="24">
                             <FormItem  label="Opening Balance">
@@ -287,7 +287,7 @@
                     this.loading=false
                     this.formValue.customerName=''
                     this.formValue.address=''
-                    this.formValue.contact=''
+                    this.formValue.contact='+880'
                     this.formValue.email=''
                     this.formValue.zone=''
                     this.formValue.opening=0

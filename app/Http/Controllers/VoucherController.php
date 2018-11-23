@@ -45,7 +45,8 @@ class VoucherController extends Controller
         {
             $paymentSheet=Paymentsheet::create([
                 'admin_id' => $admin_id,
-                'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'uid' => $created->id,
+                'type' => 'incomingVoucher',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'voucher',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'amount' => $input['amount'],
                 'paymentMethod' => $input['ledgerName'],
@@ -58,7 +59,8 @@ class VoucherController extends Controller
         {
             $paymentSheet=Paymentsheet::create([
                 'admin_id' => $admin_id,
-                'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'uid' => $created->id,
+                'type' => 'outgoingVoucher',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'voucher',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'amount' => $input['amount']*-1,
                 'paymentMethod' => $input['ledgerName'],
@@ -111,6 +113,27 @@ class VoucherController extends Controller
     {
         Voucher::where('id',$request->id)->update($request->all());
         $data=Voucher::where('id',$request->id)->first();
+        $input=$request->all();
+        if($input['type']=='incomingVoucher')
+        {
+            $payment=Paymentsheet::where('type',$input['type'])
+            ->where('uid',$request->id)
+            ->update([
+                'amount' => $input['amount'],
+                 
+             ]);
+    
+        }
+        else
+        {
+            $payment=Paymentsheet::where('type',$input['type'])
+            ->where('uid',$request->id)
+            ->update([
+                'amount' => $input['amount']*-1,
+                 
+             ]);
+ 
+        }
         return $data;
     }
     /**
@@ -123,6 +146,9 @@ class VoucherController extends Controller
     {
         $destroy = Voucher::where('id','=',$id)
           ->first();
+          $payment=Paymentsheet::where('type','outgoingVoucher')
+          ->where('uid',$id)
+          ->delete();
           if($destroy->count()){
             $destroy->delete();
             return response()->json(['msg'=>'success','status'=>$id]);

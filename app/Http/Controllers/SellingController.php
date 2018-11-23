@@ -89,24 +89,56 @@ class SellingController extends Controller
             'totalPrice' => $input['totalPrice'],
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
-            'sellingPrice' => $input['total'],
-            'paidAmount' => $paidAmount,
+            'sellingPrice' => $paidAmount,
+            'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],
         ]);
 
-        if($input['total']==$paidAmount)
+        if($input['total']==$input['paidAmount'])
         {
-            $paymentSheet=Paymentsheet::create([
-                'admin_id' => $admin_id,
-                'invoice_id' => $invoice->id,
-                'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-                'uid' => $input['customer_id'],
-                'amount' => $input['total'],
-                'paymentMethod' => 'cash',
-                'remarks' => 'Sell To Customer',
-                'date' => $input['date'],
-            ]);
+            if($input['customer_id']==1)
+            {
+                $paymentSheet=Paymentsheet::create([
+                    'admin_id' => $admin_id,
+                    'invoice_id' => $invoice->id,
+                    'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                    'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                    'uid' => $input['customer_id'],
+                    'amount' => $input['total']+$input['bonusAmount'],
+                    'paymentMethod' => 'cash',
+                    'remarks' => 'Sell To Customer',
+                    'date' => $input['date'],
+                ]);
+    
+            }
+            else
+            {
+                $paymentSheet=Paymentsheet::create([
+                    'admin_id' => $admin_id,
+                    'invoice_id' => $invoice->id,
+                    'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                    'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                    'uid' => $input['customer_id'],
+                    'amount' => ($input['total']+$input['bonusAmount'])*-1,
+                    'paymentMethod' => 'cash',
+                    'remarks' => 'Sell To Customer',
+                    'date' => $input['date'],
+                ]);
+                $paymentSheet=Paymentsheet::create([
+                    'admin_id' => $admin_id,
+                    'invoice_id' => $invoice->id,
+                    'type' => 'dueIncoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                    'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                    'uid' => $input['customer_id'],
+                    'amount' => $input['total']+$input['bonusAmount'],
+                    'paymentMethod' => 'cash',
+                    'remarks' => 'Sell To Customer',
+                    'date' => $input['date'],
+                ]);
+    
+    
+
+            }
 
         }
         else
@@ -147,7 +179,7 @@ class SellingController extends Controller
                 'type' => 'discount',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['customer_id'],
-                'amount' => $input['total']-$input['totalPrice'],
+                'amount' => ($input['total']*$input['discount']/100)*-1,
                 'paymentMethod' => 'cash',
                 'remarks' => 'Discount To Customer',
                 'date' => $input['date'],
@@ -179,11 +211,18 @@ class SellingController extends Controller
         }
         if($input['reference_id'] &&  $input['customer_id'])
         {
+            // $bonusAmount=$input['total']*$setting->refererBonus)/100
+            // $outstanding=Paymentsheet::where('customer_id',$input['reference_id'])
+            // ->whereIn('type',['due','opening','dueincoming'])
+            // ->sum('amount')
+
+            // if($outstanding>0)
+
             $paymentSheet=Bonus::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
                 'user_id' => $input['reference_id'],
-                'amount' => ($paidAmount*$setting->referenceBonus)/100,
+                'amount' => ($input['total']*$setting->refererBonus)/100,
                 'type' => 'gift',
                 'bonusBy' => $input['customer_id'],
                 'date' => $input['date'],

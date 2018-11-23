@@ -112,4 +112,15 @@ class ReportController extends Controller
             return $orders;
 
     }
+    public function dueListSupplier()
+    {
+        $orders = Paymentsheet::with('supplier')
+                ->select('uid', DB::raw('SUM(amount) as total_due'),'date')
+                ->groupBy('uid')
+                ->whereIn('type',['due','opening','outgoing'])
+                ->where('paymentFor','supplier')
+                ->get();
+            return $orders;
+
+    }
 }

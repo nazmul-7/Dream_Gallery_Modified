@@ -11,7 +11,7 @@
             <Col  class="dream-input-main" span="22" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
+                        <Input type="text" v-model="search" placeholder="Search" @on-enter="searchProducts"> 
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
@@ -21,7 +21,7 @@
                             </Select>
                     </FormItem>
                 </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="dataProduct"></Table>
             </Col>
         </Row>
       <Modal v-model="addProductModal" width="600">
@@ -396,36 +396,41 @@
         computed: {
             searchData()
             {
-                if(this.filterGroup)
-                {
-                return this.dataProduct.filter((data)=>{                    
-                    return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
-                    && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.model.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.size.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
-                    ;
-                    }
-                );
+                console.log(this.search)
+                
 
-                }
-                else{
-                return this.dataProduct.filter((data)=>{                    
-                    return data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.model.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.groupName.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
-                    ;
-                    }
-                );
 
-                }
+                // search should be done from server instead of front end... 
+                // if(this.filterGroup)
+                // {
+                // return this.dataProduct.filter((data)=>{                    
+                //     return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                //     && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.model.toUpperCase().match(this.search.toUpperCase())
+                //     || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.size.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
+                //     ;
+                //     }
+                // );
+
+                // }
+                // else{
+                // return this.dataProduct.filter((data)=>{                    
+                //     return data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.model.toUpperCase().match(this.search.toUpperCase())
+                //     || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.groupName.toUpperCase().match(this.search.toUpperCase())
+                //     || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                //     || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
+                //     ;
+                //     }
+                // );
+
             },
+            
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -584,6 +589,40 @@
                 }
                 
             },
+            async searchProducts(){
+                if(this.search==''){
+                   this.getProduct()
+                   return
+                }
+                console.log(this.filterGroup)
+                let obj = {
+                    search : this.search,
+                    group: this.filterGroup,
+                }
+                const res = await this.callApi('post', '/app/search/products',obj)
+                if(res.status===200){
+                    console.log(res.data)
+                    this.dataProduct = res.data
+                }else{
+                    this.swr('search')
+                }
+            },
+            async getProduct(){
+                this.ls();
+
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:'/app/product'
+                    })
+                    this.dataProduct=data;
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+            }
 
 
 
@@ -591,20 +630,7 @@
 
         async created()
         {
-            this.ls();
-
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/product'
-                })
-                this.dataProduct=data;
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
+            this.getProduct()
 
             try{
                 let {data} =await  axios({

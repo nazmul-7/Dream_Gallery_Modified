@@ -175,11 +175,12 @@
             },
             emptyEnteredData()
             {
-                this.formValue.customer_id=''
-                this.formValue.date=''
-                this.date=''
-                this.formValue.outStanding=''
-                this.formValue.paidAmount=''
+                const start = new Date();
+                this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+                this.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+                this.formValue.customer_id=0
+                this.formValue.outStanding=0
+                this.formValue.paidAmount=0
             },
             dateConverter(key)
             {
@@ -250,7 +251,7 @@
                         this.loading=false
                     }catch(e){
                         this.loading=false
-                        this.e('Oops!','Something went wrong, please try again!')
+                        this.e('Oops!','1Something went wrong, please try again!')
                     }
 
                 }

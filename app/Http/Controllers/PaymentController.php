@@ -147,7 +147,7 @@ class PaymentController extends Controller
             'remarks' => 'Paid by Customer',
         ]);
 
-        $data=Payment::where('id',$paymentSheet->id)
+        $data=Payment::where('id',$invoice->id)
         ->first();        
          return response()->json([
                  'msg' => 'Inserted',

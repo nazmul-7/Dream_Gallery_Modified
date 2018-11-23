@@ -88,6 +88,7 @@
                     </Col>
                     <Col span="12">
                         <FormItem  label="Voucher Date">
+                            <br/>
                         <DatePicker type="datetime" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                         </FormItem >
                     </Col>

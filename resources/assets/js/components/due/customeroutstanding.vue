@@ -2,9 +2,21 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="22" offset="1" >
-                <left>
-                    <Button  align="left" @click="showPrint">Print</Button>
-                </left>
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                            <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                </Form>
+                <Row>
+                    <Col span="18" >
+                        <Button  align="left" @click="showPrint">Print</Button>
+                    </Col>
+                    <Col span="5" offset="1" >
+                        <h2>Total Due Amount: {{Math.abs(totalDue)}}</h2>
+                    </Col>
+                </Row>
                 <div  class="print">
                     <h2>Customer Outstanding</h2>
                     <table style="width:100%">
@@ -13,8 +25,9 @@
                         <th>Amount</th>
                     </tr>
                     <tr v-for="(data,i) in searchData" :key="i">
-                        <td >{{data.customerName}}</td>
-                        <td >{{Math.abs(data.total_due)}}</td>
+                        
+                        <td v-if="data.total_due">{{data.customerName}}</td>
+                        <td v-if="data.total_due">{{Math.abs(data.total_due)}}</td>
                     </tr>
 
                     </table>
@@ -49,6 +62,8 @@
             return {
                 index:0,
                 user:0,
+                search:'',
+                totalDue:0,
                 balance:null,
                 date:null,
                 searchValue:'',
@@ -92,10 +107,15 @@
         computed: {
             searchData()
             {
+
                 return this.dataCustomer.filter((data)=>{                    
-                    return data.total_due>0
-                        }
-                    );
+                    return data.customerName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.total_due.toString().match(this.search)
+                    ;
+                    }
+                );
+
+
             },
             
             rotateIcon () {
@@ -288,9 +308,15 @@
                     method: 'get',
                     url:'/app/dueList'
                 })
-                for(let d of data){
+                let totalDue=0
+                for(let d of data)
+                {
                     d.customerName=d.customer.customerName
+                    totalDue=totalDue+d.total_due
+                    if(d.uid==1)
+                    d.total_due=0
                 }
+                this.totalDue=totalDue
                 this.dataCustomer=data;
                 this.lf();
 

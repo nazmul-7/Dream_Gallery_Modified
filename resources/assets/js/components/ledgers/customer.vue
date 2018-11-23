@@ -1,7 +1,17 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="14" offset="1" >
+            <Col class="dream-input-main" span="22" offset="1" >
+                <Form ref="formInline" inline>
+                    <FormItem label="Customer">
+                        <Select v-model="formValue.customer_id" placeholder="Customer Name" @on-change="changed" filterable clearable>
+                            <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="Date">
+                        <DatePicker type="daterange" style="width: 200px"></DatePicker>
+                    </FormItem>
+                </Form>
                 <left>
                     <Button  align="left" @click="showPrint">Print</Button>
                 </left>
@@ -9,20 +19,21 @@
                     <h2>Customer Ledger</h2>
                     <table style="width:100%">
                     <tr>
+                        <th>Date</th>
                         <th>Admin</th> 
                         <th>Type</th> 
-                        <th>ID</th>
+                        <th>Invoice ID</th>
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>Balance</th>
-                        <th>Date</th>
                     </tr>
                     <tr v-for="(data,i) in dataLedger" :key="i">
+                        <td >{{data.date}}</td>
                         <td >{{data.adminName}}</td>
-                        <td v-if="data.type ==='due'">Due</td>
-                        <td v-else-if="data.type ==='dueIncoming'">Cash Collection</td>
-                        <td v-else-if="data.type ==='incoming'">Cash Sale</td>
-                        <td v-else-if="data.type ==='opening'">Opening Cash</td>
+                        <td v-if="data.type ==='due'">Sales</td>
+                        <td v-else-if="data.type ==='dueIncoming'">Collection</td>
+                        <td v-else-if="data.type ==='incoming'">Collection</td>
+                        <td v-else-if="data.type ==='opening'">Opening</td>
                         <td v-else>Not define</td>
                         <td>{{data.invoice_id}}</td>
                         <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
@@ -31,30 +42,12 @@
                         <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td >{{Math.abs(data.balance)}}</td>
-                        <td >{{data.date}}</td>
                     </tr>
 
                     </table>
                 </div>
             </Col>
 
-            <Col class="dream-input-main" span="7" offset="1">
-                <Form >
-                    <Row :gutter="24">
-                        <Col span="22" offset="1">
-                            <FormItem label="Customer">
-                                <Select v-model="formValue.customer_id" placeholder="Customer Name" @on-change="changed" filterable clearable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <!-- <Col span="22" offset="1" v-if="user">
-                            <h2>Customer Info</h2>
-                            <p></p>
-                        </Col> -->
-                    </Row>
-                </Form>
-            </Col>
         </Row>
 
     </div>

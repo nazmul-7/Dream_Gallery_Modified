@@ -6,6 +6,26 @@ export default {
 	},
 
 	methods: {
+		//  A COMMON WAY TO CALL THE APIS USING ASYNC AWAIT 
+		async callApi(method, url, dataObj){
+			try{
+	  
+				let data = await axios({
+					method: method,
+					url: url,
+					data: dataObj
+				})
+				return data 
+				
+			}catch(e){
+				
+				return e.response
+			}
+		},
+	  
+
+
+
 		async getStock(id)
 		{	
 			
@@ -60,6 +80,12 @@ export default {
 			this.$Notice.warning({
                 title: t,
                 desc: m
+            });
+		},
+		swr(m){
+			this.$Notice.error({
+                title: 'Oops',
+                desc: `Something went wrong with ${m}`
             });
 		},
 	}

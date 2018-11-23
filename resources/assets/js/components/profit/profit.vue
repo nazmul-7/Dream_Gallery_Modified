@@ -22,7 +22,14 @@
                         <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
                     </FormItem>
                 </Form>
-                <Button  align="left" @click="showPrint">Print</Button>
+                <Row>
+                    <Col span="11" >
+                        <Button  align="left" @click="showPrint">Print</Button>
+                    </Col>
+                    <Col span="11" offset="1" >
+                        <h3>Total Sales: {{totalSale}} | Total Cost: {{totalCost}} | Total Profit: {{totalProfit}}</h3>
+                    </Col>
+                </Row>
                 <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
             </Col>
         </Row>
@@ -247,6 +254,53 @@
             
         },
         computed: {
+            totalProfit()
+            {
+
+                var tF=0
+                for (let d of this.searchData)
+                {
+                    var sF=0
+                    for(let dd of d.selling)
+                    {
+                        sF=(sF+(dd.profit*dd.quantity))
+                    }
+                tF=tF+sF
+
+                }
+                return tF
+                
+            },
+            totalCost()
+            {
+
+                var tF=0
+                for (let d of this.searchData)
+                {
+                    var sF=0
+                    for(let dd of d.selling)
+                    {
+                        sF=(sF+((dd.unitPrice-dd.profit)*dd.quantity))
+                    }
+                tF=tF+sF
+
+                }
+                return tF
+                
+            },
+
+            totalSale()
+            {
+
+                var tF=0
+                for (let d of this.searchData)
+                {
+                    tF=tF+d.sellingPrice
+
+                }
+                return tF
+                
+            },
             searchData()
             {
                 if(this.filterCustomer && this.filterZone)
@@ -463,7 +517,8 @@
                 this.formValue.date=key
 
             },
-            addProduct(k){
+            addProduct(k)
+            {
                 if(this.searchValue)
                 {
                 this.formValue.productDetails.push(this.dataSearch[k])
@@ -486,7 +541,8 @@
                     this.le();
                 }
             },
-            collapsedSider () {
+            collapsedSider ()
+            {
                 this.$refs.side1.toggleCollapse();
             },
             async makePurchase(){
@@ -523,14 +579,16 @@
                 }
                 
             },
-            showEdit (index) {
+            showEdit (index)
+            {
                 this.editObj.id=this.dataInvoice[index].id
                 this.editObj.invoice_id=this.dataInvoice[index].invoice_id
                 this.editObj.product_id=this.dataInvoice[index].product_id
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
-            showRemove (index) {
+            showRemove (index)
+            {
                 this.UpdateValue.id=this.dataInvoice[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
@@ -598,9 +656,8 @@
                     d.profitPrice=0
                     for(let dd of d.selling)
                     {
-                        d.costPrice=d.costPrice+(dd.unitPrice-dd.profit)
-                        d.profitPrice=d.profitPrice+dd.profit
-
+                        d.costPrice=(d.costPrice+((dd.unitPrice-dd.profit)*dd.quantity))
+                        d.profitPrice=(d.profitPrice+(dd.profit*dd.quantity))
                     }
                     if(d.customer)
                     d.customerName=d.customer.customerName

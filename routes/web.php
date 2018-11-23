@@ -34,6 +34,20 @@ Route::post('/app/zoneUpdate','ZoneController@zoneUpdate');
 Route::post('/app/ledgerUpdate','LedgerController@ledgerUpdate');
 Route::post('/app/voucherUpdate','VoucherController@voucherUpdate');
 Route::post('/app/productUpdate','ProductController@productUpdate');
+
+
+// product searching 
+Route::post('/app/search/products', 'ProductController@search');
+
+
+
+
+
+
+
+
+
+
 //resourcesc
 Route::resource('/app/category','CategoryController');
 Route::resource('/app/unit_type','UnitController');
@@ -87,6 +101,7 @@ Route::get('/app/filterPurchaseItem/{from}/{to}','PurchaseController@filterPurch
 Route::get('/app/getStockList/{id}','StockController@getStockList');
 Route::get('/app/getStockUnion/{id}','StockController@getStockUnion');
 Route::get('/app/dueList','ReportController@dueList');
+Route::get('/app/dueListSupplier','ReportController@dueListSupplier');
 Route::get('/app/getStockItem','StockController@getStockItem');
 
 Route::get('/app/paymentList/{from}/{to}','PaymentController@paymentList');
