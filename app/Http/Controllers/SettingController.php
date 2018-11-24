@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Setting;
+use App\Paymentsheet;
 class SettingController extends Controller
 {
     /**
@@ -78,6 +79,14 @@ class SettingController extends Controller
     }
     public function updateSetting(Request $request)
     {
+        date_default_timezone_set('Asia/Dhaka');
+        $date=date("Y-m-d");
+        $input=$request->all();
+        Paymentsheet::where('paymentFor','cash')
+        ->update([
+            'amount' => $input['openingCash'],
+            'date'=> $date,
+        ]);
         return Setting::where('id',$request->id)->update($request->all());
     }
 

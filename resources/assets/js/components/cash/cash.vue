@@ -28,14 +28,16 @@
                         <th>Credit</th>
                         <th>Balance</th>
                     </tr>
-                    <tr v-for="(data,i) in searchData" :key="i">
+                    <tr v-for="(data,i) in searchData" :key="i" v-if="data.balance!=0">
                         <td >{{data.date}}</td>
                         <td >{{data.adminName}}</td>
                         <td >{{data.remarks}}</td>
                         <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
                         <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
+                        <td v-else-if="data.type ==='incomingVoucher'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
+                        <td v-else-if="data.type ==='outgoingVoucher'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td >{{data.balance}}</td>
                     </tr>

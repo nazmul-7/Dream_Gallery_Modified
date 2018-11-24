@@ -24,7 +24,7 @@
                         <Col span="24">
                             <FormItem label="Group Name">
                                 <Input type="text" placeholder="Group Name" 
-                                v-model="formValue.groupName" @on-enter="groupAdd"></Input>
+                                v-model="formValue.groupName" @on-enter="groupAdd" ></Input>
                             </FormItem>
                         </Col>
                          <Col  span="24">

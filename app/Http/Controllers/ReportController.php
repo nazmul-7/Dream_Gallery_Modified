@@ -77,16 +77,17 @@ class ReportController extends Controller
     }
     public function filterCash($from,$to)
     {
-        $balance=Paymentsheet::orderBy('id', 'desc')
-        ->whereBetween('date', array('2018-01-01', $from))
-        ->whereIn('type',['incoming','dueincoming','outgoing'])
+        date_default_timezone_set('Asia/Dhaka');
+        $balance=Paymentsheet::orderBy('id', 'asc')
+        ->whereBetween('date', array('2018-01-01',date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $from) ) ))))
+        ->whereIn('type',['incomingVoucher','outgoingVoucher','incoming','dueincoming','outgoing'])
         ->sum('amount');
-        $data=Paymentsheet::orderBy('id', 'desc')
+        $data=Paymentsheet::orderBy('id', 'asc')
         ->with('admin')
         ->with('customer')
         ->with('supplier')
         ->whereBetween('date', array($from, $to))
-        ->whereIn('type',['incoming','dueincoming','outgoing'])
+        ->whereIn('type',['incomingVoucher','outgoingVoucher','incoming','dueincoming','outgoing'])
         ->get();
 
         return response()->json([

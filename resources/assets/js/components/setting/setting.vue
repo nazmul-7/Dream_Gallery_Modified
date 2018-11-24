@@ -48,6 +48,12 @@
                                 <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Adderss" v-model="formValue.address"></Input>
                             </FormItem>
                         </Col>
+                        <Col span="24" v-if="opening==null">
+                            <FormItem label="Opening Cash" >
+                                <Input type="text" placeholder="Opening Cash" v-model="formValue.openingCash"></Input>
+                            </FormItem>
+                        </Col>
+
                         <Col class="dream-input-main-button" span="24">
                             <Button type="success" :loading="loading" @click="settingSave">
                                 <span v-if="!loading">Update</span>
@@ -100,6 +106,7 @@
                 loading:false,
                 listMethod:true,
                 isCollapsed: false,
+                opening:null,
                
                crfObj: {
                     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -206,6 +213,7 @@
                     url:'/app/setting'
                 })
                 this.formValue=data
+                this.opening=data.openingCash
                 this.data1[0].value=data.companyName
                 this.data1[1].value=data.invoiceNote
                 this.data1[2].value=data.currencyType

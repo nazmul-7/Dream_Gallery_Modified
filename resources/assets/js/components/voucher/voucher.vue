@@ -39,15 +39,17 @@
                                 <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
                             </FormItem >
                         </Col>
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem  label="Amount">
                                 <Input type="text" placeholder="Amount" 
                                 v-model="formValue.amount"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem  label="Remarks">
-                                <Input type="text" placeholder="Remarks" 
+                                <Input type="textarea"
+                                :autosize="{minRows: 4,maxRows: 5}"
+                               placeholder="Remarks" 
                                 v-model="formValue.remarks"></Input>
                             </FormItem >
                         </Col>
