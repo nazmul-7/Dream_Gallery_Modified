@@ -590,6 +590,7 @@
                     else
                     {
                     this.e('Oops!','No Purchase Stock')
+                    this.formValue.barCode=null
                     return
                     }
 

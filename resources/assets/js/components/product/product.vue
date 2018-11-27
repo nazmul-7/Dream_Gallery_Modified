@@ -313,10 +313,6 @@
                         key: 'productName'
                     },
                     {
-                        title: 'Model Name',
-                        key: 'model'
-                    },
-                    {
                         title: 'Group Name',
                         key: 'groupName'
                     },
@@ -324,7 +320,11 @@
                         title: 'Category Name',
                         key: 'catName'
                     },
-                                        {
+                    {
+                        title: 'Model',
+                        key: 'model'
+                    },
+                    {
                         title: 'Size',
                         key: 'size'
                     },

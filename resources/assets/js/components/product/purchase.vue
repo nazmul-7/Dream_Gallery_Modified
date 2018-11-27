@@ -469,7 +469,7 @@
                     this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
                     this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
                     this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
-                    this.s('Great!','Category information has been updated successfully!')
+                    this.s('Great!','Purchase information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false
@@ -487,7 +487,7 @@
                         url:`/app/invoice/${this.UpdateValue.id}`,
                     })
                     this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Invoice information has been removed successfully!')
+                    this.s('Great!','Purchase information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false
