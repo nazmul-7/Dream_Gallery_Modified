@@ -24,17 +24,32 @@
                     <tr>
                         <th>Date</th>
                         <th>Admin</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
+                        <th>Type</th>
+                        <th>Invoice ID</th>
+                        <th>Debit Qty</th>
+                        <th>Debit Value</th>
+                        <th>Credit Qty</th>
+                        <th>Credit Value</th>
                         <th>Balance</th>
                     </tr>
                     <tr v-for="(data,i) in dataSell" :key="i">
                         <td >{{data.date}}</td>
                         <td v-if="data.type ==='opening'">Opening</td>
                         <td v-else>{{data.adminName}}</td>
-                        <td v-if="data.type ==='sell'">{{data.quantity}}*{{data.unitPrice}}</td>
+                        <td v-if="data.type ==='purchase'">Purchase</td>
+                        <td v-else-if="data.type ==='opening'">Opening</td>
+                        <td v-else-if="data.type ==='sell'">Sale</td>
+                        <td v-else>Unfefined</td>
+                        <td >{{data.invoice_id}}</td>
+                        <td v-if="data.type ==='purchase'">{{data.quantity}}</td>
+                        <td v-else-if="data.type ==='opening'">{{data.quantity}}</td>
                         <td v-else>0</td>
-                        <td v-if="data.type ==='purchase'">{{data.quantity}}*{{data.unitPrice}}</td>
+                        <td v-if="data.type ==='purchase'">{{data.unitPrice}}</td>
+                        <td v-else-if="data.type ==='opening'">{{data.unitPrice}}</td>
+                        <td v-else>0</td>
+                        <td v-if="data.type ==='sell'">{{data.quantity}}</td>
+                        <td v-else>0</td>
+                        <td v-if="data.type ==='sell'">{{data.unitPrice}}</td>
                         <td v-else>0</td>
                         <td >{{data.balance}}</td>
                     </tr>

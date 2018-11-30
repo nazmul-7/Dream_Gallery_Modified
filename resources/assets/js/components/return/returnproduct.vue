@@ -335,7 +335,6 @@
             },
             quantityChange()
             {
-                
                 var totalPrice=0,totalQuantity=0,totalQuantityN=0,totalPriceN=0
                 for ( let d of this.formValue.productDetails) {
                         totalQuantity+=parseInt(d.quantity)               
@@ -351,8 +350,6 @@
                 this.formValue.paidAmount=parseFloat(totalPrice-this.formValue.oldTotal-this.formValue.bonusAmount-this.formValue.dueAmount)
                 this.formValue.subTotal=parseFloat(totalPrice)
                 this.discount()
-
-  
             },
             discount(){
                 var totalOld = this.formValue.subTotal
@@ -423,10 +420,11 @@
                                         c.discountedPrice= c.unitPrice
                                 }
                             }
-                            
+                            var cloneData=_.cloneDeep(data.data)
                             this.formValue.invoice_id=this.dataSearch.id
                             this.formValue.productDetails=data.data
-                            this.formValue.productDetailsInvoice=data.data
+                            
+                            this.formValue.productDetailsInvoice=cloneData
                             
                             this.formValue.subTotal=this.dataSearch.totalPrice
                             this.formValue.totalQuantity=this.dataSearch.totalQuantity

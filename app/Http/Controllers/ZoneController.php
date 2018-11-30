@@ -14,14 +14,14 @@ class ZoneController extends Controller
      */
     public function index()
     {
-        $zone=Zone::orderBy('id', 'desc')->get();
+        $zone=Zone::orderBy('zoneName', 'asc')->get();
         return $zone;
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+    * @return \Illuminate\Http\Response
      */
     public function create()
     {

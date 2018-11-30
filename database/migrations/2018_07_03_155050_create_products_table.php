@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('unit')->nullable();
             $table->string('size')->nullable();
             $table->string('color')->nullable();
-            $table->string('model')->nullable();
+            $table->string('model')->nullable()->unique();
             $table->string('sellingPrice');
             $table->string('averageBuyingPrice')->default(0);
             $table->string('barCode')->nullable();

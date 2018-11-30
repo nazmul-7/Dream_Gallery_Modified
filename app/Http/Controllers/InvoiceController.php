@@ -161,14 +161,22 @@ class InvoiceController extends Controller
         $admin_id=Auth::user()->id;        
         $input=$request->all();
         // update invoice 
+        $totalQuantity=0;
+        $totalSelling=0;
+        foreach($input['newProduct'] as $key => $value)
+        {
+            $totalQuantity=$totalQuantity+$value['quantity'];
+            $totalSelling=$totalSelling+$value['sellingPrice'];
+            
+        }
         $invoice=Invoice::create([
             'admin_id' => $admin_id,
             'type' => 'sell',
-            'totalQuantity' => $input['totalQuantity'],
+            'totalQuantity' => $totalQuantity,
             'totalPrice' => $input['subTotal'],
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
-            'sellingPrice' => $input['total'],
+            'sellingPrice' => $totalSelling,
             'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],
         ]);
@@ -203,24 +211,54 @@ class InvoiceController extends Controller
             ]);
         }
         $i=0;
+        $invoiceFlag=false;
+        $invoiceX;
         foreach ($input['productDetails'] as $key => $value) {
             if(!$value['discount'])
             $value['discount']=0;
 
             $profit= $value['discountedPrice'] - $value['product']['averageBuyingPrice'];
-            if($value['quantity']>$input['productDetailsInvoice'][$i]['quantity'])
+            
+            if($value['quantity']<$input['productDetailsInvoice'][$i]['quantity'] )
             {
+                if( $invoiceFlag==false)
+                {
+                    $invoiceX=Invoice::create([
+                        'admin_id' => $admin_id,
+                        'type' => 'return',
+                        'totalQuantity' => 0,
+                        'totalPrice' => 0,
+                        'customer_id' => 1,
+                        'discount' => 0,
+                        'sellingPrice' => 0,
+                        'paidAmount' => 0,
+                        'date' => $input['date'],
+                    ]);
+                    //
+
+                    $invoiceFlag=true;
+                }
+                
                 $purchase=Purchase::create([
                     'admin_id' => $admin_id,
-                    'invoice_id' => $invoice->id,
-                    'product_id' => $value['id'],
-                    'quantity' => $value['quantity']-$input['productDetailsInvoice']['quantity'],
+                    'invoice_id' => $invoiceX->id,
+                    'product_id' => $value['product_id'],
+                    'quantity' => $input['productDetailsInvoice'][$i]['quantity']-$value['quantity'],
                     'unitPrice' => $value['unitPrice'],
                     'date' => $input['date'],
                     
                 ]);
+                $update=Selling::where('invoice_id',$input['invoice_id'])
+                ->where('product_id',$value['product_id'])
+                ->update([
+                    'quantity' => $value['quantity'],
+                    'unitPrice' => $value['unitPrice'],
+                    
+                ]);
+                
             }
             $i++;
+
         }
 
          return response()->json([

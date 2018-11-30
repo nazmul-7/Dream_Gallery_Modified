@@ -1,10 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
-                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-            </Col>
-            <Col class="dream-input-main" span="22" offset="1" v-if="date">
+            <Col class="dream-input-main" span="22" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -17,22 +14,40 @@
                                 <Option value="credit">Credit</Option>
                             </Select>
                     </FormItem>
+                    <FormItem label="Date">
+                            <DatePicker type="daterange" :options="options2"  placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                    </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
                 <table style="width:100%">
-                    <tr>
+                    <tr >
                         <th>Date</th>
                         <th>Admin</th>
-                        <th>Remarks</th> 
+                        <th>Type</th> 
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>Balance</th>
                     </tr>
-                    <tr v-for="(data,i) in searchData" :key="i" v-if="data.balance!=0">
+                    <tr v-if="this.dataOpening==null">
+                        <th>{{ date}}</th>
+                        <th>Opening</th>
+                        <th>Opening Balance</th> 
+                        <th>0</th>
+                        <th>0</th>
+                        <th>{{ opening }}</th>
+                    </tr>
+                    <tr v-for="(data,i) in searchData" :key="i" >
                         <td >{{data.date}}</td>
-                        <td >{{data.adminName}}</td>
-                        <td >{{data.remarks}}</td>
-                        <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
+                        <td v-if="data.paymentFor ==='cash'">Opening</td>
+                        <td v-else>{{data.adminName}}</td>
+                        <td v-if="data.paymentFor ==='cash'">Opening Amount</td>
+                        <td v-else-if="data.type ==='incoming'">Collection</td>
+                        <td v-else-if="data.type ==='dueIncoming'">Collection</td>
+                        <td v-else-if="data.type ==='incomingVoucher'">Voucher</td>
+                        <td v-else-if="data.type ==='outgoing'">Payemnt</td>
+                        <td v-else-if="data.type ==='outgoingVoucher'">Voucher</td>
+                        <td v-if="data.paymentFor ==='cash'">0</td>
+                        <td v-else-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
                         <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
                         <td v-else-if="data.type ==='incomingVoucher'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
@@ -73,7 +88,9 @@
             return {
                 index:0,
                 search:'',
-                date:false,
+                date:'',
+                opening:0,
+                dataOpening:null,
                 filterDate:[],
                 filterType:[],
                 searchValue:'',
@@ -125,6 +142,7 @@
                     
                 },
                 options2: {
+
                     shortcuts: [
                         {
                             text: '1 week',
@@ -155,6 +173,7 @@
                         }
                     ]
                 },
+
                 columns1: [ 
                     {
                         title: 'Admin',
@@ -312,33 +331,35 @@
                 // this.cashIn=Math.round(cashIn)
                 // this.cashOut=Math.round(cashOut)
                 // this.currentCash=Math.round(currentCash)
-                let balance={};
-                balance.balance=data.balance
-                balance.type='balance'
-                balance.date=k[0]
-                balance.adminName='Opening'
-                balance.remarks='Opening Balance'
-                
-                
+
+                this.opening=data.balance
+                this.date=data.date
+                this.dataOpening=data.opening
                 var temp=data.balance
                 for(let d of data.data){
-                    d.adminName=d.admin.name
+                    
+                        d.adminName=d.admin.name
 
-                    temp=temp+d.amount
-                    d.balance=temp
-                    if(d.paymentFor=='customer' && d.uid)
-                    {
-                        d.customerName=d.customer.customerName
+                        temp=temp+d.amount
+                        d.balance=temp
+                        if(d.paymentFor=='customer' && d.uid)
+                        {
+                            d.customerName=d.customer.customerName
 
-                    }
-                    else if(d.paymentFor=='supplier' && d.uid)
-                    {
-                        d.supplierName=d.supplier.supplierName
-                    }
+                        }
+                        else if(d.paymentFor=='supplier' && d.uid)
+                        {
+                            d.supplierName=d.supplier.supplierName
+                        }
                     
                 }
-                data.data.unshift(balance)
                 this.dataInvoice=data.data
+                // if(this.dataInvoice.length)
+                // {
+                //     if(this.dataInvoice[0].paymentFor=='cash')
+                //     this.dataInvoice.splice(0,1 )
+                // }
+
                 this.lf();
 
                 }catch(e){
@@ -520,6 +541,49 @@
 
         async created()
         {
+            const end = new Date();
+			const start = new Date();
+			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            let date2=end.getFullYear()+'-'+(end.getMonth()+1)+'-'+end.getDate();
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/filterCash/${date2}/${date2}`
+
+                })
+                if(data.opening>0)
+                {
+                    this.opening=data.opening
+                }
+                else 
+                {
+                    this.opening=data.balance
+                }
+                var temp=data.balance
+                this.date=data.date
+                for(let d of data.data){
+                    
+                        d.adminName=d.admin.name
+                        temp=temp+d.amount
+                        d.balance=temp
+                        if(d.paymentFor=='customer' && d.uid)
+                        {
+                            d.customerName=d.customer.customerName
+                        }
+                        else if(d.paymentFor=='supplier' && d.uid)
+                        {
+                            d.supplierName=d.supplier.supplierName
+                        }                    
+                }
+                this.dataInvoice=data.data
+                this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+            
    
         }
 

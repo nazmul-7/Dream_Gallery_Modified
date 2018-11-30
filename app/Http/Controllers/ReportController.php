@@ -82,18 +82,28 @@ class ReportController extends Controller
         ->whereBetween('date', array('2018-01-01',date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $from) ) ))))
         ->whereIn('type',['incomingVoucher','outgoingVoucher','incoming','dueincoming','outgoing'])
         ->sum('amount');
-        $data=Paymentsheet::orderBy('id', 'asc')
+        $data=Paymentsheet::orderBy('date', 'asc')
         ->with('admin')
         ->with('customer')
         ->with('supplier')
         ->whereBetween('date', array($from, $to))
         ->whereIn('type',['incomingVoucher','outgoingVoucher','incoming','dueincoming','outgoing'])
         ->get();
+        $opening=Paymentsheet::orderBy('date', 'asc')
+        ->with('admin')
+        ->with('customer')
+        ->with('supplier')
+        ->whereBetween('date', array($from, $to))
+        ->where('type','incoming')
+        ->where('paymentFor','cash')
+        ->first();
 
         return response()->json([
             'msg' => 'Data Came',
             'data'=> $data,
+            'date'=> $from,
             'balance'=> $balance,
+            'opening'=> $opening
         ],200);
     }
     public function dueList()

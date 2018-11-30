@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="14" offset="1">
+            <Col class="dream-input-main" span="13" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
@@ -11,7 +11,7 @@
                 </Form>
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
-            <Col class="dream-input-main" span="7" offset="1">
+            <Col class="dream-input-main" span="8" offset="1">
                 <Form >
                     <Row :gutter="24">
                         <Col span="24">
