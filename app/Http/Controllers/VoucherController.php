@@ -114,9 +114,9 @@ class VoucherController extends Controller
         Voucher::where('id',$request->id)->update($request->all());
         $data=Voucher::where('id',$request->id)->first();
         $input=$request->all();
-        if($input['type']=='incomingVoucher')
+        if($input['type']=='Income')
         {
-            $payment=Paymentsheet::where('type',$input['type'])
+            $payment=Paymentsheet::where('type','incomingVoucher')
             ->where('uid',$request->id)
             ->update([
                 'amount' => $input['amount'],
@@ -126,7 +126,7 @@ class VoucherController extends Controller
         }
         else
         {
-            $payment=Paymentsheet::where('type',$input['type'])
+            $payment=Paymentsheet::where('type','outgoingVoucher')
             ->where('uid',$request->id)
             ->update([
                 'amount' => $input['amount']*-1,
@@ -146,7 +146,7 @@ class VoucherController extends Controller
     {
         $destroy = Voucher::where('id','=',$id)
           ->first();
-          $payment=Paymentsheet::where('type','outgoingVoucher')
+          $payment=Paymentsheet::where('paymentFor','voucher')
           ->where('uid',$id)
           ->delete();
           if($destroy->count()){

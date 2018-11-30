@@ -168,7 +168,7 @@ export default new Router({
 				}
 			},
 			{
-	      path: '/sell',
+	      path: '/sale',
 	      name: 'sell',
 	      component: sell,
 				meta: {

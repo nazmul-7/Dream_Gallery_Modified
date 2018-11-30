@@ -260,7 +260,7 @@
 
                 ],
                 formValue: {
-                     type:'purchase',
+                     type:'sell',
                      date:'',
                      discount:0,
                      paidAmount:0.00,
@@ -436,16 +436,21 @@
             {
                 console.log('clear')
 
-                this.formValue={}
                 this.formValue.discount=0
                 this.formValue.paidAmount=0.00
                 this.formValue.subTotal=0
                 this.formValue.subQuantity=0
                 this.formValue.total=0.00
                 this.formValue.cashPaid=0
+                this.formValue.bonusAmount=0
+                this.formValue.supplier_id=''
+                this.formValue.customer_id=''
+                this.formValue.reference_id=''
+                this.formValue.productDetails.splice(0,this.formValue.productDetails.length)
                 this.currentCustomer={}
                 this.editModal=false
-
+                const start = new Date();
+                this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
                 
 
             },

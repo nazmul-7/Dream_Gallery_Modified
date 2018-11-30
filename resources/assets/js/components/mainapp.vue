@@ -65,7 +65,7 @@
                             <Icon type="ios-alert"></Icon>
                             <span>Purchase</span>              
                         </MenuItem>
-                        <MenuItem name="sell" :to="handleGoToMenu('/sell')">
+                        <MenuItem name="sale" :to="handleGoToMenu('/sale')">
                             <Icon type="ios-alert"></Icon>
                             <span>Sale</span>              
                         </MenuItem>

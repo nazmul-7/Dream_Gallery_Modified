@@ -37,7 +37,7 @@
                                 <th>Color</th> 
                                 <th>Size</th>
                                 <th>Quantity</th>
-                                <th>Buying Price</th>
+                                <th>Price</th>
                                 <th>Action</th>
                             </tr>
                             <tr v-for="(data,i) in formValue.productDetails" :key="i">
@@ -85,7 +85,7 @@
                             </FormItem>
                         </Col>
                         <Col span="11" offset="1">
-                            <FormItem  label="Buying Date">
+                            <FormItem  label=" Date">
                                 <br>
                                 <Row>
                                     <Col span="22">

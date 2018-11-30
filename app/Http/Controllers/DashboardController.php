@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
         $pettycash=Paymentsheet::orderBy('id', 'desc')
         ->whereBetween('date', array('2010-02-19', $date))
-        ->whereIn('type',['incoming','dueincoming','outgoing'])
+        ->whereIn('type',['incoming','dueincoming','outgoing','outgoingVoucher','incomingVoucher'])
         ->sum('amount');
         $todayssale=Invoice::orderBy('id', 'desc')
         ->where('date',  $date)
@@ -25,7 +25,7 @@ class DashboardController extends Controller
         ->sum('sellingPrice');
         $todayscollection=Paymentsheet::orderBy('id', 'desc')
         ->where('date',  $date)
-        ->whereIn('type',['incoming','dueincoming',])
+        ->whereIn('type',['incoming','dueincoming','incomingVoucher'])
         ->sum('amount');
         $todayspayment=Paymentsheet::orderBy('id', 'desc')
         ->where('date',  $date)
