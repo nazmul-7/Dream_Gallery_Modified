@@ -49,7 +49,7 @@
                         <td v-else>0</td>
                         <td v-if="data.type ==='sell'">{{data.quantity}}</td>
                         <td v-else>0</td>
-                        <td v-if="data.type ==='sell'">{{data.unitPrice}}</td>
+                        <td v-if="data.type ==='sell'">{{data.unitPrice-data.profit}}</td>
                         <td v-else>0</td>
                         <td >{{data.balance}}</td>
                     </tr>
@@ -300,7 +300,7 @@
                          }
                         d.adminName=d.admin.name
                         if(d.type=='sell')
-                        temp=temp-(d.quantity*d.unitPrice)
+                        temp=temp-(d.quantity*(d.unitPrice-d.profit))
                         else
                         temp=temp+(d.quantity*d.unitPrice)
 

@@ -294,7 +294,7 @@
                 try{
                     let {data} =await  axios({
                         method: 'get',
-                        url:`/app/paymentList/${k[0]}/${k[1]}`
+                        url:`/app/collectionList/${k[0]}/${k[1]}`
 
                     })
                     for(let d of data){

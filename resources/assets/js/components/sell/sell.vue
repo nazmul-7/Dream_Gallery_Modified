@@ -604,6 +604,12 @@
                         ss=data.sell_stock.stock
                     }
                     data.stock=ps-ss
+                    if(data.stock==0)
+                    {
+                        this.e('Oops!','No stock avalaible, please try again!')
+                        this.formValue.barCode=null
+                        return;
+                    }
                     data.quantity=1
                     for(let d of this.dataGroup){
                         if(d.groupName==data.groupName){

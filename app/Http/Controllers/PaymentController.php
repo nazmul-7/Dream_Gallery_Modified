@@ -190,11 +190,9 @@ class PaymentController extends Controller
         ->delete();
         $paymentsheet = Paymentsheet::where('payment_id','=',$id)
             ->delete();
-        if($paymentsheet->count()){
+        
             return response()->json(['msg'=>'success','status'=>$id]);
-        } else {
-            return response()->json(['msg'=>'error','status'=>$id]);
-        }
+       
         
     }
 }
