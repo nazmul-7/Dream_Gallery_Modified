@@ -552,13 +552,13 @@
                         url:`/app/filterCash/${date2}/${date2}`
 
                 })
-                if(data.opening>0)
+                if(data.opening==null)
                 {
-                    this.opening=data.opening
+                    this.opening=data.balance
                 }
                 else 
                 {
-                    this.opening=data.balance
+                    this.dataOpening=true
                 }
                 var temp=data.balance
                 this.date=data.date

@@ -19,7 +19,10 @@
 
 Route::post('/app/login','LoginController@login');
 Route::post('/app/create','Auth/RegisterController@newUser');
-Route::post('/app/userList','HomeController@userList');
+Route::post('/app/newUser','HomeController@newUser');
+Route::get('/app/userList','HomeController@userList');
+Route::post('/app/userUpdate','HomeController@userUpdate');
+Route::get('/app/userRemove/{id}','HomeController@userRemove');
 //dashboard
 Route::get('/app/salesData/{from}/{to}','DashboardController@salesData');
 

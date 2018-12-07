@@ -168,7 +168,7 @@
                 dataInvoice: 
                 [],
                 formValue: {
-                     type:'purchase',
+                     type:'',
                      date:'',
                      discount:0,
                      oldTotal:0,
@@ -394,16 +394,21 @@
             },
             clearData()
             {
+                this.date=''
                 this.formValue.invoice_id=''
                 this.formValue.productDetails=[]
-                this.formValue.subTotal=''
+                this.formValue.productDetailsInvoice=[]
+                this.formValue.newProduct=[]
+                this.formValue.subTotal=0
                 this.formValue.totalQuantity=''
-                this.formValue.paidAmount=''
-                this.formValue.total=''
-                this.formValue.discount=''
+                this.formValue.paidAmount=0
+                this.formValue.oldTotal=0
+                this.formValue.total=0
+                this.formValue.discount=0
+                this.formValue.customer_id=null
                 this.formValue.date=''
                 this.dataSearch=[]
-
+                this.dataInvoice=[]
             },
             async addProduct(){
                 this.formValue.barCode=''

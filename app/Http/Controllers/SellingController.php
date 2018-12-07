@@ -190,7 +190,7 @@ class SellingController extends Controller
             $paymentSheet=Paymentsheet::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
-                'type' => 'discount',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'type' => 'bonus',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['customer_id'],
                 'amount' => $input['bonusAmount']*(-1),

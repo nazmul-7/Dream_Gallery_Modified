@@ -65,9 +65,10 @@ class HomeController extends Controller
     public function newUser(Request $request)
     {
         $user=new User;
-        $user->name=$request->input('user_profile_name');
+        $user->name=$request->input('name');
         $user->email=$request->input('email');
         $user->userType=$request->input('userType');
+        $user->username=$request->input('username');
         $user->password=bcrypt($request->input('password'));
         $user->save();
         return $user;
@@ -76,5 +77,18 @@ class HomeController extends Controller
     {
         $data=User::get();
         return $data;
-    }     
+    }
+    public function userUpdate(Request $request)
+    {
+        return User::where('id',$request->id)->update($request->all());
+    }
+    public function userRemove($id)
+    {
+        $group = User::where('id','=',$id)
+          ->first();
+        $group->delete();
+        return $group;
+        
+    }
+
 }

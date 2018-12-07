@@ -14,25 +14,31 @@
             <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem  label="Name">
                                 <Input type="text" placeholder="Name" 
                                 v-model="formValue.name"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="12">
-                            <FormItem  label="Password">
-                            <Input type="password" placeholder="Password" 
-                            v-model="formValue.contact"  @on-enter="customerAdd"></Input>
+                        <Col span="24">
+                            <FormItem  label="User Name">
+                                <Input type="text" placeholder="User Name" 
+                                v-model="formValue.username"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="12">
+                        <Col span="24">
+                            <FormItem  label="Password">
+                            <Input type="password" placeholder="Password" 
+                            v-model="formValue.password"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
                             <FormItem  label="Email">
                                 <Input type="text" placeholder="Email" 
                                 v-model="formValue.email"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="12">
+                        <Col span="24">
                             <FormItem label="Select">
                                 <Select v-model="formValue.userType">
                                     <Option value="Admin">Admin</Option>
@@ -55,48 +61,37 @@
       <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.customerName}}</span>
+            <span> Edit </span>
         </p>
         <div>
             <Form>
                 <Row :gutter="24">
-                    <Col span="12">
-                        <FormItem  label="Customer Name">
-                            <Input type="text" placeholder="Customer Name" 
-                            v-model="editObj.customerName"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Membership Code">
-                            <Input type="text" placeholder="Membership Code" 
-                            v-model="editObj.barcode"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Contact Number">
-                        <Input type="text" placeholder="Number" 
-                        v-model="editObj.contact"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Email">
-                            <Input type="text" placeholder="Email" 
-                            v-model="editObj.email"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem  label="Address">
-                            <Input type="text" placeholder="Address" 
-                            v-model="editObj.address"></Input>
-                        </FormItem >
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="Zone">
-                            <Select v-model="editObj.zone" placeholder="Select group">
-                                <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
+                        <Col span="24">
+                            <FormItem  label="Name">
+                                <Input type="text" placeholder="Name" 
+                                v-model="editObj.name"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="User Name">
+                                <Input type="text" placeholder="User Name" 
+                                v-model="editObj.username"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Email">
+                                <Input type="text" placeholder="Email" 
+                                v-model="editObj.email"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem label="Select">
+                                <Select v-model="editObj.userType">
+                                    <Option value="Admin">Admin</Option>
+                                    <Option value="Editor">Sales Executive</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
                 </Row>
             </Form>
 
@@ -139,47 +134,36 @@
                 isCollapsed: false,
                 editObj: {
                     id:null,
-                    customerName:'',
-                    address:'',
-                    contact:'',
+                    name:'',
                     email:'',
-                    zone:'',
+                    userType:'',
+                    username:','
 
                     
                 },
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
-                    customerName:'',
-                    address:'',
-                    contact:'',
-                    email:'',
-                    zone:'',
-
+                    
 
                     
                 },
                 columns1: [
                     {
-                        title: 'Customer Name',
-                        key: 'customerName'
+                        title: 'Name',
+                        key: 'name'
                     },
                     {
-                        title: 'Address',
-                        key: 'address',
-                        width: 250,
+                        title: 'User Name',
+                        key: 'username'
                     },
                     {
-                        title: 'Contact',
-                        key: 'contact'
+                        title: 'email',
+                        key: 'email',
                     },
                     {
-                        title: 'Zone',
-                        key: 'zone'
-                    },
-                    {
-                        title: 'Opening',
-                        key: 'opening'
+                        title: 'Type',
+                        key: 'userType'
                     },
                     {   
                         title: 'Action',
@@ -221,12 +205,10 @@
                 dataUser:[],
 
                 formValue: {
-                    customerName:'',
-                    address:'',
-                    contact:'',
+                    newUser:'',
+                    password:'',
+                    userType:'',
                     email:'',
-                    zone:'',
-                    opening:0,
 
 
                 },
@@ -261,11 +243,12 @@
                         url:'/app/newUser',
                         data: this.formValue
                     })
-                    this.dataUser.unshift(data.status)
+                    this.dataUser.unshift(data)
                     
                     this.s('Great!','Customer has been added successfully!')
                     this.loading=false
                     this.formValue.neme=''
+                    this.formValue.userneme=''
                     this.formValue.password=''
                     this.formValue.userType=''
                     this.formValue.email=''
@@ -275,20 +258,17 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.dataCustomer[index].id
-                this.editObj.customerName=this.dataCustomer[index].customerName
-                this.editObj.address=this.dataCustomer[index].address
-                this.editObj.contact=this.dataCustomer[index].contact
-                this.editObj.email=this.dataCustomer[index].email
-                this.editObj.zone=this.dataCustomer[index].zone
-                this.editObj.barcode=this.dataCustomer[index].barcode
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
+                this.editObj.id=this.dataUser[index].id
+                this.editObj.name=this.dataUser[index].name
+                this.editObj.email=this.dataUser[index].email
+                this.editObj.username=this.dataUser[index].username
+                this.editObj.userType=this.dataUser[index].userType
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
-                this.UpdateValue.id=this.dataCustomer[index].id
+                this.UpdateValue.name=this.dataUser[index].name
+                this.UpdateValue.id=this.dataUser[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -297,17 +277,16 @@
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/customerUpdate',
+                        url:'/app/userUpdate',
                         data: this.editObj
                     })
 
                     console.log(this.UpdateValue.indexNumber)
                     console.log(data)
-                    this.dataCustomer[this.UpdateValue.indexNumber].customerName=data.customerName
-                    this.dataCustomer[this.UpdateValue.indexNumber].address=data.address
-                    this.dataCustomer[this.UpdateValue.indexNumber].contact=data.contact
-                    this.dataCustomer[this.UpdateValue.indexNumber].email=data.email
-                    this.dataCustomer[this.UpdateValue.indexNumber].zone=data.zone
+                    this.dataUser[this.UpdateValue.indexNumber].name=this.editObj.name
+                    this.dataUser[this.UpdateValue.indexNumber].username=this.editObj.username
+                    this.dataUser[this.UpdateValue.indexNumber].email=this.editObj.email
+                    this.dataUser[this.UpdateValue.indexNumber].userType=this.editObj.userType
                     this.s('Great!','Customer information has been updated successfully!')
                     
                     this.sending=false
@@ -322,11 +301,11 @@
                 this.sending=true
                 try{
                     let {data} =await  axios({
-                        method: 'delete',
-                        url:`/app/customer/${this.UpdateValue.id}`,
+                        method: 'get',
+                        url:`/app/userRemove/${this.UpdateValue.id}`,
                     })
-                    this.dataCustomer.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Customer information has been removed successfully!')
+                    this.dataUser.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','User information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false

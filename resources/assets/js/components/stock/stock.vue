@@ -51,7 +51,7 @@
                         <td v-else>0</td>
                         <td v-if="data.type ==='sell'">{{data.unitPrice-data.profit}}</td>
                         <td v-else>0</td>
-                        <td >{{data.balance}}</td>
+                        <td >{{data.totalQuantity}} | {{data.balance}}</td>
                     </tr>
 
                     </table>
@@ -289,6 +289,7 @@
 
                     })
                     let temp=0
+                    let tempQuantity=0
                      for(let d of data.sell){
                          if(d.invoice_id==0)
                          {
@@ -300,9 +301,18 @@
                          }
                         d.adminName=d.admin.name
                         if(d.type=='sell')
+                        {
                         temp=temp-(d.quantity*(d.unitPrice-d.profit))
+                        tempQuantity=tempQuantity-d.quantity
+
+                        }
                         else
+                        {
                         temp=temp+(d.quantity*d.unitPrice)
+                        tempQuantity=tempQuantity+d.quantity
+
+                        }
+                        d.totalQuantity=tempQuantity
 
                         d.balance=temp
                     }
