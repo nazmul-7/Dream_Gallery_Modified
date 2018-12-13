@@ -17,6 +17,7 @@
 
 
 
+Route::get('/app/setup','SettingController@setup');
 Route::post('/app/login','LoginController@login');
 Route::post('/app/create','Auth/RegisterController@newUser');
 Route::post('/app/newUser','HomeController@newUser');

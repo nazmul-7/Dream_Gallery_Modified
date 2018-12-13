@@ -82,6 +82,7 @@ class SettingController extends Controller
         date_default_timezone_set('Asia/Dhaka');
         $date=date("Y-m-d");
         $input=$request->all();
+        $settings=Setting::first();
         Paymentsheet::where('paymentFor','cash')
         ->update([
             'amount' => $input['openingCash'],
@@ -116,5 +117,23 @@ class SettingController extends Controller
         return response()->json([
             'companyLogo'=> $pic
         ],200);
+    }
+    public function setup()
+    {
+        date_default_timezone_set('Asia/Dhaka');
+        $date=date("Y-m-d");
+        Paymentsheet::create([
+            'amount' => 0,
+            'paymentFor' => 'cash',
+            'admin_id' => 1,
+            'type' => 'incoming',
+            'date'=> $date,
+        ]);
+        $s=Setting::create([
+            'companyName' => 'Dreams Gallery',
+        ]);
+        return $s;
+
+
     }
 }
