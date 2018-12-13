@@ -194,7 +194,7 @@
                 formValue: {
                      type:'purchase',
                      date:'',
-                     supplier_id: '',
+                     supplier_id: 1,
                      productDetails: []
                 },
                 editObj: {

@@ -132,6 +132,7 @@ class SettingController extends Controller
         $s=Setting::create([
             'companyName' => 'Dreams Gallery',
         ]);
+        
         return $s;
 
 

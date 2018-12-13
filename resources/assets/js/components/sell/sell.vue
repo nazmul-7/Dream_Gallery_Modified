@@ -268,7 +268,7 @@
                      subQuantity:0,
                      total:0.00,
                      supplier_id: '',
-                     customer_id: '',
+                     customer_id: 1,
                      reference_id: '',
                      productDetails: [],
                      cashPaid:0,
