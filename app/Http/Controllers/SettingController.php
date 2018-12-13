@@ -129,10 +129,18 @@ class SettingController extends Controller
             'type' => 'incoming',
             'date'=> $date,
         ]);
+        $customer=Customer::create([
+            'customerName' => 'CASH',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            'contact'=> '016',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+        ]);
+        $supplier=Supplier::create([
+            'supplierName' => 'CASH',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+        ]);
+
         $s=Setting::create([
             'companyName' => 'Dreams Gallery',
         ]);
-        
+
         return $s;
 
 
