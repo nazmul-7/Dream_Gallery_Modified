@@ -117,8 +117,11 @@
 
                         <Col span="22" offset="1">
                             <FormItem label="Reference">
-                                <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable>
-                                    <Option v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i">{{customer.customerName}}</Option>
+                                <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable clearable>
+                                    <Option v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i">
+                                        <span>{{customer.customerName}}</span>
+                                        <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                                        </Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -242,6 +245,7 @@
                     email:'',
                     address:'',
                     Outstanding:'',
+                    barcode:'',
                     bonusAmount:null,
                     status:false
 
@@ -485,6 +489,60 @@
                     this.formValue.customer_id=null
                     return
                 }
+                if(this.formValue.customer_id==1)
+                {
+                    this.currentCustomer={}
+                    return
+
+                }
+
+                console.log(k);
+                console.log(this.formValue.customer_id);
+                this.ls();
+                try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/payment/getOutstandingCustomer/${this.formValue.customer_id}`
+                })
+                this.setCustomer(this.formValue.customer_id)
+                this.currentCustomer.outStanding=Math.abs(data.outStanding)
+                if(data.ledger[0].customer.barcode)
+                {
+                    console.log(data.ledger[0])
+                    this.formValue.discount=10
+                    this.currentCustomer.bonusAmount=data.bonus
+                    this.currentCustomer.status=true
+                }
+                else
+                {
+                    console.log(data.ledger[0])
+                    this.currentCustomer.status=false
+                }
+
+                this.lf();
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+
+                this.discount()
+
+
+            },
+            async enterChangedCustomer(k)
+            {
+                if(!k)
+                {
+                    this.formValue.customer_id=null
+                    return
+                }
+                if(this.formValue.customer_id==1)
+                {
+                    this.currentCustomer={}
+                    return
+
+                }
+
                 console.log(k);
                 console.log(this.formValue.customer_id);
                 this.ls();

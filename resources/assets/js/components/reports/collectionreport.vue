@@ -84,7 +84,7 @@
                 formValue: {
                      type:'purchase',
                      date:'',
-                     customer_id: '',
+                     customer_id: 1,
                      productDetails: []
                 },
                 editObj: {
@@ -477,7 +477,7 @@
                     method: 'get',
                     url:'/app/customer'
                 })
-                this.datacustomer=data;
+                this.dataCustomer=data;
                 this.lf();
 
             }catch(e){

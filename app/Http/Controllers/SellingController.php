@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Purchase;
+use App\Payment;
 use App\Invoice;
 use App\Paymentsheet;
 use App\Selling;
@@ -90,6 +91,13 @@ class SellingController extends Controller
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
             'sellingPrice' => $input['total']+$input['bonusAmount'],
+            'paidAmount' => $input['paidAmount'],
+            'date' => $input['date'],
+        ]);
+        $invoice=Payment::create([
+            'admin_id' => $admin_id,
+            'uid' => $input['customer_id'],
+            'type' => 'incoming',
             'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],
         ]);
