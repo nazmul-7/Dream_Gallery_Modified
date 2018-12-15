@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Setting;
 use App\Paymentsheet;
+use App\Customer;
+use App\Supplier;
 class SettingController extends Controller
 {
     /**

@@ -97,8 +97,8 @@
                                 <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
                                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
                                         <span>{{customer.customerName}}</span>
-                                        <span style="float:right;color:#ccc">{{customer.contact}}</span>
-            </Option>
+                                        <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                                </Option>
                                 </Select>
                             </FormItem>
                         </Col>

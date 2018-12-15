@@ -381,6 +381,7 @@
                     {
                         if(d.barCode == this.formValue.barCode){
                             this.i('Product already added')
+                            this.searchValue=''
                              return 
 
                             }

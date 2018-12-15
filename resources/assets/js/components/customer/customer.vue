@@ -28,7 +28,7 @@
                         </Col>
                         <Col span="24">
                             <FormItem label="Zone">
-                                <Select v-model="formValue.zone" placeholder="Select group">
+                                <Select v-model="formValue.zone" placeholder="Select group" filterable>
                                     <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
                                 </Select>
                             </FormItem>
@@ -100,7 +100,7 @@
                     </Col>
                     <Col span="12">
                         <FormItem label="Zone">
-                            <Select v-model="editObj.zone" placeholder="Select group">
+                            <Select v-model="editObj.zone" placeholder="Select group" filerable>
                                 <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
                             </Select>
                         </FormItem>

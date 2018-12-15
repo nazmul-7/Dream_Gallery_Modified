@@ -54,13 +54,6 @@ class CustomerController extends Controller
             'date'=> $date,
             'remarks' => 'Opening',
         ]);
-        $customer=Customer::create([
-            'customerName' => 'CASH',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-            'contact'=> '016',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-        ]);
-        $supplier=Supplier::create([
-            'supplierName' => 'CASH',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-        ]);
          return response()->json([
                  'msg' => 'Inserted',
                  'status' => $created
