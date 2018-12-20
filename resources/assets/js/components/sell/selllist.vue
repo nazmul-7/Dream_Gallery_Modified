@@ -213,7 +213,7 @@
                     },
                     {
                         title: 'Invoice ID',
-                        key: 'id'
+                        key: 'invoice_id'
                     },
                     {
                         title: 'Customer',
@@ -380,6 +380,7 @@
 
                     })
                     for(let d of data){
+                        d.invoice_id="INV-SO-DG-"+d.id
                         d.adminName=d.admin.name
                         if(d.customer)
                         d.customerName=d.customer.customerName
@@ -579,6 +580,7 @@
 
                 })
                 for(let d of data){
+                    d.invoice_id="INV-SO-DG-"+d.id
                     d.adminName=d.admin.name
                     if(d.customer)
                     d.customerName=d.customer.customerName

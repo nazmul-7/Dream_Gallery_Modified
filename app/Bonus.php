@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bonus extends Model
 {
         protected $fillable = [
-        'admin_id','user_id','invoice_id', 'amount','type','date','bonusBy'
+        'admin_id','customer_id','invoice_id', 'amount','type','date','bonusBy'
     ];
     public function admin()
     {
@@ -15,7 +15,6 @@ class Bonus extends Model
     }
     public function customer()
     {
-       return $this->belongsTo('App\Customer','user_id');
+       return $this->belongsTo('App\Customer','customer_id');
     }
-
 }

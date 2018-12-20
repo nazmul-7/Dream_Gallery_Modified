@@ -14,5 +14,9 @@ class Customer extends Model
     {
        return $this->belongsTo('App\Paymentsheet','uid');
     } 
+    public function bonus()
+    {
+       return $this->hasMany('App\Bonus');
+    } 
 
 }

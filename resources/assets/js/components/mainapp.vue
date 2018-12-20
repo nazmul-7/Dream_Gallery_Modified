@@ -105,7 +105,7 @@
                            Reports
                         </template>
                         <MenuItem name="purchaselist" :to="handleGoToMenu('/purchaselist')">Purchase Report</MenuItem>
-                        <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Sale Report</MenuItem>
+                        <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Sales Report</MenuItem>
                         <MenuItem name="paymentreport" :to="handleGoToMenu('/paymentreport')">
                         Payment Report            
                         </MenuItem>

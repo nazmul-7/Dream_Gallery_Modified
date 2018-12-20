@@ -44,7 +44,6 @@
                         <td v-else-if="data.type ==='opening'">OP-{{data.invoice_id}}</td>
                         <td v-else-if="data.type ==='sell'">SA-{{data.invoice_id}}</td>
                         <td v-else>{{data.invoice_id}}</td>
-                        <td >{{data.invoice_id}}</td>
                         <td v-if="data.type ==='purchase'">{{data.quantity}}</td>
                         <td v-else-if="data.type ==='opening'">{{data.quantity}}</td>
                         <td v-else>0</td>

@@ -216,7 +216,7 @@
                     },
                     {
                         title: 'Invoice ID',
-                        key: 'id'
+                        key: 'invoice_id'
                     },
                     {
                         title: 'Supplier',
@@ -372,6 +372,8 @@
                     })
                     for(let d of data){
                         d.adminName=d.admin.name
+                        d.invoice_id="INV-PO-DG-"+d.id
+
                         if(d.supplier)
                         d.supplierName=d.supplier.supplierName
                     }
@@ -569,6 +571,7 @@
 
                 })
                     for(let d of data){
+                        d.invoice_id="INV-PO-DG-"+d.id
                         d.adminName=d.admin.name
                         if(d.supplier)
                         d.supplierName=d.supplier.supplierName

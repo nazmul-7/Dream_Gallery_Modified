@@ -38,7 +38,7 @@ class PaymentController extends Controller
         ->where('paymentFor','customer')
         ->whereIn('type',['due','opening','dueincoming'])
         ->get();
-        $bonus=Bonus::where('user_id',$id)
+        $bonus=Bonus::where('customer_id',$id)
             ->sum('amount');
         return response()->json([
             'msg' => 'Found',
@@ -59,7 +59,7 @@ class PaymentController extends Controller
         ->where('paymentFor','customer')
             ->whereIn('type',['due','opening','dueincoming','incoming'])
             ->get();
-        $bonus=Bonus::where('user_id',$id)
+        $bonus=Bonus::where('customer_id',$id)
             ->sum('amount');
         return response()->json([
             'msg' => 'Found',
@@ -80,8 +80,6 @@ class PaymentController extends Controller
         ->where('paymentFor','supplier')
             ->whereIn('type',['due','opening','outgoing'])
             ->get();
-        $bonus=Bonus::where('user_id',$id)
-            ->sum('amount');
         return response()->json([
             'msg' => 'Found',
             'outStanding'=> $outStanding,

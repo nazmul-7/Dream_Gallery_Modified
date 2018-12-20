@@ -53,6 +53,7 @@ Route::post('/app/search/products', 'ProductController@search');
 
 
 //resourcesc
+Route::resource('/app/membership','MembershipController');
 Route::resource('/app/category','CategoryController');
 Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');
@@ -107,6 +108,7 @@ Route::get('/app/getStockUnion/{id}','StockController@getStockUnion');
 Route::get('/app/dueList','ReportController@dueList');
 Route::get('/app/dueListSupplier','ReportController@dueListSupplier');
 Route::get('/app/getStockItem','StockController@getStockItem');
+Route::get('/app/bonusLedger/{id}','MembershipController@bonusLedger');
 
 Route::get('/app/paymentList/{from}/{to}','PaymentController@paymentList');
 Route::get('/app/collectionList/{from}/{to}','PaymentController@collectionList');

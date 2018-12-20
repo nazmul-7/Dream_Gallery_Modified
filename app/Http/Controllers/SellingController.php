@@ -209,7 +209,7 @@ class SellingController extends Controller
             $paymentSheet=Bonus::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
-                'user_id' => $input['customer_id'],
+                'customer_id' => $input['customer_id'],
                 'amount' => $input['bonusAmount']*-1,
                 'type' => 'withdraw',
                 'bonusBy' => '',
@@ -229,7 +229,7 @@ class SellingController extends Controller
             $paymentSheet=Bonus::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
-                'user_id' => $input['reference_id'],
+                'customer_id' => $input['reference_id'],
                 'amount' => ($input['total']*$setting->refererBonus)/100,
                 'type' => 'gift',
                 'bonusBy' => $input['customer_id'],

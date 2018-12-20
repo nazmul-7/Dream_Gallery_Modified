@@ -22,6 +22,7 @@
                 <table style="width:100%">
                     <tr >
                         <th>Date</th>
+                        <th>Invoice ID</th>
                         <th>Admin</th>
                         <th>Type</th> 
                         <th>Debit</th>
@@ -30,6 +31,7 @@
                     </tr>
                     <tr v-if="this.dataOpening==null">
                         <th>{{ date}}</th>
+                        <th>-</th>
                         <th>Opening</th>
                         <th>Opening Balance</th> 
                         <th>0</th>
@@ -38,6 +40,12 @@
                     </tr>
                     <tr v-for="(data,i) in searchData" :key="i" >
                         <td >{{data.date}}</td>
+                        <td v-if="data.paymentFor ==='cash'">-</td>
+                        <td v-else-if="data.type ==='incoming'">INV-CL-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='dueIncoming'">INV-CL-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='incomingVoucher'">INV-VO-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='outgoing'">INV-PM-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='outgoingVoucher'">INV-VO-DG-{{data.invoice_id}}</td>
                         <td v-if="data.paymentFor ==='cash'">Opening</td>
                         <td v-else>{{data.adminName}}</td>
                         <td v-if="data.paymentFor ==='cash'">Opening Amount</td>

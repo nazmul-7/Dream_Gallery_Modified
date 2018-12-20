@@ -40,6 +40,8 @@ import salecancel from './components/cancel/salecancel.vue'
 import collectioncancel from './components/cancel/collectioncancel.vue'
 import paymentcancel from './components/cancel/paymentcancel.vue'
 import currentstock from './components/stock/currentstock.vue'
+import membershiplist from './components/membership/membershiplist.vue'
+import bonusledger from './components/membership/bonusledger.vue'
 
 let onlyAdmin = ['Admin']
 let adminAndSale = ['Admin', 'Sale']
@@ -360,6 +362,23 @@ export default new Router({
 					allowed: onlyAdmin
 				}
 			},
+			{
+	      path: '/membershiplist',
+	      name: 'membershiplist',
+	      component: membershiplist,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			{
+	      path: '/bonusledger',
+	      name: 'bonusledger',
+	      component: bonusledger,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			
 			
 						
 		]

@@ -20,22 +20,28 @@
                     <table style="width:100%">
                     <tr>
                         <th>Date</th>
+                        <th>Invoice ID</th>
                         <th>Admin</th> 
                         <th>Type</th> 
-                        <th>Invoice ID</th>
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>Balance</th>
                     </tr>
                     <tr v-for="(data,i) in dataLedger" :key="i">
                         <td >{{data.date}}</td>
+
+                        <td v-if="data.type ==='due'">INV-SO-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='dueIncoming'">INV-CL-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='incoming'">INV-CL-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='opening'">-</td>
+                        <td v-else>-</td>
+
                         <td >{{data.adminName}}</td>
                         <td v-if="data.type ==='due'">Sales</td>
                         <td v-else-if="data.type ==='dueIncoming'">Collection</td>
                         <td v-else-if="data.type ==='incoming'">Collection</td>
                         <td v-else-if="data.type ==='opening'">Opening</td>
                         <td v-else>Not define</td>
-                        <td>{{data.invoice_id}}</td>
                         <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
                         <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>

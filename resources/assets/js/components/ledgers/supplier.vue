@@ -25,6 +25,7 @@
                 <table style="width:100%">
                   <tr>
                     <th>Date</th>
+                    <th>Invoice ID</th>
                     <th>Admin</th>
                     <th>Type</th> 
                     <th>Debit</th>
@@ -33,6 +34,12 @@
                   </tr>
                   <tr v-for="(data,i) in dataLedger" :key="i">
                     <td >{{data.date}}</td>
+
+                    <td v-if="data.type ==='due'">INV-PO-DG-{{data.invoice_id}}</td>
+                    <td v-else-if="data.type ==='outgoing'">INV-PM-DG-{{data.invoice_id}}</td>
+                    <td v-else-if="data.type ==='opening'">-</td>
+                    <td v-else>-</td>
+
                     <td >{{data.adminName}}</td>
                     <td v-if="data.type ==='due'">Due</td>
                     <td v-else-if="data.type ==='outgoing'">Payment</td>
