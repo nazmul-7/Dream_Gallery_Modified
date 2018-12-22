@@ -16,7 +16,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $supplier=Supplier::orderBy('supplierName', 'asc')
+        $supplier=Supplier::whereNotIn('id',[1])
+        ->orderBy('supplierName', 'asc')
         ->get();
         return $supplier;
     }

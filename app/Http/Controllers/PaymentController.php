@@ -84,7 +84,6 @@ class PaymentController extends Controller
             'msg' => 'Found',
             'outStanding'=> $outStanding,
             'ledger'=> $ledger,
-            'bonus'=> $bonus,
        ],200);
     }
     
