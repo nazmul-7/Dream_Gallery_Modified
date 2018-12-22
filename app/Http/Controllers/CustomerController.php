@@ -16,7 +16,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data=Customer::orderBy('customerName', 'asc')->get();
+        $data=Customer::whereNotIn('id',[1])
+        ->orderBy('customerName', 'asc')->get();
         return $data;
     }
 
