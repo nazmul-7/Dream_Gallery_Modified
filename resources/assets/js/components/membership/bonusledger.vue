@@ -20,6 +20,7 @@
                     <table style="width:100%">
                     <tr>
                         <th>Date</th>
+                        <th>Invoice ID</th> 
                         <th>Admin</th> 
                         <th>Type</th> 
                         <th>Debit</th>
@@ -28,6 +29,7 @@
                     </tr>
                     <tr v-for="(data,i) in dataLedger" :key="i">
                         <td >{{data.date}}</td>
+                        <td >INV-SO-DG-{{data.invoice_id}}</td>
 
 
                         <td >{{data.adminName}}</td>

@@ -114,7 +114,7 @@ class PurchaseController extends Controller
                 'date' => $input['date'],
                 
             ]);
-
+            $average=round($average,2);
             Product::where('id',$product_id)->update([
                 'averageBuyingPrice' => $average
             ]);

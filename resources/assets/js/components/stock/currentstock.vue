@@ -14,6 +14,12 @@
                             </Select>
                     </FormItem>
                 </Form>
+                <Row>
+                    <Col span="10" offset="14" >
+                        <h3>Total Stock Unit: {{totalStockUnit}} | Total Stock Amount: {{totalStockAmount}}</h3>
+                    </Col>
+                </Row>
+
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
@@ -374,6 +380,30 @@
                 );
 
                 }
+            },
+            totalStockAmount()
+            {
+
+                var tF=0
+                for (let d of this.searchData)
+                {
+                    tF=tF+d.totalCost
+
+                }
+                return tF
+                
+            },
+            totalStockUnit()
+            {
+
+                var tF=0
+                for (let d of this.searchData)
+                {
+                    tF=tF+d.currentStock
+
+                }
+                return tF
+                
             },
             rotateIcon () {
                 return [
