@@ -286,7 +286,7 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/customer'
+                    url:'/app/membership'
                 })
                 this.dataCustomer=data;
                 this.lf();

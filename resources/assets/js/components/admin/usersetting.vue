@@ -1,41 +1,53 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="13" offset="1">
+            <Col class="dream-input-main" span="14" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem label="Type">
-                        <Select v-model="filterLedger" placeholder="Select Type" filterable clearable>
-                            <Option value="Income" >Income</Option>
-                            <Option value="Expence" >Expence</Option>
-                        </Select>
-                    </FormItem>
                 </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="dataUser"></Table>
             </Col>
-            <Col class="dream-input-main" span="8" offset="1">
+            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
-
                     <Row :gutter="24">
                         <Col span="24">
-                            <FormItem label="Type">
-                                <Select v-model="formValue.type" placeholder="Select Type">
-                                    <Option value="Income" >Income</Option>
-                                    <Option value="Expence" >Expence</Option>
+                            <FormItem  label="Name">
+                                <Input type="text" placeholder="Name" 
+                                v-model="formValue.name"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="User Name">
+                                <Input type="text" placeholder="User Name" 
+                                v-model="formValue.username"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Password">
+                            <Input type="password" placeholder="Password" 
+                            v-model="formValue.password"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Email">
+                                <Input type="text" placeholder="Email" 
+                                v-model="formValue.email"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem label="Select">
+                                <Select v-model="formValue.userType">
+                                    <Option value="Admin">Admin</Option>
+                                    <Option value="Editor">Sales Executive</Option>
                                 </Select>
                             </FormItem>
-                            <FormItem label="Ledger Name">
-                                <Input type="text" placeholder="Ledger Name" 
-                                v-model="formValue.ledgerName" @on-enter="ledgerAdd"></Input>
-                            </FormItem>
-
                         </Col>
                          <Col span="24">
-                            <Button type="success" :loading="loading" @click="ledgerAdd">
+                            <Button type="success" :loading="loading" @click="customerAdd">
                                 <span v-if="!loading">Add</span>
                                 <span v-else>Loading...</span>
                             </Button>
@@ -45,26 +57,43 @@
             </Col>
         </Row>
 
-      <Modal v-model="editModal" width="360" :styles="{top: '20px'}">
+
+      <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.ledgerName}}</span>
+            <span> Edit </span>
         </p>
-        <div style="text-align:center">
+        <div>
             <Form>
-               <Col span="24">
-                <FormItem label="Ledger Name">
-                    <Input type="text" placeholder="Ledger Name" 
-                    v-model="editObj.ledgerName"></Input>
-                </FormItem>
-                <FormItem label="Type">
-                    <Select v-model="editObj.type" placeholder="Select Type">
-                        <Option value="Income" >Income</Option>
-                        <Option value="Expence" >Expence</Option>
-                    </Select>
-                </FormItem>
-            </Col>
-        </Form>
+                <Row :gutter="24">
+                        <Col span="24">
+                            <FormItem  label="Name">
+                                <Input type="text" placeholder="Name" 
+                                v-model="editObj.name"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="User Name">
+                                <Input type="text" placeholder="User Name" 
+                                v-model="editObj.username"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Email">
+                                <Input type="text" placeholder="Email" 
+                                v-model="editObj.email"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem label="Select">
+                                <Select v-model="editObj.userType">
+                                    <Option value="Admin">Admin</Option>
+                                    <Option value="Editor">Sales Executive</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                </Row>
+            </Form>
 
         </div>
         <div slot="footer">
@@ -77,10 +106,10 @@
     <Modal v-model="deleteModal" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.ledgerName}}</span>
+            <span> Delete {{UpdateValue.customerName}}</span>
         </p>
         <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.ledgerName}}
+            Are you sure you want delete {{UpdateValue.customerName}}
 
         </div>
         <div slot="footer">
@@ -98,7 +127,6 @@
         data () {
             return {
                 search:'',
-                filterLedger:'',
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -106,25 +134,36 @@
                 isCollapsed: false,
                 editObj: {
                     id:null,
-                    ledgerName:'',
-                    type: '',
+                    name:'',
+                    email:'',
+                    userType:'',
+                    username:','
+
                     
                 },
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
-                    ledgerName:'',
-                    type: '',
+                    
+
                     
                 },
                 columns1: [
                     {
-                        title: 'Ledger Head',
-                        key: 'ledgerName'
+                        title: 'Name',
+                        key: 'name'
+                    },
+                    {
+                        title: 'User Name',
+                        key: 'username'
+                    },
+                    {
+                        title: 'email',
+                        key: 'email',
                     },
                     {
                         title: 'Type',
-                        key: 'type'
+                        key: 'userType'
                     },
                     {   
                         title: 'Action',
@@ -162,43 +201,23 @@
                         }
                     }
                 ],
-                data1: [
-                    
-                  
-                    
-                ],
+                dataZone: [],
+                dataUser:[],
 
                 formValue: {
-                    ledgerName:'',
-                    type: '',
+                    newUser:'',
+                    password:'',
+                    userType:'',
+                    email:'',
+
+
                 },
                 
             }
             
         },
         computed: {
-            searchData()
-            {
-                if(this.filterLedger)
-                {
-                return this.data1.filter((data)=>{                    
-                    return data.type.toUpperCase().match(this.filterLedger.toUpperCase()) 
-                    && (data.ledgerName.toUpperCase().match(this.search.toUpperCase())
-                    );
-                    }
-                );
-
-                }
-                else{
-                return this.data1.filter((data)=>{                    
-                    return data.ledgerName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.type.toUpperCase().match(this.search.toUpperCase())
-                    ;
-                    }
-                );
-
-                }
-            },
+            
             rotateIcon () {
                 return [
                     'menu-icon',
@@ -216,36 +235,40 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            async ledgerAdd(){
+            async customerAdd(){
                 this.loading=true
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/ledger',
+                        url:'/app/newUser',
                         data: this.formValue
                     })
-                    this.data1.unshift(data.status)
-                    this.formValue.ledgerName=''
-                    this.formValue.type=''
-                    this.s('Great!','ledger has been added successfully!')
+                    this.dataUser.unshift(data)
                     
+                    this.s('Great!','Customer has been added successfully!')
                     this.loading=false
+                    this.formValue.neme=''
+                    this.formValue.userneme=''
+                    this.formValue.password=''
+                    this.formValue.userType=''
+                    this.formValue.email=''
                 }catch(e){
                     this.loading=false
                     this.e('Oops!','Something went wrong, please try again!')
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.data1[index].id
-                this.editObj.ledgerName=this.data1[index].ledgerName
-                this.editObj.type=this.data1[index].type
-                this.UpdateValue.ledgerName=this.data1[index].ledgerName
+                this.editObj.id=this.dataUser[index].id
+                this.editObj.name=this.dataUser[index].name
+                this.editObj.email=this.dataUser[index].email
+                this.editObj.username=this.dataUser[index].username
+                this.editObj.userType=this.dataUser[index].userType
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.ledgerName=this.data1[index].ledgerName
-                this.UpdateValue.id=this.data1[index].id
+                this.UpdateValue.name=this.dataUser[index].name
+                this.UpdateValue.id=this.dataUser[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -254,12 +277,17 @@
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/ledgerUpdate',
+                        url:'/app/userUpdate',
                         data: this.editObj
                     })
-                    this.data1[this.UpdateValue.indexNumber].ledgerName=this.editObj.ledgerName
-                    this.data1[this.UpdateValue.indexNumber].type=this.editObj.type
-                    this.s('Great!','Ledger information has been updated successfully!')
+
+                    console.log(this.UpdateValue.indexNumber)
+                    console.log(data)
+                    this.dataUser[this.UpdateValue.indexNumber].name=this.editObj.name
+                    this.dataUser[this.UpdateValue.indexNumber].username=this.editObj.username
+                    this.dataUser[this.UpdateValue.indexNumber].email=this.editObj.email
+                    this.dataUser[this.UpdateValue.indexNumber].userType=this.editObj.userType
+                    this.s('Great!','Customer information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false
@@ -273,11 +301,11 @@
                 this.sending=true
                 try{
                     let {data} =await  axios({
-                        method: 'delete',
-                        url:`/app/ledger/${this.UpdateValue.id}`,
+                        method: 'get',
+                        url:`/app/userRemove/${this.UpdateValue.id}`,
                     })
-                    this.data1.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Ledger information has been removed successfully!')
+                    this.dataUser.splice( this.UpdateValue.indexNumber, 1)
+                    this.s('Great!','User information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false
@@ -288,24 +316,22 @@
                 }
             }
         },
-
         async created()
         {
             this.ls();
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/ledger'
+                url:'/app/userList'
                 })
-                this.data1=data;
-
-            this.lf();
+                this.dataUser=data;
+                this.lf();
 
             }catch(e){
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
-
+            
         }
 
     }

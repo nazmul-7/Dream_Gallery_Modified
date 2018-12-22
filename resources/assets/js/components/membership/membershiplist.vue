@@ -126,7 +126,11 @@
                 },
                 columns1: [
                     {
-                        title: 'Customer Name',
+                        title: 'Membership Code',
+                        key: 'barcode'
+                    },
+                    {
+                        title: 'Member Name',
                         key: 'customerName'
                     },
                     {

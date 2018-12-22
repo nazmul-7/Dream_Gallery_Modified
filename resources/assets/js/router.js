@@ -32,6 +32,7 @@ import supplierledger from './components/ledgers/supplier.vue'
 import customeroutstanding from './components/due/customeroutstanding.vue'
 import supplieroutstanding from './components/due/supplieroutstanding.vue'
 import newuser from './components/admin/newuser.vue'
+import usersetting from './components/admin/usersetting.vue'
 import collectionreport from './components/reports/collectionreport.vue'
 import paymentreport from './components/reports/paymentreport.vue'
 //cancel
@@ -378,7 +379,15 @@ export default new Router({
 					allowed: onlyAdmin
 				}
 			},
-			
+			{
+	      path: '/usersetting',
+	      name: 'usersetting',
+	      component: usersetting,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+
 			
 						
 		]
