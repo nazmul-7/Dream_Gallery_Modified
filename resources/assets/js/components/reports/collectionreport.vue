@@ -173,10 +173,10 @@
                     return data.customer_id.toString().match(this.filtercustomer) &&
                     (
                     data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.totalPrice.toString().match(this.search) ||
-                     data.totalQuantity.toString().match(this.search)
+                    data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                    data.id.toString().match(this.search) ||
+                    data.totalPrice.toString().match(this.search) ||
+                    data.totalQuantity.toString().match(this.search)
                     )
 
             
@@ -462,7 +462,7 @@
 
                 })
                     for(let d of data){
-                        d.adminName=d.admin.
+                        d.adminName=d.admin.name
                         d.invoice_id="INV-CL-DG-"+d.id
                         if(d.customer)
                         d.customerName=d.customer.customerName

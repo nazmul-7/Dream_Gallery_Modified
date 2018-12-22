@@ -167,6 +167,16 @@
                             <Submenu name="3-6-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
+                                    Membership Report
+                                </template>
+                                <MenuItem name="membershiplist" :to="handleGoToMenu('/membershiplist')">Membership List</MenuItem>
+                                <MenuItem name="bonusledger" :to="handleGoToMenu('/bonusledger')">Bonus Ledger</MenuItem>
+                            </Submenu>
+                        </MenuItem>
+                        <MenuItem name="3-6">                        
+                            <Submenu name="3-6-1">
+                                <template slot="title">
+                                    <Icon type="ios-albums"></Icon>
                                     Others Report
                                 </template>
                                 <MenuItem name="profit" :to="handleGoToMenu('/profit')">Gross Profit</MenuItem>
@@ -180,20 +190,11 @@
                     <Submenu name="4">
                         <template slot="title">
                             <Icon type="ios-navigate"></Icon>
-                           Security
+                           User
                         </template>
                         <MenuItem name="newuser" :to="handleGoToMenu('/newuser')">New User</MenuItem>
+                        <MenuItem name="usersetting" :to="handleGoToMenu('/usersetting')">User Settings</MenuItem>
 
-                        <MenuItem name="4-1">                        
-                            <Submenu name="4-1-1">
-                                <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
-                                    Manage User
-                                </template>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">User Lists</MenuItem>
-                                <MenuItem name="purchase" :to="handleGoToMenu('/purchase')">Chage Password</MenuItem>
-                            </Submenu>
-                        </MenuItem>
                     </Submenu>                                          
                     <!-- <MenuItem name="setting" :to="handleGoToMenu('/setting')">
                         <Icon type="ios-navigate" ></Icon>
