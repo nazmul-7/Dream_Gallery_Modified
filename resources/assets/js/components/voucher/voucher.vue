@@ -338,7 +338,7 @@
                     })
                     this.dataVoucher.unshift(data.status)
                     
-                    this.s('Great!','Customer has been added successfully!')
+                    this.s('Great!','Voucher has been added successfully!')
                     this.loading=false
                     this.formValue.ledgerName=''
                     this.formValue.type=''

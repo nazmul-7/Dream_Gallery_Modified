@@ -138,15 +138,11 @@
                     email:'',
                     userType:'',
                     username:','
-
-                    
                 },
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
-                    
-
-                    
+   
                 },
                 columns1: [
                     {

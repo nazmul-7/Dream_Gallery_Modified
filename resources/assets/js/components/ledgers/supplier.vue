@@ -41,9 +41,9 @@
                     <td v-else>-</td>
 
                     <td >{{data.adminName}}</td>
-                    <td v-if="data.type ==='due'">Due</td>
+                    <td v-if="data.type ==='due'">Purchase</td>
                     <td v-else-if="data.type ==='outgoing'">Payment</td>
-                    <td v-else-if="data.type ==='opening'">Opening Cash</td>
+                    <td v-else-if="data.type ==='opening'">Opening Balance</td>
                     <td v-else>Not define</td>
                     <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
                     <td v-else>0</td>

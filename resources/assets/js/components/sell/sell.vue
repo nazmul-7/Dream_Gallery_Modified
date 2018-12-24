@@ -102,10 +102,10 @@
                                 </Select>
                             </FormItem>
                         </Col>
-                        <Col span="11" offset="1" v-if="currentCustomer.status" disabled>
+                        <Col span="11" offset="1" v-if="currentCustomer.status" >
                             <FormItem label="Total Bonus Amount">
                                 <br/>
-                                <InputNumber   v-model="currentCustomer.bonusAmount" ></InputNumber >
+                                <InputNumber   v-model="currentCustomer.bonusAmount" disabled></InputNumber >
                             </FormItem>
                         </Col>
                         <Col span="11" offset="1" v-if="currentCustomer.status">

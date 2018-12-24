@@ -3,8 +3,8 @@
         <Row>
             <Col class="dream-input-main" span="22" offset="1" >
                 <Form ref="formInline" inline>
-                    <FormItem label="Customer">
-                        <Select v-model="formValue.customer_id" placeholder="Customer Name" @on-change="changed" filterable clearable>
+                    <FormItem label="Select Member">
+                        <Select v-model="formValue.customer_id" placeholder="Member Name" @on-change="changed" filterable clearable>
                             <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{customer.customerName}}</Option>
                         </Select>
                     </FormItem>
@@ -16,7 +16,7 @@
                     <Button  align="left" @click="showPrint">Print</Button>
                 </left>
                 <div  class="print">
-                    <h2>Customer Ledger</h2>
+                    <h2>Membership Ledger</h2>
                     <table style="width:100%">
                     <tr>
                         <th>Date</th>
@@ -33,8 +33,8 @@
 
 
                         <td >{{data.adminName}}</td>
-                        <td v-if="data.type ==='gift'">Add</td>
-                        <td v-else-if="data.type ==='withdraw'">Withdraw</td>
+                        <td v-if="data.type ==='gift'">Bonus In</td>
+                        <td v-else-if="data.type ==='withdraw'">Bonus Out</td>
                         <td v-else>Not define</td>
                         <td v-if="data.type ==='gift'">{{Math.abs(data.amount)}}</td>
                         <td v-else>0</td>
