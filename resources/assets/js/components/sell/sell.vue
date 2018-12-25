@@ -586,8 +586,6 @@
                     method: 'get',
                     url:`/app/payment/getOutstandingCustomer/${this.formValue.reference_id}`
                 })
-                this.currentCustomer.outStanding=Math.abs(data.outStanding)
-
                 this.lf();
                 }catch(e){
                     this.e('Oops!','Something went wrong, please try again!')
