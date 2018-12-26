@@ -18,23 +18,9 @@
             </Col>
             <!-- adding form -->
             <Col class="dream-input-main" span="8" offset="1">
-                <Form >
-
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem label="Group Name">
-                                <Input type="text" placeholder="Group Name" 
-                                v-model="formValue.groupName" @on-enter="groupAdd" ></Input>
-                            </FormItem>
-                        </Col>
-                         <Col  span="24">
-                            <Button type="success" :loading="loading" @click="groupAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+            <Input type="text" placeholder="Group Name" v-model="formValue.groupName" @on-enter="groupAdd"></Input>
+            <Button type="primary" @click="groupAdd">Add</Button>
+               
             </Col>
         </Row>
 

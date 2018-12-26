@@ -38,7 +38,7 @@ import common from './common';
 Vue.mixin(common);
 
 let userType = window.authUser.userType
-console.log(authUser.userType)
+
 
 router.beforeEach((to, from, next) => {
 	//document.title=to.meta.title

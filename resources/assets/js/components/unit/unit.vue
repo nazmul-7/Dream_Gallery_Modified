@@ -16,23 +16,9 @@
                 </Row>
             </Col>
             <Col class="dream-input-main" span="8" offset="1">
-                <Form >
-
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem label="Unit Name" >
-                                <Input type="text" placeholder="Unit Name" @on-enter="unitAdd"
-                                v-model="formValue.unitName"></Input>
-                            </FormItem>
-                        </Col>
-                         <Col span="24">
-                            <Button type="success" :loading="loading" @click="unitAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+            <Input type="text" placeholder="Unit Name" v-model="formValue.unitName" @on-enter="unitAdd"></Input>
+            <Button type="primary" @click="unitAdd">Add</Button>
+               
             </Col>
         </Row>
 
@@ -140,11 +126,7 @@
                         }
                     }
                 ],
-                data1: [
-                    
-                  
-                    
-                ],
+                data1: [],
 
                 formValue: {
                     id: '',
@@ -180,22 +162,21 @@
                 this.$refs.side1.toggleCollapse();
             },
             async unitAdd(){
+                
                 this.loading=true
-                try{
-                    let {data} =await  axios({
-                        method: 'post',
-                        url:'/app/unit_type',
-                        data: this.formValue
-                    })
-                    this.data1.unshift(data.status)
+                const res = await this.callApi('post', '/app/unit_type',this.formValue )
+                if(res.status===200){
+                     this.loading=false
+                    this.data1.unshift(res.data.status)
                     this.formValue.unitName=''
-                    this.s('Great!','Unit has been added successfully!')
-                    
+                    this.ss('Unit has been added successfully!')
+                }else{
                     this.loading=false
-                }catch(e){
-                    this.loading=false
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.swr()
                 }
+
+
+              
             },
             showEdit (index) {
                 this.editObj.id=this.data1[index].id

@@ -88,5 +88,13 @@ export default {
                 desc: `Something went wrong with ${m}`
             });
 		},
+		ss(m,t="Great!"){
+			this.$Notice.success({
+                title: t,
+                desc: m
+            });
+		}
+
+
 	}
 }

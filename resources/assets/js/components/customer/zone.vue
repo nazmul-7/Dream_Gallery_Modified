@@ -12,23 +12,9 @@
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <Col class="dream-input-main" span="8" offset="1">
-                <Form >
-
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem label="Zone Name">
-                                <Input type="text" placeholder="Zone Name" 
-                                v-model="formValue.zoneName" @on-enter="zoneAdd" autofocus></Input>
-                            </FormItem>
-                        </Col>
-                         <Col span="24">
-                            <Button type="success" :loading="loading" @click="zoneAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+            <Input type="text" placeholder="Zone Name" v-model="formValue.zoneName" @on-enter="zoneAdd"></Input>
+            <Button type="primary" @click="zoneAdd">Add</Button>
+              
             </Col>
         </Row>
 
