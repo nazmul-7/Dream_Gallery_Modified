@@ -171,6 +171,14 @@
                 },
                 columns1: [
                     {
+                        title: 'Date',
+                        key: 'date'
+                    },
+                    {
+                        title: 'Voucher ID',
+                        key: 'voucherID'
+                    },
+                    {
                         title: 'Type',
                         key: 'type'
                     },
@@ -181,10 +189,6 @@
                     {
                         title: 'Amount',
                         key: 'amount'
-                    },
-                    {
-                        title: 'Date',
-                        key: 'date'
                     },
                     {
                         title: 'Remarks',
@@ -336,6 +340,8 @@
                         url:'/app/voucher',
                         data: this.formValue
                     })
+                    data.status.voucherID="INV-VO-DG-"+data.status.id
+                    
                     this.dataVoucher.unshift(data.status)
                     
                     this.s('Great!','Voucher has been added successfully!')
@@ -434,7 +440,10 @@
                     method: 'get',
                     url:'/app/voucher'
                 })
-                
+                for(let d of data)
+                {
+                    d.voucherID="INV-VO-DG-"+d.id
+                }
                 this.dataVoucher=data;
                 this.lf();
 

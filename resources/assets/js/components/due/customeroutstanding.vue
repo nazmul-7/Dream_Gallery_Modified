@@ -22,11 +22,15 @@
                     <table style="width:100%">
                     <tr>
                         <th>Customer Name</th> 
+                        <th>Address</th> 
+                        <th>Contact</th> 
                         <th>Amount</th>
                     </tr>
                     <tr v-for="(data,i) in searchData" :key="i">
                         
                         <td v-if="data.total_due">{{data.customerName}}</td>
+                        <td v-if="data.total_due">{{data.customer.address}}</td>
+                        <td v-if="data.total_due">{{data.customer.contact}}</td>
                         <td v-if="data.total_due">{{Math.abs(data.total_due)}}</td>
                     </tr>
 

@@ -119,6 +119,7 @@ class ReportController extends Controller
                 ->groupBy('uid')
                 ->whereIn('type',['due','opening','dueincoming'])
                 ->where('paymentFor','customer')
+                ->whereNotIn('uid',[1])
                 ->get();
             return $orders;
 
@@ -130,6 +131,7 @@ class ReportController extends Controller
                 ->groupBy('uid')
                 ->whereIn('type',['due','opening','outgoing'])
                 ->where('paymentFor','supplier')
+                ->whereNotIn('uid',[1])
                 ->get();
             return $orders;
 

@@ -51,6 +51,7 @@ class VoucherController extends Controller
                 'amount' => $input['amount'],
                 'paymentMethod' => $input['ledgerName'],
                 'remarks' =>  'Voucher : '.$input['ledgerName'],
+                'voucher_id' => $created->id,
                 'date' => $input['date'],
             ]);
     
@@ -65,6 +66,7 @@ class VoucherController extends Controller
                 'amount' => $input['amount']*-1,
                 'paymentMethod' => $input['ledgerName'],
                 'remarks' =>  'Voucher : '.$input['ledgerName'],
+                'voucher_id' => $created->id,
                 'date' => $input['date'],
             ]);
         }

@@ -447,11 +447,21 @@
                         url:`/app/filterSale/${k[0]}/${k[1]}`
 
                     })
+                    //
                     for(let d of data){
                         d.adminName=d.admin.name
+                        d.invoice_id="INV-SO-DG-"+d.id
+                        d.costPrice=0
+                        d.profitPrice=0
+                        for(let dd of d.selling)
+                        {
+                            d.costPrice=(d.costPrice+((dd.unitPrice-dd.profit)*dd.quantity))
+                            d.profitPrice=(d.profitPrice+(dd.profit*dd.quantity))
+                        }
                         if(d.customer)
                         d.customerName=d.customer.customerName
                     }
+                    //
                     this.dataInvoice=data
                     this.lf();
 

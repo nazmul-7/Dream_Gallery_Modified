@@ -43,9 +43,9 @@
                         <td v-if="data.paymentFor ==='cash'">-</td>
                         <td v-else-if="data.type ==='incoming'">INV-CL-DG-{{data.invoice_id}}</td>
                         <td v-else-if="data.type ==='dueIncoming'">INV-CL-DG-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='incomingVoucher'">INV-VO-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='incomingVoucher'">INV-VO-DG-{{data.voucher_id}}</td>
                         <td v-else-if="data.type ==='outgoing'">INV-PM-DG-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='outgoingVoucher'">INV-VO-DG-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='outgoingVoucher'">INV-VO-DG-{{data.voucher_id}}</td>
                         <td v-if="data.paymentFor ==='cash'">Opening</td>
                         <td v-else>{{data.adminName}}</td>
                         <td v-if="data.paymentFor ==='cash'">Opening Amount</td>

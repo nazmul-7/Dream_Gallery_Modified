@@ -34,7 +34,7 @@ class SellingController extends Controller
         ->with('admin')
         ->with('selling')
         ->with('customer')
-        ->orderBy('id', 'desc')
+        ->orderBy('id', 'asc')
         ->get();
         return $data;
     }
@@ -94,7 +94,7 @@ class SellingController extends Controller
             'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],
         ]);
-        $invoice=Payment::create([
+        $payment=Payment::create([
             'admin_id' => $admin_id,
             'uid' => $input['customer_id'],
             'type' => 'incoming',
@@ -255,10 +255,10 @@ class SellingController extends Controller
             ]);
         }
         // $created=Invoice::create($request->all());
-        $data=Invoice::where('type', 'purchase')
+        $data=Invoice::where('type', 'sell')
         ->where('id', $invoice->id)
         ->orderBy('id', 'desc')
-        ->with('supplier')
+        ->with('customer')
         ->first();
 
          return response()->json([

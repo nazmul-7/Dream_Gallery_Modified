@@ -285,7 +285,7 @@
                         data.data.balance=this.dataLedger[this.dataLedger.length - 1].balance + data.data.amount
                         this.dataLedger.push(data.data)
                         
-                        this.s('Great!','Purchase has been added successfully!')
+                        this.s('Great!','Supplier has been added successfully!')
                         this.loading=false
                     }catch(e){
                         this.loading=false
@@ -318,7 +318,7 @@
                     this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
                     this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
                     this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
-                    this.s('Great!','Category information has been updated successfully!')
+                    this.s('Great!','Supplier information has been updated successfully!')
                     
                     this.sending=false
                     this.editModal=false
@@ -336,7 +336,7 @@
                         url:`/app/invoice/${this.UpdateValue.id}`,
                     })
                     this.dataInvoice.splice( this.UpdateValue.indexNumber, 1)
-                    this.s('Great!','Invoice information has been removed successfully!')
+                    this.s('Great!','Supplier information has been removed successfully!')
                     
                     this.sending=false
                     this.deleteModal=false

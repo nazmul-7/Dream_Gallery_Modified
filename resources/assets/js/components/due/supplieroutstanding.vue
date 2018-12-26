@@ -22,11 +22,15 @@
                     <table style="width:100%">
                     <tr>
                         <th>Supplier Name</th> 
+                        <th>Address</th> 
+                        <th>Contact</th> 
                         <th>Amount</th>
                     </tr>
                     <tr v-for="(data,i) in searchData" :key="i">
                         
                         <td v-if="data.total_due">{{data.supplierName}}</td>
+                        <td v-if="data.total_due">{{data.supplier.address}}</td>
+                        <td v-if="data.total_due">{{data.supplier.contact}}</td>
                         <td v-if="data.total_due">{{Math.abs(data.total_due)}}</td>
                     </tr>
 
@@ -110,7 +114,6 @@
 
                 return this.dataCustomer.filter((data)=>{                    
                     return data.supplierName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.total_due.toString().match(this.search)
                     ;
                     }
                 );
