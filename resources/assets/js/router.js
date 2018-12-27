@@ -16,7 +16,7 @@ import voucher from './components/voucher/voucher.vue'
 import ledgerhead from './components/voucher/ledgerhead.vue'
 import stock from './components/stock/stock.vue'
 import paytosupplier from './components/payment/paytosupplier.vue'
-import cashcollection from './components/payment/cashcollection.vue'
+import collection from './components/payment/cashcollection.vue'
 import returnproduct from './components/return/returnproduct.vue'
 import order from './components/order/order.vue'
 //reports
@@ -179,7 +179,7 @@ export default new Router({
 				}
 	    },
     	{
-	      path: '/paytosupplier',
+	      path: '/payment',
 	      name: 'paytosupplier',
 	      component: paytosupplier,
 				meta: {
@@ -187,9 +187,9 @@ export default new Router({
 				}
 			},
 			{
-	      path: '/cashcollection',
-	      name: 'cashcollection',
-	      component: cashcollection,
+	      path: '/collection',
+	      name: 'collection',
+	      component: collection,
 				meta: {
 					allowed: onlyAdmin
 				}

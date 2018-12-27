@@ -7,6 +7,9 @@ use App\Setting;
 use App\Paymentsheet;
 use App\Customer;
 use App\Supplier;
+use App\User;
+use Auth;
+use Hash;
 class SettingController extends Controller
 {
     /**
@@ -19,26 +22,31 @@ class SettingController extends Controller
         $settings=Setting::first();
         return $settings;
     }
-    public function changePassword(Request $request)
-{
-    $user = Auth::user();
-
-    $curPassword = $request->input['curPassword'];
-    $newPassword = $request->input['newPassword'];
-
-    if (Hash::check($curPassword, $user->password)) {
-        $user_id = $user->id;
-        $obj_user = User::find($user_id)->first();
-        $obj_user->password = Hash::make($newPassword);
-        $obj_user->save();
-
-        return response()->json(["result"=>true]);
-    }
-    else
+    public function authUser()
     {
-        return response()->json(["result"=>false]);
+        $user = Auth::user();
+        return $user;
     }
-}
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $curPassword = $request->input('curPassword');
+        $newPassword = $request->input('newPassword');
+
+        if (Hash::check($curPassword, $user->password)) {
+            $user_id = $user->id;
+            $obj_user = User::find($user_id)->first();
+            $obj_user->password = Hash::make($newPassword);
+            $obj_user->update();
+
+            return response()->json(["result"=>true]);
+        }
+        else
+        {
+            return response()->json(["result"=>false]);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

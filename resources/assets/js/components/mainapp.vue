@@ -73,11 +73,11 @@
                             <Icon type="ios-alert"></Icon>
                             <span>Return</span>              
                         </MenuItem>
-                        <MenuItem name="paytosupplier" :to="handleGoToMenu('/paytosupplier')">
+                        <MenuItem name="payment" :to="handleGoToMenu('/payment')">
                             <Icon type="ios-alert"></Icon>
                             <span>Payment</span>              
                         </MenuItem>
-                        <MenuItem name="cashcollection" :to="handleGoToMenu('/cashcollection')">
+                        <MenuItem name="collection" :to="handleGoToMenu('/collection')">
                             <Icon type="ios-alert"></Icon>
                             <span>Collection</span>              
                         </MenuItem>

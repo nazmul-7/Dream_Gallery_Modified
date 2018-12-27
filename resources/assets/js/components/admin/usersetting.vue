@@ -2,53 +2,61 @@
     <div>
         <Row>
             <Col class="dream-input-main" span="14" offset="1">
-                <Form ref="formInline" inline>
-                    <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                </Form>
-                <Table :columns="columns1" :data="dataUser"></Table>
-            </Col>
-            <Col class="dream-input-main" span="7" offset="1">
                 <Form >
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem  label="Name">
                                 <Input type="text" placeholder="Name" 
-                                v-model="formValue.name"  @on-enter="customerAdd"></Input>
+                                v-model="dataUser.name"  ></Input>
                             </FormItem >
                         </Col>
                         <Col span="24">
                             <FormItem  label="User Name">
                                 <Input type="text" placeholder="User Name" 
-                                v-model="formValue.username"  @on-enter="customerAdd"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="Password">
-                            <Input type="password" placeholder="Password" 
-                            v-model="formValue.password"  @on-enter="customerAdd"></Input>
+                                v-model="dataUser.username"  ></Input>
                             </FormItem >
                         </Col>
                         <Col span="24">
                             <FormItem  label="Email">
                                 <Input type="text" placeholder="Email" 
-                                v-model="formValue.email"  @on-enter="customerAdd"></Input>
+                                v-model="dataUser.email"  ></Input>
                             </FormItem >
                         </Col>
                         <Col span="24">
                             <FormItem label="Select">
-                                <Select v-model="formValue.userType">
+                                <Select v-model="dataUser.userType">
                                     <Option value="Admin">Admin</Option>
                                     <Option value="Editor">Sales Executive</Option>
                                 </Select>
                             </FormItem>
                         </Col>
+                    </Row>
+                </Form>
+            </Col>
+            <Col class="dream-input-main" span="7" offset="1">
+                <Form >
+                    <Row :gutter="24">
+                        <Col span="24">
+                            <FormItem  label="Current Password">
+                            <Input type="password" placeholder="Password" 
+                            v-model="formValue.curPassword"  @on-enter="changePassowrd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="New Password">
+                            <Input type="password" placeholder="Password" 
+                            v-model="formValue.newPassword"  @on-enter="changePassowrd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Confirm Password">
+                            <Input type="password" placeholder="Password" 
+                            v-model="formValue.conPassword"  @on-enter="changePassowrd"></Input>
+                            </FormItem >
+                        </Col>
                          <Col span="24">
-                            <Button type="success" :loading="loading" @click="customerAdd">
-                                <span v-if="!loading">Add</span>
+                            <Button type="success" :loading="loading" @click="changePassowrd">
+                                <span v-if="!loading">Change</span>
                                 <span v-else>Loading...</span>
                             </Button>
                         </Col>
@@ -58,67 +66,6 @@
         </Row>
 
 
-      <Modal v-model="editModal" width="600">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit </span>
-        </p>
-        <div>
-            <Form>
-                <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem  label="Name">
-                                <Input type="text" placeholder="Name" 
-                                v-model="editObj.name"  @on-enter="customerAdd"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="User Name">
-                                <Input type="text" placeholder="User Name" 
-                                v-model="editObj.username"  @on-enter="customerAdd"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="Email">
-                                <Input type="text" placeholder="Email" 
-                                v-model="editObj.email"  @on-enter="customerAdd"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="24">
-                            <FormItem label="Select">
-                                <Select v-model="editObj.userType">
-                                    <Option value="Admin">Admin</Option>
-                                    <Option value="Editor">Sales Executive</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                </Row>
-            </Form>
-
-        </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
-        </div>
-    </Modal>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.customerName}}</span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.customerName}}
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="remove">
-                <span v-if="!loading">Delete</span>
-                <span v-else>Deleting...</span>
-            </Button>
-        </div>
-    </Modal>
     </div>
 </template>
 
@@ -132,81 +79,11 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
-                editObj: {
-                    id:null,
-                    name:'',
-                    email:'',
-                    userType:'',
-                    username:','
-                },
-                UpdateValue: {
-                    indexNumber:null,
-                    id:null,
-   
-                },
-                columns1: [
-                    {
-                        title: 'Name',
-                        key: 'name'
-                    },
-                    {
-                        title: 'User Name',
-                        key: 'username'
-                    },
-                    {
-                        title: 'email',
-                        key: 'email',
-                    },
-                    {
-                        title: 'Type',
-                        key: 'userType'
-                    },
-                    {   
-                        title: 'Action',
-                        key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showEdit(params.index)
-                                        }
-                                    }
-                                }, 'Edit'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showRemove(params.index)
-                                        }
-                                    }
-                                }, 'Delete')
-                            ]);
-                        }
-                    }
-                ],
-                dataZone: [],
                 dataUser:[],
-
                 formValue: {
-                    newUser:'',
-                    password:'',
-                    userType:'',
-                    email:'',
-
-
+                    curPassword:'',
+                    newPassword:'',
+                    conPassword:'',
                 },
                 
             }
@@ -231,23 +108,27 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            async customerAdd(){
+            async changePassowrd(){
                 this.loading=true
                 try{
                     let {data} =await  axios({
                         method: 'post',
-                        url:'/app/newUser',
+                        url:'/app/changePassword',
                         data: this.formValue
                     })
-                    this.dataUser.unshift(data)
-                    
-                    this.s('Great!','Customer has been added successfully!')
+                    console.log(data)
+                    if(data.result)
+                    {
+                        this.s('Great!','Password Changed Successfully')
+                    }
+                    else
+                    {
+                        this.e('Error!','Password Did not Changed')
+
+                    }
+                    this.formValue={}
                     this.loading=false
-                    this.formValue.neme=''
-                    this.formValue.userneme=''
-                    this.formValue.password=''
-                    this.formValue.userType=''
-                    this.formValue.email=''
+
                 }catch(e){
                     this.loading=false
                     this.e('Oops!','Something went wrong, please try again!')
@@ -318,7 +199,7 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                url:'/app/userList'
+                url:'/app/authUser'
                 })
                 this.dataUser=data;
                 this.lf();

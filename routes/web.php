@@ -24,6 +24,8 @@ Route::post('/app/newUser','HomeController@newUser');
 Route::get('/app/userList','HomeController@userList');
 Route::post('/app/userUpdate','HomeController@userUpdate');
 Route::get('/app/userRemove/{id}','HomeController@userRemove');
+Route::get('/app/authUser','SettingController@authUser');
+Route::post('/app/changePassword','SettingController@changePassword');
 //dashboard
 Route::get('/app/salesData/{from}/{to}','DashboardController@salesData');
 
