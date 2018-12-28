@@ -62,6 +62,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    public function print()
+    {
+        return view('print');
+    }
     public function newUser(Request $request)
     {
         $user=new User;

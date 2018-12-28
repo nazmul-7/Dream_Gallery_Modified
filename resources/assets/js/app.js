@@ -58,6 +58,7 @@ router.beforeEach((to, from, next) => {
 
 
 Vue.component('mainapp', require('./components/mainapp.vue'));
+Vue.component('printapp', require('./components/printapp.vue'));
 import router from './router'
 const app = new Vue({
     el: '#app',

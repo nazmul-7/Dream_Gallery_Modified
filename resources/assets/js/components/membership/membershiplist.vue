@@ -138,6 +138,10 @@
                         key: 'address',
                     },
                     {
+                        title: 'Zone',
+                        key: 'zone',
+                    },
+                    {
                         title: 'Contact',
                         key: 'contact'
                     },
@@ -173,6 +177,7 @@
                     || data.address.toUpperCase().match(this.search.toUpperCase())
                     || data.contact.toString().match(this.search.toString()) 
                     || data.zone.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.barcode.toString().match(this.search) 
                     ;
                     }
                 );

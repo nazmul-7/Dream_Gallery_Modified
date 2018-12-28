@@ -251,6 +251,10 @@
                         value: 'Expence',
                         label: 'Expence'
                     },
+                    {
+                        value: 'Investment',
+                        label: 'Investment'
+                    },
                     
                 ],
                 

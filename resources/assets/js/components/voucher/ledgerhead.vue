@@ -12,6 +12,7 @@
                         <Select v-model="filterLedger" placeholder="Select Type" filterable clearable>
                             <Option value="Income" >Income</Option>
                             <Option value="Expence" >Expence</Option>
+                            <Option value="Investment">Investment</Option>
                         </Select>
                     </FormItem>
                 </Form>
@@ -26,6 +27,7 @@
                                 <Select v-model="formValue.type" placeholder="Select Type">
                                     <Option value="Income" >Income</Option>
                                     <Option value="Expence" >Expence</Option>
+                                    <Option value="Investment" >Investment</Option>
                                 </Select>
                             </FormItem>
                             <FormItem label="Ledger Name">
@@ -61,6 +63,7 @@
                     <Select v-model="editObj.type" placeholder="Select Type">
                         <Option value="Income" >Income</Option>
                         <Option value="Expence" >Expence</Option>
+                        <Option value="Investment" >Investment</Option>
                     </Select>
                 </FormItem>
             </Col>

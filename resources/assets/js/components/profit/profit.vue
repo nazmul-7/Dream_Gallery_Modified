@@ -295,7 +295,7 @@
                 var tF=0
                 for (let d of this.searchData)
                 {
-                    tF=tF+d.sellingPrice
+                    tF=tF+d.totalPrice
 
                 }
                 return tF

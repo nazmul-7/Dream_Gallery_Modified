@@ -23,11 +23,9 @@
                             </FormItem >
                         </Col>
                         <Col span="24">
-                            <FormItem label="Select">
-                                <Select v-model="dataUser.userType">
-                                    <Option value="Admin">Admin</Option>
-                                    <Option value="Editor">Sales Executive</Option>
-                                </Select>
+                            <FormItem label="Type">
+                                <Input type="text" placeholder="Type" 
+                                v-model="dataUser.userType"  ></Input>
                             </FormItem>
                         </Col>
                     </Row>

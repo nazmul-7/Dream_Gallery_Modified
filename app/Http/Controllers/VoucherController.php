@@ -56,6 +56,21 @@ class VoucherController extends Controller
             ]);
     
         }
+        else if($input['type']=="Investment")
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'uid' => $created->id,
+                'type' => 'investmentVoucher',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'voucher',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'amount' => $input['amount'],
+                'paymentMethod' => $input['ledgerName'],
+                'remarks' =>  'Voucher : '.$input['ledgerName'],
+                'voucher_id' => $created->id,
+                'date' => $input['date'],
+            ]);
+    
+        }
         else
         {
             $paymentSheet=Paymentsheet::create([
@@ -117,6 +132,16 @@ class VoucherController extends Controller
         $data=Voucher::where('id',$request->id)->first();
         $input=$request->all();
         if($input['type']=='Income')
+        {
+            $payment=Paymentsheet::where('type','incomingVoucher')
+            ->where('uid',$request->id)
+            ->update([
+                'amount' => $input['amount'],
+                 
+             ]);
+    
+        }
+        else if($input['type']=='Investment')
         {
             $payment=Paymentsheet::where('type','incomingVoucher')
             ->where('uid',$request->id)
