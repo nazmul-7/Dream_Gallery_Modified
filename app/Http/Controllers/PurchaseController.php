@@ -79,17 +79,37 @@ class PurchaseController extends Controller
 
 
         ]);
-        $paymentSheet=Paymentsheet::create([
-            'admin_id' => $admin_id,
-            'invoice_id' => $invoice->id,
-            'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-            'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-            'uid' => $input['supplier_id'],
-            'amount' => $input['totalPrice'],
-            'paymentMethod' => 'due',
-            'remarks' => 'Purchased From Supplier',
-            'date' => $input['date'],
-        ]);
+        if($input['supplier_id']==1)
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['supplier_id'],
+                'amount' => $input['totalPrice'],
+                'paymentMethod' => 'cash',
+                'remarks' => 'Purchased From Cash',
+                'date' => $input['date'],
+            ]);
+    
+        }
+        else
+        {
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'due',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['supplier_id'],
+                'amount' => $input['totalPrice'],
+                'paymentMethod' => 'due',
+                'remarks' => 'Purchased From Supplier',
+                'date' => $input['date'],
+            ]);
+    
+
+        }
 
         // make  purchase details 
 

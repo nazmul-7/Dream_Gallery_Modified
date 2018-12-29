@@ -43,14 +43,15 @@
                         <Col span="24">
                             <FormItem  label="New Password">
                             <Input type="password" placeholder="Password" 
-                            v-model="formValue.newPassword"  @on-enter="changePassowrd"></Input>
+                            v-model="formValue.newPassword"  @on-enter="changePassowrd" @on-change="passwordMatching"></Input>
                             </FormItem >
                         </Col>
                         <Col span="24">
                             <FormItem  label="Confirm Password">
                             <Input type="password" placeholder="Password" 
-                            v-model="formValue.conPassword"  @on-enter="changePassowrd"></Input>
-                            </FormItem >
+                            v-model="formValue.conPassword"  @on-enter="changePassowrd" @on-change="passwordMatching"></Input>
+                                <span style="color:red" id="matchingPass" v-if="matchingFlag">password didn't matched</span>
+                            </FormItem>
                         </Col>
                          <Col span="24">
                             <Button type="success" :loading="loading" @click="changePassowrd">
@@ -72,6 +73,7 @@
         data () {
             return {
                 search:'',
+                matchingFlag:false,
                 editModal:false,
                 deleteModal:false,
                 loading:false,
@@ -101,14 +103,33 @@
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
             }
+            
         },
         methods: {
+            passwordMatching()
+            {
+                console.log("started")
+                if(this.formValue.conPassword==this.formValue.newPassword)
+                {
+                console.log("if")
+                    this.matchingFlag=false
+                }
+                else
+                {
+                console.log("else")
+                    this.matchingFlag=true
+
+                }
+
+            },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
             async changePassowrd(){
                 this.loading=true
-                try{
+                if(this.formValue.conPassword==this.formValue.newPassword)
+                {
+                                    try{
                     let {data} =await  axios({
                         method: 'post',
                         url:'/app/changePassword',
@@ -125,12 +146,20 @@
 
                     }
                     this.formValue={}
-                    this.loading=false
+
 
                 }catch(e){
                     this.loading=false
                     this.e('Oops!','Something went wrong, please try again!')
                 }
+
+                }
+                else{
+                    this.e('Oops!','Something went wrong, please try again!')
+                }
+                this.loading=false
+
+
             },
             showEdit (index) {
                 this.editObj.id=this.dataUser[index].id
