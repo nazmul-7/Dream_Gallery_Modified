@@ -35,6 +35,7 @@ import newuser from './components/admin/newuser.vue'
 import usersetting from './components/admin/usersetting.vue'
 import collectionreport from './components/reports/collectionreport.vue'
 import paymentreport from './components/reports/paymentreport.vue'
+import discountreport from './components/discount/discountreport.vue'
 //cancel
 import purchasecancel from './components/cancel/purchasecancel.vue'
 import salecancel from './components/cancel/salecancel.vue'
@@ -387,6 +388,15 @@ export default new Router({
 					allowed: onlyAdmin
 				}
 			},
+			{
+	      path: '/discountreport',
+	      name: 'discountreport',
+	      component: discountreport,
+				meta: {
+					allowed: onlyAdmin
+				}
+			},
+			
 
 			
 						

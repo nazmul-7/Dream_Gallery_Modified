@@ -12,6 +12,10 @@ class Paymentsheet extends Model
     {
        return $this->belongsTo('App\User','admin_id');
     }
+    public function invoice()
+    {
+       return $this->belongsTo('App\Invoice','invoice_id');
+    }
     public function customer()
     {
        return $this->belongsTo('App\Customer','uid');

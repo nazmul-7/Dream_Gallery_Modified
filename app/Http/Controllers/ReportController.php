@@ -136,4 +136,16 @@ class ReportController extends Controller
             return $orders;
 
     }
+    public function discountReport()
+    {
+        $data = Paymentsheet::with('customer')
+                ->with('admin')
+                ->with('invoice')
+                ->where('type','discount')
+                ->where('paymentFor','customer')
+                ->whereNotIn('uid',[1])
+                ->get();
+            return $data;
+
+    }
 }

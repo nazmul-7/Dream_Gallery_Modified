@@ -183,6 +183,7 @@
                                 <MenuItem name="profit" :to="handleGoToMenu('/profit')">Net Profit</MenuItem>
                                 <MenuItem name="supplieroutstanding" :to="handleGoToMenu('/supplieroutstanding')">Supplier Outstanding</MenuItem>
                                 <MenuItem name="customeroutstanding" :to="handleGoToMenu('/customeroutstanding')">Customer Outstanding</MenuItem>
+                                <MenuItem name="discountreport" :to="handleGoToMenu('/discountreport')">Discount Report</MenuItem>
                             </Submenu>
                         </MenuItem>
                     </Submenu>
