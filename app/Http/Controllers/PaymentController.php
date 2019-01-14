@@ -8,6 +8,7 @@ use App\Purchase;
 use App\Invoice;
 use App\Payment;
 use App\Selling;
+use App\Customer;
 use App\Bonus;
 use Auth;
 class PaymentController extends Controller
@@ -26,8 +27,16 @@ class PaymentController extends Controller
             'ledger'=> $ledger,
        ],200);
     }
-    public function getOutstandingCustomer($id)
+    public function getOutstandingCustomer($str)
     {
+
+        // $customer = Customer::where('id', $str)
+        //                     ->orwhere('customerName',$str)
+        //                     ->orwhere('contact',$str)
+        //                     ->orwhere('barcode',$str)
+        //                     ->first(['id']);
+        $id = $str;
+        
         $outStanding=Paymentsheet::where('uid',$id)
             ->where('paymentFor','customer')
             ->whereIn('type',['due','opening','dueincoming'])

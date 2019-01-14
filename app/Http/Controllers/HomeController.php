@@ -30,11 +30,16 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+       // $this->middleware('auth');
     }
     public function phptest()
     {
         return date("Y-m-d");
+        
+    }
+    public function test()
+    {
+       return bcrypt(123456);
         
     }
 

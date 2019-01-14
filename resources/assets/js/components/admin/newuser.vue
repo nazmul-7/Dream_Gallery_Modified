@@ -158,7 +158,7 @@
                         key: 'username'
                     },
                     {
-                        title: 'email',
+                        title: 'Email',
                         key: 'email',
                     },
                     {

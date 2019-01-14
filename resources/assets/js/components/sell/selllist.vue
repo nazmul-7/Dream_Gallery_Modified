@@ -8,11 +8,11 @@
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem label="Customer">
+                    <!-- <FormItem label="Customer">
                         <Select v-model="filterCustomer" placeholder="Select Customer"  filterable clearable>
                                 <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
                             </Select>
-                    </FormItem>
+                    </FormItem> -->
                     <FormItem label="Zone">
                         <Select v-model="filterZone" placeholder="Select Zone"  filterable clearable>
                                 <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
@@ -23,6 +23,11 @@
                     </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
+                <Row>
+                    <Col span="10" offset="15" >
+                        <h3>Total Sales amount: {{totalSalesPrice}} </h3>
+                    </Col>
+                </Row>
                 <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
             </Col>
         </Row>
@@ -307,6 +312,19 @@
                 );
 
                 }
+            },
+            totalSalesPrice(){
+                let totalSale=0;
+                let item;
+                console.log("filter Search item");
+                console.log(this.searchData.length);
+                for(let i = 0;i<this.searchData.length;i++){
+                   
+                    
+                    totalSale+= parseInt(this.searchData[i].totalPrice,10);
+                }
+                return totalSale;
+
             },
             rotateIcon () {
                 return [

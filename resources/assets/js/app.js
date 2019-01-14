@@ -41,18 +41,18 @@ let userType = window.authUser.userType
 
 
 router.beforeEach((to, from, next) => {
-	//document.title=to.meta.title
    
     if(to.meta){
         let allowed = to.meta.allowed
+        
         for(let a of allowed){
-            if(a!=userType){
-                return
+            if(a==userType){
+                next();
             }
         }
     }
+    return
     
-    next();
   
   });
 

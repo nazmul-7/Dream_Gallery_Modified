@@ -83,7 +83,7 @@
                     </Button>
 
                     <Button type="primary" size="large" :loading="sending" @click="makeSell">
-                        <span v-if="!loading">Sell</span>
+                        <span v-if="!loading">Confirm Sale</span>
                         <span v-else>Loading...</span>
                     </Button>
                 </Col>
@@ -94,12 +94,24 @@
                     <Form>
                         <Col span="22" offset="1">
                             <FormItem label="Customer">
-                                <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
+                                <!-- <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
                                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
                                         <span>{{customer.customerName}}</span>
                                         <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
                                 </Option>
-                                </Select>
+                                </Select>  @on-change="changedCustomer"--> 
+                                <div class="dropdown">
+                                    <Input class="dropbtn" v-model="tempCustomerInof" placeholder="Customer" @on-keyup="changedCustomerV2"      />
+                                    <div class="dropdown-content">
+                                        <a v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i" @click="changedCustomer(customer)"  >
+                                            <span>{{customer.customerName}}</span>
+                                            <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                                        </a>
+                                        
+                                        
+                                  </div>
+                                </div>
+
                             </FormItem>
                         </Col>
                         <Col span="11" offset="1" v-if="currentCustomer.status" >
@@ -117,12 +129,23 @@
 
                         <Col span="22" offset="1">
                             <FormItem label="Reference">
-                                <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable clearable>
+                                <!-- <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable clearable>
                                     <Option v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i">
                                         <span>{{customer.customerName}}</span>
                                         <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
-                                        </Option>
-                                </Select>
+                                    </Option>
+                                </Select> -->
+                                <div class="dropdown">
+                                    <Input class="dropbtn" v-model="tempReferencerInfo" placeholder="Number" @on-keyup="changedReferenceV2"      />
+                                    <div class="dropdown-content">
+                                        <a v-for="(customer,i) in flterReferencerList" :value="customer.id"  :key="i" @click="changedReference(customer)"  >
+                                            <span>{{customer.customerName}}</span>
+                                            <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                                        </a>
+                                        
+                                        
+                                  </div>
+                                </div>
                             </FormItem>
                         </Col>
                     </Form>
@@ -133,6 +156,24 @@
                         <p><b>Email:</b> {{currentCustomer.email}}</p>
                         <p><b>Address:</b> {{currentCustomer.address}}</p>
                         <p><b>Outstanding:</b> {{currentCustomer.outStanding}}</p>
+                        
+                    </Col>
+
+                    <Col v-if="currentReferenceInfo.customerName" span="24" >
+                         <hr/>
+                    </Col>
+
+
+                   
+
+                    <Col v-if="currentReferenceInfo.customerName" span="24"  >
+                        <h3>Referencer Info</h3>
+                        <p><b>Name:</b> {{currentReferenceInfo.customerName}}</p>
+                        <p><b>Number:</b> {{currentReferenceInfo.number}}</p>
+                        <p><b>Email:</b> {{currentReferenceInfo.email}}</p>
+                        <p><b>BarCode:</b> {{currentReferenceInfo.barcode}}</p>
+                        <p><b>Address:</b> {{currentReferenceInfo.address}}</p>
+                        <p><b>Outstanding:</b> {{currentReferenceInfo.outStanding}}</p>
                     </Col>
                     
                 </Row>
@@ -234,12 +275,27 @@
                 editModal:false,
                 isCollapsed: false,
                 dataSearch:[],
+                tempCustomerInof:null,
+                tempReferencerInfo:null,
                 dataGroup:[],
                 dataCustomer:[],
+                dataReferencer:[],
                 shopData:[],
                 dataInvoice: 
                 [],
                 currentCustomer:{
+                    customerName:'',
+                    number:'',
+                    email:'',
+                    address:'',
+                    Outstanding:'',
+                    barcode:'',
+                    bonusAmount:null,
+                    status:false
+
+
+                },
+                currentReferenceInfo:{
                     customerName:'',
                     number:'',
                     email:'',
@@ -325,12 +381,21 @@
                     return 0
 
             },
-            flterMemberList()
-            {
+            flterMemberList(){
                     return this.dataCustomer.filter((data)=>{
-                    return (data.barcode);
+                    return data.id != 1;
                         }
                     );
+
+                    
+
+            },
+            flterReferencerList(){
+                    return this.dataReferencer.filter((data)=>{
+                        return this.formValue.customer_id ? data.id != this.formValue.customer_id : data.id != 0;
+                   
+                        }
+                    );    
 
             },
             rotateIcon () {
@@ -439,7 +504,10 @@
             clearForm()
             {
                 console.log('clear')
-
+                this.dataReferencer=[];
+                this.dataCustomer=[];
+                this.tempCustomerInof = null;
+                this.tempReferencerInfo= null;
                 this.formValue.discount=0
                 this.formValue.paidAmount=0.00
                 this.formValue.subTotal=0
@@ -452,6 +520,7 @@
                 this.formValue.reference_id=''
                 this.formValue.productDetails.splice(0,this.formValue.productDetails.length)
                 this.currentCustomer={}
+                this.currentReferenceInfo={}
                 this.editModal=false
                 const start = new Date();
                 this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
@@ -482,8 +551,78 @@
 
             },
 
-            async changedCustomer(k)
-            {
+            async changedCustomerV2(e){
+
+                if(!this.tempCustomerInof){
+                    this.dataCustomer=[];
+                    
+                    return;
+                }
+
+                if (e.keyCode === 13){
+                    console.log('Enterkey');
+                    const res = await this.callApi('get', `/app/customerInfoOnEnter/${this.tempCustomerInof}`);
+                    if(res.status==200){
+                        console.log("res Data: ")
+                        console.log(res.data)
+                        this.changedCustomer(res.data);
+                    }
+                    else{
+                        console.log("Something went wrong");
+                    }
+                }
+                else{
+                    console.log("OtherKey");
+
+                    const res = await this.callApi('get', `/app/customerInfo/${this.tempCustomerInof}`);
+                    console.log(res.data)
+                    if(res.status==200){
+
+                        this.dataCustomer=res.data;
+                    }
+                    else{
+                        console.log("Something went wrong");
+                    }
+                }
+            },
+
+            async changedCustomer(customerPass){
+               
+                this.ls();
+                try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/payment/getOutstandingCustomer/${customerPass.id}`
+                })
+                this.setCustomer(customerPass)
+              //  this.setCustomer(this.formValue.customer_id)
+
+
+                this.currentCustomer.outStanding=Math.abs(data.outStanding)
+                if(data.ledger[0].customer.barcode)
+                {
+                    console.log(data.ledger[0])
+                    this.formValue.discount=10
+                    this.currentCustomer.bonusAmount=data.bonus
+                    this.currentCustomer.status=true
+                }
+                else
+                {
+                    console.log(data.ledger[0])
+                    this.currentCustomer.status=false
+                }
+
+                this.lf();
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+
+                this.discount()
+
+
+            },
+            async enterChangedCustomer(k){
                 if(!k)
                 {
                     this.formValue.customer_id=null
@@ -529,57 +668,50 @@
 
 
             },
-            async enterChangedCustomer(k)
-            {
-                if(!k)
-                {
-                    this.formValue.customer_id=null
-                    return
-                }
-                if(this.formValue.customer_id==1)
-                {
-                    this.currentCustomer={}
-                    return
+            async changedReferenceV2(e){
 
+                if(!this.tempReferencerInfo){
+                    this.dataReferencer=[];
+                    
+                    return;
                 }
 
-                console.log(k);
-                console.log(this.formValue.customer_id);
-                this.ls();
-                try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:`/app/payment/getOutstandingCustomer/${this.formValue.customer_id}`
-                })
-                this.setCustomer(this.formValue.customer_id)
-                this.currentCustomer.outStanding=Math.abs(data.outStanding)
-                if(data.ledger[0].customer.barcode)
-                {
-                    console.log(data.ledger[0])
-                    this.formValue.discount=10
-                    this.currentCustomer.bonusAmount=data.bonus
-                    this.currentCustomer.status=true
+                if (e.keyCode === 13){
+                    console.log('Enterkey');
+                    const res = await this.callApi('get', `/app/referencerInfoOnEnter/${this.tempReferencerInfo}`);
+                    if(res.status==200){
+                        console.log("res Data: ")
+                        console.log(res.data)
+                        this.changedReference(res.data);
+                    }
+                    else{
+                        console.log("Something went wrong");
+                    }
                 }
-                else
-                {
-                    console.log(data.ledger[0])
-                    this.currentCustomer.status=false
-                }
+                else{
+                    console.log("OtherKey");
 
-                this.lf();
-                }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
-                this.le();
-                }
+                    const res = await this.callApi('get', `/app/referencerInfo/${this.tempReferencerInfo}`);
+                    console.log(res.data)
+                    if(res.status==200){
 
-                this.discount()
+                        this.dataReferencer=res.data;
+                    }
+                    else{
+                        console.log("Something went wrong");
+                    }
+                }
 
 
             },
-            async changedReference(k)
+            async changedReference(referencerPass)
             {
-                console.log(k);
+                
+                
+                this.formValue.reference_id=referencerPass.id;
                 console.log(this.formValue.reference_id);
+                console.log(referencerPass);
+                this.setReferencer(referencerPass);
                 this.ls();
                 try{
                 let {data} =await  axios({
@@ -597,22 +729,41 @@
 
 
             },
-            setCustomer(id)
-            {
-                var i=0
+            setCustomer(customerPass){
+                // var i=0
 
-                while (i < this.dataCustomer.length) {
-                    if (this.dataCustomer[i].id == id) {
-                        this.currentCustomer.customerName=this.dataCustomer[i].customerName
-                        this.currentCustomer.number=this.dataCustomer[i].contact
-                        this.currentCustomer.address=this.dataCustomer[i].address
-                        this.currentCustomer.email=this.dataCustomer[i].email
-                        this.currentCustomer.barcode=this.dataCustomer[i].barcode
-                    }
-                    i++;
-                }
+                // while (i < this.dataCustomer.length) {
+                //     if (this.dataCustomer[i].id == id) {
+                //         this.currentCustomer.customerName=this.dataCustomer[i].customerName
+                //         this.currentCustomer.number=this.dataCustomer[i].contact
+                //         this.currentCustomer.address=this.dataCustomer[i].address
+                //         this.currentCustomer.email=this.dataCustomer[i].email
+                //         this.currentCustomer.barcode=this.dataCustomer[i].barcode
+                //     }
+                //     i++;
+                // }
+
+                this.formValue.customer_id=customerPass.id
+                this.currentCustomer.customerName=customerPass.customerName
+                this.currentCustomer.number=customerPass.contact
+                this.currentCustomer.address=customerPass.address
+                this.currentCustomer.email=customerPass.email
+                this.currentCustomer.barcode=customerPass.barcode
                 
             },
+            setReferencer(referencerPass){
+
+                console.log("i am here")
+                        
+                this.currentReferenceInfo.customerName=referencerPass.customerName
+                this.currentReferenceInfo.number=referencerPass.contact
+                this.currentReferenceInfo.address=referencerPass.address
+                this.currentReferenceInfo.email=referencerPass.email
+                this.currentReferenceInfo.barcode=referencerPass.barcode
+                
+            },
+
+
             async setData()
             {
                 if(this.formValue.barCode)
@@ -748,18 +899,18 @@
             this.ls();
             const start = new Date();
             this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/customer'
-                })
-                this.dataCustomer=data;
-                this.lf();
+            // try{
+            //     let {data} =await  axios({
+            //         method: 'get',
+            //         url:'/app/customer'
+            //     })
+            //     this.dataCustomer=data;
+            //     this.lf();
 
-            }catch(e){
-                this.e('Oops!','5Something went wrong, please try again!')
-            this.le();
-            }
+            // }catch(e){
+            //     this.e('Oops!','5Something went wrong, please try again!')
+            // this.le();
+            // }
             try{
                 let {data} =await  axios({
                     method: 'get',
@@ -790,7 +941,7 @@
 
     }
 </script>
-<style>
+<style scoped>
     th{
         border: 1px solid black;
         border-collapse: collapse;
@@ -842,4 +993,34 @@
   background: #EEE;
   border-bottom: 1px solid #000;
 }
+
+
+
+.dropdown {
+  position: relative;
+  /* display: inline-block; */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
 </style>

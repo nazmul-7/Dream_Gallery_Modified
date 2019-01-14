@@ -84,4 +84,113 @@
     height: 100vh !important;
     overflow: auto !important;
 }
-
+.total_cost {
+    width: 358px;
+    margin: 0 auto;
+}
+.total_cost_top {
+    border: 1px solid;
+}
+.dis{
+    display: flex;
+}
+.flex_space{
+    flex: 1 1;
+}
+.b_color{
+    border-color: #ddd !important;
+}
+.text_right{
+    text-align: right;
+}
+.text_center{
+    text-align: center;
+}
+.total_cost_main {
+    padding: 11px 15px 11px;
+}
+.total_cost_main_left{}
+.total_cost_main_right {
+    width: 171px;
+}
+.total_cost_main_left_text {
+    font-size: 15px;
+    color: #000;
+    font-weight: 600;
+}
+.total_cost_bottom {
+    border-right: 1px solid;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+}
+.buyer_tables {
+    padding: 55px 0 10px;
+}
+.buyer_tables_all_name_all {
+    margin-bottom: 17px;
+}
+.buyer_tables_all_name {
+    font-size: 16px;
+}
+.buyer_tables_all_title {
+    font-size: 16px;
+    font-weight: 600;
+    width: 116px;
+}
+.buyer_tables_main {
+    margin-bottom: 27px;
+}
+.buyer_tables_main_all:first-child {
+    border-top: 1px solid;
+}
+.buyer_tables_main_all {
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+}
+.buyer_tables_main_name {
+    border-right: 1px solid;
+    padding: 7px 12px;
+}
+.buyer_tables_main_text {
+    font-size: 15px;
+    color: #3c3b3b;
+}
+.buyer_tables_main_num {
+    border-right: 1px solid;
+    width: 187px;
+    text-align: right;
+    padding: 7px 12px;
+}
+.buyer_tables_main_title {
+    font-weight: bold;
+    color: #000;
+    font-size: 15px;
+}
+.table_title_bg {
+    background: #f8f8f9;
+}
+.Total_Sales .buyer_tables_main_num {
+    border-right: none;
+}
+.Total_Sales .buyer_tables_main_name {
+    border-right: none;
+}
+.Total_Sales {
+    padding: 11px 0;
+}
+.Total_Sales_text:last-child{
+    margin-right: 0px;
+}
+.Total_Sales_text {
+    font-weight: bold;
+    color: #000;
+    font-size: 15px;
+    margin-right: 32px;
+}
+.Total_Sales_text_span{}
+.{}
+.{}
+.{}
+.{}
+.{}
+.{}

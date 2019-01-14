@@ -313,20 +313,29 @@
                     url:'/app/dueList'
                 })
                 let totalDue=0
+
                 for(let d of data)
                 {
-                    d.customerName=d.customer.customerName
-                    totalDue=totalDue+d.total_due
-                    if(d.uid==1)
-                    d.total_due=0
+                    console.log(d);
+                    if(d.customer){
+                        d.customerName=d.customer.customerName
+                        totalDue=totalDue+d.total_due
+                        if(d.uid==1)
+                        d.total_due=0
+
+                    }else{
+                        d.customerName = ''
+                    }
+                    
                 }
                 this.totalDue=totalDue
                 this.dataCustomer=data;
                 this.lf();
 
             }catch(e){
+                console.log(e.message);
                 this.e('Oops!','Something went wrong, please try again!')
-            this.le();
+                this.le();
             }
             
         }

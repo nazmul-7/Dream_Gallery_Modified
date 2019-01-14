@@ -10,6 +10,7 @@
         <title>welcome page</title>
         {{-- <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet"> --}}
        <link href={{ asset('css/all.css' )}} rel="stylesheet">
+       <link href={{ asset('css/main.css' )}} rel="stylesheet">
      
         <script>
    

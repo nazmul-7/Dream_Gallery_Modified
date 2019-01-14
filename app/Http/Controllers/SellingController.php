@@ -32,7 +32,7 @@ class SellingController extends Controller
         $data=Invoice::where('type','sell')
         ->whereBetween('date', array($from, $to))
         ->with('admin')
-        ->with('selling')
+        ->with('selling.product')
         ->with('customer')
         ->orderBy('id', 'asc')
         ->get();

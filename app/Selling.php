@@ -22,4 +22,10 @@ class Selling extends Model
     {
        return $this->belongsTo('App\Product');
     }
+    public function productinfo()
+    {
+       return $this->belongsTo('App\Product');
+    }
+
+
    }

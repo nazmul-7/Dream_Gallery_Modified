@@ -2,6 +2,7 @@ export default {
 	data(){
 		return {
 			productStock:null,
+			authUser : window.authUser,
 		}
 	},
 

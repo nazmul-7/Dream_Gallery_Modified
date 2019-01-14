@@ -140,7 +140,7 @@
                                     Account
                                 </template>
                                 <MenuItem name="cash" :to="handleGoToMenu('/cash')">Cash Report</MenuItem>
-                                <MenuItem name="customerdue" :to="handleGoToMenu('/customerdue')">Due Report</MenuItem>
+                                <!-- <MenuItem name="customerdue" :to="handleGoToMenu('/customerdue')">Due Report Delete</MenuItem> -->
                             </Submenu>
                         </MenuItem>
                         <MenuItem name="3-4">                        
@@ -173,14 +173,14 @@
                                 <MenuItem name="bonusledger" :to="handleGoToMenu('/bonusledger')">Bonus Ledger</MenuItem>
                             </Submenu>
                         </MenuItem>
-                        <MenuItem name="3-6">                        
-                            <Submenu name="3-6-1">
+                        <MenuItem name="3-7">                        
+                            <Submenu name="3-7-1">
                                 <template slot="title">
                                     <Icon type="ios-albums"></Icon>
                                     Others Report
                                 </template>
-                                <MenuItem name="profit" :to="handleGoToMenu('/profit')">Gross Profit</MenuItem>
-                                <MenuItem name="profit" :to="handleGoToMenu('/profit')">Net Profit</MenuItem>
+                                <MenuItem name="grossprofit" :to="handleGoToMenu('/grossprofit')">Gross Profit</MenuItem>
+                                <MenuItem name="netprofit" :to="handleGoToMenu('/netprofit')">Net Profit</MenuItem>
                                 <MenuItem name="supplieroutstanding" :to="handleGoToMenu('/supplieroutstanding')">Supplier Outstanding</MenuItem>
                                 <MenuItem name="customeroutstanding" :to="handleGoToMenu('/customeroutstanding')">Customer Outstanding</MenuItem>
                                 <MenuItem name="discountreport" :to="handleGoToMenu('/discountreport')">Discount Report</MenuItem>
@@ -193,8 +193,8 @@
                             <Icon type="ios-navigate"></Icon>
                            User
                         </template>
-                        <MenuItem name="newuser" :to="handleGoToMenu('/newuser')">New User</MenuItem>
-                        <MenuItem name="usersetting" :to="handleGoToMenu('/usersetting')">User Settings</MenuItem>
+                        <MenuItem v-if="authUser.userType=='Admin'" name="newuser" :to="handleGoToMenu('/newuser')">New User</MenuItem>
+                        <MenuItem name="usersetting" :to="handleGoToMenu('/usersetting')">{{(authUser.userType=='Admin')?'User Settings':'Password Reset'}}</MenuItem>
 
                     </Submenu>                                          
                     <!-- <MenuItem name="setting" :to="handleGoToMenu('/setting')">

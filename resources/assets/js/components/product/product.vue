@@ -21,7 +21,7 @@
                             </Select>
                     </FormItem>
                 </Form>
-                <Table :columns="columns1" :data="dataProduct"></Table>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
       <Modal v-model="addProductModal" width="600">
@@ -400,36 +400,38 @@
                 
 
 
-                // search should be done from server instead of front end... 
-                // if(this.filterGroup)
-                // {
-                // return this.dataProduct.filter((data)=>{                    
-                //     return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
-                //     && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.model.toUpperCase().match(this.search.toUpperCase())
-                //     || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.size.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
-                //     ;
-                //     }
-                // );
+                //search should be done from server instead of front end... 
+                if(this.filterGroup)
+                {
+                return this.dataProduct.filter((data)=>{                    
+                    return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                    && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.model.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.size.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
+                    ;
+                    }
+                );
 
-                // }
-                // else{
-                // return this.dataProduct.filter((data)=>{                    
-                //     return data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.model.toUpperCase().match(this.search.toUpperCase())
-                //     || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.groupName.toUpperCase().match(this.search.toUpperCase())
-                //     || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                //     || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
-                //     ;
-                //     }
-                // );
+                }
+                else{
+                return this.dataProduct.filter((data)=>{                    
+                    return data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.model.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.groupName.toUpperCase().match(this.search.toUpperCase())
+                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
+                    ;
+                    }
+                    );
+                }
 
             },
+            
             
             rotateIcon () {
                 return [

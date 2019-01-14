@@ -249,6 +249,7 @@
                      data.paymentFor.toUpperCase().match(this.search.toUpperCase()) ||
                      data.id.toString().match(this.search) ||
                      data.amount.toString().match(this.search) ||
+                     data.invoice_id.toString().match(this.search) ||
                      data.remarks.toUpperCase().match(this.search.toUpperCase()) 
         
                     }

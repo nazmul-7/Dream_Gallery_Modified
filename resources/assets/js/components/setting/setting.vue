@@ -63,7 +63,7 @@
                     </Row>
                 </Form>
             </Col>
-            <Col span="10" offset="1">
+            <!-- <Col span="10" offset="1">
                 <Row>
                     <Col span="24" class="dream-input-main" >
                         <Upload
@@ -96,9 +96,8 @@
                             </Button>
                     </Col>
                 </Row>
+            </Col> -->
 
-            
-            </Col>
         </Row>
 
 

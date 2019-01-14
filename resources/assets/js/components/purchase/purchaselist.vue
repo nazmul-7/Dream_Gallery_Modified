@@ -8,16 +8,24 @@
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem label="Supplier">
+                    <!-- <FormItem label="Supplier">
                         <Select v-model="filterSupplier" placeholder="Select supplier"  filterable clearable>
                                 <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{ supplier.supplierName }}</Option>
                             </Select>
-                    </FormItem>
+                    </FormItem> -->
                     <FormItem label="Date">
                         <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
                     </FormItem>
                 </Form>
-                <Button  align="left" @click="showPrint">Print</Button>
+                
+                <Row>
+                    <Col span="11" >
+                        <Button  align="left" @click="showPrint">Print</Button>
+                    </Col>
+                    <Col span="10" offset="15" >
+                        <h3>Total Purchase Amount: {{totalPurchasePrice}} </h3>
+                    </Col>
+                </Row>
                 <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
             </Col>
         </Row>
@@ -284,7 +292,8 @@
                      data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.id.toString().match(this.search) ||
                      data.totalPrice.toString().match(this.search) ||
-                     data.totalQuantity.toString().match(this.search)
+                     data.totalQuantity.toString().match(this.search)||
+                     data.invoice_id.toString().match(this.search)
                     )
 
             
@@ -298,12 +307,26 @@
                      data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.id.toString().match(this.search) ||
                      data.totalPrice.toString().match(this.search) ||
+                     data.invoice_id.toString().match(this.search)||
                      data.totalQuantity.toString().match(this.search) 
         
                     }
                 );
 
                 }
+            },
+            totalPurchasePrice(){
+                let totalPurchase=0;
+                let item;
+                console.log("filter Search item");
+                console.log(this.searchData.length);
+                for(let i = 0;i<this.searchData.length;i++){
+                   
+                    
+                    totalPurchase+= parseInt(this.searchData[i].totalPrice,10);
+                }
+                return totalPurchase;
+
             },
             rotateIcon () {
                 return [

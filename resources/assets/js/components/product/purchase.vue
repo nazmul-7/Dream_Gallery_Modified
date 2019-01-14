@@ -310,8 +310,8 @@
         methods: {
             async changedSupplier(k)
             {
-                console.log(k);
-                console.log(this.formValue.supplier_id);
+               // console.log(k);
+               // console.log(this.formValue.supplier_id);
                 this.ls();
                 try{
                 let {data} =await  axios({
@@ -417,7 +417,10 @@
                 //invoice added
                 this.formValue.totalPrice=this.totalPrice
                 this.formValue.totalQuantity=this.totalQuantity
-                if( !this.totalQuantity || !this.totalPrice || !this.formValue.supplier_id|| !this.formValue.date)
+
+                
+                console.log("Make "+(this.formValue.supplier_id));
+                if( !this.totalQuantity || !this.totalPrice || !this.formValue.date)
                 {
                     this.loading=false
                     this.e('Oops!','You nedd to enter Stock and Price in All Fields')

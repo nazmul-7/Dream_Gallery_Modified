@@ -24,7 +24,8 @@ import selllist from './components/sell/selllist.vue'
 import itemselling from './components/sell/itemselling.vue'
 import purchaselist from './components/purchase/purchaselist.vue'
 import purchaseitemlist from './components/purchase/purchaseitemlist.vue'
-import profit from './components/profit/profit.vue'
+import grossprofit from './components/profit/grossprofit.vue'
+import netprofit from './components/profit/netprofit.vue'
 import paymentlist from './components/payment/paymentlist.vue'
 import cash from './components/cash/cash.vue'
 import customerledger from './components/ledgers/customer.vue'
@@ -46,6 +47,7 @@ import membershiplist from './components/membership/membershiplist.vue'
 import bonusledger from './components/membership/bonusledger.vue'
 
 let onlyAdmin = ['Admin']
+let adminAndEditor = ['Admin','Editor']
 let adminAndSale = ['Admin', 'Sale']
 Vue.use(Router)
 export default new Router({
@@ -57,7 +59,7 @@ export default new Router({
 	      name: 'login',
 				component: login,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 				
 				
@@ -69,7 +71,7 @@ export default new Router({
 	      name: 'home',
 				component: home,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 				
 
@@ -87,7 +89,7 @@ export default new Router({
 	      name: 'group',
 				component: group,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -95,7 +97,7 @@ export default new Router({
 	      name: 'category',
 				component: category,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -103,7 +105,7 @@ export default new Router({
 	      name: 'unit',
 				component: unit,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -111,7 +113,7 @@ export default new Router({
 	      name: 'product',
 				component: product,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -119,7 +121,7 @@ export default new Router({
 	      name: 'supplier',
 				component: supplier,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -127,7 +129,7 @@ export default new Router({
 	      name: 'customer',
 				component: customer,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -135,7 +137,7 @@ export default new Router({
 	      name: 'zone',
 				component: zone,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 
 	    },
@@ -144,7 +146,7 @@ export default new Router({
 	      name: 'voucher',
 	      component: voucher,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -152,7 +154,7 @@ export default new Router({
 	      name: 'ledgerhead',
 	      component: ledgerhead,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -160,7 +162,7 @@ export default new Router({
 	      name: 'purchase',
 	      component: purchase,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
     	{
@@ -168,7 +170,7 @@ export default new Router({
 	      name: 'stock',
 	      component: stock,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -176,7 +178,7 @@ export default new Router({
 	      name: 'sell',
 	      component: sell,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
     	{
@@ -184,7 +186,7 @@ export default new Router({
 	      name: 'paytosupplier',
 	      component: paytosupplier,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -192,7 +194,7 @@ export default new Router({
 	      name: 'collection',
 	      component: collection,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -200,7 +202,7 @@ export default new Router({
 	      name: 'returnproduct',
 	      component: returnproduct,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -208,7 +210,7 @@ export default new Router({
 	      name: 'order',
 	      component: order,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -216,7 +218,7 @@ export default new Router({
 	      name: 'selllist',
 	      component: selllist,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -224,7 +226,7 @@ export default new Router({
 	      name: 'itemselling',
 	      component: itemselling,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -232,7 +234,7 @@ export default new Router({
 	      name: 'purchaselist',
 	      component: purchaselist,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -240,13 +242,21 @@ export default new Router({
 	      name: 'purchaseitemlist',
 	      component: purchaseitemlist,
 				meta: {
+					allowed: adminAndEditor
+				}
+			},
+			{
+	      path: '/grossprofit',
+	      name: 'grossprofit',
+	      component: grossprofit,
+				meta: {
 					allowed: onlyAdmin
 				}
 			},
 			{
-	      path: '/profit',
-	      name: 'profit',
-	      component: profit,
+	      path: '/netprofit',
+	      name: 'netprofit',
+	      component: netprofit,
 				meta: {
 					allowed: onlyAdmin
 				}
@@ -256,7 +266,7 @@ export default new Router({
 	      name: 'paymentlist',
 	      component: paymentlist,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -264,7 +274,7 @@ export default new Router({
 	      name: 'cash',
 	      component: cash,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 	    },
 			{
@@ -272,7 +282,7 @@ export default new Router({
 	      name: 'customerledger',
 	      component: customerledger,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -280,7 +290,7 @@ export default new Router({
 	      name: 'supplierledger',
 	      component: supplierledger,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -288,7 +298,7 @@ export default new Router({
 	      name: 'customeroutstanding',
 	      component: customeroutstanding,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -296,7 +306,7 @@ export default new Router({
 	      name: 'supplieroutstanding',
 	      component: supplieroutstanding,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -313,7 +323,7 @@ export default new Router({
 	      name: 'purchasecancel',
 	      component: purchasecancel,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -321,7 +331,7 @@ export default new Router({
 	      name: 'salecancel',
 	      component: salecancel,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -329,7 +339,7 @@ export default new Router({
 	      name: 'collectioncancel',
 	      component: collectioncancel,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -337,7 +347,7 @@ export default new Router({
 	      name: 'paymentcancel',
 	      component: paymentcancel,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -345,7 +355,7 @@ export default new Router({
 	      name: 'collectionreport',
 	      component: collectionreport,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -353,7 +363,7 @@ export default new Router({
 	      name: 'paymentreport',
 	      component: paymentreport,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -361,7 +371,7 @@ export default new Router({
 	      name: 'currentstock',
 	      component: currentstock,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -369,7 +379,7 @@ export default new Router({
 	      name: 'membershiplist',
 	      component: membershiplist,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -377,7 +387,7 @@ export default new Router({
 	      name: 'bonusledger',
 	      component: bonusledger,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -385,7 +395,7 @@ export default new Router({
 	      name: 'usersetting',
 	      component: usersetting,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			{
@@ -393,7 +403,7 @@ export default new Router({
 	      name: 'discountreport',
 	      component: discountreport,
 				meta: {
-					allowed: onlyAdmin
+					allowed: adminAndEditor
 				}
 			},
 			

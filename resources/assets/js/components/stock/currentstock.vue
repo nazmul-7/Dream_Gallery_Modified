@@ -353,8 +353,10 @@
             {
                 if(this.filterGroup)
                 {
+                   console.log(this.search)   
                 return this.dataProduct.filter((data)=>{                    
                     return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+                  
                     && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
                     || data.model.toUpperCase().match(this.search.toUpperCase())
                     || data.color.toUpperCase().match(this.search.toUpperCase()) 
@@ -399,7 +401,8 @@
                 var tF=0
                 for (let d of this.searchData)
                 {
-                    tF=tF+d.currentStock
+                   // console.log(d)
+                    tF+=d.currentStock
 
                 }
                 return tF
@@ -455,7 +458,7 @@
             },
             async productAdd(){
                 this.loading=true
-                console.log(this.formValue)
+              //  console.log(this.formValue)
                 try{
                     let {data} =await  axios({
                         method: 'post',

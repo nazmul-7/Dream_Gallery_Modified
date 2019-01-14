@@ -8,16 +8,21 @@
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem label="Customer">
+                    <!-- <FormItem label="Customer">
                         <Select v-model="filtercustomer" placeholder="Select customer"  filterable clearable>
                                 <Option v-for="(customer,i) in dataCustomer" :value="customer.id" :key="i">{{ customer.customerName }}</Option>
                             </Select>
-                    </FormItem>
+                    </FormItem> -->
                     <FormItem label="Date">
                         <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
                     </FormItem>
                 </Form>
                 <Button  align="left" @click="showPrint">Print</Button>
+                <Row>
+                    <Col span="10" offset="15" >
+                        <h3>Total Collection Amount: {{totalCollectionPrice}} </h3>
+                    </Col>
+                </Row>
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
         </Row>
@@ -165,18 +170,19 @@
             
         },
         computed: {
+           
             searchData()
             {
-                if(this.filtercustomer)
+                if(this.filterSupplier)
                 {
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.customer_id.toString().match(this.filtercustomer) &&
+                    return data.supplier_id.toString().match(this.filterSupplier) &&
                     (
                     data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
-                    data.id.toString().match(this.search) ||
-                    data.totalPrice.toString().match(this.search) ||
-                    data.totalQuantity.toString().match(this.search)
+                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.paidAmount.toString().match(this.search) ||
+                     data.invoice_id.toString().match(this.search)
                     )
 
             
@@ -189,13 +195,26 @@
                     return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.id.toString().match(this.search) ||
-                     data.totalPrice.toString().match(this.search) ||
-                     data.totalQuantity.toString().match(this.search) 
+                     data.paidAmount.toString().match(this.search) ||
+                     data.invoice_id.toString().match(this.search)
         
                     }
                 );
 
                 }
+            },
+            totalCollectionPrice(){
+                let totalCollection=0;
+                let item;
+                console.log("filter Search item");
+                console.log(this.searchData);
+                for(let i = 0;i<this.searchData.length;i++){
+                   
+                    
+                    totalCollection+= parseInt(this.searchData[i].paidAmount,10);
+                }
+                return totalCollection;
+
             },
             rotateIcon () {
                 return [

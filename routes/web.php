@@ -18,6 +18,7 @@
 
 
 Route::get('/print','HomeController@print');
+Route::get('/test','HomeController@test');
 
 
 
@@ -90,7 +91,7 @@ Route::get('/app/getinvoice/{id}','InvoiceController@getInvoice');
 Route::get('/app/getInvoiceProducts/{id}','InvoiceController@getInvoiceProducts');
 Route::get('/app/getStock/{id}','StockController@getStock');
 Route::get('/app/payment/getOutstanding/{id}','PaymentController@getOutstanding');
-Route::get('/app/payment/getOutstandingCustomer/{id}','PaymentController@getOutstandingCustomer');
+Route::get('/app/payment/getOutstandingCustomer/{str}','PaymentController@getOutstandingCustomer');
 Route::get('/app/payment/getLedgerSupplier/{id}','PaymentController@getLedgerSupplier');
 Route::get('/app/payment/getLedgerCustomer/{id}','PaymentController@getLedgerCustomer');
 Route::post('/app/paymentSupplier','PaymentController@paymentSupplier');
@@ -132,6 +133,17 @@ Route::get('/logout', function () {
     
 });
 Auth::routes();
+
+
+// Custom Controller V2
+
+
+
+Route::get('/app/customerInfo/{key}','CustomController@searchCustomerInfo');
+Route::get('/app/customerInfoOnEnter/{key}','CustomController@searchCustomerInfoOnEnter');
+Route::get('/app/referencerInfo/{key}','CustomController@searchreferencerInfo');
+Route::get('/app/referencerInfoOnEnter/{key}','CustomController@searchreferencerInfoOnEnter');
 Route::any('{slug}', [
    'uses' => 'StatusController@index',
 ])->where('slug', '([A-z\d-\/_.]+)?')->middleware('auth');
+

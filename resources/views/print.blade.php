@@ -19,8 +19,9 @@
             };
 
 
-            @if(Auth::check())
-              window.authUser={!! Auth::user() !!}
+            @if(Auth::check()){
+               window.authUser={!! Auth::user() !!}
+            }
              @else
                 window.authUser=false
              @endif
