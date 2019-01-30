@@ -3,7 +3,7 @@
         <Row>
             <Col class="dream-input-main" span="10" offset="1">
                 <h2>Customer Cash Collection</h2>
-                <Table :columns="columns1" :data="dataPaymentCustomer"></Table>
+                <Table :columns="columns1" :data="dataPaymentCustomer"></Table> 
             </Col>
             <Col class="dream-input-main" span="10" offset="1">
                 <h2>Supplier Payment</h2>

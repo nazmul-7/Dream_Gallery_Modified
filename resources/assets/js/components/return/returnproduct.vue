@@ -10,7 +10,7 @@
                     </Col>
                     <Col class="dream-input-main" span="24">
                         <Row>
-                            <Col span="24" >
+                            <!-- <Col span="24" >
                                 <Card>
                                         <Row  :gutter="24">
                                             
@@ -21,7 +21,7 @@
                                             </Col>
                                         </Row>
                                 </Card>
-                            </Col>
+                            </Col> -->
                             <Col span="24">
                                 <Card>
                                     <p slot="title">Product List</p>
@@ -92,8 +92,12 @@
                                         </Button>
 
                                         <Button type="primary" size="large" :loading="sending" @click="makeReturn">
-                                            <span v-if="!loading">Exchange</span>
+                                            <span v-if="!loading">Return</span>
                                             <span v-else>Loading...</span>
+                                        </Button>
+                                        <Button type="primary" size="large"   @click="returnAll">
+                                            <span v-if="!loading">Return All</span>
+                                            
                                         </Button>
                                     </Col>
                                 </Card>
@@ -134,7 +138,7 @@
                                 </Form>
                             </Row>
                         </Col>
-                        <Col class="dream-input-main" span="22" offset="1">
+                        <!-- <Col class="dream-input-main" span="22" offset="1">
                             <Row> 
                                 <Form>
                                     <Col span="22" offset="1">
@@ -144,7 +148,7 @@
                                     </Col>
                                 </Form>
                             </Row>
-                        </Col>
+                        </Col> -->
                     </Row>
                 </Col>
 
@@ -379,7 +383,9 @@
             },
             showClear()
             {
+                this.clearData()
                 this.clearModel=true
+                
             },
             clearForm()
             {
@@ -394,9 +400,11 @@
             },
             clearData()
             {
+               
                 this.date=''
                 this.formValue.invoice_id=''
                 this.formValue.productDetails=[]
+                this.formValue.productDetailsInvoice=[]
                 this.formValue.productDetailsInvoice=[]
                 this.formValue.newProduct=[]
                 this.formValue.subTotal=0

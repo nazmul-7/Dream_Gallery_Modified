@@ -1,4 +1,7 @@
-
+@font-face {
+    font-family: lato;
+    src: url('public/Lato-Light.ttf');
+}
 .dream-input-main {
     background: #fff;
     padding: 23px;
@@ -122,7 +125,10 @@
     border-right: 1px solid;
     border-left: 1px solid;
     border-bottom: 1px solid;
+    border-top: 1px solid;
+    
 }
+
 .buyer_tables {
     padding: 55px 0 10px;
 }
@@ -188,12 +194,185 @@
     margin-right: 32px;
 }
 .Total_Sales_text_span{}
-.{}
-.{}
-.{}
-.{}
-.{}
-.{}
+.submits_form{
+    text-align: right;
+}
+.submits_button{}
+.submits_form_checkbox {
+    padding: 16px 0 13px;
+}
+.submits_form_checkbox label{
+    font-size: 16px;
+}
+.submits_form_all{
+    width: 200px;
+    text-align: left;
+    display: inline-block;
+}
+
+/*===== Memu css ======*/
+.memu p {
+    margin: 0px;
+    color: #000;
+}
+.dis{
+    display: flex;
+}
+.flex_space{
+    flex: 1 1;
+}
+.text_center{
+    text-align: center;
+}
+.b_color {
+    border-color: #444!important;
+}
+.text_right{
+    text-align: right;
+}
+.align{
+    align-items: center;
+}
+.print_all .ivu-modal-body {
+    padding: 16px 0px;
+}
+.memu {
+    margin: 0px auto;
+    padding: 0px 10px 0px;
+    margin: 20px 0 20px;
+    /* width: 288px; */
+    /* font-family: sans-serif; */
+    font-family: lato;;
+    background: #fff;
+}
+.memu_email {
+    padding: 21px 0;
+}
+.memu_Address{}
+.memu_text {
+    font-size: 12px;
+    padding: 0px 0;
+    line-height: 15px;
+}
+.memu_sold {
+    border-top: 1px dashed;
+    padding: 6px 6px;
+    margin-top: 12px;
+}
+.RETAIL:before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    border-bottom: 1px dashed;
+    left: 0;
+    top: 10px;
+    z-index: -1;
+}
+.RETAIL_sapn {
+    background: #fff;
+    z-index: 11;
+    padding: 0 7px;
+}
+.RETAIL {
+    position: relative;
+    font-size: 12px;
+    z-index: 1;
+}
+.memu_CUS_ADRESS {
+    padding: 10px 6px 12px;
+}
+.to_Enjoy {
+    padding: 5px 6px;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+}
+.memu_list {
+    padding: 5px 2px;
+}
+.memu_list_main {
+    padding: 0px 0px;
+}
+.memu_list_all {
+    padding: 00 4px;
+}
+.sl {
+    width: 25px;
+}
+.print_barcode {
+    width: 30mm;
+    text-align: center;
+    display: inline-block;
+    height: 20mm;
+}
+.barcode_main{
+    height: 20mm;
+}
+.barcode_main {
+    height: 20mm;
+    width: 113px;
+}
+.barcode_all{}
+.barcode_all canvas {
+    width: 113px;
+    height: 20mm;
+}
+.barcode_all .ivu-modal-body {
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 36px 0 6px;
+}
+.memu_list_title {
+    font-size: 12px;
+}
+.memu_list_num{
+    font-size: 13px;
+}
+.items{}
+.MRP {
+    width: 43px;
+}
+.QTy {
+    width: 27px;
+}
+.Total {
+    width: 43px;
+}
+.memu_total {
+    padding: 6px 6px;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+}
+.memu_total_main {
+    padding: 0px 0;
+}
+.memu_total_num {
+    width: 53px;
+}
+.CASH_total {
+    padding: 6px 6px;
+}
+.space{
+    padding: 0 6px;
+    height: 90px;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+}
+.spaceBerCode{
+    padding: 0 6px;
+    height: 160px;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+}
+.memu_thanks {
+    padding: 13px 15px;
+}
+.memu_thanks_text {
+    font-size: 12px;
+    line-height: 16px;
+}
+/*===== Memu css ======*/
+
 
 /*!
  * Bootstrap Grid v4.0.0 (https://getbootstrap.com)

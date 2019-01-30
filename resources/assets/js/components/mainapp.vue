@@ -73,6 +73,10 @@
                             <Icon type="ios-alert"></Icon>
                             <span>Return</span>              
                         </MenuItem>
+                        <MenuItem name="exchangeproduct" :to="handleGoToMenu('/exchangeproduct')">
+                            <Icon type="ios-alert"></Icon>
+                            <span>Exchange</span>              
+                        </MenuItem>
                         <MenuItem name="payment" :to="handleGoToMenu('/payment')">
                             <Icon type="ios-alert"></Icon>
                             <span>Payment</span>              
@@ -104,8 +108,8 @@
                             <Icon type="ios-navigate"></Icon>
                            Reports
                         </template>
-                        <MenuItem name="purchaselist" :to="handleGoToMenu('/purchaselist')">Purchase Report</MenuItem>
-                        <MenuItem name="selllist" :to="handleGoToMenu('/selllist')">Sales Report</MenuItem>
+                        <MenuItem name="purchasereport" :to="handleGoToMenu('/purchasereport')">Purchase Report</MenuItem>
+                        <MenuItem name="salesreport" :to="handleGoToMenu('/salesreport')">Sales Report</MenuItem>
                         <MenuItem name="paymentreport" :to="handleGoToMenu('/paymentreport')">
                         Payment Report            
                         </MenuItem>
@@ -179,8 +183,8 @@
                                     <Icon type="ios-albums"></Icon>
                                     Others Report
                                 </template>
-                                <MenuItem name="grossprofit" :to="handleGoToMenu('/grossprofit')">Gross Profit</MenuItem>
-                                <MenuItem name="netprofit" :to="handleGoToMenu('/netprofit')">Net Profit</MenuItem>
+                                <MenuItem  v-if="authUser.userType=='Admin'" name="grossprofit" :to="handleGoToMenu('/grossprofit')">Gross Profit</MenuItem>
+                                <MenuItem  v-if="authUser.userType=='Admin'" name="netprofit" :to="handleGoToMenu('/netprofit')">Net Profit</MenuItem>
                                 <MenuItem name="supplieroutstanding" :to="handleGoToMenu('/supplieroutstanding')">Supplier Outstanding</MenuItem>
                                 <MenuItem name="customeroutstanding" :to="handleGoToMenu('/customeroutstanding')">Customer Outstanding</MenuItem>
                                 <MenuItem name="discountreport" :to="handleGoToMenu('/discountreport')">Discount Report</MenuItem>
@@ -194,7 +198,7 @@
                            User
                         </template>
                         <MenuItem v-if="authUser.userType=='Admin'" name="newuser" :to="handleGoToMenu('/newuser')">New User</MenuItem>
-                        <MenuItem name="usersetting" :to="handleGoToMenu('/usersetting')">{{(authUser.userType=='Admin')?'User Settings':'Password Reset'}}</MenuItem>
+                        <MenuItem name="changepassword" :to="handleGoToMenu('/changepassword')">Change Password</MenuItem>
 
                     </Submenu>                                          
                     <!-- <MenuItem name="setting" :to="handleGoToMenu('/setting')">

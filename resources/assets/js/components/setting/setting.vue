@@ -63,9 +63,9 @@
                     </Row>
                 </Form>
             </Col>
-            <!-- <Col span="10" offset="1">
+            <Col span="10" offset="1">
                 <Row>
-                    <Col span="24" class="dream-input-main" >
+                    <!-- <Col span="24" class="dream-input-main" >
                         <Upload
                             ref="upload"
                             type="drag"
@@ -88,7 +88,7 @@
                                 <img :src="`/uploads/${logo}`" v-if="logo">
                             </div>
                         </Card>
-                    </Col>
+                    </Col> -->
                     <Col span="24" class="dream-input-main" v-if="formValue.companyName==null">
                             <Button type="success" :loading="loading" @click="newSetup">
                                 <span v-if="!loading">Setup Store</span>
@@ -96,7 +96,7 @@
                             </Button>
                     </Col>
                 </Row>
-            </Col> -->
+            </Col>
 
         </Row>
 

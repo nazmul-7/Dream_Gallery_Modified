@@ -143,7 +143,8 @@ class ReportController extends Controller
                 ->with('invoice')
                 ->where('type','discount')
                 ->where('paymentFor','customer')
-                ->whereNotIn('uid',[1])
+                
+              //  ->whereNotIn('uid',[1])
                 ->get();
             return $data;
 

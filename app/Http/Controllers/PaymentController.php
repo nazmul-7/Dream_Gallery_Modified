@@ -11,7 +11,7 @@ use App\Selling;
 use App\Customer;
 use App\Bonus;
 use Auth;
-class PaymentController extends Controller
+class PaymentController extends Controller 
 {
     public function getOutstanding($id)
     {
@@ -96,8 +96,7 @@ class PaymentController extends Controller
        ],200);
     }
     
-    public function paymentSupplier(Request $request)
-    {
+    public function paymentSupplier(Request $request){
         $admin_id=Auth::user()->id;
         $input=$request->all();
         // create invoice 

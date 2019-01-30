@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB; 
 use Illuminate\Http\Request;
 use App\Product;
 use App\Purchase;
+use App\Payment;
 use App\Invoice;
 use App\Paymentsheet;
 use App\Selling;
@@ -26,6 +27,7 @@ class PurchaseController extends Controller
         $data=Invoice::where('type','purchase')
         ->whereBetween('date', array($from, $to))
         ->with('admin')
+        ->with('purchase.product')
         ->with('supplier')
         ->orderBy('id', 'desc')->get();
         return $data;
@@ -64,7 +66,7 @@ class PurchaseController extends Controller
         if(!$input['supplier_id'])
         {
             $input['supplier_id']=1;
-            $input['totalPrice']=$input['totalPrice']*-1;
+            $input['totalPrice']=$input['totalPrice'];
             
         }
         
@@ -81,13 +83,38 @@ class PurchaseController extends Controller
         ]);
         if($input['supplier_id']==1)
         {
+            
+            // create invoice 
+            $payment=Payment::create([
+                'admin_id' => $admin_id,
+                'uid' => $input['supplier_id'],
+                'type' => 'outgoing',
+                'paidAmount' => $input['totalPrice'],
+                'date' => $input['date'],
+            ]);
+
+
+            // $paymentSheet=Paymentsheet::create([
+            //     'admin_id' => $admin_id,
+            //     'invoice_id' => 0,// 0 if its payment or voucher
+            //     'payment_id' => $invoice->id,
+            //     'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+            //     'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+            //     'uid' => $input['supplier_id'],
+            //     'amount' => $input['paidAmount']* -1,
+            //     'paymentMethod' => 'cash',
+            //     'date' => $input['date'],
+            //     'remarks' => 'Pay to Supplier',
+            // ]);
+
+
             $paymentSheet=Paymentsheet::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,
                 'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'supplier',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['supplier_id'],
-                'amount' => $input['totalPrice'],
+                'amount' => $input['totalPrice']* -1,
                 'paymentMethod' => 'cash',
                 'remarks' => 'Purchased From Cash',
                 'date' => $input['date'],

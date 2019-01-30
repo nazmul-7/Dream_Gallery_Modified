@@ -98,7 +98,7 @@
                         title: 'Name',
                         key: 'groupName'
                     },
-                                        {
+                     {
                         title: 'Discount (%)',
                         key: 'discount'
                     },

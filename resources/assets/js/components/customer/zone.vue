@@ -30,6 +30,11 @@
                         <Input type="text" placeholder="Zone Name" 
                         v-model="editObj.zoneName" @on-enter="edit"></Input>
                     </FormItem>
+                    <FormItem >
+                    <InputNumber  placeholder="Delivery" :max="100" :min="0" :formatter="value => `${value}`"
+            :parser="value => value.replace('', '')"
+                    v-model="editObj.delivery" @on-enter="edit"></InputNumber>
+                </FormItem>
                 </Col>
             </Form>
 
@@ -78,6 +83,7 @@
                 UpdateValue: {
                     indexNumber:null,
                     zoneName:'',
+                     delivery:'',
                     id:null,
                     
                 },
@@ -85,6 +91,10 @@
                     {
                         title: 'Name',
                         key: 'zoneName'
+                    },
+                    {
+                        title: 'Delivery Charge',
+                        key: 'delivery'
                     },
                     {   
                         title: 'Action',
@@ -181,9 +191,11 @@
             },
             showEdit (index) {
                 this.editObj.id=this.data1[index].id
+                this.editObj.delivery=this.data1[index].delivery
                 this.editObj.zoneName=this.data1[index].zoneName
                 this.UpdateValue.zoneName=this.data1[index].zoneName
                 this.UpdateValue.indexNumber=index
+                
                 this.editModal=true
             },
             showRemove (index) {
@@ -201,6 +213,7 @@
                         data: this.editObj
                     })
                     this.data1[this.UpdateValue.indexNumber].zoneName=this.editObj.zoneName
+                     this.data1[this.UpdateValue.indexNumber].discount=this.editObj.discount
                     this.s('Great!','Zone information has been updated successfully!')
                     
                     this.sending=false

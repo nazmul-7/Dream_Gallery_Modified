@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Product;
 use App\Purchase;
 use App\Payment;
@@ -75,6 +76,9 @@ class SellingController extends Controller
      */
     public function store(Request $request)
     {
+
+        Log::debug('An informational message.');
+        Log::debug($request);
         $admin_id=Auth::user()->id;
         $setting=Setting::first();
         $input=$request->all();
@@ -173,7 +177,7 @@ class SellingController extends Controller
                     'uid' => $input['customer_id'],
                     'amount' => $paidAmount,
                     'paymentMethod' => 'cash',
-                    'remarks' => 'Advance Cash on Sale To Customer',
+                    'remarks' => 'Advance Cash on Sale To Customer', 
                     'date' => $input['date'],
                 ]);
     
@@ -187,7 +191,7 @@ class SellingController extends Controller
                 'type' => 'discount',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
                 'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
                 'uid' => $input['customer_id'],
-                'amount' => ($input['total']*$input['discount']/100)*-1,
+                'amount' => ($input['subTotal']*$input['discount']/100)*-1,
                 'paymentMethod' => 'cash',
                 'remarks' => 'Discount To Customer',
                 'date' => $input['date'],

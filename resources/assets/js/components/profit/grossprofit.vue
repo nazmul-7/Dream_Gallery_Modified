@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Button @click="test()">Test filter</Button>
+            
             <Col class="dream-input-main" span="22" offset="1">
             <Form ref="formInline" inline>
                 <FormItem label="Search">
@@ -10,15 +10,13 @@
                     </Input>
                 </FormItem>
                 <FormItem label="Product">
-                    <Select v-model="filterProduct" placeholder="Select Product" style="width:200px" filterable clearable >
-                        <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i" >{{ product.productName }}</Option>
-                    </Select>
+                    <Input class="dropbtn" v-model="filterProduct" placeholder="Search Product" style="width:200px"     />
                 </FormItem>
-                <FormItem label="Customer">
+                <!-- <FormItem label="Customer">
                     <Select v-model="filterCustomer" placeholder="Select Customer" filterable clearable>
                         <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
                     </Select>
-                </FormItem>
+                </FormItem> -->
                 <FormItem label="Zone">
                     <Select v-model="filterZone" placeholder="Select Zone" filterable clearable>
                         <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
@@ -65,7 +63,7 @@
                     <!-- new table -->
             <div class="buyer_tables">
                     <!-- items -->
-                <div class="buyer_tables_all" v-if="dataInvoice.length" v-for="(item,index) in dataInvoice" :key="index" >
+                <div class="buyer_tables_all" v-if="searchData.length" v-for="(item,index) in searchData" :key="index" >
                     <div class="buyer_tables_all_name_all dis">
                         <p class="buyer_tables_all_title">Buyer Name</p>
                         <p class="buyer_tables_all_name"> {{item.customerName}}</p>
@@ -74,6 +72,10 @@
                     <div class="buyer_tables_all_name_all dis">
                         <p class="buyer_tables_all_title">Invoice No</p>
                         <p class="buyer_tables_all_name"> {{item.invoice_id}}</p>
+                    </div>
+                    <div class="buyer_tables_all_name_all dis">
+                        <p class="buyer_tables_all_title">Date</p>
+                        <p class="buyer_tables_all_name"> {{item.date}}</p>
                     </div>
 
                     <div class="buyer_tables_main">
@@ -158,7 +160,7 @@
                             </div>
 
                              <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalPercent}}</span></p>
+                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ totalProfitPercent(item.selling)}}</span></p>
                              </div>
                         </div>
                             <!-- Total Sales -->
@@ -170,7 +172,7 @@
 
 
 
-            <Row>
+            <!-- <Row>
                 <Col span="11">
                 <Button align="left" @click="showPrint">Print</Button>
                 </Col>
@@ -178,7 +180,7 @@
                 <h3>Total Sales: {{totalSale}} | Total Cost: {{totalCost}} | Total Profit: {{totalProfit}}</h3>
                 </Col>
             </Row>
-            <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table>
+            <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table> -->
             </Col>
         </Row>
 
@@ -293,6 +295,7 @@
 </template>
 
 <script>
+
     export default {
         data() {
             return {
@@ -454,10 +457,12 @@
             },
             totalPercent(selling){
                 let p = 0 
-                for(let d of selling){
-                    p += parseFloat((((d.product.sellingPrice-d.product.averageBuyingPrice)*100)/d.product.averageBuyingPrice).toFixed(2))
-                }
-                return p
+                // for(let d of selling){
+                //     p += parseFloat((((d.product.sellingPrice-d.product.averageBuyingPrice)*100)/d.product.averageBuyingPrice).toFixed(2))
+                // productItem.product.sellingPrice-productItem.product.averageBuyingPrice)*100)/productItem.product.averageBuyingPrice).toFixed(2)
+                // }
+             //   p= this.$options.filters.totalProfit(selling)-this.$options.filters.totalCost(selling);
+                return 0;
                 
           
             }
@@ -503,12 +508,14 @@
                 return tF
 
             },
+           
             searchData() {
                 if (this.filterCustomer && this.filterZone) {
                     return this.dataInvoice.filter((data) => {
                         return (data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
                                 data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase())) &&
                             (
+                                data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.id.toString().match(this.search) ||
@@ -519,26 +526,39 @@
                             )
                     });
 
-                } else if (this.filterCustomer) {
-                    return this.dataInvoice.filter((data) => {
-                        return data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
-                            (
-                                data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                                data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
-                                data.id.toString().match(this.search) ||
-                                data.totalPrice.toString().match(this.search) ||
-                                data.totalQuantity.toString().match(this.search) ||
-                                data.discount.toString().match(this.search) ||
-                                data.paidAmount.toString().match(this.search)
-                            )
-
+                } else if (this.filterProduct) {
+                      let newData =  this.dataInvoice.filter((data) => {
+                        return data.adminName.toUpperCase().match(this.filterProduct.toUpperCase()) ||
+                            data.customerName.toUpperCase().match(this.filterProduct.toUpperCase()) ||
+                             data.invoice_id.toUpperCase().match(this.filterProduct.toUpperCase()) ||
+                            
+                            data.id.toString().match(this.filterProduct) ||
+                            data.totalPrice.toString().match(this.filterProduct) ||
+                            data.totalQuantity.toString().match(this.filterProduct) ||
+                            data.discount.toString().match(this.filterProduct) ||
+                            data.paidAmount.toString().match(this.filterProduct)
+                             || data.selling.some((p)=>{
+                                 return p.product.productName.toUpperCase().match(this.filterProduct.toUpperCase())
+                            })
 
                     });
+                    for(let i in newData){
+                        for(let j in newData[i].selling){
+                            let name = newData[i].selling[j].product.productName
+                            if(!name.toUpperCase().match(this.filterProduct.toUpperCase())){
+                                newData[i].selling.splice(j,1)
+                            }
+                        }
+                        
+                    }
+                   
+                    return newData
 
                 } else if (this.filterZone) {
                     return this.dataInvoice.filter((data) => {
                         return data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) &&
                             (
+                                data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.id.toString().match(this.search) ||
@@ -549,25 +569,33 @@
                             )
                     });
 
-                }else if(this.filterProduct){
-                    let id = this.filterProduct
-                    return this.dataInvoice.filter(function(el) {
-                        return el.selling.some(function(s) {
-                            return s.product_id === id
-                        })
-                    });
-                } 
+                }
+                // else if(this.filterProduct){
+                //     let id = this.filterProduct
+                //     return this.dataInvoice.filter(function(el) {
+                //         return el.selling.some(function(s) {
+                //             return s.product_id === id
+                //         })
+                //     });
+                // } 
                 else {
-                    return this.dataInvoice.filter((data) => {
+                    return  this.dataInvoice.filter((data) => {
                         return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                             data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                             data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
+                            
                             data.id.toString().match(this.search) ||
                             data.totalPrice.toString().match(this.search) ||
                             data.totalQuantity.toString().match(this.search) ||
                             data.discount.toString().match(this.search) ||
                             data.paidAmount.toString().match(this.search)
+                             || data.selling.some((p)=>{
+                                 return p.product.productName.toUpperCase().match(this.search.toUpperCase())
+                            })
 
                     });
+                  
+                    
 
                 }
             },
@@ -602,6 +630,13 @@
 
         },
         methods: {
+             totalProfitPercent(selling){
+
+                return ((((this.$options.filters.totalSalesPrice(selling)-this.$options.filters.totalCost(selling))*100)/(this.$options.filters.totalCost(selling)))).toFixed(2);
+              //  return (this.$options.filters.totalSalesPrice(selling)-this.$options.filters.totalCost(selling)*100)
+              //  return (this.$options.filters.totalSalesPrice(selling)-this.$options.filters.totalCost(selling))
+               
+            },
             async rowSelect(k) {
                 this.viewModal = true
                 this.viewInvoice = k

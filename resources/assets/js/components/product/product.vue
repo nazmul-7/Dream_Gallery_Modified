@@ -220,20 +220,25 @@
         </div>
     </Modal>
 
-    <Modal v-model="barcodeModal" width="600">
-        <p slot="header" style="color:#19be6b;text-align:center">
-            <span>Barcode </span>
-        </p>
-        <div style="text-align:center">
-            <barcode v-bind:value="UpdateValue.barCode">
-                Sorry Cant Load now
-            </barcode>
-        </div>
-        <div slot="footer">
-            <Button type="success" size="large" long :loading="sending" @click="barcodeModal=false">
-                <span v-if="!loading">Close</span>
-                <span v-else>Loading...</span>
-            </Button>
+    <Modal class="barcode_all" v-model="barcodeModal" width="600">
+        <div class="print_barcode">
+            <p slot="header" style="color:#19be6b;text-align:center">
+                <span>Barcode </span>
+            </p>
+            
+            <div class="print barcode_main">
+                <div style="text-align:center">
+                    <barcode v-bind:value="UpdateValue.barCode" >
+                        Sorry Cant Load now
+                    </barcode>
+                </div>
+            </div>
+            <!-- <div slot="footer">
+                <Button type="success" size="large" long :loading="sending" @click="barcodeModal=true">
+                    <span v-if="!loading">Close</span>
+                    <span v-else>Loading...</span>
+                </Button>
+            </div> -->
         </div>
     </Modal>
 

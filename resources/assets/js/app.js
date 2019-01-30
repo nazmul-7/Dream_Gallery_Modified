@@ -29,13 +29,17 @@ window._ = require('lodash');
 require('es6-promise').polyfill();
 require('es6-object-assign').polyfill();
  Vue.component(VueBarcode.name, VueBarcode);
-
+//  JsBarcode("#barcode", "Smallest width", {
+//     height: 25,
+//     displayValue: false,
+// });
 // common methods 
 
 
 /*custom common methods*/
 import common from './common';
 Vue.mixin(common);
+
 
 let userType = window.authUser.userType
 
@@ -57,6 +61,8 @@ router.beforeEach((to, from, next) => {
   });
 
 
+
+
 Vue.component('mainapp', require('./components/mainapp.vue'));
 Vue.component('printapp', require('./components/printapp.vue'));
 import router from './router'
@@ -64,5 +70,6 @@ const app = new Vue({
     el: '#app',
     router,
    store: store,
+  
 });
 

@@ -18,11 +18,12 @@ import stock from './components/stock/stock.vue'
 import paytosupplier from './components/payment/paytosupplier.vue'
 import collection from './components/payment/cashcollection.vue'
 import returnproduct from './components/return/returnproduct.vue'
+import exchangeproduct from './components/return/exchange.vue'
 import order from './components/order/order.vue'
 //reports
-import selllist from './components/sell/selllist.vue'
+import salesreport from './components/sell/salesreport.vue'
 import itemselling from './components/sell/itemselling.vue'
-import purchaselist from './components/purchase/purchaselist.vue'
+import purchasereport from './components/purchase/purchasereport.vue'
 import purchaseitemlist from './components/purchase/purchaseitemlist.vue'
 import grossprofit from './components/profit/grossprofit.vue'
 import netprofit from './components/profit/netprofit.vue'
@@ -33,7 +34,7 @@ import supplierledger from './components/ledgers/supplier.vue'
 import customeroutstanding from './components/due/customeroutstanding.vue'
 import supplieroutstanding from './components/due/supplieroutstanding.vue'
 import newuser from './components/admin/newuser.vue'
-import usersetting from './components/admin/usersetting.vue'
+import changepassword from './components/admin/changepassword.vue'
 import collectionreport from './components/reports/collectionreport.vue'
 import paymentreport from './components/reports/paymentreport.vue'
 import discountreport from './components/discount/discountreport.vue'
@@ -45,6 +46,10 @@ import paymentcancel from './components/cancel/paymentcancel.vue'
 import currentstock from './components/stock/currentstock.vue'
 import membershiplist from './components/membership/membershiplist.vue'
 import bonusledger from './components/membership/bonusledger.vue'
+// test
+import pagination from './components/pagination.vue'
+
+
 
 let onlyAdmin = ['Admin']
 let adminAndEditor = ['Admin','Editor']
@@ -70,6 +75,16 @@ export default new Router({
 	      path: '/',
 	      name: 'home',
 				component: home,
+				meta: {
+					allowed: adminAndEditor
+				}
+				
+
+	    },
+	    {
+	      path: '/pagination',
+	      name: 'pagination',
+				component: pagination,
 				meta: {
 					allowed: adminAndEditor
 				}
@@ -206,6 +221,14 @@ export default new Router({
 				}
 			},
 			{
+	      path: '/exchangeproduct',
+	      name: 'exchangeproduct',
+	      component: exchangeproduct,
+				meta: {
+					allowed: adminAndEditor
+				}
+			},
+			{
 	      path: '/order',
 	      name: 'order',
 	      component: order,
@@ -214,9 +237,9 @@ export default new Router({
 				}
 			},
 			{
-	      path: '/selllist',
-	      name: 'selllist',
-	      component: selllist,
+	      path: '/salesreport',
+	      name: 'salesreport',
+	      component: salesreport,
 				meta: {
 					allowed: adminAndEditor
 				}
@@ -230,9 +253,9 @@ export default new Router({
 				}
 			},
 			{
-	      path: '/purchaselist',
-	      name: 'purchaselist',
-	      component: purchaselist,
+	      path: '/purchasereport',
+	      name: 'purchasereport',
+	      component: purchasereport,
 				meta: {
 					allowed: adminAndEditor
 				}
@@ -391,9 +414,9 @@ export default new Router({
 				}
 			},
 			{
-	      path: '/usersetting',
-	      name: 'usersetting',
-	      component: usersetting,
+	      path: '/changepassword',
+	      name: 'changepassword',
+	      component: changepassword,
 				meta: {
 					allowed: adminAndEditor
 				}

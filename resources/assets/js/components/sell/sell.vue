@@ -1,266 +1,439 @@
 <template>
-    <div>
-        <Row>
-            <Col class="dream-input-main" span="14" offset="1">
-                
-                <Col span="24" >
-                    <Card>
-                        <p>Product Code</p>
-                            <Row>
-                                <Col span="17">
-                                    <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                                    v-model="formValue.barCode"></Input>  
-                                </Col>
-                                <Col span="5" offset="1">
-                                    <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
-                                </Col>
-                            </Row>
-                    </Card>
-                </Col>
-            <Col span="24">
-                <Card>
-                    <p slot="title">Product List</p>
-                    <table style="width:100%" ref="printTable">
-                        <tr>
-                            <th>Name</th>
-                            <th>Model</th>
-                            <th>Color</th> 
-                            <th>Size</th>
-                            <th>Unit Price</th>
-                            <th>Stock</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
-
-                        </tr>
-                        <tr v-for="(data,i) in formValue.productDetails" :key="i">
-                            <td >{{data.productName}}</td>
-                            <td >{{data.model}}</td>
-                            <td >{{data.color}}</td>
-                            <td>{{data.size}}</td>
-                            <td>{{data.sellingPrice}} <Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag></td>
-                            <td>{{data.stock}}</td>
-                            <td><InputNumber  :min="1" :max="data.stock" v-model="data.quantity" @on-change="quantityChange" ></InputNumber></td>
-                            <td><InputNumber  v-model="data.discountedPrice*data.quantity" disabled></InputNumber></td>
-                            <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
-
-                        </tr>
-
-                        <tr style="background-color: #e9eaec;" >
-                            <td colspan="6" style="text-align:right;">Sub Total </td>
-                            <td >{{totalQuantity}}</td>
-                            <td  colspan="2">{{totalPrice}}</td>
-                            
-                        </tr>
-                        <tr >
-                            <td colspan="7" style="text-align:right">Discount %(-)</td>
-                            <td  colspan="2"><InputNumber   :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber ></td>
-                        </tr>
-                        <tr >
-                            <td colspan="7" style="text-align:right">Net Payable</td>
-                            <td  colspan="2"><InputNumber   :min="0" :max="parseInt(formValue.subTotal)" @on-change="total" v-model="formValue.total"></InputNumber ></td>
-                        </tr>
-                        <tr >
-                            <td colspan="7" style="text-align:right">Paid Amount</td>
-                            <td  colspan="2"><InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"  @on-change="paidAmountChange"></InputNumber></td>
-                        </tr>
-                        <tr >
-                            <td colspan="7" style="text-align:right">Cash Paid</td>
-                            <td  colspan="2"><InputNumber  :min="parseInt(formValue.paidAmount)"  v-model="formValue.cashPaid"></InputNumber></td>
-                        </tr>
-                        <tr >
-                            <td colspan="7" style="text-align:right">Change Amount</td>
-                            <td  colspan="2">{{ changeAmount }}</td>
-                        </tr>
-
-                    </table>
-                </Card>
-                </Col>
-
-                <Col span="4"  offset="20">
-                    <Button type="error" size="large"  @click="clearForm">
-                        Clear
-                    </Button>
-
-                    <Button type="primary" size="large" :loading="sending" @click="makeSell">
-                        <span v-if="!loading">Confirm Sale</span>
-                        <span v-else>Loading...</span>
-                    </Button>
-                </Col>
-
-            </Col>
-            <Col class="dream-input-main" span="7" offset="1">
-                <Row> 
-                    <Form>
-                        <Col span="22" offset="1">
-                            <FormItem label="Customer">
-                                <!-- <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
-                                    <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
-                                        <span>{{customer.customerName}}</span>
-                                        <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
-                                </Option>
-                                </Select>  @on-change="changedCustomer"--> 
-                                <div class="dropdown">
-                                    <Input class="dropbtn" v-model="tempCustomerInof" placeholder="Customer" @on-keyup="changedCustomerV2"      />
-                                    <div class="dropdown-content">
-                                        <a v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i" @click="changedCustomer(customer)"  >
-                                            <span>{{customer.customerName}}</span>
-                                            <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
-                                        </a>
-                                        
-                                        
-                                  </div>
-                                </div>
-
-                            </FormItem>
-                        </Col>
-                        <Col span="11" offset="1" v-if="currentCustomer.status" >
-                            <FormItem label="Total Bonus Amount">
-                                <br/>
-                                <InputNumber   v-model="currentCustomer.bonusAmount" disabled></InputNumber >
-                            </FormItem>
-                        </Col>
-                        <Col span="11" offset="1" v-if="currentCustomer.status">
-                            <FormItem label="Useing Bonus Amount">
-                                <br/>
-                                <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.totalTotal))" @on-change="discount" ></InputNumber >
-                            </FormItem>
-                        </Col>
-
-                        <Col span="22" offset="1">
-                            <FormItem label="Reference">
-                                <!-- <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable clearable>
-                                    <Option v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i">
-                                        <span>{{customer.customerName}}</span>
-                                        <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
-                                    </Option>
-                                </Select> -->
-                                <div class="dropdown">
-                                    <Input class="dropbtn" v-model="tempReferencerInfo" placeholder="Number" @on-keyup="changedReferenceV2"      />
-                                    <div class="dropdown-content">
-                                        <a v-for="(customer,i) in flterReferencerList" :value="customer.id"  :key="i" @click="changedReference(customer)"  >
-                                            <span>{{customer.customerName}}</span>
-                                            <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
-                                        </a>
-                                        
-                                        
-                                  </div>
-                                </div>
-                            </FormItem>
-                        </Col>
-                    </Form>
-                    <Col v-if="currentCustomer.customerName" span="24">
-                        <h3>Customer Info</h3>
-                        <p><b>Name:</b> {{currentCustomer.customerName}}</p>
-                        <p><b>Number:</b> {{currentCustomer.number}}</p>
-                        <p><b>Email:</b> {{currentCustomer.email}}</p>
-                        <p><b>Address:</b> {{currentCustomer.address}}</p>
-                        <p><b>Outstanding:</b> {{currentCustomer.outStanding}}</p>
-                        
-                    </Col>
-
-                    <Col v-if="currentReferenceInfo.customerName" span="24" >
-                         <hr/>
-                    </Col>
-
-
-                   
-
-                    <Col v-if="currentReferenceInfo.customerName" span="24"  >
-                        <h3>Referencer Info</h3>
-                        <p><b>Name:</b> {{currentReferenceInfo.customerName}}</p>
-                        <p><b>Number:</b> {{currentReferenceInfo.number}}</p>
-                        <p><b>Email:</b> {{currentReferenceInfo.email}}</p>
-                        <p><b>BarCode:</b> {{currentReferenceInfo.barcode}}</p>
-                        <p><b>Address:</b> {{currentReferenceInfo.address}}</p>
-                        <p><b>Outstanding:</b> {{currentReferenceInfo.outStanding}}</p>
-                    </Col>
-                    
-                </Row>
-            </Col>
-        </Row>        
-        <Modal v-model="editModal"  :styles="{top: '5px', width:'110mm'}" >
-            <div  class="print">
-                <h2 style="text-align:center">{{ shopData.companyName }}</h2>
-                <p style="text-align:center"> 
-                    {{ shopData.address }}</br>
-                    world_first@yahoo.com</br>
-                    {{ shopData.contact }}</br>
-                </p>
-                <hr/>
-                <p> 
-                    Sold by Bokor Talukder</br>
-                    Invoice ID: INV1000002</br>
-                    Date: 25/01/2018 13:22</br>
-                </p>
-                
-                    <div id="table">
-                        <table>
-                            <tr class="tabletitle">
-                                <td class="item"><h2>SL</h2></td>
-                                <td class="item"><h2>Item</h2></td>
-                                <td class="Hours"><h2>Qty</h2></td>
-                                <td class="Rate"><h2>Sub Total</h2></td>
-                            </tr>
-
-                            <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
-                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
-                                <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
-                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
-                                <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
-                            </tr>
-
-                        
-
-
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Sub-total</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.totalTotal }}</h2></td>
-                            </tr>
-
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Discount %(-)</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.discount}}</h2></td>
-                            </tr>
-                            <tr class="tabletitleDown">
-                                <td></td>
-                                <td class="Rate"><h2>Total</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.total }}</h2></td>
-                            </tr>
-                            </hr>
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Cash Paid</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.cashPaid }}</h2></td>
-                            </tr>
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Cash Change</h2></td>
-                                <td></td>
-                                 <td class="payment"><h2>{{ formValue.cashPaid-formValue.paidAmount }}</h2></td>
-                            </tr>
-                        </table>
-                    </div><!--End Table-->
-                    <p class="legal"> 
-                        {{ shopData.invoiceNote }}
-                    </p>
-                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+   <div>
+      <Row>
+         <Col class="dream-input-main" span="14" offset="1">
+         <Col span="24" >
+         <Card>
+            <p>Product Code</p>
+            <Row>
+               <Col span="17">
+               <Input type="text" placeholder="Barcode" @on-enter="setData" 
+                  v-model="formValue.barCode"></Input>  
+               </Col>
+               <Col span="5" offset="1">
+               <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+               </Col>
+            </Row>
+         </Card>
+         </Col>
+         <Col span="24">
+         <Card>
+            <p slot="title">Product List</p>
+            <table style="width:100%" ref="printTable">
+               <tr>
+                  <th>Name</th>
+                  <th>Model</th>
+                  <th>Color</th>
+                  <th>Size</th>
+                  <th>Unit Price</th>
+                  <th>Stock</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                  <th>Action</th>
+               </tr>
+               <tr v-for="(data,i) in formValue.productDetails" :key="i">
+                  <td >{{data.productName}}</td>
+                  <td >{{data.model}}</td>
+                  <td >{{data.color}}</td>
+                  <td>{{data.size}}</td>
+                  <td>
+                     {{data.sellingPrice}} 
+                     <Tag  color="red" v-if="data.discount" type="border">-{{data.discount}}%</Tag>
+                  </td>
+                  <td>{{data.stock}}</td>
+                  <td>
+                     <InputNumber  :min="1" :max="data.stock" v-model="data.quantity" @on-change="quantityChange" ></InputNumber>
+                  </td>
+                  <td>
+                     <InputNumber  v-model="data.discountedPrice*data.quantity" disabled></InputNumber>
+                  </td>
+                  <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
+               </tr>
+               <tr style="background-color: #e9eaec;" >
+                  <td colspan="6" style="text-align:right;">Sub Total </td>
+                  <td >{{totalQuantity}}</td>
+                  <td  colspan="2">{{totalPrice}}</td>
+               </tr>
+               <tr >
+                  <td colspan="7" style="text-align:right">Discount %(-)</td>
+                  <td  colspan="2">
+                     <InputNumber   :min="0" :max="100" @on-change="discount" v-model="formValue.discount"></InputNumber >
+                  </td>
+               </tr>
+               <tr >
+                  <td colspan="7" style="text-align:right">Net Payable</td>
+                  <td  colspan="2">
+                     <InputNumber   :min="0" :max="parseInt(formValue.subTotal)" @on-change="total" v-model="formValue.total"></InputNumber >
+                  </td>
+               </tr>
+               <tr >
+                  <td colspan="7" style="text-align:right">Paid Amount</td>
+                  <td  colspan="2">
+                     <InputNumber  :min="0" :max="parseInt(formValue.total)"  v-model="formValue.paidAmount"  @on-change="paidAmountChange"></InputNumber>
+                  </td>
+               </tr>
+               <tr >
+                  <td colspan="7" style="text-align:right">Cash Paid</td>
+                  <td  colspan="2">
+                     <InputNumber  :min="parseInt(formValue.paidAmount)"  v-model="formValue.cashPaid"></InputNumber>
+                  </td>
+               </tr>
+               <tr >
+                  <td colspan="7" style="text-align:right">Change Amount</td>
+                  <td  colspan="2">{{ changeAmount }}</td>
+               </tr>
+            </table>
+         </Card>
+         </Col>
+         <div class="submits_form">
+            <div class="submits_form_all">
+               <div class="submits_form_checkbox">
+                  <input type="checkbox" id="checkbox" v-model="homeDelivery">
+                  <label for="homeDelivery">Home Delivery</label>
+               </div>
+               <div class="submits_button">
+                  <Button type="error" size="large"  @click="clearForm">
+                  Clear
+                  </Button>
+                  <Button type="primary" size="large" :loading="sending" @click="makeSell">
+                  <span v-if="!loading">Confirm Sale</span>
+                  <span v-else>Loading...</span>
+                  </Button>
+               </div>
             </div>
-            <div slot="footer">
-                    <Button type="primary" size="large"  @click="clearForm">
-                        <span>Clear and Exit</span>
-                    </Button>
-                
+         </div>
+         </Col>
+         <Col class="dream-input-main" span="7" offset="1">
+         <Row>
+            <Form>
+               <Col span="22" offset="1">
+               <FormItem label="Customer">
+                  <!-- <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
+                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
+                         <span>{{customer.customerName}}</span>
+                         <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                     </Option>
+                     </Select>  @on-change="changedCustomer"--> 
+                  <div class="dropdown">
+                     <Input class="dropbtn" v-model="tempCustomerInof" placeholder="Customer" @on-keyup="changedCustomerV2"      />
+                     <div class="dropdown-content">
+                        <a v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i" @click="changedCustomer(customer)"  >
+                        <span>{{customer.customerName}}</span>
+                        <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                        </a>
+                     </div>
+                  </div>
+               </FormItem>
+               </Col>
+               <Col span="11" offset="1" v-if="currentCustomer.status" >
+               <FormItem label="Total Bonus Amount">
+                  <br/>
+                  <InputNumber   v-model="currentCustomer.bonusAmount" disabled></InputNumber >
+               </FormItem>
+               </Col>
+               <Col span="11" offset="1" v-if="currentCustomer.status">
+               <FormItem label="Useing Bonus Amount">
+                  <br/>
+                  <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.totalTotal))" @on-change="discount" ></InputNumber >
+               </FormItem>
+               </Col>
+               <Col span="22" offset="1">
+               <FormItem label="Reference">
+                  <!-- <Select v-model="formValue.reference_id" placeholder="Number"  @on-change="changedReference" filterable clearable>
+                     <Option v-for="(customer,i) in flterMemberList" :value="customer.id"  :key="i">
+                         <span>{{customer.customerName}}</span>
+                         <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                     </Option>
+                     </Select> -->
+                  <div class="dropdown">
+                     <Input class="dropbtn" v-model="tempReferencerInfo" placeholder="Number" @on-keyup="changedReferenceV2"      />
+                     <div class="dropdown-content">
+                        <a v-for="(customer,i) in flterReferencerList" :value="customer.id"  :key="i" @click="changedReference(customer)"  >
+                        <span>{{customer.customerName}}</span>
+                        <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                        </a>
+                     </div>
+                  </div>
+               </FormItem>
+               </Col>
+            </Form>
+            <Col v-if="currentCustomer.customerName" span="24">
+            <h3>Customer Info</h3>
+            <p><b>Name:</b> {{currentCustomer.customerName}}</p>
+            <p><b>Number:</b> {{currentCustomer.number}}</p>
+            <p><b>Email:</b> {{currentCustomer.email}}</p>
+            <p><b>Address:</b> {{currentCustomer.address}}</p>
+            <p><b>Outstanding:</b> {{currentCustomer.outStanding}}</p>
+            </Col>
+            <Col v-if="currentReferenceInfo.customerName" span="24" >
+            <hr/>
+            </Col>
+            <Col v-if="currentReferenceInfo.customerName" span="24"  >
+            <h3>Referencer Info</h3>
+            <p><b>Name:</b> {{currentReferenceInfo.customerName}}</p>
+            <p><b>Number:</b> {{currentReferenceInfo.number}}</p>
+            <p><b>Email:</b> {{currentReferenceInfo.email}}</p>
+            <p><b>BarCode:</b> {{currentReferenceInfo.barcode}}</p>
+            <p><b>Address:</b> {{currentReferenceInfo.address}}</p>
+            <p><b>Outstanding:</b> {{currentReferenceInfo.outStanding}}</p>
+            </Col>
+         </Row>
+         </Col>
+      </Row>
+      <Modal class="print_all" v-model="editModal"  :styles="{top: '5px', width:'288px'}" >
+         <div  class="print">
+       
+            <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+            <div class="memu">
+               <div class="memu_email text_center">
+                  <p class="memu_text">For any queries, complanints or suggestion please</p>
+                  <p class="memu_text">Call: {{shopData.contact}}</p>
+                  <p class="memu_text">Email: info@greamsgallerybd.com</p>
+               </div>
+               <div class="memu_Address text_center">
+                  <p class="memu_text">{{shopData.companyName}}</p>
+                  <p class="memu_text">{{shopData.address}}</p>
+                  
+               </div>
+               <div class="memu_sold dis b_color">
+                  <p class="memu_text flex_space">Sold By : {{authUser.name}}</p>
+                  <p class="memu_text">Date: {{toDayDate}}</p>
+               </div>
+               <p class="RETAIL text_center"><span class="RETAIL_sapn">RETAIL INVOICE</span></p>
+               <div class="memu_CUS_ADRESS">
+                  <p class="memu_text">Customer: {{(currentCustomer.customerName)? (currentCustomer.customerName) : "Cash" }}</p>
+                  <p class="memu_text" v-if="currentCustomer.id!=1" >Address: {{currentCustomer.address}}</p>
+                  <p class="memu_text" v-if="currentCustomer.id!=1" >Mob: {{currentCustomer.number}}</p>
+               </div>
+               <div class="to_Enjoy b_color">
+                  <p class="memu_text">To Enjoy special Discounts Please register as a loyalty Customer</p>
+               </div>
+               
+              
+               <div class="memu_list">
+                 
+                  <div class="memu_list_main dis align">
+                     <div class="memu_list_all sl">
+                        <p class="memu_list_title">SL</p>
+                     </div>
+                     <div class="memu_list_all items flex_space text_center">
+                        <p class="memu_list_title">Item Description</p>
+                     </div>
+                     <div class="memu_list_all MRP">
+                        <p class="memu_list_title ">MRP</p>
+                     </div>
+                     <div class="memu_list_all QTy">
+                        <p class="memu_list_title">Qty</p>
+                     </div>
+                     <div class="memu_list_all Total">
+                        <p class="memu_list_title">Total</p>
+                     </div>
+                  </div>
+                 
+                  <div class="memu_list_main dis" v-for="(item,index) in formValue.productDetails" :key="index" >
+                     <div class="memu_list_all sl">
+                        <p class="memu_list_num">{{index+1}}</p>
+                     </div>
+                     <div class="memu_list_all items flex_space">
+                        <p class="memu_list_title">{{item.productName | item.model}}</p>
+                     </div>
+                     <div class="memu_list_all MRP">
+                        <p class="memu_list_title ">{{item.sellingPrice}}</p>
+                     </div>
+                     <div class="memu_list_all QTy">
+                        <p class="memu_list_title">{{item.quantity}}</p>
+                     </div>
+                     <div class="memu_list_all Total">
+                        <p class="memu_list_title">{{item.sellingPrice*item.quantity}} </p>
+                     </div>
+                  </div>
+                 
+                  <!-- <div class="memu_list_main dis">
+                     <div class="memu_list_all sl">
+                        <p class="memu_list_num">1</p>
+                     </div>
+                     <div class="memu_list_all items flex_space">
+                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
+                     </div>
+                     <div class="memu_list_all MRP">
+                        <p class="memu_list_title ">120000</p>
+                     </div>
+                     <div class="memu_list_all QTy">
+                        <p class="memu_list_title">2</p>
+                     </div>
+                     <div class="memu_list_all Total">
+                        <p class="memu_list_title">240000</p>
+                     </div>
+                  </div>
+                 
+                  <div class="memu_list_main dis">
+                     <div class="memu_list_all sl">
+                        <p class="memu_list_num">2</p>
+                     </div>
+                     <div class="memu_list_all items flex_space">
+                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
+                     </div>
+                     <div class="memu_list_all MRP">
+                        <p class="memu_list_title ">120000</p>
+                     </div>
+                     <div class="memu_list_all QTy">
+                        <p class="memu_list_title">2</p>
+                     </div>
+                     <div class="memu_list_all Total">
+                        <p class="memu_list_title">240000</p>
+                     </div>
+                  </div>
+                 
+                  <div class="memu_list_main dis b_color">
+                     <div class="memu_list_all sl">
+                        <p class="memu_list_num">3</p>
+                     </div>
+                     <div class="memu_list_all items flex_space">
+                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
+                     </div>
+                     <div class="memu_list_all MRP">
+                        <p class="memu_list_title ">1200</p>
+                     </div>
+                     <div class="memu_list_all QTy">
+                        <p class="memu_list_title">99</p>
+                     </div>
+                     <div class="memu_list_all Total">
+                        <p class="memu_list_title">2400</p>
+                     </div>
+                  </div> -->
+                 
+               </div>
+              
+               <div class="memu_total b_color">
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">Sub Total:</p>
+                     <p class="memu_list_title memu_total_num">{{ formValue.totalTotal }}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">Discount:</p>
+                     <p class="memu_list_title memu_total_num">{{ formValue.discount}}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">Net Payable:</p>
+                     <p class="memu_list_title memu_total_num">{{formValue.total}}</p>
+                  </div>
+               </div>
+              
+               <div class="CASH_total">
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">CASH PAID:</p>
+                     <p class="memu_list_title memu_total_num">{{ formValue.cashPaid }}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">CHANGE AMOUNT:</p>
+                     <p class="memu_list_title memu_total_num">{{ formValue.cashPaid-formValue.paidAmount }}</p>
+                  </div>
+               </div>
+               
+               <!-- <div class="space b_color"></div> -->
+               <div class="memu_thanks text_center">
+                  <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
+               </div>
+                <div class="spaceBerCode b_color">
+                    <div class="print barcode_main">
+                        <div style="text-align:center">
+                            <barcode v-bind:value="sellResponseId" style="margin-left: 60px;"> >
+                                Sorry Cant Load now
+                            </barcode>
+                        </div>
+                         <p>INV-SO-DG-{{sellResponseId}}</p>
+                    </div>
+                </div>
             </div>
-
-        </Modal>
-    </div>
+              <!-- <h2 style="text-align:center">{{ shopData.companyName }}</h2>
+               <p style="text-align:center"> 
+                   {{ shopData.address }}</br>
+                   world_first@yahoo.com</br>
+                   {{ shopData.contact }}</br>
+               </p>
+               <hr/>
+               <p> 
+                   Sold by Bokor Talukder</br>
+                   Invoice ID: INV1000002</br>
+                   Date: 25/01/2018 13:22</br>
+               </p>
+               
+                   <div id="table">
+                       <table>
+                           <tr class="tabletitle">
+                               <td class="item"><h2>SL</h2></td>
+                               <td class="item"><h2>Item</h2></td>
+                               <td class="Hours"><h2>Qty</h2></td>
+                               <td class="Rate"><h2>Sub Total</h2></td>
+                           </tr>
+               
+                           <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
+                               <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
+                               <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
+                               <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
+                               <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
+                           </tr>
+               
+                       
+               
+               
+                           <tr class="tabletitle">
+                               <td></td>
+                               <td class="Rate"><h2>Sub-total</h2></td>
+                               <td></td>
+                               <td class="payment"><h2>{{ formValue.totalTotal }}</h2></td>
+                           </tr>
+               
+                           <tr class="tabletitle">
+                               <td></td>
+                               <td class="Rate"><h2>Discount %(-)</h2></td>
+                               <td></td>
+                               <td class="payment"><h2>{{ formValue.discount}}</h2></td>
+                           </tr>
+                           <tr class="tabletitleDown">
+                               <td></td>
+                               <td class="Rate"><h2>Total</h2></td>
+                               <td></td>
+                               <td class="payment"><h2>{{ formValue.total }}</h2></td>
+                           </tr>
+                           </hr>
+                           <tr class="tabletitle">
+                               <td></td>
+                               <td class="Rate"><h2>Cash Paid</h2></td>
+                               <td></td>
+                               <td class="payment"><h2>{{ formValue.cashPaid }}</h2></td>
+                           </tr>
+                           <tr class="tabletitle">
+                               <td></td>
+                               <td class="Rate"><h2>Cash Change</h2></td>
+                               <td></td>
+                                <td class="payment"><h2>{{ formValue.cashPaid-formValue.paidAmount }}</h2></td>
+                           </tr>
+                           <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
+                               <td></td>
+                               <td class="Rate"><h2>Delivery Charge</h2></td>
+                               <td></td>
+                                <td class="payment"><h2>40</h2></td>
+                           </tr>
+                           <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
+                               <td></td>
+                               <td class="Rate"><h2>Total with Delivery Charge</h2></td>
+                               <td></td>
+                                <td class="payment"><h2>{{ (formValue.total)+40 }}</h2></td>
+                           </tr>
+                       </table>
+                   </div>
+                   <p class="legal"> 
+                       {{ shopData.invoiceNote }}
+                   </p> -->
+         </div>
+         <div slot="footer">
+            <Button type="primary" size="large"  @click="clearForm">
+            <span>Clear and Exit</span>
+            </Button>
+         </div>
+      </Modal>
+   </div>
 </template>
 
 <script>
@@ -268,12 +441,18 @@
         data () {
             return {
                 index:0,
+                sellResponse:[],
+                sellResponseId:0,
+                toDayDate:new Date(),
                 searchValue:'',
                 clearModel:false,
                 loading:false,
                 sending:false,
+                homeDelivery:false,
+                
                 editModal:false,
                 isCollapsed: false,
+                
                 dataSearch:[],
                 tempCustomerInof:null,
                 tempReferencerInfo:null,
@@ -284,12 +463,14 @@
                 dataInvoice: 
                 [],
                 currentCustomer:{
+                    id:1,
                     customerName:'',
                     number:'',
                     email:'',
                     address:'',
                     Outstanding:'',
                     barcode:'',
+                    zone:'',
                     bonusAmount:null,
                     status:false
 
@@ -304,6 +485,8 @@
                     barcode:'',
                     bonusAmount:null,
                     status:false
+
+
 
 
                 },
@@ -456,7 +639,7 @@
             async showPrint (index) {
                 this.editModal=true
                 await new Promise(resolve => setTimeout(resolve, 500));
-                console.log("Print")
+                // console.log("Print")
                 window.print();
             },
             removeItem(index)
@@ -587,6 +770,9 @@
             },
 
             async changedCustomer(customerPass){
+
+                console.log(customerPass.customerName)
+                this.tempCustomerInof=customerPass.customerName;
                
                 this.ls();
                 try{
@@ -595,6 +781,8 @@
                     url:`/app/payment/getOutstandingCustomer/${customerPass.id}`
                 })
                 this.setCustomer(customerPass)
+                console.log('leder')
+                console.log(data.ledger)
               //  this.setCustomer(this.formValue.customer_id)
 
 
@@ -709,6 +897,7 @@
                 
                 
                 this.formValue.reference_id=referencerPass.id;
+                this.tempReferencerInfo = referencerPass.customerName
                 console.log(this.formValue.reference_id);
                 console.log(referencerPass);
                 this.setReferencer(referencerPass);
@@ -745,6 +934,9 @@
 
                 this.formValue.customer_id=customerPass.id
                 this.currentCustomer.customerName=customerPass.customerName
+                this.currentCustomer.zone=customerPass.zone
+                this.currentCustomer.id=customerPass.id
+                
                 this.currentCustomer.number=customerPass.contact
                 this.currentCustomer.address=customerPass.address
                 this.currentCustomer.email=customerPass.email
@@ -845,9 +1037,8 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
-            makeSell()
-            {
-               
+            makeSell(){
+                
                 if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
                 {
                     this.i('Due Alart','This invoice will add due amount')
@@ -882,6 +1073,8 @@
                         
                         this.s('Great!','Sell has been added successfully!')
                         this.loading=false
+                        this.sellResponse = data.data
+                        this.sellResponseId =  this.sellResponse.id
                         this.showPrint(1);
                         // this.temp=[...this.formValue]
                         // this.clearForm();
@@ -894,8 +1087,10 @@
             },
 
         },
-        async created()
-        {
+        async created(){
+            let nd = new Date(this.toDayDate)
+			this.toDayDate = `${nd.getFullYear()}-${nd.getMonth()+1}-${nd.getDate()}`
+                
             this.ls();
             const start = new Date();
             this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();

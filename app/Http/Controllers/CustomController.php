@@ -30,15 +30,26 @@ class CustomController extends Controller{
 
         $key = "%$key%";
 
-        return Customer::where('barcode', 'Like',$key)
-                        ->get();
+         return Customer::whereNotNull('barcode')
+                        ->where(function($query) use ($key){
+                            $query->where('customerName', 'Like',$key);
+                            $query->orwhere('contact', 'Like',$key);
+                            $query->orwhere('barcode', 'Like',$key);
+                                  
+                            })->get();
+
+                        
     }
 
     public function searchreferencerInfoOnEnter($key){
 
        
 
-        return Customer::where('barcode',$key)
-                        ->first();
+        return Customer::whereNotNull('barcode')
+                        ->where(function($query) use ($key){
+                         $query->where('customerName' ,$key);
+                         $query->orwhere('contact' ,$key);
+                         $query->orwhere('barcode' ,$key);          
+                         })->first();
     }
 }
