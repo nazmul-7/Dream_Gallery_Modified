@@ -538,7 +538,9 @@
                     });
 
                 } else if (this.filterProduct) {
-                      let newData =  this.dataInvoice.filter((data) => {
+                    
+                      let invoiceData = JSON.parse(JSON.stringify(this.dataInvoice))
+                      let newData =  invoiceData.filter((data) => {
                         return data.adminName.toUpperCase().match(this.filterProduct.toUpperCase()) ||
                             data.customerName.toUpperCase().match(this.filterProduct.toUpperCase()) ||
                              data.invoice_id.toUpperCase().match(this.filterProduct.toUpperCase()) ||
@@ -553,14 +555,12 @@
                             })
 
                     });
+                    
                     for(let i in newData){
-                        for(let j in newData[i].selling){
-                            let name = newData[i].selling[j].product.productName
-                            if(!name.toUpperCase().match(this.filterProduct.toUpperCase())){
-                                newData[i].selling.splice(j,1)
-                            }
-                        }
-                        
+                        newData[i].selling = newData[i].selling.filter((data) =>{
+                            return (data.product.productName.toUpperCase().match(this.filterProduct.toUpperCase()))
+                        });
+
                     }
                    
                     return newData
@@ -683,7 +683,7 @@
             async showPrint(index) {
                 this.editModal = true
                 await new Promise(resolve => setTimeout(resolve, 500));
-                console.log("Print")
+                
                 window.print();
             },
             async getData(k) {
@@ -725,11 +725,11 @@
                     this.e('Oops!', 'Something went wrong, please try again!')
                     this.le();
                 }
-                console.log(k);
+               
             },
             async changedSupplier(k) {
-                console.log(k);
-                console.log(this.formValue.supplier_id);
+                
+                
                 this.ls();
                 try {
                     let {
@@ -899,6 +899,7 @@
 
 
         async created() {
+           
             this.ls();
             const end = new Date();
             const start = new Date();

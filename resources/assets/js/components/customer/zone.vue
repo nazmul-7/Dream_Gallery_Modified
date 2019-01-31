@@ -78,12 +78,13 @@
                 editObj: {
                     id:null,
                     zoneName:'',
+                    delivery:'',
                     
                 },
                 UpdateValue: {
                     indexNumber:null,
                     zoneName:'',
-                     delivery:'',
+                    delivery:'',
                     id:null,
                     
                 },
@@ -214,6 +215,7 @@
                     })
                     this.data1[this.UpdateValue.indexNumber].zoneName=this.editObj.zoneName
                      this.data1[this.UpdateValue.indexNumber].discount=this.editObj.discount
+                     this.data1[this.UpdateValue.indexNumber].delivery=this.editObj.delivery
                     this.s('Great!','Zone information has been updated successfully!')
                     
                     this.sending=false

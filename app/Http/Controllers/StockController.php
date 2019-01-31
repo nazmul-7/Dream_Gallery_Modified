@@ -57,7 +57,9 @@ class StockController extends Controller
     {
         $product=Product::with(array('purchaseStock' => function($q)
         {
+
             $q->selectRaw('id, product_id, sum(quantity) as stock');
+            $q->groupBy('product_id');
             $q->groupBy('product_id');
 
 

@@ -235,7 +235,7 @@
                         <p class="memu_list_num">{{index+1}}</p>
                      </div>
                      <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">{{item.productName | item.model}}</p>
+                         <p class="memu_list_title">{{item.productName  }}<br> {{item.model  }} {{item.color }}  {{item.size }}</p>
                      </div>
                      <div class="memu_list_all MRP">
                         <p class="memu_list_title ">{{item.sellingPrice}}</p>
@@ -311,6 +311,10 @@
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Discount:</p>
+                     <p class="memu_list_title memu_total_num">{{ formValue.discount}}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right" v-if="homeDelivery" >
+                     <p class="memu_list_title flex_space">Delivery Charge:</p>
                      <p class="memu_list_title memu_total_num">{{ formValue.discount}}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
@@ -457,6 +461,7 @@
                 tempCustomerInof:null,
                 tempReferencerInfo:null,
                 dataGroup:[],
+                dataZone:[],
                 dataCustomer:[],
                 dataReferencer:[],
                 shopData:[],
@@ -470,7 +475,7 @@
                     address:'',
                     Outstanding:'',
                     barcode:'',
-                    zone:'',
+                    zone:'SYLHET',
                     bonusAmount:null,
                     status:false
 
@@ -1088,6 +1093,7 @@
 
         },
         async created(){
+
             let nd = new Date(this.toDayDate)
 			this.toDayDate = `${nd.getFullYear()}-${nd.getMonth()+1}-${nd.getDate()}`
                 
@@ -1131,6 +1137,24 @@
                 this.e('Oops!','Something went wrong, please try again!')
             this.le();
             }
+
+             try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/zone'
+                })
+                this.dataZone=data;
+
+            this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+
+           
+          //  console.log( this.dataZone[this.dataZone.indexOf("SYLHET")])
+           // console.log( this.dataZone.indexOf("SYLHET"))
 
         }
 

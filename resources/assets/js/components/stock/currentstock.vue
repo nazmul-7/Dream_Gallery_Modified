@@ -401,7 +401,7 @@
                 var tF=0
                 for (let d of this.searchData)
                 {
-                   // console.log(d)
+                    console.log(d.currentStock)
                     tF+=d.currentStock
 
                 }
@@ -580,8 +580,10 @@
                     method: 'get',
                     url:'/app/getStockItem'
                 })
+                let i =0
                 for(let d of data.product)
                 {
+                    d.currentStock=0;
                     if(d.purchase_stock)
                     {
                         if(d.sell_stock!==null)
@@ -593,15 +595,19 @@
                             d.currentStock=d.purchase_stock.stock
 
                         }
-                    }
-                    else
-                    {
-                        d.currentStock=0
 
                     }
+
+                    if(d.currentStock<1){
+                         data.product.splice(i,1)
+                    }
+                   
+
                     d.totalCost=d.currentStock*d.averageBuyingPrice
+                    i++
 
                 }
+
                 this.dataProduct=data.product;
                 this.lf();
 

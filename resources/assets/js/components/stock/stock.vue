@@ -39,13 +39,16 @@
                         <td v-if="data.type ==='purchase'">Purchase</td>
                         <td v-else-if="data.type ==='opening'">Opening</td>
                         <td v-else-if="data.type ==='sell'">Sale</td>
+                        <td v-else-if="data.type ==='return'">Returned</td>
                         <td v-else>Unfefined</td>
                         <td v-if="data.type ==='purchase'">PU-{{data.invoice_id}}</td>
                         <td v-else-if="data.type ==='opening'">OP-{{data.invoice_id}}</td>
                         <td v-else-if="data.type ==='sell'">SA-{{data.invoice_id}}</td>
+                        <td v-else-if="data.type ==='return'">RE-{{data.invoice_id}}</td>
                         <td v-else>{{data.invoice_id}}</td>
                         <td v-if="data.type ==='purchase'">{{data.quantity}}</td>
                         <td v-else-if="data.type ==='opening'">{{data.quantity}}</td>
+                        <td v-else-if="data.type ==='return'">{{data.quantity}}</td>
                         <td v-else>0</td>
                         <td v-if="data.type ==='purchase'">{{data.unitPrice}}</td>
                         <td v-else-if="data.type ==='opening'">{{data.unitPrice}}</td>
