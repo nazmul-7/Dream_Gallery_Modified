@@ -13,6 +13,11 @@
                                 <Option v-for="(supplier,i) in dataSupplier" :value="supplier.id" :key="i">{{ supplier.supplierName }}</Option>
                             </Select>
                     </FormItem> -->
+                    <FormItem label="Admin">
+                        <Select v-model="filterAdmin" placeholder="Select Admin"  filterable clearable>
+                                <Option v-for="(admin,i) in dataAdmin" :value="admin.name" :key="i">{{ admin.name }}</Option>
+                            </Select>
+                    </FormItem>
                     <FormItem label="Date">
                         <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
                     </FormItem>
@@ -52,6 +57,10 @@
                      <div class="buyer_tables_all_name_all dis">
                         <p class="buyer_tables_all_title">Date</p>
                         <p class="buyer_tables_all_name"> {{item.date}}</p>
+                    </div>
+                    <div class="buyer_tables_all_name_all dis">
+                        <p class="buyer_tables_all_title">Admin</p>
+                        <p class="buyer_tables_all_name"> {{item.adminName}}</p>
                     </div>
 
                     <div class="buyer_tables_main">
@@ -255,6 +264,7 @@
                 index:0,
                 search:'',
                 filterSupplier:'',
+                filterAdmin:'',
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -278,6 +288,7 @@
                 dataSearch:[],
                 dataCustomer: [],
                 dataInvoice:[],
+                dataAdmin:[],
                 dataZone:[],
                 formInvoice:
                 {
@@ -405,12 +416,46 @@
         computed: {
             searchData()
             {
-                if(this.filterSupplier)
+                if(this.filterAdmin && this.filterSupplier){
+                    return this.dataInvoice.filter((data)=>{                    
+                        return (data.adminName.toUpperCase().match(this.filterAdmin.toUpperCase()) &&
+                        data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) ) 
+                        &&
+                        (
+                        data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
+                        data.id.toString().match(this.search) ||
+                        data.totalPrice.toString().match(this.search) ||
+                        data.totalQuantity.toString().match(this.search)||
+                        data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
+                        data.adminName.toUpperCase().match(this.search.toUpperCase()) 
+                        )            
+                        }
+                        );
+
+                }
+                else if(this.filterAdmin)
+                {
+                return this.dataInvoice.filter((data)=>{                    
+                    return data.adminName.toUpperCase().match(this.filterAdmin.toUpperCase()) &&
+                    (
+                     data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.id.toString().match(this.search) ||
+                     data.totalPrice.toString().match(this.search) ||
+                     data.totalQuantity.toString().match(this.search)||
+                     data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
+                     data.adminName.toUpperCase().match(this.search.toUpperCase()) 
+                    )
+
+            
+                    }
+                    );
+
+                }
+               else if(this.filterSupplier)
                 {
                 return this.dataInvoice.filter((data)=>{                    
                     return data.supplier_id.toString().match(this.filterSupplier) &&
                     (
-                    data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.id.toString().match(this.search) ||
                      data.totalPrice.toString().match(this.search) ||
@@ -426,8 +471,7 @@
                 }
                 else{
                 return this.dataInvoice.filter((data)=>{                    
-                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
+                    return data.supplierName.toUpperCase().match(this.search.toUpperCase()) ||
                      data.id.toString().match(this.search) ||
                      data.totalPrice.toString().match(this.search) ||
                      data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
@@ -752,6 +796,19 @@
                 })
                 this.dataZone=data;
                 this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+
+              try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/userList'
+                })
+                this.dataAdmin=data
+            this.lf();
 
             }catch(e){
                 this.e('Oops!','Something went wrong, please try again!')

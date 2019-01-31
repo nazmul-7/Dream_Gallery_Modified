@@ -9,8 +9,14 @@
                     <Icon type="ios-search" slot="prepend"></Icon>
                     </Input>
                 </FormItem>
+
                 <FormItem label="Product">
                     <Input class="dropbtn" v-model="filterProduct" placeholder="Search Product" style="width:200px"     />
+                </FormItem>
+                <FormItem label="Admin">
+                        <Select v-model="filterAdmin" placeholder="Select Admin"  filterable clearable>
+                                <Option v-for="(admin,i) in dataAdmin" :value="admin.name" :key="i">{{ admin.name }}</Option>
+                            </Select>
                 </FormItem>
                 <!-- <FormItem label="Customer">
                     <Select v-model="filterCustomer" placeholder="Select Customer" filterable clearable>
@@ -76,6 +82,10 @@
                     <div class="buyer_tables_all_name_all dis">
                         <p class="buyer_tables_all_title">Date</p>
                         <p class="buyer_tables_all_name"> {{item.date}}</p>
+                    </div>
+                    <div class="buyer_tables_all_name_all dis">
+                        <p class="buyer_tables_all_title">Admin</p>
+                        <p class="buyer_tables_all_name"> {{item.adminName}}</p>
                     </div>
 
                     <div class="buyer_tables_main">
@@ -307,6 +317,7 @@
                 search: '',
                 filterCustomer: '',
                 filterProduct: '',
+                filterAdmin: '',
                 filterZone: '',
                 searchValue: '',
                 clearModel: false,
@@ -331,6 +342,7 @@
                 dataCustomer: [],
                 dataInvoice: [],
                 dataZone: [],
+                dataAdmin: [],
                 dataProduct: [],
                 formInvoice: {
                     type: 'purchase',
@@ -510,13 +522,12 @@
             },
            
             searchData() {
-                if (this.filterCustomer && this.filterZone) {
+                if (this.filterAdmin && this.filterZone) {
                     return this.dataInvoice.filter((data) => {
-                        return (data.customerName.toUpperCase().match(this.filterCustomer.toUpperCase()) &&
+                        return (data.adminName.toUpperCase().match(this.filterAdmin.toUpperCase()) &&
                                 data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase())) &&
                             (
                                 data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
-                                data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.id.toString().match(this.search) ||
                                 data.totalPrice.toString().match(this.search) ||
@@ -560,6 +571,21 @@
                             (
                                 data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                                data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                                data.id.toString().match(this.search) ||
+                                data.totalPrice.toString().match(this.search) ||
+                                data.totalQuantity.toString().match(this.search) ||
+                                data.discount.toString().match(this.search) ||
+                                data.paidAmount.toString().match(this.search)
+                            )
+                    });
+
+                }
+                 else if (this.filterAdmin) {
+                    return this.dataInvoice.filter((data) => {
+                        return data.adminName.toUpperCase().match(this.filterAdmin.toUpperCase()) &&
+                            (
+                                data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
                                 data.id.toString().match(this.search) ||
                                 data.totalPrice.toString().match(this.search) ||
@@ -961,6 +987,19 @@
             } catch (e) {
                 this.e('Oops!', 'Something went wrong, please try again!')
                 this.le();
+            }
+
+             try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/userList'
+                })
+                this.dataAdmin=data
+            this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
             }
 
 
