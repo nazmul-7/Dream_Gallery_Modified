@@ -40,6 +40,7 @@ class StockController extends Controller
         ->select( 'admin_id as admin_id', 'invoice_id as invoice_id','product_id as product_id'
         , 'quantity as quantity', 'unitPrice as unitPrice', 'date as date', 'profit as profit')
         ->where('product_id',$id);
+        
         $sell=Selling::union($purchase)
         ->select( 'admin_id as admin_id', 'invoice_id as invoice_id','product_id as product_id'
         , 'quantity as quantity', 'unitPrice as unitPrice', 'date as date', 'profit as profit')

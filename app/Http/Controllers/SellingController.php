@@ -101,6 +101,7 @@ class SellingController extends Controller
         $payment=Payment::create([
             'admin_id' => $admin_id,
             'uid' => $input['customer_id'],
+            'invoice_id' => $invoice->id,
             'type' => 'incoming',
             'paidAmount' => $input['paidAmount'],
             'date' => $input['date'],

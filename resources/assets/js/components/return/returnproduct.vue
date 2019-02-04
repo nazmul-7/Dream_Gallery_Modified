@@ -95,10 +95,10 @@
                                             <span v-if="!loading">Return</span>
                                             <span v-else>Loading...</span>
                                         </Button>
-                                        <Button type="primary" size="large"   @click="returnAll">
+                                        <!-- <Button type="primary" size="large"   @click="returnAll">
                                             <span v-if="!loading">Return All</span>
                                             
-                                        </Button>
+                                        </Button> -->
                                     </Col>
                                 </Card>
                             </Col>

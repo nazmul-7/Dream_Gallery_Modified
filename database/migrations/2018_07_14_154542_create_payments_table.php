@@ -17,6 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('admin_id');
             $table->integer('uid');
+            $table->integer('invoice_id')->default(0); 
             $table->string('type');
             $table->date('date');
             $table->float('paidAmount');

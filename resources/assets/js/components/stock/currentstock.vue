@@ -402,7 +402,8 @@
                 for (let d of this.searchData)
                 {
                     console.log(d.currentStock)
-                    tF+=d.currentStock
+                    
+                    tF+= parseInt(d.currentStock)
 
                 }
                 return tF

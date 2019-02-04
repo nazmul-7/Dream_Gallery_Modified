@@ -447,14 +447,14 @@
             totalSalesPrice(selling){
                 let p = 0 
                 for(let d of selling){
-                    p += parseFloat(d.product.sellingPrice)
+                    p += parseFloat((d.product.sellingPrice)*(d.quantity))
                 }
                 return p
             },
             totalCost(selling){
                  let p = 0 
                 for(let d of selling){
-                    p += parseFloat(d.product.averageBuyingPrice)
+                    p += parseFloat((d.product.averageBuyingPrice)*(d.quantity))
                 }
                 return p
                 
@@ -615,9 +615,7 @@
                             data.totalQuantity.toString().match(this.search) ||
                             data.discount.toString().match(this.search) ||
                             data.paidAmount.toString().match(this.search)
-                             || data.selling.some((p)=>{
-                                 return p.product.productName.toUpperCase().match(this.search.toUpperCase())
-                            })
+                             
 
                     });
                   

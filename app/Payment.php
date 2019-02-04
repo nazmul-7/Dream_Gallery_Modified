@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $fillable = [
-        'admin_id','uid', 'type','paidAmount','date'
+        'admin_id','uid','invoice_id' ,'type','paidAmount','date'
     ];
     public function admin()
     {

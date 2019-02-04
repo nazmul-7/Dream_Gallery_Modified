@@ -82,7 +82,7 @@
                                         </tr>
                                         <tr >
                                             <td colspan="7" style="text-align:right">Paid Amount</td>
-                                            <td><InputNumber :min="formValue.dueAmount" :max="formValue.subTotal-formValue.oldTotal" v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
+                                            <td><InputNumber  :max="formValue.subTotal-formValue.oldTotal" v-if="formValue.subTotal>0"  v-model="formValue.paidAmount"></InputNumber></td>
                                         </tr>
 
                                     </table>
@@ -281,7 +281,7 @@
                     url:`/app/searchProduct/${this.formValue.productCode}`,
                     })
                     let ps=0,ss=0
-                    console.log(data)
+                    
                     if(data.purchase_stock){
                         ps=data.purchase_stock.stock
                         
@@ -294,7 +294,7 @@
 
 
                     if(data.sell_stock){
-                        console.log('11')
+                      
                         ss=data.sell_stock.stock
                     }
                     data.stock=ps-ss
@@ -306,18 +306,18 @@
                     }
                     data.quantity=1
                     for(let d of this.dataGroup){
-                        console.log('12')
+                       
                         if(d.groupName==data.groupName){
-                        console.log('22')
+                       
                             data.discount=d.discount
                         }
                     }
                    if(data.discount){
-                        console.log('33')
+                       
                         let d= (data.discount*data.sellingPrice)/100
                         data.discountedPrice= data.sellingPrice-d
                    }else{
-                        console.log('44')
+                      
                          data.discountedPrice= data.sellingPrice
                          data.discount=0
                    }
@@ -375,7 +375,7 @@
                 var discount = (discountAmount*100)/totalOld
                 discount= Math.round(discount).toFixed(2)
                 this.formValue.discount=discount
-                this.formValue.paidAmount=this.formValue.total-this.formValue.oldTotal-this.formValue.bonusAmount-this.formValue.dueAmount
+                this.formValue.paidAmount=parseFloat(this.formValue.total-this.formValue.oldTotal-this.formValue.bonusAmount-this.formValue.dueAmount)
             },
             showClear()
             {
@@ -414,7 +414,7 @@
                 this.formValue.barCode=''
                 if(this.dataSearch)
                 {
-                    console.log(this.dataSearch.id)
+                   
             
                     try{
                         let {data} =await axios({
@@ -423,11 +423,11 @@
                             })
                             
                             this.lf()
-                            console.log(data)
+                           
                             for (let c of data.data)
                             {
                                 c.stock=c.quantity
-                                console.log(111);
+                               
                                 if(c.discount){
                                 let d= (c.discount*c.unitPrice)/100
                                 c.discountedPrice= c.unitPrice-d
@@ -435,6 +435,7 @@
                                         c.discountedPrice= c.unitPrice
                                 }
                             }
+                            console.log('I am here ')
                             var cloneData=_.cloneDeep(data.data)
                             this.formValue.invoice_id=this.dataSearch.id
                             this.formValue.productDetails=data.data
@@ -449,11 +450,11 @@
                             this.formValue.oldTotal=this.dataSearch.paidAmount
                             this.formValue.dueAmount=data.due*-1
                             this.formValue.discountAmount=data.discount*-1
-                            this.formValue.paidAmount=this.dataSearch.sellingPrice-this.dataSearch.paidAmount-this.formValue.dueAmount
+                            this.formValue.paidAmount=parseFloat(this.dataSearch.sellingPrice-this.dataSearch.paidAmount-this.formValue.dueAmount)
                             if(data.bonus)
                             {
                                 this.formValue.bonusAmount=(data.bonus.amount*-1)
-                                this.formValue.paidAmount=this.formValue.paidAmount-this.formValue.bonusAmount
+                                this.formValue.paidAmount=parseFloat(this.formValue.paidAmount-this.formValue.bonusAmount)
 
                             }
 
@@ -539,10 +540,13 @@
         },
         async created()
         {
+
+           
+
             this.ls();
             const start = new Date();
             this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
-
+            console.log("I am here created")
             try{
                 let {data} =await  axios({
                     method: 'get',

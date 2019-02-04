@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Auth;
 use App\Invoice;
 use App\Purchase;
 use App\Selling;
 use App\Bonus;
+use App\Payment;
 use App\Paymentsheet;
 
 
@@ -157,58 +159,75 @@ class InvoiceController extends Controller
             ],200);
     }
     public function returnInvoice(Request $request){
+
         $admin_id=Auth::user()->id;        
         $input=$request->all();
+        Log::info($input);
+    
         // update invoice 
         $totalQuantity=0;
         $totalSelling=0;
-        // foreach($input['newProduct'] as $key => $value)
-        // {
-        //     $totalQuantity=$totalQuantity+$value['quantity'];
-        //     $totalSelling=$totalSelling+$value['sellingPrice'];
-            
-        // }
-        $invoice=Invoice::create([
-            'admin_id' => $admin_id,
-            'type' => 'return',
-            'totalQuantity' => $totalQuantity,
-            'totalPrice' => $input['subTotal'],
-            'customer_id' => $input['customer_id'],
-            'discount' => $input['discount'],
-            'sellingPrice' => $totalSelling,
-            'paidAmount' => $input['paidAmount'],
-            'date' => $input['date'],
-        ]);
-        //
-        $paymentSheet=Paymentsheet::create([
-            'admin_id' => $admin_id,
-            'invoice_id' => $invoice->id,
-            'type' => 'outgoing',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-            'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-            'uid' => $input['customer_id'],
-            'amount' => $input['paidAmount'],
-            'paymentMethod' => 'cash',
-            'remarks' => 'return from Customer',
-            'date' => $input['date'],
-        ]);
-        //
-        // foreach ($input['newProduct'] as $key => $value) {
-        //     if(!$value['discount'])
-        //     $value['discount']=0;
+        $currentInvoice = Invoice::where('id',$input['invoice_id'])->first();
 
-        //     $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
-        //     $sell=Selling::create([
-        //         'admin_id' => $admin_id,
-        //         'invoice_id' => $invoice->id,
-        //         'product_id' => $value['id'],
-        //         'quantity' => $value['quantity'],
-        //         'unitPrice' => $value['sellingPrice'],
-        //         'discount' => $value['discount'],
-        //         'profit' => $profit,
-        //         'date' => $input['date'],
+        $update=Invoice::where('id',$input['invoice_id'])
+                ->update([
+                    'totalQuantity' => $input['totalQuantity'],
+                    'totalPrice' => $input['subTotal'],
+                    'sellingPrice' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                    'paidAmount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                    
+                ]);
+
+       
+        if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','incoming']])->count() > 0){
+
+            Log::info("I am from Cash Sale");
+            Log::info($input['paidAmount']);
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            ->whereIn('type',['incoming'])
+            ->update([
+                'amount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+            ]);
+
+            $update=Payment::where('invoice_id',$input['invoice_id'])
+            ->update([
+                'paidAmount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
                 
-        //     ]);
-        // }
+            ]);
+        }
+        else{
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                ->whereIn('type',['due'])
+                ->update([
+                    'amount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                ]);
+
+                if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','dueIncoming']])->count() > 0){
+                    $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                    ->whereIn('type',['dueIncoming'])
+                    ->update([
+                        'amount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                    ]);
+
+                    $update=Payment::where('invoice_id',$input['invoice_id'])
+                    ->update([
+                        'paidAmount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                        
+                    ]);
+
+
+                }
+        }
+
+        if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','discount']])->count() > 0){
+            Log::info("I have Discout");
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            ->whereIn('type',['discount'])
+            ->update([
+                'amount' => ($input['subTotal']*$currentInvoice['discount']/100)*-1,
+            ]);
+        }
+
         $i=0;
         $invoiceFlag=false;
         $invoiceX;
@@ -218,43 +237,14 @@ class InvoiceController extends Controller
 
             $profit= $value['discountedPrice'] - $value['product']['averageBuyingPrice'];
             
-            if($value['quantity']<$input['productDetailsInvoice'][$i]['quantity'] )
-            {
-                if( $invoiceFlag==false)
-                {
-                    // $invoiceX=Invoice::create([
-                    //     'admin_id' => $admin_id,
-                    //     'type' => 'return',
-                    //     'totalQuantity' => 0,
-                    //     'totalPrice' => 0,
-                    //     'customer_id' => 1,
-                    //     'discount' => 0,
-                    //     'sellingPrice' => 0,
-                    //     'paidAmount' => 0,
-                    //     'date' => $input['date'],
-                    // ]);
-                    //
+            if($value['quantity']<$input['productDetailsInvoice'][$i]['quantity'] ){
 
-                    $invoiceFlag=true;
-                }
-                
-                $purchase=Purchase::create([
-                    'admin_id' => $admin_id,
-                    'invoice_id' => $invoice->id,
-                    'product_id' => $value['product_id'],
-                    'quantity' => $input['productDetailsInvoice'][$i]['quantity']-$value['quantity'],
-                    'unitPrice' => $value['unitPrice'],
-                    'date' => $input['date'],
-                    
-                ]);
                 $update=Selling::where('invoice_id',$input['invoice_id'])
                 ->where('product_id',$value['product_id'])
                 ->update([
                     'quantity' => $value['quantity'],
                     'unitPrice' => $value['unitPrice'],
-                    
                 ]);
-                
             }
             $i++;
 
@@ -263,10 +253,13 @@ class InvoiceController extends Controller
          return response()->json([
                  'msg' => 'updated',
             ],200);
-    }//End Here
+    }
+    //End Here
+
     public function exchangeProduct(Request $request){
         $admin_id=Auth::user()->id;        
         $input=$request->all();
+        Log::info($input);
         // update invoice 
         $totalQuantity=0;
         $totalSelling=0;
@@ -276,30 +269,93 @@ class InvoiceController extends Controller
             $totalSelling=$totalSelling+$value['sellingPrice'];
             
         }
-        $invoice=Invoice::create([
-            'admin_id' => $admin_id,
-            'type' => 'sell',
-            'totalQuantity' => $totalQuantity,
+        $currentInvoice = Invoice::where('id',$input['invoice_id'])->first();
+        $update=Invoice::where('id',$input['invoice_id'])
+        ->update([
+            
+            'totalQuantity' => $input['totalQuantity'],
             'totalPrice' => $input['subTotal'],
-            'customer_id' => $input['customer_id'],
-            'discount' => $input['discount'],
-            'sellingPrice' => $totalSelling,
-            'paidAmount' => $input['paidAmount'],
-            'date' => $input['date'],
+            'sellingPrice' => $input['total'],
+            'paidAmount' =>  $currentInvoice['paidAmount']+ $input['paidAmount'],
+            
         ]);
-        //
-        $paymentSheet=Paymentsheet::create([
-            'admin_id' => $admin_id,
-            'invoice_id' => $invoice->id,
-            'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-            'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-            'uid' => $input['customer_id'],
-            'amount' => $input['paidAmount'],
-            'paymentMethod' => 'cash',
-            'remarks' => 'Sell To Customer',
-            'date' => $input['date'],
-        ]);
-        //
+
+        // $invoice=Invoice::create([
+        //     'admin_id' => $admin_id,
+        //     'type' => 'sell',
+        //     'totalQuantity' => $totalQuantity,
+        //     'totalPrice' => $input['subTotal'],
+        //     'customer_id' => $input['customer_id'],
+        //     'discount' => $input['discount'],
+        //     'sellingPrice' => $totalSelling,
+        //     'paidAmount' => $input['paidAmount'],
+        //     'date' => $input['date'],
+        // ]);
+        
+        // $paymentSheet=Paymentsheet::create([
+        //     'admin_id' => $admin_id,
+        //     'invoice_id' => $invoice->id,
+        //     'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+        //     'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+        //     'uid' => $input['customer_id'],
+        //     'amount' => $input['paidAmount'],
+        //     'paymentMethod' => 'cash',
+        //     'remarks' => 'Sell To Customer',
+        //     'date' => $input['date'],
+        // ]);
+        
+
+
+        if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','incoming']])->count() > 0){
+
+           // Log::info("I am from Cash Sale");
+           // Log::info($input['paidAmount']);
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            ->whereIn('type',['incoming'])
+            ->update([
+                'amount' =>  $input['total'],
+            ]);
+
+            $update=Payment::where('invoice_id',$input['invoice_id'])
+            ->update([
+                'paidAmount' =>  $currentInvoice['paidAmount']+ $input['paidAmount'],
+                
+            ]);
+        }
+        else{
+            $currentPaymentsheet = Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','due']])->first();
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                ->whereIn('type',['due'])
+                ->update([
+                    'amount' => $input['total']*-1,
+                ]);
+
+                if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','dueIncoming']])->count() > 0){
+                    $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                    ->whereIn('type',['dueIncoming'])
+                    ->update([
+                        'amount' => $currentInvoice['paidAmount']+ $input['paidAmount'],
+                    ]);
+
+                    $update=Payment::where('invoice_id',$input['invoice_id'])
+                    ->update([
+                        'paidAmount' => $currentInvoice['paidAmount']+ $input['paidAmount'],
+                        
+                    ]);
+
+
+                }
+        }
+
+        if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','discount']])->count() > 0){
+            Log::info("I have Discout");
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            ->whereIn('type',['discount'])
+            ->update([
+                'amount' => ($input['subTotal']*$currentInvoice['discount']/100)*-1,
+            ]);
+        }
+
         foreach ($input['newProduct'] as $key => $value) {
             if(!$value['discount'])
             $value['discount']=0;
@@ -307,7 +363,7 @@ class InvoiceController extends Controller
             $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
             $sell=Selling::create([
                 'admin_id' => $admin_id,
-                'invoice_id' => $invoice->id,
+                'invoice_id' => $input['invoice_id'],
                 'product_id' => $value['id'],
                 'quantity' => $value['quantity'],
                 'unitPrice' => $value['sellingPrice'],
@@ -328,33 +384,9 @@ class InvoiceController extends Controller
             
             if($value['quantity']<$input['productDetailsInvoice'][$i]['quantity'] )
             {
-                if( $invoiceFlag==false)
-                {
-                    $invoiceX=Invoice::create([
-                        'admin_id' => $admin_id,
-                        'type' => 'return',
-                        'totalQuantity' => 0,
-                        'totalPrice' => 0,
-                        'customer_id' => 1,
-                        'discount' => 0,
-                        'sellingPrice' => 0,
-                        'paidAmount' => 0,
-                        'date' => $input['date'],
-                    ]);
-                    //
-
-                    $invoiceFlag=true;
-                }
+               
                 
-                $purchase=Purchase::create([
-                    'admin_id' => $admin_id,
-                    'invoice_id' => $invoiceX->id,
-                    'product_id' => $value['product_id'],
-                    'quantity' => $input['productDetailsInvoice'][$i]['quantity']-$value['quantity'],
-                    'unitPrice' => $value['unitPrice'],
-                    'date' => $input['date'],
-                    
-                ]);
+              
                 $update=Selling::where('invoice_id',$input['invoice_id'])
                 ->where('product_id',$value['product_id'])
                 ->update([
@@ -372,8 +404,8 @@ class InvoiceController extends Controller
                  'msg' => 'updated',
             ],200);
     }//End Here
-    public function returnAll($id)
-    {
+
+    public function returnAll($id){
         $admin_id=Auth::user()->id;        
         $invoice=Invoice::where('id',$id)
         ->update([
