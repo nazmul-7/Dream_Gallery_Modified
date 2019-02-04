@@ -145,6 +145,7 @@ class InvoiceController extends Controller
         ->first();
         $due=Paymentsheet::where('invoice_id',$id)
         ->whereIn('type', ['due','dueIncoming'])
+       // ->whereIn('type', ['due'])
         ->sum('amount');
         $discount=Paymentsheet::where('invoice_id',$id)
         ->where('type', 'discount')
@@ -158,7 +159,7 @@ class InvoiceController extends Controller
                 'discount' => $discount,
             ],200);
     }
-    public function returnInvoice(Request $request){
+    public function returnInvoice(Request $request){ 
 
         $admin_id=Auth::user()->id;        
         $input=$request->all();
@@ -169,16 +170,98 @@ class InvoiceController extends Controller
         $totalSelling=0;
         $currentInvoice = Invoice::where('id',$input['invoice_id'])->first();
 
-        $update=Invoice::where('id',$input['invoice_id'])
-                ->update([
-                    'totalQuantity' => $input['totalQuantity'],
-                    'totalPrice' => $input['subTotal'],
-                    'sellingPrice' => $currentInvoice['sellingPrice']+$input['paidAmount'],
-                    'paidAmount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
-                    
-                ]);
+        if($input['totalQuantity'] < 1){
+            Log::info("I have bonus Cut");
 
-       
+            $update=Invoice::where('id',$input['invoice_id'])
+            ->update([
+                'totalQuantity' => $input['totalQuantity'],
+                'totalPrice' => 0,
+                'sellingPrice' => 0,
+                'paidAmount' => 0,
+                
+            ]);
+            if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','incoming']])->count() > 0){
+
+                Log::info("I am from Cash Sale");
+                Log::info($input['paidAmount']);
+                $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                ->whereIn('type',['incoming'])
+                ->update([
+                    'amount' => 0,
+                ]);
+    
+                $update=Payment::where('invoice_id',$input['invoice_id'])
+                ->update([
+                    'paidAmount' => 0,
+    
+                ]);
+            }
+            else{
+                $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                    ->whereIn('type',['due'])
+                    ->update([
+                        'amount' => 0,
+                    ]);
+    
+                    if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','dueIncoming']])->count() > 0){
+                        $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                        ->whereIn('type',['dueIncoming'])
+                        ->update([
+                            'amount' => 0,
+                        ]);
+                        
+                        $update=Payment::where('invoice_id',$input['invoice_id'])
+                        ->update([
+                            'paidAmount' => 0,
+    
+                        ]);
+    
+    
+                    }
+            }
+    
+            if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','discount']])->count() > 0){
+                Log::info("I have Discout");
+                $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+                ->whereIn('type',['discount'])
+                ->update([
+                    'amount' => 0,
+                ]);
+            }
+
+
+
+            $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            ->whereIn('type',['bonus'])
+            ->update([
+                'amount' => 0,
+            ]);
+
+            $update=Bonus::where('invoice_id',$input['invoice_id'])
+            ->whereIn('type',['withdraw'])
+            ->delete();
+
+            // $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
+            // ->whereIn('type',['discount'])
+            //  ->delete();
+            
+
+           
+        }
+
+        else{
+
+            $update=Invoice::where('id',$input['invoice_id'])
+            ->update([
+                'totalQuantity' => $input['totalQuantity'],
+                'totalPrice' => $input['subTotal'],
+                'sellingPrice' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                'paidAmount' => $input['oldTotal']+$input['paidAmount'],
+                
+            ]);
+
+   
         if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','incoming']])->count() > 0){
 
             Log::info("I am from Cash Sale");
@@ -191,15 +274,15 @@ class InvoiceController extends Controller
 
             $update=Payment::where('invoice_id',$input['invoice_id'])
             ->update([
-                'paidAmount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
-                
+                'paidAmount' => $input['oldTotal']+$input['paidAmount'],
+
             ]);
         }
         else{
             $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
                 ->whereIn('type',['due'])
                 ->update([
-                    'amount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
+                    'amount' => ($currentInvoice['sellingPrice']+$input['paidAmount'])*-1,
                 ]);
 
                 if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','dueIncoming']])->count() > 0){
@@ -208,11 +291,11 @@ class InvoiceController extends Controller
                     ->update([
                         'amount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
                     ]);
-
+                    
                     $update=Payment::where('invoice_id',$input['invoice_id'])
                     ->update([
-                        'paidAmount' => $currentInvoice['sellingPrice']+$input['paidAmount'],
-                        
+                        'paidAmount' => $input['oldTotal']+$input['paidAmount'],
+
                     ]);
 
 
@@ -227,6 +310,9 @@ class InvoiceController extends Controller
                 'amount' => ($input['subTotal']*$currentInvoice['discount']/100)*-1,
             ]);
         }
+
+    }
+  
 
         $i=0;
         $invoiceFlag=false;
@@ -248,7 +334,11 @@ class InvoiceController extends Controller
             }
             $i++;
 
-        }
+         }
+   
+
+
+     
 
          return response()->json([
                  'msg' => 'updated',
@@ -280,29 +370,6 @@ class InvoiceController extends Controller
             
         ]);
 
-        // $invoice=Invoice::create([
-        //     'admin_id' => $admin_id,
-        //     'type' => 'sell',
-        //     'totalQuantity' => $totalQuantity,
-        //     'totalPrice' => $input['subTotal'],
-        //     'customer_id' => $input['customer_id'],
-        //     'discount' => $input['discount'],
-        //     'sellingPrice' => $totalSelling,
-        //     'paidAmount' => $input['paidAmount'],
-        //     'date' => $input['date'],
-        // ]);
-        
-        // $paymentSheet=Paymentsheet::create([
-        //     'admin_id' => $admin_id,
-        //     'invoice_id' => $invoice->id,
-        //     'type' => 'incoming',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
-        //     'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
-        //     'uid' => $input['customer_id'],
-        //     'amount' => $input['paidAmount'],
-        //     'paymentMethod' => 'cash',
-        //     'remarks' => 'Sell To Customer',
-        //     'date' => $input['date'],
-        // ]);
         
 
 
@@ -340,13 +407,9 @@ class InvoiceController extends Controller
                     $update=Payment::where('invoice_id',$input['invoice_id'])
                     ->update([
                         'paidAmount' => $currentInvoice['paidAmount']+ $input['paidAmount'],
-                        
                     ]);
-
-
                 }
         }
-
         if(Paymentsheet::where([['invoice_id',$input['invoice_id']],['type','discount']])->count() > 0){
             Log::info("I have Discout");
             $update=Paymentsheet::where('invoice_id',$input['invoice_id'])
@@ -355,7 +418,6 @@ class InvoiceController extends Controller
                 'amount' => ($input['subTotal']*$currentInvoice['discount']/100)*-1,
             ]);
         }
-
         foreach ($input['newProduct'] as $key => $value) {
             if(!$value['discount'])
             $value['discount']=0;
@@ -370,7 +432,6 @@ class InvoiceController extends Controller
                 'discount' => $value['discount'],
                 'profit' => $profit,
                 'date' => $input['date'],
-                
             ]);
         }
         $i=0;
@@ -379,27 +440,18 @@ class InvoiceController extends Controller
         foreach ($input['productDetails'] as $key => $value) {
             if(!$value['discount'])
             $value['discount']=0;
-
             $profit= $value['discountedPrice'] - $value['product']['averageBuyingPrice'];
-            
-            if($value['quantity']<$input['productDetailsInvoice'][$i]['quantity'] )
-            {
+            if($value['quantity']<$input['productDetailsInvoice'][$i]['quantity'] ){
                
-                
-              
                 $update=Selling::where('invoice_id',$input['invoice_id'])
                 ->where('product_id',$value['product_id'])
                 ->update([
                     'quantity' => $value['quantity'],
                     'unitPrice' => $value['unitPrice'],
-                    
                 ]);
-                
             }
             $i++;
-
         }
-
          return response()->json([
                  'msg' => 'updated',
             ],200);
@@ -422,8 +474,6 @@ class InvoiceController extends Controller
         $deleteAllBonus=Bonus::where('invoice_id',$id)
         ->delete();
         
-
-
          return response()->json([
                  'msg' => 'updated',
             ],200);

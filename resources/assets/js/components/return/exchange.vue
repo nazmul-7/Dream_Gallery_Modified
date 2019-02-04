@@ -379,6 +379,7 @@
             },
             showClear()
             {
+                 this.clearData()
                 this.clearModel=true
             },
             clearForm()
@@ -394,9 +395,10 @@
             },
             clearData()
             {
-                this.date=''
+               this.date=''
                 this.formValue.invoice_id=''
                 this.formValue.productDetails=[]
+                this.formValue.productDetailsInvoice=[]
                 this.formValue.productDetailsInvoice=[]
                 this.formValue.newProduct=[]
                 this.formValue.subTotal=0
@@ -404,6 +406,9 @@
                 this.formValue.paidAmount=0
                 this.formValue.oldTotal=0
                 this.formValue.total=0
+                this.formValue.bonusAmount=0
+                this.formValue.discountAmount=0
+                this.formValue.dueAmount=0
                 this.formValue.discount=0
                 this.formValue.customer_id=null
                 this.formValue.date=''
