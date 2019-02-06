@@ -226,9 +226,9 @@
                 <span>Barcode </span>
             </p>
             
-            <div class="print barcode_main">
-                <div style="text-align:center">
-                    <barcode v-bind:value="UpdateValue.barCode" >
+            <div>
+                <div >
+                    <barcode v-bind:value="UpdateValue.barCode" :options="options">
                         Sorry Cant Load now
                     </barcode>
                 </div>
@@ -251,6 +251,7 @@
         data () {
             return {
                 search:'',
+                height: 30,
                 filterGroup:'',
                 barcodeModal:false,
                 addProductModal:false,
@@ -399,6 +400,12 @@
             
         },
         computed: {
+             options() {
+              return {
+                height: this.height,
+                 displayValue: false,
+              }
+            },
             searchData()
             {
                 console.log(this.search)

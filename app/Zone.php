@@ -9,4 +9,6 @@ class Zone extends Model
     protected $fillable = [
         'zoneName','delivery'
     ];
+
+
 }

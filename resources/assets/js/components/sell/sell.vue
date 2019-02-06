@@ -315,11 +315,11 @@
                   </div>
                   <div class="memu_total_main dis text_right" v-if="homeDelivery" >
                      <p class="memu_list_title flex_space">Delivery Charge:</p>
-                     <p class="memu_list_title memu_total_num">{{ formValue.discount}}</p>
+                     <p class="memu_list_title memu_total_num">{{ currentCustomer.delivery}}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Net Payable:</p>
-                     <p class="memu_list_title memu_total_num">{{formValue.total}}</p>
+                     <p class="memu_list_title memu_total_num">{{(formValue.total)+(currentCustomer.delivery)}}</p>
                   </div>
                </div>
               
@@ -341,7 +341,10 @@
                 <div class="spaceBerCode b_color">
                     <div class="print barcode_main">
                         <div style="text-align:center">
-                            <barcode v-bind:value="sellResponseId" style="margin-left: 60px;"> >
+                            <!-- <barcode v-bind:value="sellResponseId" style="margin-left: 60px;"> >
+                                Sorry Cant Load now
+                            </barcode> -->
+                            <barcode v-bind:value="sellResponseId" :options="options">
                                 Sorry Cant Load now
                             </barcode>
                         </div>
@@ -449,6 +452,7 @@
                 sellResponseId:0,
                 toDayDate:new Date(),
                 searchValue:'',
+                height: 25,
                 clearModel:false,
                 loading:false,
                 sending:false,
@@ -475,6 +479,7 @@
                     address:'',
                     Outstanding:'',
                     barcode:'',
+                    delivery: 0,
                     zone:'SYLHET',
                     bonusAmount:null,
                     status:false
@@ -560,6 +565,12 @@
             
         },
         computed: {
+            options() {
+              return {
+                height: this.height,
+                 displayValue: false,
+              }
+            },
 
             changeAmount()
             {
@@ -936,13 +947,15 @@
                 //     }
                 //     i++;
                 // }
-
+                console.log(" i am customer Pass");
+                console.log(customerPass)
                 this.formValue.customer_id=customerPass.id
                 this.currentCustomer.customerName=customerPass.customerName
                 this.currentCustomer.zone=customerPass.zone
                 this.currentCustomer.id=customerPass.id
                 
                 this.currentCustomer.number=customerPass.contact
+                this.currentCustomer.delivery=customerPass.zone_info.delivery
                 this.currentCustomer.address=customerPass.address
                 this.currentCustomer.email=customerPass.email
                 this.currentCustomer.barcode=customerPass.barcode
@@ -1156,7 +1169,7 @@
           //  console.log( this.dataZone[this.dataZone.indexOf("SYLHET")])
            // console.log( this.dataZone.indexOf("SYLHET"))
 
-        }
+        },
 
     }
 </script>

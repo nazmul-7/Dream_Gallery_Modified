@@ -8,7 +8,7 @@ class Customer extends Model
 {
 
     protected $fillable = [
-        'customerName', 'address', 'contact','email', 'zone', 'balance','opening','barcode'
+        'customerName', 'address', 'contact','email', 'zone', 'balance','opening','barcode','zoneId'
     ];
     public function dueAmount()
     {
@@ -17,6 +17,10 @@ class Customer extends Model
     public function bonus()
     {
        return $this->hasMany('App\Bonus');
+    } 
+    public function zoneInfo()
+    {
+       return $this->belongsTo('App\Zone','zoneId');
     } 
 
 }

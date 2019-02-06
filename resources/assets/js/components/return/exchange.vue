@@ -530,7 +530,7 @@
                             data: this.formValue
                         })
                         
-                        this.s('Great!','Return has been added successfully!')
+                        this.s('Great!','Exchange has been done successfully!')
                         this.loading=false
                         this.clearData()
                     }catch(e){

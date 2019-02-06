@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2019 at 12:05 PM
+-- Generation Time: Feb 06, 2019 at 02:53 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -82,6 +82,7 @@ CREATE TABLE `customers` (
   `contact` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `zone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zoneId` int(11) NOT NULL DEFAULT '1',
   `barcode` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `opening` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `balance` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
@@ -93,11 +94,11 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `customerName`, `address`, `contact`, `email`, `zone`, `barcode`, `opening`, `balance`, `created_at`, `updated_at`) VALUES
-(1, 'CASH', NULL, '016', NULL, NULL, NULL, '0', '0', '2019-02-02 06:30:05', '2019-02-02 06:30:05'),
-(2, 'SADEK', 'Modina Market, Sylhet', '+8801711380118', NULL, 'SYLHET', NULL, '0', '0', '2019-02-02 06:32:16', '2019-02-02 06:32:16'),
-(3, 'NAZMUL', 'Shagordhrgirpar, Sylhet', '+8801712534086', NULL, 'DHAKA', NULL, '0', '0', '2019-02-02 06:32:58', '2019-02-02 06:32:58'),
-(4, 'Bokor', 'Nasirabaad , Ctg', '+8801619672554', NULL, 'CHITTAGONG', NULL, '0', '0', '2019-02-02 06:33:32', '2019-02-02 06:33:32');
+INSERT INTO `customers` (`id`, `customerName`, `address`, `contact`, `email`, `zone`, `zoneId`, `barcode`, `opening`, `balance`, `created_at`, `updated_at`) VALUES
+(1, 'CASH', NULL, '016', NULL, NULL, 1, NULL, '0', '0', '2019-02-02 06:30:05', '2019-02-02 06:30:05'),
+(2, 'SADEK', 'Modina Market, Sylhet', '+8801711380118', NULL, 'SYLHET', 1, NULL, '0', '0', '2019-02-02 06:32:16', '2019-02-02 06:32:16'),
+(3, 'NAZMUL', 'Shagordhrgirpar, Sylhet', '+8801712534086', NULL, 'DHAKA', 2, '001', '0', '0', '2019-02-02 06:32:58', '2019-02-04 04:15:18'),
+(4, 'Bokor', 'Nasirabaad , Ctg', '+8801619672554', NULL, 'CHITTAGONG', 3, NULL, '0', '0', '2019-02-02 06:33:32', '2019-02-02 06:33:32');
 
 -- --------------------------------------------------------
 
@@ -523,8 +524,8 @@ CREATE TABLE `zones` (
 
 INSERT INTO `zones` (`id`, `zoneName`, `delivery`, `created_at`, `updated_at`) VALUES
 (1, 'SYLHET', 0, '2019-02-02 00:31:21', '2019-02-02 00:31:21'),
-(2, 'DHAKA', 0, '2019-02-02 00:31:26', '2019-02-02 00:31:26'),
-(3, 'CHITTAGONG', 0, '2019-02-02 00:31:41', '2019-02-02 00:31:41');
+(2, 'DHAKA', 100, '2019-02-02 00:31:26', '2019-02-06 07:28:37'),
+(3, 'CHITTAGONG', 100, '2019-02-02 00:31:41', '2019-02-06 07:28:44');
 
 --
 -- Indexes for dumped tables

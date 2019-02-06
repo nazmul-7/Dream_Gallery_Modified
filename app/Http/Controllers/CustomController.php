@@ -14,6 +14,7 @@ class CustomController extends Controller{
         return Customer::where('customerName', 'Like',$key)
                         ->orwhere('contact', 'Like',$key)
                         ->orwhere('barcode', 'Like',$key)
+                        ->with('zoneInfo')
                         ->get();
     }
 
@@ -24,7 +25,7 @@ class CustomController extends Controller{
         return Customer::where('customerName',$key)
                         ->orwhere('contact',$key)
                         ->orwhere('barcode',$key)
-                        ->first();
+                        ->with('zoneInfo')->first();
     }
     public function searchreferencerInfo($key){
 
