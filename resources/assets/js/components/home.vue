@@ -1,52 +1,76 @@
 <template>
     <div>
-        <Row :gutter="16">
-            <Col class="dream-input-main" span="6" offset="1" >
-				<h3 style="text-align:center">Petty Cash</h3>
-				<p style="text-align:center">{{ menuData.pettyCash}} {{currencyType}}</p>
-            </Col>
-        			<!-- total sale cash amount -->
-			<Col class="dream-input-main" span="8"  offset="1" >
-				<h3 style="text-align:center">Today's Sales</h3>
-				<p style="text-align:center">{{ menuData.todaysSale}} {{currencyType}}</p>
-            </Col>
-			<!-- total collection and cash incoming amount -->
-            <Col class="dream-input-main" span="6"  offset="1">
-				<h3 style="text-align:center">Today's Collection</h3>
-				<p style="text-align:center">{{ menuData.todaysCollection}} {{currencyType}}</p>
-            
-            </Col>
-			<!-- total paid amount to supplier -->
-            <Col class="dream-input-main" span="6" offset="1" >
-				<h3 style="text-align:center">Today's Payment</h3>
-				<p style="text-align:center">{{ menuData.todaysPayment}} {{currencyType}}</p>
-            </Col>
-			<!-- total sale cash amount -->
-			<Col class="dream-input-main" span="8"  offset="1" >
-				<h3 style="text-align:center">Customer's Outstanding</h3>
-				<p style="text-align:center">{{ menuData.customerOutstanding}} {{currencyType}}</p>
-            </Col>
-			<!-- total collection and cash incoming amount -->
-            <Col class="dream-input-main" span="6"  offset="1">
-				<h3 style="text-align:center">Supplier's Outstanding</h3>
-				<p style="text-align:center">{{ menuData.supplierOutstanding}} {{currencyType}}</p>
-            
-            </Col>
-        </Row>
+        <div class="_content">
+            <div class="row">
+                <div class="dream_input_main col-12 col-md-4 ">
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <h3 style="text-align:center">Petty Cash</h3>
+                        <p style="text-align:center">{{ menuData.pettyCash}} {{currencyType}}</p>
+                    </div>
+                </div>
+                        <!-- total sale cash amount -->
+                <div class="dream_input_main col-12 col-md-4">
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <h3 style="text-align:center">Today's Sales</h3>
+                        <p style="text-align:center">{{ menuData.todaysSale}} {{currencyType}}</p>
+                    </div>
+                </div>
+                <!-- total collection and cash incoming amount -->
+                <div class="dream_input_main col-12 col-md-4">
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <h3 style="text-align:center">Today's Collection</h3>
+                        <p style="text-align:center">{{ menuData.todaysCollection}} {{currencyType}}</p>
+                    </div>
+                </div>
+                <!-- total paid amount to supplier -->
+                <div class="dream_input_main col-12 col-md-4" >
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <h3 style="text-align:center">Today's Payment</h3>
+                        <p style="text-align:center">{{ menuData.todaysPayment}} {{currencyType}}</p>
+                    </div>
+                </div>
+                <!-- total sale cash amount -->
+                <div class="dream_input_main col-12 col-md-4">
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <h3 style="text-align:center">Customer's Outstanding</h3>
+                        <p style="text-align:center">{{ menuData.customerOutstanding}} {{currencyType}}</p>
+                    </div>
+                </div>
+                <!-- total collection and cash incoming amount -->
+                <div class="dream_input_main col-12 col-md-4">
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <h3 style="text-align:center">Supplier's Outstanding</h3>
+                        <p style="text-align:center">{{ menuData.supplierOutstanding}} {{currencyType}}</p>
+                    </div>
+                </div>
+
+                <div class="dream_input_main col-12 col-md-12 home_date_piker">
+                    <div class="dream_input_main_all _b_color _b_r">
+                        <DatePicker type="daterange" :options="options2" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+
+                        <GChart
+                            type="ColumnChart"
+                            :data="chartData"
+                            :options="chartOptions"
+                        />
+                    </div>
+                </div>
+            </div>
 
 
-        <Row>
-			
-            <Col class="dream-input-main" span="22" offset="1" >
-			<DatePicker type="daterange" :options="options2" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+            <!-- <Row>
+                
+                <Col class="dream-input-main" span="22" offset="1" >
+                <DatePicker type="daterange" :options="options2" @on-change="dateConverter" placeholder="Select date"></DatePicker>
 
-				<GChart
-					type="ColumnChart"
-					:data="chartData"
-					:options="chartOptions"
-				/>
-            </Col>
-        </Row>
+                    <GChart
+                        type="ColumnChart"
+                        :data="chartData"
+                        :options="chartOptions"
+                    />
+                </Col>
+            </Row> -->
+        </div>
     </div>
 </template>
 

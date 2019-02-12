@@ -1,69 +1,78 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" span="14" offset="1">
-                <Form ref="formInline" inline>
-                    <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem label="Choose Dates">
-                        <DatePicker type="daterange" placement="bottom-end" @on-change="dateRangeConverter" placeholder="Select date" style="width: 200px"></DatePicker>
-                    </FormItem>
-
-                </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
-            <Col class="dream-input-main" span="7" offset="1">
-                <Form >
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem label="Type">
-                                <Select v-model="formValue.type" placeholder="Type"
-                                :remote-method="changed">
-                                    <Option v-for="(type,i) in voucherType" :value="type.value" :key="i">{{ type.label }}</Option>
-                                </Select>
+        <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form ref="formInline" inline>
+                            <FormItem label="Search">
+                                <Input type="text" v-model="search" placeholder="Search">
+                                    <Icon type="ios-search" slot="prepend"></Icon>
+                                </Input>
                             </FormItem>
-                            
-                        </Col>
-                        <Col span="12">
-                            <FormItem label="Ledger Head">
-                                <Select v-model="formValue.ledgerName" placeholder="Ledger Head">
-                                    <Option v-for="(ledger,i) in dataLedger" :value="ledger.ledgerName" :key="i">{{ledger.ledgerName}} ({{ledger.type}})</Option>
-                                </Select>
+                            <FormItem label="Choose Dates">
+                                <DatePicker type="daterange" placement="bottom-end" @on-change="dateRangeConverter" placeholder="Select date" style="width: 200px"></DatePicker>
                             </FormItem>
-                        </Col>
-                        <Col span="12">
-                            <FormItem  label="Voucher Date">
-                                <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
-                            </FormItem >
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="Amount">
-                                <Input type="text" placeholder="Amount" 
-                                v-model="formValue.amount"></Input>
-                            </FormItem >
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="Remarks">
-                                <Input type="textarea"
-                                :autosize="{minRows: 4,maxRows: 5}"
-                               placeholder="Remarks" 
-                                v-model="formValue.remarks"></Input>
-                            </FormItem >
-                        </Col>
-                         <Col span="24">
-                            <Button type="success" :loading="loading" @click="voucherAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Col>
 
-        </Row>
+                        </Form>
+                        <div class="_table_div cusmo_table ">
+                            <Table :columns="columns1" :data="searchData"></Table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-4">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form >
+                            <Row :gutter="24">
+                                <Col span="24">
+                                    <FormItem label="Type">
+                                        <Select v-model="formValue.type" placeholder="Type"
+                                        :remote-method="changed">
+                                            <Option v-for="(type,i) in voucherType" :value="type.value" :key="i">{{ type.label }}</Option>
+                                        </Select>
+                                    </FormItem>
+                                    
+                                </Col>
+                                <Col span="12">
+                                    <FormItem label="Ledger Head">
+                                        <Select v-model="formValue.ledgerName" placeholder="Ledger Head">
+                                            <Option v-for="(ledger,i) in dataLedger" :value="ledger.ledgerName" :key="i">{{ledger.ledgerName}} ({{ledger.type}})</Option>
+                                        </Select>
+                                    </FormItem>
+                                </Col>
+                                <Col span="12">
+                                    <FormItem  label="Voucher Date">
+                                        <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                    </FormItem >
+                                </Col>
+                                <Col span="24">
+                                    <FormItem  label="Amount">
+                                        <Input type="text" placeholder="Amount" 
+                                        v-model="formValue.amount"></Input>
+                                    </FormItem >
+                                </Col>
+                                <Col span="24">
+                                    <FormItem  label="Remarks">
+                                        <Input type="textarea"
+                                        :autosize="{minRows: 4,maxRows: 5}"
+                                    placeholder="Remarks" 
+                                        v-model="formValue.remarks"></Input>
+                                    </FormItem >
+                                </Col>
+                                <Col span="24">
+                                    <Button type="success" :loading="loading" @click="voucherAdd">
+                                        <span v-if="!loading">Add</span>
+                                        <span v-else>Loading...</span>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
       <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">

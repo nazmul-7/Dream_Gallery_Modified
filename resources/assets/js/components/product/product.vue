@@ -1,29 +1,38 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main "  offset="1" >
-                <Button type="success" @click="productAddButton">
-                    Add New Product 
-                </Button>
-            </Col>
-        </Row>
-        <Row>
-            <Col  class="dream-input-main" span="22" offset="1">
-                <Form ref="formInline" inline>
-                    <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search" @on-enter="searchProducts"> 
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem label="Group">
-                        <Select v-model="filterGroup" placeholder="Select group"  filterable clearable>
-                                <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
-                            </Select>
-                    </FormItem>
-                </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
-        </Row>
+        <div class="_content">
+            <div>
+                <div class="dream-input-main  _b_color _b_r border" >
+                    <button class="all_button btn" @click="productAddButton">
+                        Add New Product 
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <div  class="dream-input-main  _b_color _b_r border">
+                    <Form ref="formInline" inline>
+                        <FormItem label="Search">
+                            <Input type="text" v-model="search" placeholder="Search" @on-enter="searchProducts"> 
+                                <Icon type="ios-search" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem label="Group">
+                            <Select v-model="filterGroup" placeholder="Select group"  filterable clearable>
+                                    <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
+                                </Select>
+                        </FormItem>
+                    </Form>
+
+                    <div class="_table_div product_div _pa_table">
+                        <Table min-width="1150" :columns="columns1" :data="searchData"></Table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
       <Modal v-model="addProductModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="plus"></Icon>
@@ -220,17 +229,20 @@
         </div>
     </Modal>
 
-    <Modal class="barcode_all" v-model="barcodeModal" width="600">
-        <div class="print_barcode">
+   <Modal class="barcode_all" v-model="barcodeModal" width="600">
             <p slot="header" style="color:#19be6b;text-align:center">
                 <span>Barcode </span>
             </p>
             
+        <div class="print_barcode">
             <div>
-                <div >
+                <div class="barcode_main print">
+                    <p class="barcode_main_name">{{barcodeName}}</p>
+                    <p class="barcode_main_num">{{barcodeModel}} {{barcodeColor}} {{barcodeSize}}</p>
                     <barcode v-bind:value="UpdateValue.barCode" :options="options">
                         Sorry Cant Load now
                     </barcode>
+                    <p class="barcode_main_model">MRP Tk. {{barcodePrice}} </p>
                 </div>
             </div>
             <!-- <div slot="footer">
@@ -253,6 +265,11 @@
                 search:'',
                 height: 30,
                 filterGroup:'',
+                barcodeName:'',
+                barcodeModel:'',
+                barcodeColor:'',
+                barcodeSize:'',
+                barcodePrice:'',
                 barcodeModal:false,
                 addProductModal:false,
                 editModal:false,
@@ -316,7 +333,8 @@
                 columns1: [
                     {
                         title: 'Product Name',
-                        key: 'productName'
+                        key: 'productName',
+                        width: 300
                     },
                     {
                         title: 'Group Name',
@@ -541,6 +559,11 @@
             showBarcode (index) {
                 this.UpdateValue.barCode= parseInt(this.dataProduct[index].barCode)
                 this.barcodeModal=true
+                this.barcodeName=this.dataProduct[index].productName
+                this.barcodeModel=this.dataProduct[index].model
+                this.barcodeColor=this.dataProduct[index].color
+                this.barcodeSize=this.dataProduct[index].size
+                this.barcodePrice=this.dataProduct[index].sellingPrice
                 this.UpdateValue.id=this.dataProduct[index].id
                 this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index

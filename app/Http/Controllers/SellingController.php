@@ -246,7 +246,7 @@ class SellingController extends Controller
             if(!$value['discount'])
             $value['discount']=0;
 
-            $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
+            $profit= $value['sellingPrice'] - $value['averageBuyingPrice'];
             $sell=Selling::create([
                 'admin_id' => $admin_id,
                 'invoice_id' => $invoice->id,

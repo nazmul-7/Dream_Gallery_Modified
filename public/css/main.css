@@ -1,11 +1,44 @@
+table{
+    border-collapse: collapse;
+  width: 100%;
+}
+th {
+    border: 1px solid #ddd !important;
+    padding: 9px 12px !important;
+}
+
+td{
+    border: 1px solid #ddd !important;
+    padding: 9px 12px !important;
+}
+.ivu-table th {
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+}
+.ivu-table td {
+    border-left: none !important;
+}
+.ivu-table th:last-child{
+    border-right: none !important;
+}
+
+.ivu-table td:last-child{
+    border-right: none !important;
+}
 @font-face {
     font-family: lato;
     src: url('public/Lato-Light.ttf');
 }
+
+
+body{
+    font-family: lato !important;
+}
 .dream-input-main {
     background: #fff;
     padding: 23px;
-    margin: 46px 0 0;
+    margin: 0px 0 30px;
 }
 .dream-input-main-button {
   text-align: center;
@@ -225,7 +258,6 @@
     text-align: center;
 }
 .b_color {
-    border-color: #444!important;
 }
 .text_right{
     text-align: right;
@@ -239,7 +271,6 @@
 .memu {
     margin: 0px auto;
     padding: 0px 10px 0px;
-    margin: 20px 0 20px;
     /* width: 288px; */
     /* font-family: sans-serif; */
     font-family: lato;;
@@ -255,7 +286,7 @@
     line-height: 15px;
 }
 .memu_sold {
-    border-top: 1px dashed;
+    border-top: 1px dashed #000;
     padding: 6px 6px;
     margin-top: 12px;
 }
@@ -283,8 +314,8 @@
 }
 .to_Enjoy {
     padding: 5px 6px;
-    border-top: 1px dashed;
-    border-bottom: 1px dashed;
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
 }
 .memu_list {
     padding: 5px 2px;
@@ -299,22 +330,61 @@
     width: 25px;
 }
 .print_barcode {
-    width: 30mm;
     text-align: center;
-    display: inline-block;
     height: 20mm;
+}
+.barcode_main {
+    width: 113px;
+    margin: 0 auto;
+    position: relative;
+}
+.barcode_main_name {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 10px;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 11px;
+    margin: 0 0 1px;
+}
+.barcode_main_num {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 10px;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 0 -3px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 8px;
+}
+.barcode_main_model {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 10px;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: -8px 0 0px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 12px;
 }
 .barcode_main{
     height: 20mm;
 }
-.barcode_main {
-    height: 20mm;
-    width: 113px;
-}
 .barcode_all{}
 .barcode_all canvas {
-    width: 113px;
-    height: 20mm;
+    width: 82px;
+    height: 12mm;
 }
 .barcode_all .ivu-modal-body {
     padding: 16px;
@@ -340,8 +410,8 @@
 }
 .memu_total {
     padding: 6px 6px;
-    border-top: 1px dashed;
-    border-bottom: 1px dashed;
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
 }
 .memu_total_main {
     padding: 0px 0;
@@ -358,12 +428,26 @@
     border-top: 1px dashed;
     border-bottom: 1px dashed;
 }
-.spaceBerCode{
+.spaceBerCode {
     padding: 0 6px;
-    height: 160px;
-    border-top: 1px dashed;
-    border-bottom: 1px dashed;
+    height: 75px;
+    position: relative;
 }
+.barcode_main_memu {
+    width: 113px;
+    text-align: center;
+    margin: 0 auto;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+.barcode_num {
+    margin-top: -10px !important;
+    display: block;
+}
+.barcode_code{}
 .memu_thanks {
     padding: 13px 15px;
 }
@@ -373,3 +457,301 @@
 }
 /*===== Memu css ======*/
 
+
+/*============= login page ============*/
+.login_page {
+    background: #f3f3f359;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.login_page_main{}
+    .login_page_main_title {
+    font-size: 23px;
+    color: #333;
+    letter-spacing: 5px;
+}
+    .input_group {
+
+}
+.input_group_input input:focus{
+    background: #d8d8d8;
+    outline:none !important;
+    border:none !important;
+}
+input:focus{
+    box-shadow:none !important;
+}
+.input_group_input input {
+    border-radius: 48px;
+    height: 39px;
+    background: #d8d8d86b;
+    border: none;
+    padding:0 15px;
+    font-size: 13px;
+}
+.input_group_title {
+    padding: 0 0 5px 13px;
+    opacity: .7;
+    font-size: 15px;
+}
+.input_group_input{}
+.input_group_button{}
+.log_forget_pass {
+    text-align: right;
+    margin: -10px 12px 0 0;
+    opacity: .7;
+}
+.text_center{
+    text-align: center;
+}
+.log_button {
+    margin: 18px 0 0;
+}
+
+
+.log_button button:hover{
+    border:none;
+    background-color: #3a3838;
+}
+.log_button button {
+    border-radius: 34px;
+    padding: 11px 58px 10px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 2px;
+    background: #524e4e;
+    border: none;
+}
+.btn{
+    border-radius: 34px;
+    padding: 7px 32px 6px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 2px;
+    background: #524e4e;
+    border: none;
+}
+.btn:hover{
+    border:none;
+    background-color: #3a3838;
+}
+.login_page_main_all{}
+.copy_right {
+    position: fixed;
+    width: 100%;
+    bottom: 122px;
+    left: 0;
+    text-align: center;
+    opacity: .7;
+    font-size:18px;
+    letter-spacing: 7px;
+}
+.po {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}.log_forget_pass {
+    text-align: right;
+    margin: -10px 12px 0 0;
+    opacity: .7;
+    font-size:15px;
+}
+.login_page_main_all {
+    position: absolute !important;
+    width: 100% !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+/*============= login page ============*/
+
+/*============= common css ============*/
+.border{
+    border: 1px solid;
+}
+.mr_b20{
+    margin-bottom: 20px;
+}
+._table_div{
+    overflow: auto;
+    width: 100%;
+}
+._pa_table td:last-child {
+    padding: 0px !important;
+}
+.all_button {
+    border-radius: 5px;
+    padding: 7px 30px 6px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    background: #524e4e !important;
+    border: none !important;
+    color: #fff;
+    text-transform: inherit;
+}
+.all_button:hover {
+    border: none;
+    background-color: #3a3838;
+}
+.cetegory_btn {
+    border-radius: 5px !important;
+    padding: 7px 30px 6px !important;
+    font-size: 13px;
+    letter-spacing: 2px;
+    background: #524e4e !important;
+    background-color: #524e4e !important;
+    border: none !important;
+    color: #fff;
+    text-transform: inherit;
+}
+/*============= common css ============*/
+
+/*============= edit css ============*/
+.buyer_tables_main_overflow_three{
+    min-width: 1050px;
+}
+.buyer_tables_main_overflow_two{
+    min-width:750px;
+}
+.product_div .ivu-table-wrapper {
+    min-width: 1150px;
+}
+.group_table .ivu-table-wrapper td:last-child {
+    /* width: 181px !important; */
+    padding: 0 !important;
+}
+.group_table .ivu-table-wrapper {
+    min-width: 500px;
+}
+.cata_table .ivu-table-wrapper {
+    min-width: 500px;
+}
+.cata_table .ivu-table-wrapper td:last-child {
+    /* width: 181px !important; */
+    padding: 0 !important;
+}
+.all .ivu-table-wrapper td:last-child {
+    /* width: 181px !important; */
+    padding: 0 !important;
+}
+.cusmo_table .ivu-table-wrapper {
+    min-width: 1000px;
+}
+.zone_table .ivu-table-wrapper {
+    min-width: 500px;
+}
+.buyer_tables_main_overflow{
+    min-width: 550px;
+}
+/*============= edit css ============*/
+
+/*============= deshbord ============*/
+._content {
+    margin: 46px 4.16666667%;
+}
+.dream_input_main{}
+.dream_input_main_all {
+    background: #fff;
+    margin: 0 0px 30px 0;
+    padding: 25px 11px;
+    border: 1px solid;
+}
+._b_color {
+    border-color: #eaeaea !important;
+}
+._b_r {
+    border-radius: 14px;
+}
+.ivu-layout-content {
+    background: #fbfbfb;
+    height: calc(100vh - 64px);
+    overflow: auto;
+    padding-bottom: 55px;
+}
+.home_date_piker{
+    margin-top: 223px;
+}
+.ivu-layout-header {
+    border-bottom: 1px solid #e6e6e6a6;
+}
+/*============= deshbord ============*/
+
+
+/*============= menu ============*/
+._side_menu{}
+._side_menu .ivu-menu-submenu-has-parent-submenu .ivu-menu .ivu-menu-item {
+    padding: 14px 0 14px 24px !important;
+}
+._side_menu .ivu-menu-submenu-has-parent-submenu .ivu-menu-submenu-title {
+    padding: 0 !important;
+}
+.cencel {
+    padding-left: 8px;
+}
+.ivu-layout-sider-collapsed {
+    margin-left: -78px;
+}
+/*============= menu ============*/
+
+/*============= responsive ============*/
+@media only screen and (max-width: 750px) {
+table{
+    border-collapse: collapse;
+    width: 100%;
+    display: block;
+    overflow: auto;
+}
+.ivu-layout-sider {
+    position: relative;
+    z-index: 111;
+} 
+.ivu-layout-sider:before {
+    position: absolute;
+    content: '';
+    background: #00000085;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.ivu-layout-header {
+    z-index: 999;
+}
+.ivu-layout-sider-collapsed:before{
+    content: inherit;
+    display: none !important;
+}
+._content {
+    margin: 30px 4.16666667%;
+}
+tablle{
+    width: 100%;
+display: block;
+overflow: auto;
+}
+.total_cost {
+    width: 100%;
+}
+.total_cost_main_right {
+    width: 78px;
+}
+}
+
+
+@media only screen and (min-width: 750px) and (max-width: 1050px) {
+    ._content {
+        margin: 30px 4.16666667%;
+    }
+    tablle{
+        width: 100%;
+    display: block;
+    overflow: auto;
+    }
+}
+/*============= responsive ============*/

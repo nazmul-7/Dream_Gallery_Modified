@@ -8,16 +8,22 @@ import category from './components/category/category.vue'
 import unit from './components/unit/unit.vue'
 import product from './components/product/product.vue'
 import purchase from './components/product/purchase.vue'
+
 import sell from './components/sell/sell.vue'
+
 import supplier from './components/supplier/supplier.vue'
 import zone from './components/customer/zone.vue'
+
 import customer from './components/customer/customer.vue'
 import voucher from './components/voucher/voucher.vue'
 import ledgerhead from './components/voucher/ledgerhead.vue'
 import stock from './components/stock/stock.vue'
+
 import paytosupplier from './components/payment/paytosupplier.vue'
+
 import collection from './components/payment/cashcollection.vue'
 import returnproduct from './components/return/returnproduct.vue'
+
 import exchangeproduct from './components/return/exchange.vue'
 import order from './components/order/order.vue'
 //reports
@@ -26,6 +32,15 @@ import itemselling from './components/sell/itemselling.vue'
 import purchasereport from './components/purchase/purchasereport.vue'
 import purchaseitemlist from './components/purchase/purchaseitemlist.vue'
 import grossprofit from './components/profit/grossprofit.vue'
+
+
+
+
+
+
+
+
+
 import netprofit from './components/profit/netprofit.vue'
 import paymentlist from './components/payment/paymentlist.vue'
 import cash from './components/cash/cash.vue'

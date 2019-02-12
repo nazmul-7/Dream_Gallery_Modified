@@ -1,43 +1,52 @@
 <template>
     <div>
-        <Row>
+        <div class="_content">
+             <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                         <Form ref="formInline" inline>
+                        <FormItem prop="user">
+                            <Input type="text" v-model="search" placeholder="Search">
+                                <Icon type="ios-search" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                    </Form>
+                    
+                    <div class="_table_div cata_table">
+                        <Table :columns="columns1" :data="searchData"></Table>
+                    </div>
+                    </div>
+                </div>
 
-            <Col class="dream-input-main" span="13" offset="1">
-                <Form ref="formInline" inline>
-                    <FormItem prop="user">
-                        <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
-            <Col class="dream-input-main" span="8" offset="1">
-                <Form >
+                <div class="col-12 col-md-4 col-lg-4 ">
+                    <div class=" _b_color _b_r border dream-input-main">
+                        <Form >
 
-                    <Row :gutter="24">
-                        <Col span="24">
-                            <FormItem label="Group">
-                                <Select v-model="formValue.group_id" placeholder="Select group" filterable>
-                                    <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
-                                </Select>
-                            </FormItem>
-                            <FormItem  label="Category Name">
-                                <Input type="text" placeholder="Category Name" v-model="formValue.catName" @on-enter="categoryAdd">
-                                </Input>
-                            </FormItem >
-                            
-                        </Col>
-                         <Col span="24">
-                            <Button type="success" :loading="loading" @click="categoryAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Col>
-        </Row>
+                        <Row :gutter="24">
+                            <Col span="24">
+                                <FormItem label="Group">
+                                    <Select v-model="formValue.group_id" placeholder="Select group" filterable>
+                                        <Option v-for="(group,i) in dataGroup" :value="group.id" :key="i">{{group.groupName}}</Option>
+                                    </Select>
+                                </FormItem>
+                                <FormItem  label="Category Name">
+                                    <Input type="text" placeholder="Category Name" v-model="formValue.catName" @on-enter="categoryAdd">
+                                    </Input>
+                                </FormItem >
+                                
+                            </Col>
+                            <Col span="24">
+                                <Button class="all_button cetegory_btn" type="success" :loading="loading" @click="categoryAdd">
+                                    <span v-if="!loading">Add</span>
+                                    <span v-else>Loading...</span>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">

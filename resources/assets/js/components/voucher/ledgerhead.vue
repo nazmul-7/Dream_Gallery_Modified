@@ -1,51 +1,62 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" span="13" offset="1">
-                <Form ref="formInline" inline>
-                    <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem label="Type">
-                        <Select v-model="filterLedger" placeholder="Select Type" filterable clearable>
-                            <Option value="Income" >Income</Option>
-                            <Option value="Expence" >Expence</Option>
-                            <Option value="Investment">Investment</Option>
-                        </Select>
-                    </FormItem>
-                </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
-            <Col class="dream-input-main" span="8" offset="1">
-                <Form >
-
-                    <Row :gutter="24">
-                        <Col span="24">
+        <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form ref="formInline" inline>
+                            <FormItem label="Search">
+                                <Input type="text" v-model="search" placeholder="Search">
+                                    <Icon type="ios-search" slot="prepend"></Icon>
+                                </Input>
+                            </FormItem>
                             <FormItem label="Type">
-                                <Select v-model="formValue.type" placeholder="Select Type">
+                                <Select v-model="filterLedger" placeholder="Select Type" filterable clearable>
                                     <Option value="Income" >Income</Option>
                                     <Option value="Expence" >Expence</Option>
-                                    <Option value="Investment" >Investment</Option>
+                                    <Option value="Investment">Investment</Option>
                                 </Select>
                             </FormItem>
-                            <FormItem label="Ledger Name">
-                                <Input type="text" placeholder="Ledger Name" 
-                                v-model="formValue.ledgerName" @on-enter="ledgerAdd"></Input>
-                            </FormItem>
+                        </Form>
 
-                        </Col>
-                         <Col span="24">
-                            <Button type="success" :loading="loading" @click="ledgerAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Col>
-        </Row>
+                        <div class="_table_div group_table _pa_table">
+                            <Table :columns="columns1" :data="searchData"></Table>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-12 col-md-4 col-lg-4">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form >
+
+                            <Row :gutter="24">
+                                <Col span="24">
+                                    <FormItem label="Type">
+                                        <Select v-model="formValue.type" placeholder="Select Type">
+                                            <Option value="Income" >Income</Option>
+                                            <Option value="Expence" >Expence</Option>
+                                            <Option value="Investment" >Investment</Option>
+                                        </Select>
+                                    </FormItem>
+                                    <FormItem label="Ledger Name">
+                                        <Input type="text" placeholder="Ledger Name" 
+                                        v-model="formValue.ledgerName" @on-enter="ledgerAdd"></Input>
+                                    </FormItem>
+
+                                </Col>
+                                <Col span="24">
+                                    <Button class="all_button" type="success" :loading="loading" @click="ledgerAdd">
+                                        <span v-if="!loading">Add</span>
+                                        <span v-else>Loading...</span>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       <Modal v-model="editModal" width="360" :styles="{top: '20px'}">
         <p slot="header" style="color:#369;text-align:center">

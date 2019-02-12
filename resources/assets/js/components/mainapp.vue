@@ -4,18 +4,17 @@
  <div class="layout">
         <Layout>
             <Sider width="250" ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu  theme="dark" width="auto" :class="menuitemClasses" @on-select="goToLink">
+                <Menu class="_side_menu"  theme="dark" width="auto" accordion :class="menuitemClasses" @on-select="goToLink">
                     <!-- menu -->
                     <MenuItem name="/" :to="handleGoToMenu('/')">Dashboard</MenuItem>
                     <Submenu name="1">
                         <template slot="title">
-                            <Icon type="ios-navigate"></Icon>
+                           <Icon type="ios-settings" />
                            Setup
                         </template>
                         <MenuItem name="1-1">                        
                             <Submenu name="1-1-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Setting
                                 </template>
                                 <MenuItem name="setting" :to="handleGoToMenu('/setting')">Store Setting</MenuItem>
@@ -26,7 +25,6 @@
                         <MenuItem name="1-2">                        
                             <Submenu name="1-2-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Product
                                 </template>
                                 <MenuItem name="product" :to="handleGoToMenu('/product')">Products</MenuItem>
@@ -46,7 +44,6 @@
                         <MenuItem name="1-4">                        
                             <Submenu name="1-4-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Others
                                 </template>
                                 <MenuItem name="customer" :to="handleGoToMenu('/customer')">Customer</MenuItem>
@@ -92,8 +89,7 @@
                         <MenuItem name="2-1">                        
                             <Submenu name="2-1-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
-                                    Cancel
+                                    <span class="cencel">Cancel</span>
                                 </template>
                                 <MenuItem name="purchasecancel" :to="handleGoToMenu('/purchasecancel')">Purchase</MenuItem>
                                 <MenuItem name="salecancel" :to="handleGoToMenu('/salecancel')">Sale</MenuItem>
@@ -140,7 +136,6 @@
                         <MenuItem name="3-3">                        
                             <Submenu name="3-3-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Account
                                 </template>
                                 <MenuItem name="cash" :to="handleGoToMenu('/cash')">Cash Report</MenuItem>
@@ -150,7 +145,6 @@
                         <MenuItem name="3-4">                        
                             <Submenu name="3-4-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Ledger
                                 </template>
                                 <MenuItem name="supplierledger" :to="handleGoToMenu('/supplierledger')">Supplier</MenuItem>
@@ -160,7 +154,6 @@
                         <MenuItem name="3-5">                        
                             <Submenu name="3-5-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Stock Report
                                 </template>
                                 <MenuItem name="stock" :to="handleGoToMenu('/stock')">Product Ledger</MenuItem>
@@ -170,7 +163,6 @@
                         <MenuItem name="3-6">                        
                             <Submenu name="3-6-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Membership Report
                                 </template>
                                 <MenuItem name="membershiplist" :to="handleGoToMenu('/membershiplist')">Membership List</MenuItem>
@@ -180,7 +172,6 @@
                         <MenuItem name="3-7">                        
                             <Submenu name="3-7-1">
                                 <template slot="title">
-                                    <Icon type="ios-albums"></Icon>
                                     Others Report
                                 </template>
                                 <MenuItem  v-if="authUser.userType=='Admin'" name="grossprofit" :to="handleGoToMenu('/grossprofit')">Gross Profit</MenuItem>
@@ -359,13 +350,13 @@
 </script>
 
 <style>
-    .layout{
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 4px;
-        overflow: hidden;
-    }
+.layout {
+    border: 0px solid #d7dde4;
+    background: #f5f7f9;
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+}
     .layout-header-bar{
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
@@ -425,5 +416,29 @@
     }
     .hidden {
 display: none;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
+    border-right: none;
+    color: #fff;
+    background: transparent !important;
+}
+ .ivu-layout-sider {
+    background: #3a3838 !important;
+}
+ .ivu-menu-dark {
+    background: #3a3838 !important;
+}
+ .ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened {
+    background: #191818 !important;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened .ivu-menu-submenu-title {
+    background: #565656;
+}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title:hover {
+    color: #fff;
+    background: #565656;
+}
+.menu-item span {
+    width: auto;
 }
 </style>

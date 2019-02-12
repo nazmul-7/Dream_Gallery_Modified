@@ -1,36 +1,44 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" style="color:#369;text-align:center"  span="22" offset="1">
-                <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-            </Col>
-           <Col  class="dream-input-main" span="22" offset="1" v-if="date">
-                <Form ref="formInline" inline>
-                    <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem label="Group">
-                        <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable>
-                                <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{ group.groupName }}</Option>
-                            </Select>
-                    </FormItem>
-                    <FormItem label="Category">
-                        <Select v-model="filterCategory" placeholder="Select Category"  filterable clearable>
-                                <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{ category.catName }}</Option>
-                            </Select>
-                    </FormItem>   
-                    <FormItem label="Product">
-                        <Select v-model="filterProduct" placeholder="Select Product"  filterable clearable>
-                                <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{ product.productName }}</Option>
-                            </Select>
-                    </FormItem>                  
-                </Form>
-                <Button  align="left" @click="showPrint">Print</Button>
-                <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
-        </Row>
+        <div class="_content">
+            <Row>
+                <Col class="dream-input-main _b_color _b_r border" style="color:#369;text-align:center"  span="22" offset="1">
+                    <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                </Col>
+
+            <Col  class="dream-input-main _b_color _b_r border" span="22" offset="1" v-if="date">
+                    <Form ref="formInline" inline>
+                        <FormItem label="Search">
+                            <Input type="text" v-model="search" placeholder="Search">
+                                <Icon type="ios-search" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem label="Group">
+                            <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable>
+                                    <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{ group.groupName }}</Option>
+                                </Select>
+                        </FormItem>
+                        <FormItem label="Category">
+                            <Select v-model="filterCategory" placeholder="Select Category"  filterable clearable>
+                                    <Option v-for="(category,i) in dataCategory" :value="category.catName" :key="i">{{ category.catName }}</Option>
+                                </Select>
+                        </FormItem>   
+                        <FormItem label="Product">
+                            <Select v-model="filterProduct" placeholder="Select Product"  filterable clearable>
+                                    <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{ product.productName }}</Option>
+                                </Select>
+                        </FormItem>                  
+                    </Form>
+                    <div class="mr_b20">
+                         <Button type="success" class="all_button" align="left" @click="showPrint">Print</Button>
+                    </div>
+
+                    <div class="_table_div cusmo_table ">
+                         <Table :columns="columns1" :data="searchData"></Table>
+                    </div>
+                </Col>
+            </Row>
+        </div>
 
 
         <Modal v-model="editModal" width="740" style="margin-top:20px;" >

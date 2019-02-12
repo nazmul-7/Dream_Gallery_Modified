@@ -17,40 +17,43 @@
                 </left>
                 <div  class="print">
                     <h2>Customer Ledger</h2>
-                    <table style="width:100%">
-                    <tr>
-                        <th>Date</th>
-                        <th>Invoice ID</th>
-                        <th>Admin</th> 
-                        <th>Type</th> 
-                        <th>Debit</th>
-                        <th>Credit</th>
-                        <th>Balance</th>
-                    </tr>
-                    <tr v-for="(data,i) in dataLedger" :key="i">
-                        <td >{{data.date}}</td>
 
-                        <td v-if="data.type ==='due'">INV-SO-DG-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='dueIncoming'">INV-CL-DG-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='incoming'">INV-CL-DG-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='opening'">-</td>
-                        <td v-else>-</td>
+                    <div class="_table_div cusmo_table all">
+                        <table style="width:100%">
+                            <tr>
+                                <th>Date</th>
+                                <th>Invoice ID</th>
+                                <th>Admin</th> 
+                                <th>Type</th> 
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Balance</th>
+                            </tr>
+                            <tr v-for="(data,i) in dataLedger" :key="i">
+                                <td >{{data.date}}</td>
 
-                        <td >{{data.adminName}}</td>
-                        <td v-if="data.type ==='due'">Sales</td>
-                        <td v-else-if="data.type ==='dueIncoming'">Collection</td>
-                        <td v-else-if="data.type ==='incoming'">Collection</td>
-                        <td v-else-if="data.type ==='opening'">Opening</td>
-                        <td v-else>Not define</td>
-                        <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                        <td v-else>0</td>
-                        <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
-                        <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
-                        <td v-else>0</td>
-                        <td >{{Math.abs(data.balance)}}</td>
-                    </tr>
+                                <td v-if="data.type ==='due'">INV-SO-DG-{{data.invoice_id}}</td>
+                                <td v-else-if="data.type ==='dueIncoming'">INV-CL-DG-{{data.invoice_id}}</td>
+                                <td v-else-if="data.type ==='incoming'">INV-CL-DG-{{data.invoice_id}}</td>
+                                <td v-else-if="data.type ==='opening'">-</td>
+                                <td v-else>-</td>
 
-                    </table>
+                                <td >{{data.adminName}}</td>
+                                <td v-if="data.type ==='due'">Sales</td>
+                                <td v-else-if="data.type ==='dueIncoming'">Collection</td>
+                                <td v-else-if="data.type ==='incoming'">Collection</td>
+                                <td v-else-if="data.type ==='opening'">Opening</td>
+                                <td v-else>Not define</td>
+                                <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
+                                <td v-else>0</td>
+                                <td v-if="data.type ==='incoming'">{{Math.abs(data.amount)}}</td>
+                                <td v-else-if="data.type ==='dueIncoming'">{{Math.abs(data.amount)}}</td>
+                                <td v-else>0</td>
+                                <td >{{Math.abs(data.balance)}}</td>
+                        </tr>
+
+                        </table>
+                    </div>
                 </div>
             </Col>
 

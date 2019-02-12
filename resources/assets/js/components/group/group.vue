@@ -1,28 +1,36 @@
 <template>
     <div>
-        <Row>
-            <!-- table -->
-            <Col span="13" offset="1">
-                <Row>
-                    <Col  class="dream-input-main" span="24">
-                        <Form ref="formInline" inline>
-                            <FormItem prop="user">
-                                <Input type="text" v-model="search" placeholder="Search">
-                                    <Icon type="ios-search" slot="prepend"></Icon>
-                                </Input>
-                            </FormItem>
-                        </Form>
-                        <Table :columns="columns1" :data="searchData"></Table>
-                    </Col>
-                </Row>
-            </Col>
-            <!-- adding form -->
-            <Col class="dream-input-main" span="8" offset="1">
-            <Input type="text" placeholder="Group Name" v-model="formValue.groupName" @on-enter="groupAdd"></Input>
-            <Button type="primary" @click="groupAdd">Add</Button>
-               
-            </Col>
-        </Row>
+        <div class="_content">
+             <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Row>
+                            <Col  class="dream-input-main" span="24">
+                                <Form ref="formInline" inline>
+                                    <FormItem prop="user">
+                                        <Input type="text" v-model="search" placeholder="Search">
+                                            <Icon type="ios-search" slot="prepend"></Icon>
+                                        </Input>
+                                    </FormItem>
+                                </Form>
+
+                                <div class="_table_div group_table">
+                                    <Table :columns="columns1" :data="searchData"></Table>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-4 ">
+                    <div class=" _b_color _b_r border dream-input-main">
+                       <Input class="mr_b20" type="text" placeholder="Group Name" v-model="formValue.groupName" @on-enter="groupAdd"></Input>
+
+                        <button @click="groupAdd" class="btn all_button"> Add </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">

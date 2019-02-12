@@ -1,11 +1,6 @@
 <template>
-
-
-
     <div>
         <div class="form">
-            
-
             <v-content>
                 <v-container fluid fill-height>
                     <v-layout align-center justify-center>
@@ -44,6 +39,7 @@
             </v-layout>
         </v-container>
     </v-content>
+
 
 
 <Form ref="data" :model="data"  :rules="ruleInline" inline>

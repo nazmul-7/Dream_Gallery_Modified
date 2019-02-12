@@ -1,66 +1,75 @@
 <template>
     <div>
-        <Row>
-            <Col span="13" offset="1">
-                <Row>
-                    <Col  class="dream-input-main" span="24">
-                        <Form ref="formInline" inline>
-                            <FormItem prop="user">
-                                <Input type="text" v-model="search" placeholder="Search">
-                                    <Icon type="ios-search" slot="prepend"></Icon>
-                                </Input>
-                            </FormItem>
-                        </Form>
-                        <Table :columns="columns1" :data="searchData"></Table>
+        <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Row>
+                            <Col  class="dream-input-main" span="24">
+                                <Form ref="formInline" inline>
+                                    <FormItem prop="user">
+                                        <Input type="text" v-model="search" placeholder="Search">
+                                            <Icon type="ios-search" slot="prepend"></Icon>
+                                        </Input>
+                                    </FormItem>
+                                </Form>
+                                <div class="_table_div _pa_table">
+                                    <Table :columns="columns1"  :data="searchData"></Table>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-4 ">
+                    <div class=" _b_color _b_r border dream-input-main">
+                        <Input class="mr_b20" type="text" placeholder="Unit Name" v-model="formValue.unitName" @on-enter="unitAdd"></Input>
+                        <button class="all_button btn" type="primary" @click="unitAdd">Add</button>
+                    
+                    </div>
+                </div>
+            </div>
+
+            <Modal v-model="editModal" width="360">
+                <p slot="header" style="color:#369;text-align:center">
+                    <Icon type="edit"></Icon>
+                    <span> Edit {{UpdateValue.unitName}}</span>
+                </p>
+                <div style="text-align:center">
+                    <Form>
+                <Col span="24">
+                        <FormItem >
+                            <Input type="text" placeholder="Group Name" 
+                            v-model="editObj.unitName"></Input>
+                        </FormItem>
                     </Col>
-                </Row>
-            </Col>
-            <Col class="dream-input-main" span="8" offset="1">
-            <Input type="text" placeholder="Unit Name" v-model="formValue.unitName" @on-enter="unitAdd"></Input>
-            <Button type="primary" @click="unitAdd">Add</Button>
-               
-            </Col>
-        </Row>
+                </Form>
 
-      <Modal v-model="editModal" width="360">
-        <p slot="header" style="color:#369;text-align:center">
-            <Icon type="edit"></Icon>
-            <span> Edit {{UpdateValue.unitName}}</span>
-        </p>
-        <div style="text-align:center">
-            <Form>
-           <Col span="24">
-                <FormItem >
-                    <Input type="text" placeholder="Group Name" 
-                    v-model="editObj.unitName"></Input>
-                </FormItem>
-            </Col>
-        </Form>
+                </div>
+                <div slot="footer">
+                    <Button type="primary" size="large" long :loading="sending" @click="edit">
+                        <span v-if="!loading">Update</span>
+                        <span v-else>Updating...</span>
+                    </Button>
+                </div>
+            </Modal>
+            <Modal v-model="deleteModal" width="360">
+                <p slot="header" style="color:#f60;text-align:center">
+                    <Icon type="close"></Icon>
+                    <span> Delete {{UpdateValue.unitName}}</span>
+                </p>
+                <div style="text-align:center">
+                    Are you sure you want delete {{UpdateValue.unitName}}
 
+                </div>
+                <div slot="footer">
+                    <Button type="error" size="large" long :loading="sending" @click="remove">
+                        <span v-if="!loading">Delete</span>
+                        <span v-else>Deleting...</span>
+                    </Button>
+                </div>
+            </Modal>
         </div>
-        <div slot="footer">
-            <Button type="primary" size="large" long :loading="sending" @click="edit">
-                <span v-if="!loading">Update</span>
-                <span v-else>Updating...</span>
-            </Button>
-        </div>
-    </Modal>
-    <Modal v-model="deleteModal" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="close"></Icon>
-            <span> Delete {{UpdateValue.unitName}}</span>
-        </p>
-        <div style="text-align:center">
-            Are you sure you want delete {{UpdateValue.unitName}}
-
-        </div>
-        <div slot="footer">
-            <Button type="error" size="large" long :loading="sending" @click="remove">
-                <span v-if="!loading">Delete</span>
-                <span v-else>Deleting...</span>
-            </Button>
-        </div>
-    </Modal>
     </div>
 </template>
 

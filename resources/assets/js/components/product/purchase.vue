@@ -1,112 +1,121 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" span="14" offset="1">
-                <Row :gutter="24">
-                    <Col span="24">
-                        <Card>
-                    <p>Product Code</p>
-                                <Input type="text" placeholder="Barcode" 
-                                v-model="formValue.barCode"  @on-enter="setData" ></Input>
-                            </FormItem >
-                        </Card>
-                    </Col>
-                    <!-- <Col span="11" offset="1">
-                        <FormItem  label="Search Product">
-                            <br>
-                            <Row >
-                                <Col span="22">
-                                    <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
-                                            <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
-                                                <span class="demo-auto-complete-title">{{ option.model }}</span>
-                                                <span class="demo-auto-complete-count">{{option.groupName}} | {{option.catName}} | {{option.color}} | {{option.size}} | {{option.sellingPrice}}</span>
-                                            </Option>
+        <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Row :gutter="24">
+                            <Col class="mr_b20" span="24">
+                                <Card>
+                                <p>Product Code</p>
+                                        <Input type="text" placeholder="Barcode" 
+                                        v-model="formValue.barCode"  @on-enter="setData" ></Input>
+                                    </FormItem >
+                                </Card>
+                            </Col>
+                            <!-- <Col span="11" offset="1">
+                                <FormItem  label="Search Product">
+                                    <br>
+                                    <Row >
+                                        <Col span="22">
+                                            <AutoComplete v-model="searchValue" icon="ios-search" placeholder="input here"  @on-search="setData" @on-select="addProduct">
+                                                    <Option v-for="(option,i) in dataSearch" :value="i" :key="i">
+                                                        <span class="demo-auto-complete-title">{{ option.model }}</span>
+                                                        <span class="demo-auto-complete-count">{{option.groupName}} | {{option.catName}} | {{option.color}} | {{option.size}} | {{option.sellingPrice}}</span>
+                                                    </Option>
 
-                                    </AutoComplete>
+                                            </AutoComplete>
+                                        </Col>
+                                    </Row>
+                                </FormItem >
+                            </Col> -->
+                            <Col span="24">
+                                <Card>
+                                    <p slot="title">Product List</p>
+                                    <div class="_table_div product_div mr_b20">
+                                        <table style="width:100%">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Model</th>
+                                                <th>Color</th> 
+                                                <th>Size</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tr v-for="(data,i) in formValue.productDetails" :key="i">
+                                                <td >{{data.productName}}</td>
+                                                <td >{{data.model}}</td>
+                                                <td >{{data.color}}</td>
+                                                <td>{{data.size}}</td>
+                                                <td><InputNumber v-model="data.quantity"></InputNumber></td>
+                                                <td><InputNumber v-model="data.unitPrice"></InputNumber></td>
+                                                <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
+                                            </tr>
+                                            <tr >
+                                                <td colspan="4" style="text-align:right">Total </td>
+                                                <td >{{totalQuantity}}</td>
+                                                <td >{{totalPrice}}</td>
+                                                <td > <Button type="error" size="large"  @click="showClear">
+                                                    Clear All
+                                                    </Button>
+                                                </td>
+                                                
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                    <Row>
+                                        <Col>
+                                        
+                                            <Button  class="all_button btn" type="primary" size="large" :loading="sending" @click="makePurchase">
+                                                <span v-if="!loading">Purchase</span>
+                                                <span v-else>Loading...</span>
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
+
+                <div class=" col-12 col-md-4 col-lg-4">
+                    <div class="dream-input-main  _b_color _b_r border">
+                        <Form >
+                            <Row :gutter="24">
+                                <Col span="11" offset="1">
+                                    <FormItem label="Supplier">
+                                        <Select v-model="formValue.supplier_id" placeholder="Supplier" :remote-method="changedSupplier" filterable clearable>
+                                            <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
+                                        </Select>
+                                    </FormItem>
                                 </Col>
-                            </Row>
-                        </FormItem >
-                    </Col> -->
-                    <Col span="24">
-                        <Card>
-                            <p slot="title">Product List</p>
-                            <table style="width:100%">
-                            <tr>
-                                <th>Name</th>
-                                <th>Model</th>
-                                <th>Color</th> 
-                                <th>Size</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Action</th>
-                            </tr>
-                            <tr v-for="(data,i) in formValue.productDetails" :key="i">
-                                <td >{{data.productName}}</td>
-                                <td >{{data.model}}</td>
-                                <td >{{data.color}}</td>
-                                <td>{{data.size}}</td>
-                                <td><InputNumber v-model="data.quantity"></InputNumber></td>
-                                <td><InputNumber v-model="data.unitPrice"></InputNumber></td>
-                                <td><Button type="error" icon="ios-trash" @click="removeItem(i)"></Button></td>
-                            </tr>
-                            <tr >
-                                <td colspan="4" style="text-align:right">Total </td>
-                                <td >{{totalQuantity}}</td>
-                                <td >{{totalPrice}}</td>
-                                <td > <Button type="error" size="large"  @click="showClear">
-                                    Clear All
-                                    </Button>
-                                </td>
-                                
-                            </tr>
-
-                            </table>
-                            <Row>
-                                <Col>
-                                
-                                    <Button type="primary" size="large" :loading="sending" @click="makePurchase">
-                                        <span v-if="!loading">Purchase</span>
-                                        <span v-else>Loading...</span>
-                                    </Button>
+                                <Col span="11" offset="1">
+                                    <FormItem  label=" Date">
+                                        <br>
+                                        <Row>
+                                            <Col span="22">
+                                                <DatePicker type="date" v-model="currentSupplier.date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+                                            </Col>
+                                        </Row>
+                                    </FormItem >
                                 </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-                </Row>
-            </Col>
-             <Col class="dream-input-main" span="7" offset="1">
-                <Form >
-                    <Row :gutter="24">
-                        <Col span="11" offset="1">
-                            <FormItem label="Supplier">
-                                <Select v-model="formValue.supplier_id" placeholder="Supplier" :remote-method="changedSupplier" filterable clearable>
-                                    <Option v-for="(suppier,i) in dataSupplier" :value="suppier.id" :key="i">{{suppier.supplierName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <Col span="11" offset="1">
-                            <FormItem  label=" Date">
-                                <br>
-                                <Row>
-                                    <Col span="22">
-                                        <DatePicker type="date" v-model="currentSupplier.date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
-                                    </Col>
-                                </Row>
-                            </FormItem >
-                        </Col>
 
-                    </Row>
-                </Form>
-                <Col v-if="currentSupplier.supplierName" >
-                    <h2>Supplier Info</h2>
-                    <h3>Supplier Name: {{ currentSupplier.supplierName}}</h3>
-                    <h3>Number: {{currentSupplier.number}}</h3>
-                    <h3>Email: {{currentSupplier.email}}</h3>
-                    <h3>Address: {{currentSupplier.address}}</h3>
-                    <h3>Outstanding: {{currentSupplier.outStanding}}</h3>
-                </Col>
-             </Col>
-        </Row>
+                            </Row>
+                        </Form>
+                        <Col v-if="currentSupplier.supplierName" >
+                            <h2>Supplier Info</h2>
+                            <h3>Supplier Name: {{ currentSupplier.supplierName}}</h3>
+                            <h3>Number: {{currentSupplier.number}}</h3>
+                            <h3>Email: {{currentSupplier.email}}</h3>
+                            <h3>Address: {{currentSupplier.address}}</h3>
+                            <h3>Outstanding: {{currentSupplier.outStanding}}</h3>
+                        </Col>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">

@@ -8,7 +8,7 @@
             <Row>
                <Col span="17">
                <Input type="text" placeholder="Barcode" @on-enter="setData" 
-                  v-model="formValue.barCode"></Input>  
+                  v-model="temp.Barcode"></Input>  
                </Col>
                <Col span="5" offset="1">
                <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
@@ -195,7 +195,7 @@
                   <p class="memu_text">{{shopData.address}}</p>
                   
                </div>
-               <div class="memu_sold dis b_color">
+               <div class="memu_sold dis">
                   <p class="memu_text flex_space">Sold By : {{authUser.name}}</p>
                   <p class="memu_text">Date: {{toDayDate}}</p>
                </div>
@@ -205,7 +205,7 @@
                   <p class="memu_text" v-if="currentCustomer.id!=1" >Address: {{currentCustomer.address}}</p>
                   <p class="memu_text" v-if="currentCustomer.id!=1" >Mob: {{currentCustomer.number}}</p>
                </div>
-               <div class="to_Enjoy b_color">
+               <div class="to_Enjoy">
                   <p class="memu_text">To Enjoy special Discounts Please register as a loyalty Customer</p>
                </div>
                
@@ -304,7 +304,7 @@
                  
                </div>
               
-               <div class="memu_total b_color">
+               <div class="memu_total">
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Sub Total:</p>
                      <p class="memu_list_title memu_total_num">{{ formValue.totalTotal }}</p>
@@ -338,9 +338,13 @@
                <div class="memu_thanks text_center">
                   <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
                </div>
-                <div class="spaceBerCode b_color">
-                    <div class="print barcode_main">
-                        <div style="text-align:center">
+
+   
+
+
+                <div class="spaceBerCode">
+                    <div class="print barcode_main_memu">
+                        <div class="barcode_code">
                             <!-- <barcode v-bind:value="sellResponseId" style="margin-left: 60px;"> >
                                 Sorry Cant Load now
                             </barcode> -->
@@ -348,9 +352,11 @@
                                 Sorry Cant Load now
                             </barcode>
                         </div>
-                         <p>INV-SO-DG-{{sellResponseId}}</p>
+                         <p class="barcode_num">INV-SO-DG-{{sellResponseId}}</p>
                     </div>
                 </div>
+
+                
             </div>
               <!-- <h2 style="text-align:center">{{ shopData.companyName }}</h2>
                <p style="text-align:center"> 
@@ -452,6 +458,7 @@
                 sellResponseId:0,
                 toDayDate:new Date(),
                 searchValue:'',
+                tempBarcode:'',
                 height: 25,
                 clearModel:false,
                 loading:false,
@@ -495,10 +502,9 @@
                     barcode:'',
                     bonusAmount:null,
                     status:false
-
-
-
-
+                },
+                temp:{
+                   
                 },
                 columns1: [ 
                     {
@@ -515,6 +521,7 @@
                 formValue: {
                      type:'sell',
                      date:'',
+                     barcode:'',
                      discount:0,
                      paidAmount:0.00,
                      subTotal:0,
@@ -665,14 +672,16 @@
             },
             quantityChange()
             {
+                let totalRealPrice=0;
                 var totalPrice=0
                 for ( let d of this.formValue.productDetails) {                  
                         totalPrice+=(d.quantity*d.discountedPrice)
+                        totalRealPrice+=(d.quantity*d.sellingPrice)
                     }
                 totalPrice=Math.round(totalPrice-(this.formValue.bonusAmount+0)).toFixed(2)
                 this.formValue.total=parseFloat(totalPrice)
                 this.formValue.paidAmount=parseFloat(totalPrice)
-                this.formValue.subTotal=parseFloat(totalPrice)
+                this.formValue.subTotal=parseFloat(totalRealPrice)
                 this.paidAmountChange()
             },
             discount(){
@@ -975,9 +984,13 @@
 
 
             async setData()
-            {
+            {   this.formValue.barCode = this.temp.Barcode
+                console.log('i am calling '+this.temp.Barcode )
+
+                delete this.temp.Barcode;
+                
                 if(this.formValue.barCode)
-                {
+                {   
                     if(this.formValue.productDetails)
                     {
                     for(let d of this.formValue.productDetails)
@@ -989,8 +1002,11 @@
                                 
                             }
                             d.quantity++
+                            console.log(" i am from already barcode")
+                            this.formValue.barCode=''
+                           // this.formValue.barCode=null
                             this.quantityChange()
-                            this.formValue.barCode=null
+                            
                              return 
 
                             }

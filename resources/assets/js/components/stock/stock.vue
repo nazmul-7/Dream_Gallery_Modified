@@ -1,68 +1,78 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Form >
-                    <Row :gutter="24">
-                        <Col span="8" offset="8">
-                            <FormItem label="Select Product">
-                                <Select v-model="formValue.product_id" placeholder="Product Name" @on-change="getData" filterable clearable>
-                                    <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{  product.productName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <!-- <Col span="22" offset="1" v-if="user">
-                            <h2>Customer Info</h2>
-                            <p></p>
-                        </Col> -->
-                    </Row>
-                </Form>
-            </Col>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Button  align="left">Print</Button>
-                <table style="width:100%">
-                    <tr>
-                        <th>Date</th>
-                        <th>Admin</th>
-                        <th>Type</th>
-                        <th>Invoice ID</th>
-                        <th>Debit Qty</th>
-                        <th>Debit Value</th>
-                        <th>Credit Qty</th>
-                        <th>Credit Value</th>
-                        <th>Balance</th>
-                    </tr>
-                    <tr v-for="(data,i) in dataSell" :key="i">
-                        <td >{{data.date}}</td>
-                        <td v-if="data.type ==='opening'">Opening</td>
-                        <td v-else>{{data.adminName}}</td>
-                        <td v-if="data.type ==='purchase'">Purchase</td>
-                        <td v-else-if="data.type ==='opening'">Opening</td>
-                        <td v-else-if="data.type ==='sell'">Sale</td>
-                        <td v-else-if="data.type ==='return'">Returned</td>
-                        <td v-else>Unfefined</td>
-                        <td v-if="data.type ==='purchase'">PU-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='opening'">OP-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='sell'">SA-{{data.invoice_id}}</td>
-                        <td v-else-if="data.type ==='return'">RE-{{data.invoice_id}}</td>
-                        <td v-else>{{data.invoice_id}}</td>
-                        <td v-if="data.type ==='purchase'">{{data.quantity}}</td>
-                        <td v-else-if="data.type ==='opening'">{{data.quantity}}</td>
-                        <td v-else-if="data.type ==='return'">{{data.quantity}}</td>
-                        <td v-else>0</td>
-                        <td v-if="data.type ==='purchase'">{{data.unitPrice}}</td>
-                        <td v-else-if="data.type ==='opening'">{{data.unitPrice}}</td>
-                        <td v-else>0</td>
-                        <td v-if="data.type ==='sell'">{{data.quantity}}</td>
-                        <td v-else>0</td>
-                        <td v-if="data.type ==='sell'">{{data.unitPrice-data.profit}}</td>
-                        <td v-else>0</td>
-                        <td >{{data.totalQuantity}} | {{data.balance}}</td>
-                    </tr>
+        <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form >
+                            <div class="row justify-content-center">
+                                <div class="col-md-3 col-lg-3 col-12">
+                                    <FormItem label="Select Product">
+                                        <Select v-model="formValue.product_id" placeholder="Product Name" @on-change="getData" filterable clearable>
+                                            <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{  product.productName}}</Option>
+                                        </Select>
+                                    </FormItem>
+                                </div>
+                                <!-- <Col span="22" offset="1" v-if="user">
+                                    <h2>Customer Info</h2>
+                                    <p></p>
+                                </Col> -->
+                            </div>
+                        </Form>
+                    </div>
+                </div>
 
-                    </table>
-                </Col>
-        </Row>
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <div class="mr_b20">
+                            <Button type="success" class="all_button"  align="left">Print</Button>
+                            </div>
+
+                        <table style="width:100%">
+                            <tr>
+                                <th>Date</th>
+                                <th>Admin</th>
+                                <th>Type</th>
+                                <th>Invoice ID</th>
+                                <th>Debit Qty</th>
+                                <th>Debit Value</th>
+                                <th>Credit Qty</th>
+                                <th>Credit Value</th>
+                                <th>Balance</th>
+                            </tr>
+                            <tr v-for="(data,i) in dataSell" :key="i">
+                                <td >{{data.date}}</td>
+                                <td v-if="data.type ==='opening'">Opening</td>
+                                <td v-else>{{data.adminName}}</td>
+                                <td v-if="data.type ==='purchase'">Purchase</td>
+                                <td v-else-if="data.type ==='opening'">Opening</td>
+                                <td v-else-if="data.type ==='sell'">Sale</td>
+                                <td v-else-if="data.type ==='return'">Returned</td>
+                                <td v-else>Unfefined</td>
+                                <td v-if="data.type ==='purchase'">PU-{{data.invoice_id}}</td>
+                                <td v-else-if="data.type ==='opening'">OP-{{data.invoice_id}}</td>
+                                <td v-else-if="data.type ==='sell'">SA-{{data.invoice_id}}</td>
+                                <td v-else-if="data.type ==='return'">RE-{{data.invoice_id}}</td>
+                                <td v-else>{{data.invoice_id}}</td>
+                                <td v-if="data.type ==='purchase'">{{data.quantity}}</td>
+                                <td v-else-if="data.type ==='opening'">{{data.quantity}}</td>
+                                <td v-else-if="data.type ==='return'">{{data.quantity}}</td>
+                                <td v-else>0</td>
+                                <td v-if="data.type ==='purchase'">{{data.unitPrice}}</td>
+                                <td v-else-if="data.type ==='opening'">{{data.unitPrice}}</td>
+                                <td v-else>0</td>
+                                <td v-if="data.type ==='sell'">{{data.quantity}}</td>
+                                <td v-else>0</td>
+                                <td v-if="data.type ==='sell'">{{data.unitPrice-data.profit}}</td>
+                                <td v-else>0</td>
+                                <td >{{data.totalQuantity}} | {{data.balance}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       <Modal v-model="editModal" width="360">
         <p slot="header" style="color:#369;text-align:center">

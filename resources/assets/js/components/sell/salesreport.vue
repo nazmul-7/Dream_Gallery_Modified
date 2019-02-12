@@ -1,425 +1,437 @@
 <template>
     <div>
-        <Row>
-           <Col  class="dream-input-main" span="22" offset="1" >
-                <Form ref="formInline" inline>
-                    <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search"> 
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem label="Admin">
-                        <Select v-model="filterAdmin" placeholder="Select Admin"  filterable clearable>
-                                <Option v-for="(admin,i) in dataAdmin" :value="admin.name" :key="i">{{ admin.name }}</Option>
-                            </Select>
-                    </FormItem>
-                    <FormItem label="Zone">
-                        <Select v-model="filterZone" placeholder="Select Zone"  filterable clearable>
-                                <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
-                            </Select>
-                    </FormItem>
-                    <FormItem label="Date">
-                        <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-                    </FormItem>
-                </Form>
-                <Button  align="left" @click="showPrint">Print</Button>
-                <div>
-            <div class="total_cost text_right">
-                 <div class="total_cost_bottom d b_color">
-                    <div class="total_cost_main dis">
-                        <div class="total_cost_main_left flex_space">
-                            <p class="total_cost_main_left_text">Total Sales Amount</p>
-                        </div>
-                        <div class="total_cost_main_right">
-                            <!-- <p class="total_cost_main_left_text">{{totalProfit.toFixed(2)}}</p> -->
-                            <p class="total_cost_main_left_text">{{totalSale.toFixed(2)}}</p>
+       <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="dream-input-main _b_color _b_r border">
+                    <Form ref="formInline" inline>
+                        <FormItem label="Search">
+                            <Input type="text" v-model="search" placeholder="Search"> 
+                                <Icon type="ios-search" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem label="Admin">
+                            <Select v-model="filterAdmin" placeholder="Select Admin"  filterable clearable>
+                                    <Option v-for="(admin,i) in dataAdmin" :value="admin.name" :key="i">{{ admin.name }}</Option>
+                                </Select>
+                        </FormItem>
+                        <FormItem label="Zone">
+                            <Select v-model="filterZone" placeholder="Select Zone"  filterable clearable>
+                                    <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
+                                </Select>
+                        </FormItem>
+                        <FormItem label="Date">
+                            <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                        </FormItem>
+                    </Form>
+                    
+                    <div class="mr_b20">
+                        <Button class="all_button" type="success"  align="left" @click="showPrint">Print</Button>
+                    </div>
+
+                    <div>
+                <div class="total_cost text_right">
+                    <div class="total_cost_bottom d b_color">
+                        <div class="total_cost_main dis">
+                            <div class="total_cost_main_left flex_space">
+                                <p class="total_cost_main_left_text">Total Sales Amount</p>
+                            </div>
+                            <div class="total_cost_main_right">
+                                <!-- <p class="total_cost_main_left_text">{{totalProfit.toFixed(2)}}</p> -->
+                                <p class="total_cost_main_left_text">{{totalSale.toFixed(2)}}</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                        <!-- new table -->
+                <div class="buyer_tables">
+                        <!-- items -->
+                    <div class="buyer_tables_all" v-if="searchData.length" v-for="(item,index) in searchData" :key="index" >
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Buyer Name</p>
+                            <p class="buyer_tables_all_name"> {{item.customerName}}</p>
+                        </div>
+
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Invoice No</p>
+                            <p class="buyer_tables_all_name"> {{item.invoice_id}}</p>
+                        </div>
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Date</p>
+                            <p class="buyer_tables_all_name"> {{item.date}}</p>
+                        </div>
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Admin</p>
+                            <p class="buyer_tables_all_name"> {{item.adminName}}</p>
+                        </div>
+
+                        <div class="_table_div ">
+                            <div class="buyer_tables_main buyer_tables_main_overflow">
+                                    <!-- title -->
+                                <div class="buyer_tables_main_all table_title_bg dis b_color">
+                                    <div class="buyer_tables_main_name b_color flex_space">
+                                        <p class="buyer_tables_main_title">Product Name</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Sales Unit</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Unit Price</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Total Sales Price</p>
+                                    </div>
+
+                                    <!-- <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Profit</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Profit(%)</p>
+                                    </div> -->
+                                </div>
+                                    <!-- title -->
+
+                                    <!-- Items -->
+                                <div class="buyer_tables_main_all dis b_color" v-if="item.selling.length"  v-for="(productItem,productIndex) in item.selling" :key="productIndex" >
+                                    <div class="buyer_tables_main_name b_color flex_space">
+                                        <p class="buyer_tables_main_text">{{productItem.product.productName}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem.quantity}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem.product.sellingPrice}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{(productItem.quantity)*(productItem.product.sellingPrice)}}</p>
+                                    </div>
+
+                                    <!-- <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{(productItem.product.sellingPrice-productItem.product.averageBuyingPrice)*productItem.quantity}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem | findProfitPercent}}</p>
+                                    </div> -->
+                                </div>
+                                    <!-- Items -->
+
+                                    
+
+                                    <!-- Total Sales -->
+                                <div class="Total_Sales dis">
+                                    <div class=" b_color flex_space">
+                                        <div class="mr_b20">
+                                            <Button type="success"  class="Total_Sales_text all_button" @click="showPrint(index)"><span class="Total_Sales_text_span">Print</span></Button>
+                                        </div>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalUnit }}</span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                    <p class="Total_Sales_text"><span class="Total_Sales_text_span"></span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalSalesPrice }}</span></p>
+                                    </div>
+
+                                <!-- <div class="buyer_tables_main_num b_color">
+                                    <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalProfit}}</span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ totalProfitPercent(item.selling)}}</span></p>
+                                    </div> -->
+                                </div>
+                                    <!-- Total Sales -->
+                            </div>
+                        </div>
+                    </div>
+                        <!-- items -->
+                </div>
+                    </div>
+
+
+                    <!-- <Row>
+                        <Col span="10" offset="15" >
+                            <h3>Total Sales amount: {{totalSalesPrice}} </h3>
+                        </Col>
+                    </Row> -->
+                    <!-- <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table> -->
+                </div>
                 </div>
             </div>
 
-                    <!-- new table -->
-            <div class="buyer_tables">
-                    <!-- items -->
-                <div class="buyer_tables_all" v-if="searchData.length" v-for="(item,index) in searchData" :key="index" >
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Buyer Name</p>
-                        <p class="buyer_tables_all_name"> {{item.customerName}}</p>
-                    </div>
-
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Invoice No</p>
-                        <p class="buyer_tables_all_name"> {{item.invoice_id}}</p>
-                    </div>
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Date</p>
-                        <p class="buyer_tables_all_name"> {{item.date}}</p>
-                    </div>
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Admin</p>
-                        <p class="buyer_tables_all_name"> {{item.adminName}}</p>
-                    </div>
-
-                    <div class="buyer_tables_main">
-                            <!-- title -->
-                        <div class="buyer_tables_main_all table_title_bg dis b_color">
-                            <div class="buyer_tables_main_name b_color flex_space">
-                                <p class="buyer_tables_main_title">Product Name</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Sales Unit</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Unit Price</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Total Sales Price</p>
-                            </div>
-
-                             <!-- <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Profit</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Profit(%)</p>
-                            </div> -->
-                        </div>
-                            <!-- title -->
-
-                            <!-- Items -->
-                        <div class="buyer_tables_main_all dis b_color" v-if="item.selling.length"  v-for="(productItem,productIndex) in item.selling" :key="productIndex" >
-                            <div class="buyer_tables_main_name b_color flex_space">
-                                <p class="buyer_tables_main_text">{{productItem.product.productName}}</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem.quantity}}</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem.product.sellingPrice}}</p>
-                            </div>
-
-                              <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{(productItem.quantity)*(productItem.product.sellingPrice)}}</p>
-                            </div>
-
-                            <!-- <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{(productItem.product.sellingPrice-productItem.product.averageBuyingPrice)*productItem.quantity}}</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem | findProfitPercent}}</p>
-                            </div> -->
-                        </div>
-                            <!-- Items -->
-
-                            
-
-                            <!-- Total Sales -->
-                        <div class="Total_Sales dis">
-                            <div class="buyer_tables_main_name b_color flex_space">
-                                <Button  class="Total_Sales_text" @click="showPrint(index)"><span class="Total_Sales_text_span">Print</span></Button>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalUnit }}</span></p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                               <p class="Total_Sales_text"><span class="Total_Sales_text_span"></span></p>
-                            </div>
-
-                              <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalSalesPrice }}</span></p>
-                            </div>
-
-                         <!-- <div class="buyer_tables_main_num b_color">
-                               <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalProfit}}</span></p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ totalProfitPercent(item.selling)}}</span></p>
-                             </div> -->
-                        </div>
-                            <!-- Total Sales -->
-                    </div>
+            <!-- <Modal v-model="editModal" width="740" style="margin-top:20px;" >
+                <div  class="print">
+                    <h2 style="text-align:center">Dreams Gallery</h2>
+                    <h3>Profit List</h3>
+                    <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
+                    <Table :columns="columns1" :data="searchData"></Table>
                 </div>
-                    <!-- items -->
-            </div>
+                <div slot="footer">
+                    
                 </div>
 
+            </Modal> -->
 
-                <!-- <Row>
-                    <Col span="10" offset="15" >
-                        <h3>Total Sales amount: {{totalSalesPrice}} </h3>
-                    </Col>
-                </Row> -->
-                <!-- <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table> -->
-            </Col>
-        </Row>
-
-        <!-- <Modal v-model="editModal" width="740" style="margin-top:20px;" >
+            <Modal class="print_all" v-model="viewModal"  :styles="{top: '5px', width:'288px'}" >
+                
             <div  class="print">
-                <h2 style="text-align:center">Dreams Gallery</h2>
-                <h3>Profit List</h3>
-                <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
-                <Table :columns="columns1" :data="searchData"></Table>
+        
+                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+                <div class="memu" v-if="dataInvoice[dataInvoiceIndex]" >
+                <div class="memu_email text_center">
+                    <p class="memu_text">For any queries, complanints or suggestion please</p>
+                    <p class="memu_text">Call: {{shopData.contact}}</p>
+                    <p class="memu_text">Email: info@greamsgallerybd.com</p>
+                </div>
+                <div class="memu_Address text_center">
+                    <p class="memu_text">{{shopData.companyName}}</p>
+                    <p class="memu_text">{{shopData.address}}</p>
+                    
+                </div>
+                <div class="memu_sold dis b_color">
+                    <p class="memu_text flex_space">Sold By : {{(dataInvoice[dataInvoiceIndex].admin.name)? dataInvoice[dataInvoiceIndex].admin.name : ''}}</p>
+                    <p class="memu_text">Date: {{dataInvoice[dataInvoiceIndex].date}}</p>
+                </div>
+                <p class="RETAIL text_center"><span class="RETAIL_sapn">RETAIL INVOICE</span></p>
+                <div class="memu_CUS_ADRESS">
+                    <p class="memu_text">Customer: {{dataInvoice[dataInvoiceIndex].customerName }}</p>
+                    <p class="memu_text" v-if="dataInvoice[dataInvoiceIndex].customer_id!=1" >Address: {{dataInvoice[dataInvoiceIndex].customer.address}}</p>
+                    <p class="memu_text" v-if="dataInvoice[dataInvoiceIndex].customer_id!=1" >Mob: {{dataInvoice[dataInvoiceIndex].customer.contact}}</p>
+                </div>
+                <div class="to_Enjoy b_color">
+                    <p class="memu_text">To Enjoy special Discounts Please register as a loyalty Customer</p>
+                </div>
+                
+                
+                <div class="memu_list">
+                    
+                    <div class="memu_list_main dis align">
+                        <div class="memu_list_all sl">
+                            <p class="memu_list_title">SL</p>
+                        </div>
+                        <div class="memu_list_all items flex_space text_center">
+                            <p class="memu_list_title">Item Description</p>
+                        </div>
+                        <div class="memu_list_all MRP">
+                            <p class="memu_list_title ">MRP</p>
+                        </div>
+                        <div class="memu_list_all QTy">
+                            <p class="memu_list_title">Qty</p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title">Total</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memu_list_main dis" v-for="(item,index) in dataInvoice[dataInvoiceIndex].selling" :key="index" >
+                        <div class="memu_list_all sl">
+                            <p class="memu_list_num">{{index+1}}</p>
+                        </div>
+                        <div class="memu_list_all items flex_space">
+                            <p class="memu_list_title">{{item.product.productName }}</p>
+                        </div>
+                        <div class="memu_list_all MRP">
+                            <p class="memu_list_title ">{{item.product.sellingPrice}}</p>
+                        </div>
+                        <div class="memu_list_all QTy">
+                            <p class="memu_list_title">{{item.quantity}}</p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title">{{item.product.sellingPrice*item.quantity}} </p>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="memu_list_main dis">
+                        <div class="memu_list_all sl">
+                            <p class="memu_list_num">1</p>
+                        </div>
+                        <div class="memu_list_all items flex_space">
+                            <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
+                        </div>
+                        <div class="memu_list_all MRP">
+                            <p class="memu_list_title ">120000</p>
+                        </div>
+                        <div class="memu_list_all QTy">
+                            <p class="memu_list_title">2</p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title">240000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memu_list_main dis">
+                        <div class="memu_list_all sl">
+                            <p class="memu_list_num">2</p>
+                        </div>
+                        <div class="memu_list_all items flex_space">
+                            <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
+                        </div>
+                        <div class="memu_list_all MRP">
+                            <p class="memu_list_title ">120000</p>
+                        </div>
+                        <div class="memu_list_all QTy">
+                            <p class="memu_list_title">2</p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title">240000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memu_list_main dis b_color">
+                        <div class="memu_list_all sl">
+                            <p class="memu_list_num">3</p>
+                        </div>
+                        <div class="memu_list_all items flex_space">
+                            <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
+                        </div>
+                        <div class="memu_list_all MRP">
+                            <p class="memu_list_title ">1200</p>
+                        </div>
+                        <div class="memu_list_all QTy">
+                            <p class="memu_list_title">99</p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title">2400</p>
+                        </div>
+                    </div> -->
+                    
+                </div>
+                
+                <div class="memu_total b_color">
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">Sub Total:</p>
+                        <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].totalPrice }}</p>
+                    </div>
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">Discount:</p>
+                        <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].discount}}</p>
+                    </div>
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">Net Payable:</p>
+                        <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].sellingPrice}}</p>
+                    </div>
+                </div>
+                
+                <div class="CASH_total">
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">CASH PAID:</p>
+                        <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].paidAmount }}</p>
+                    </div>
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">CHANGE AMOUNT:</p>
+                        <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].paidAmount-dataInvoice[dataInvoiceIndex].paidAmount }}</p>
+                    </div>
+                </div>
+                
+                <!-- <div class="space b_color"></div> -->
+                <div class="memu_thanks text_center">
+                    <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
+                </div>
+                </div>
+                <!-- <h2 style="text-align:center">{{ shopData.companyName }}</h2>
+                <p style="text-align:center"> 
+                    {{ shopData.address }}</br>
+                    world_first@yahoo.com</br>
+                    {{ shopData.contact }}</br>
+                </p>
+                <hr/>
+                <p> 
+                    Sold by Bokor Talukder</br>
+                    Invoice ID: INV1000002</br>
+                    Date: 25/01/2018 13:22</br>
+                </p>
+                
+                    <div id="table">
+                        <table>
+                            <tr class="tabletitle">
+                                <td class="item"><h2>SL</h2></td>
+                                <td class="item"><h2>Item</h2></td>
+                                <td class="Hours"><h2>Qty</h2></td>
+                                <td class="Rate"><h2>Sub Total</h2></td>
+                            </tr>
+                
+                            <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
+                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
+                                <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
+                            </tr>
+                
+                        
+                
+                
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Sub-total</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{ formValue.totalTotal }}</h2></td>
+                            </tr>
+                
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Discount %(-)</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{ formValue.discount}}</h2></td>
+                            </tr>
+                            <tr class="tabletitleDown">
+                                <td></td>
+                                <td class="Rate"><h2>Total</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{ formValue.total }}</h2></td>
+                            </tr>
+                            </hr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Cash Paid</h2></td>
+                                <td></td>
+                                <td class="payment"><h2>{{ formValue.cashPaid }}</h2></td>
+                            </tr>
+                            <tr class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Cash Change</h2></td>
+                                <td></td>
+                                    <td class="payment"><h2>{{ formValue.cashPaid-formValue.paidAmount }}</h2></td>
+                            </tr>
+                            <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Delivery Charge</h2></td>
+                                <td></td>
+                                    <td class="payment"><h2>40</h2></td>
+                            </tr>
+                            <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
+                                <td></td>
+                                <td class="Rate"><h2>Total with Delivery Charge</h2></td>
+                                <td></td>
+                                    <td class="payment"><h2>{{ (formValue.total)+40 }}</h2></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p class="legal"> 
+                        {{ shopData.invoiceNote }}
+                    </p> -->
             </div>
             <div slot="footer">
-                
+                <Button type="primary" size="large"  @click="clearForm">
+                <span>Clear and Exit</span>
+                </Button>
             </div>
-
-        </Modal> -->
-
-        <Modal class="print_all" v-model="viewModal"  :styles="{top: '5px', width:'288px'}" >
-             
-         <div  class="print">
-       
-            <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
-            <div class="memu" v-if="dataInvoice[dataInvoiceIndex]" >
-               <div class="memu_email text_center">
-                  <p class="memu_text">For any queries, complanints or suggestion please</p>
-                  <p class="memu_text">Call: {{shopData.contact}}</p>
-                  <p class="memu_text">Email: info@greamsgallerybd.com</p>
-               </div>
-               <div class="memu_Address text_center">
-                  <p class="memu_text">{{shopData.companyName}}</p>
-                  <p class="memu_text">{{shopData.address}}</p>
-                  
-               </div>
-               <div class="memu_sold dis b_color">
-                  <p class="memu_text flex_space">Sold By : {{(dataInvoice[dataInvoiceIndex].admin.name)? dataInvoice[dataInvoiceIndex].admin.name : ''}}</p>
-                  <p class="memu_text">Date: {{dataInvoice[dataInvoiceIndex].date}}</p>
-               </div>
-               <p class="RETAIL text_center"><span class="RETAIL_sapn">RETAIL INVOICE</span></p>
-               <div class="memu_CUS_ADRESS">
-                  <p class="memu_text">Customer: {{dataInvoice[dataInvoiceIndex].customerName }}</p>
-                  <p class="memu_text" v-if="dataInvoice[dataInvoiceIndex].customer_id!=1" >Address: {{dataInvoice[dataInvoiceIndex].customer.address}}</p>
-                  <p class="memu_text" v-if="dataInvoice[dataInvoiceIndex].customer_id!=1" >Mob: {{dataInvoice[dataInvoiceIndex].customer.contact}}</p>
-               </div>
-               <div class="to_Enjoy b_color">
-                  <p class="memu_text">To Enjoy special Discounts Please register as a loyalty Customer</p>
-               </div>
-               
-              
-               <div class="memu_list">
-                 
-                  <div class="memu_list_main dis align">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_title">SL</p>
-                     </div>
-                     <div class="memu_list_all items flex_space text_center">
-                        <p class="memu_list_title">Item Description</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">MRP</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">Qty</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">Total</p>
-                     </div>
-                  </div>
-                 
-                  <div class="memu_list_main dis" v-for="(item,index) in dataInvoice[dataInvoiceIndex].selling" :key="index" >
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">{{index+1}}</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">{{item.product.productName }}</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">{{item.product.sellingPrice}}</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">{{item.quantity}}</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">{{item.product.sellingPrice*item.quantity}} </p>
-                     </div>
-                  </div>
-                 
-                  <!-- <div class="memu_list_main dis">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">1</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">120000</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">2</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">240000</p>
-                     </div>
-                  </div>
-                 
-                  <div class="memu_list_main dis">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">2</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">120000</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">2</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">240000</p>
-                     </div>
-                  </div>
-                 
-                  <div class="memu_list_main dis b_color">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">3</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">1200</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">99</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">2400</p>
-                     </div>
-                  </div> -->
-                 
-               </div>
-              
-               <div class="memu_total b_color">
-                  <div class="memu_total_main dis text_right">
-                     <p class="memu_list_title flex_space">Sub Total:</p>
-                     <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].totalPrice }}</p>
-                  </div>
-                  <div class="memu_total_main dis text_right">
-                     <p class="memu_list_title flex_space">Discount:</p>
-                     <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].discount}}</p>
-                  </div>
-                  <div class="memu_total_main dis text_right">
-                     <p class="memu_list_title flex_space">Net Payable:</p>
-                     <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].sellingPrice}}</p>
-                  </div>
-               </div>
-              
-               <div class="CASH_total">
-                  <div class="memu_total_main dis text_right">
-                     <p class="memu_list_title flex_space">CASH PAID:</p>
-                     <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].paidAmount }}</p>
-                  </div>
-                  <div class="memu_total_main dis text_right">
-                     <p class="memu_list_title flex_space">CHANGE AMOUNT:</p>
-                     <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].paidAmount-dataInvoice[dataInvoiceIndex].paidAmount }}</p>
-                  </div>
-               </div>
-               
-               <!-- <div class="space b_color"></div> -->
-               <div class="memu_thanks text_center">
-                  <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
-               </div>
-            </div>
-              <!-- <h2 style="text-align:center">{{ shopData.companyName }}</h2>
-               <p style="text-align:center"> 
-                   {{ shopData.address }}</br>
-                   world_first@yahoo.com</br>
-                   {{ shopData.contact }}</br>
-               </p>
-               <hr/>
-               <p> 
-                   Sold by Bokor Talukder</br>
-                   Invoice ID: INV1000002</br>
-                   Date: 25/01/2018 13:22</br>
-               </p>
-               
-                   <div id="table">
-                       <table>
-                           <tr class="tabletitle">
-                               <td class="item"><h2>SL</h2></td>
-                               <td class="item"><h2>Item</h2></td>
-                               <td class="Hours"><h2>Qty</h2></td>
-                               <td class="Rate"><h2>Sub Total</h2></td>
-                           </tr>
-               
-                           <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
-                               <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
-                               <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
-                               <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
-                               <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
-                           </tr>
-               
-                       
-               
-               
-                           <tr class="tabletitle">
-                               <td></td>
-                               <td class="Rate"><h2>Sub-total</h2></td>
-                               <td></td>
-                               <td class="payment"><h2>{{ formValue.totalTotal }}</h2></td>
-                           </tr>
-               
-                           <tr class="tabletitle">
-                               <td></td>
-                               <td class="Rate"><h2>Discount %(-)</h2></td>
-                               <td></td>
-                               <td class="payment"><h2>{{ formValue.discount}}</h2></td>
-                           </tr>
-                           <tr class="tabletitleDown">
-                               <td></td>
-                               <td class="Rate"><h2>Total</h2></td>
-                               <td></td>
-                               <td class="payment"><h2>{{ formValue.total }}</h2></td>
-                           </tr>
-                           </hr>
-                           <tr class="tabletitle">
-                               <td></td>
-                               <td class="Rate"><h2>Cash Paid</h2></td>
-                               <td></td>
-                               <td class="payment"><h2>{{ formValue.cashPaid }}</h2></td>
-                           </tr>
-                           <tr class="tabletitle">
-                               <td></td>
-                               <td class="Rate"><h2>Cash Change</h2></td>
-                               <td></td>
-                                <td class="payment"><h2>{{ formValue.cashPaid-formValue.paidAmount }}</h2></td>
-                           </tr>
-                           <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
-                               <td></td>
-                               <td class="Rate"><h2>Delivery Charge</h2></td>
-                               <td></td>
-                                <td class="payment"><h2>40</h2></td>
-                           </tr>
-                           <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
-                               <td></td>
-                               <td class="Rate"><h2>Total with Delivery Charge</h2></td>
-                               <td></td>
-                                <td class="payment"><h2>{{ (formValue.total)+40 }}</h2></td>
-                           </tr>
-                       </table>
-                   </div>
-                   <p class="legal"> 
-                       {{ shopData.invoiceNote }}
-                   </p> -->
-         </div>
-         <div slot="footer">
-            <Button type="primary" size="large"  @click="clearForm">
-            <span>Clear and Exit</span>
-            </Button>
-         </div>
-      </Modal>
-        <!-- <pagination :list-data="createFakeData()"/>   -->
+        </Modal>
+            <!-- <pagination :list-data="createFakeData()"/>   -->
+        </div>
     </div>
 </template>
 

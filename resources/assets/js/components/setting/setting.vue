@@ -1,111 +1,120 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" span="12" offset="1">
-                <Form >
+        <div class="_content">
+            <div class="row">
+                <div class="col-12 col-md-7">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form >
 
-                    <Row :gutter="16">
-                        <Col span="24">
-                            <FormItem label="Company Name" >
-                                <Input type="text" placeholder="Company Name" 
-                                v-model="formValue.companyName"></Input>
-                            </FormItem>
-                        </Col>
-                        
-                         <Col span="12">
-                            <FormItem label="Contact" >
-                                <Input type="text" placeholder="Contact Number" v-model="formValue.contact"></Input>
-                            </FormItem>
-                        </Col>
-                        <Col span="12">
-                            <FormItem label="Currency">
-                                <Input type="text" placeholder="Currency" v-model="formValue.currencyType"></Input>
-                            </FormItem>
-                        </Col>
-                         <Col span="12">
-                            <FormItem label="Reference Bonus">
-                                <Input type="text" placeholder="Reference Bonus" v-model="formValue.referenceBonus" :max="100" :min="0" :formatter="value => `${value}%`"
-            :parser="value => value.replace('%', '')"></Input>
-                            </FormItem>
-                        </Col>
-
-
-
-                         <Col span="12">
-                            <FormItem label="Referer Bonus" >
-                                <Input type="text" placeholder="Bonus Amount" v-model="formValue.refererBonus"></Input>
-                            </FormItem>
-                        </Col>
+                            <Row :gutter="16">
+                                <Col span="24">
+                                    <FormItem label="Company Name" >
+                                        <Input type="text" placeholder="Company Name" 
+                                        v-model="formValue.companyName"></Input>
+                                    </FormItem>
+                                </Col>
+                                
+                                <Col span="12">
+                                    <FormItem label="Contact" >
+                                        <Input type="text" placeholder="Contact Number" v-model="formValue.contact"></Input>
+                                    </FormItem>
+                                </Col>
+                                <Col span="12">
+                                    <FormItem label="Currency">
+                                        <Input type="text" placeholder="Currency" v-model="formValue.currencyType"></Input>
+                                    </FormItem>
+                                </Col>
+                                <Col span="12">
+                                    <FormItem label="Reference Bonus">
+                                        <Input type="text" placeholder="Reference Bonus" v-model="formValue.referenceBonus" :max="100" :min="0" :formatter="value => `${value}%`"
+                                        :parser="value => value.replace('%', '')"></Input>
+                                    </FormItem>
+                                </Col>
 
 
-                        <Col span="24">
-                            <FormItem label="Invoice Note">
-                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder=" Discription" v-model="formValue.invoiceNote"></Input>
-                            </FormItem>
-                        </Col>
-                        <Col span="24">
-                            <FormItem label="Adress">
-                                <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Adderss" v-model="formValue.address"></Input>
-                            </FormItem>
-                        </Col>
-                        <Col span="24" v-if="opening==null">
-                            <FormItem label="Opening Cash" >
-                                <Input type="text" placeholder="Opening Cash" v-model="formValue.openingCash"></Input>
-                            </FormItem>
-                        </Col>
 
-                        <Col class="dream-input-main-button" span="24">
-                            <Button type="success" :loading="loading" @click="settingSave">
-                                <span v-if="!loading">Update</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Col>
-            <Col span="10" offset="1">
-                <Row>
-                    <!-- <Col span="24" class="dream-input-main" >
-                        <Upload
-                            ref="upload"
-                            type="drag"
-                            name="img"
-                            :show-upload-list="listMethod"
-                            :with-credentials="true"
-                            :headers="crfObj"
-                            :data="{id:1}"
-                            :on-success="handleSuccess"
-                            :format="['jpg','jpeg','png']"
-                            :max-size="2048"
-                            action="/app/setting/upload">
-                            <div style="padding: 20px 0">
-                                <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                                <p>Click or drag image here to upload Logo</p>
-                            </div>
-                        </Upload>
-                        <Card  span="10" offset="1">
-                            <div style="text-align:center">
-                                <img :src="`/uploads/${logo}`" v-if="logo">
-                            </div>
-                        </Card>
-                    </Col> -->
-                    <Col span="24" class="dream-input-main" v-if="formValue.companyName==null">
-                            <Button type="success" :loading="loading" @click="newSetup">
-                                <span v-if="!loading">Setup Store</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                    </Col>
-                </Row>
-            </Col>
-
-        </Row>
+                                <Col span="12">
+                                    <FormItem label="Referer Bonus" >
+                                        <Input type="text" placeholder="Bonus Amount" v-model="formValue.refererBonus"></Input>
+                                    </FormItem>
+                                </Col>
 
 
-        <Row>
-            <Col class="dream-input-main" span="22" offset="1">
-                <Table :columns="columns1" :data="data1"></Table>
-            </Col>
-        </Row>
+                                <Col span="24">
+                                    <FormItem label="Invoice Note">
+                                        <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder=" Discription" v-model="formValue.invoiceNote"></Input>
+                                    </FormItem>
+                                </Col>
+                                <Col span="24">
+                                    <FormItem label="Adress">
+                                        <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Adderss" v-model="formValue.address"></Input>
+                                    </FormItem>
+                                </Col>
+                                <Col span="24" v-if="opening==null">
+                                    <FormItem label="Opening Cash" >
+                                        <Input type="text" placeholder="Opening Cash" v-model="formValue.openingCash"></Input>
+                                    </FormItem>
+                                </Col>
+
+                                <Col class="dream-input-main-button" span="24">
+                                    <Button type="success" :loading="loading" @click="settingSave">
+                                        <span v-if="!loading">Update</span>
+                                        <span v-else>Loading...</span>
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5">
+                    <div class="dream-input-main  _b_color _b_r border">
+                        <Row>
+                            <!-- <Col span="24" class="dream-input-main" >
+                                <Upload
+                                    ref="upload"
+                                    type="drag"
+                                    name="img"
+                                    :show-upload-list="listMethod"
+                                    :with-credentials="true"
+                                    :headers="crfObj"
+                                    :data="{id:1}"
+                                    :on-success="handleSuccess"
+                                    :format="['jpg','jpeg','png']"
+                                    :max-size="2048"
+                                    action="/app/setting/upload">
+                                    <div style="padding: 20px 0">
+                                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                                        <p>Click or drag image here to upload Logo</p>
+                                    </div>
+                                </Upload>
+                                <Card  span="10" offset="1">
+                                    <div style="text-align:center">
+                                        <img :src="`/uploads/${logo}`" v-if="logo">
+                                    </div>
+                                </Card>
+                            </Col> -->
+                            <Col span="24" class="dream-input-main" v-if="formValue.companyName==null">
+                                    <Button type="success" :loading="loading" @click="newSetup">
+                                        <span v-if="!loading">Setup Store</span>
+                                        <span v-else>Loading...</span>
+                                    </Button>
+                            </Col>
+                        </Row>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Table :columns="columns1" :data="data1"></Table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

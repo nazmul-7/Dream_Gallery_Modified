@@ -22,37 +22,41 @@
             </Col>
             <Col class="dream-input-main" span="22" offset="1">
                 <h2>Supplier Ledger</h2>
-                <table style="width:100%">
-                  <tr>
-                    <th>Date</th>
-                    <th>Invoice ID</th>
-                    <th>Admin</th>
-                    <th>Type</th> 
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th>Balance</th>
-                  </tr>
-                  <tr v-for="(data,i) in dataLedger" :key="i">
-                    <td >{{data.date}}</td>
 
-                    <td v-if="data.type ==='due'">INV-PO-DG-{{data.invoice_id}}</td>
-                    <td v-else-if="data.type ==='outgoing'">INV-PM-DG-{{data.invoice_id}}</td>
-                    <td v-else-if="data.type ==='opening'">-</td>
-                    <td v-else>-</td>
+                <div class="_table_div _pa_table">
+                    <table style="width:100%">
+                        <tr>
+                            <th>Date</th>
+                            <th>Invoice ID</th>
+                            <th>Admin</th>
+                            <th>Type</th> 
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                        <tr v-for="(data,i) in dataLedger" :key="i">
+                            <td >{{data.date}}</td>
 
-                    <td >{{data.adminName}}</td>
-                    <td v-if="data.type ==='due'">Purchase</td>
-                    <td v-else-if="data.type ==='outgoing'">Payment</td>
-                    <td v-else-if="data.type ==='opening'">Opening Balance</td>
-                    <td v-else>Not define</td>
-                    <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
-                    <td v-else>0</td>
-                    <td >{{Math.abs(data.balance)}}</td>
-                  </tr>
+                            <td v-if="data.type ==='due'">INV-PO-DG-{{data.invoice_id}}</td>
+                            <td v-else-if="data.type ==='outgoing'">INV-PM-DG-{{data.invoice_id}}</td>
+                            <td v-else-if="data.type ==='opening'">-</td>
+                            <td v-else>-</td>
 
-                </table>
+                            <td >{{data.adminName}}</td>
+                            <td v-if="data.type ==='due'">Purchase</td>
+                            <td v-else-if="data.type ==='outgoing'">Payment</td>
+                            <td v-else-if="data.type ==='opening'">Opening Balance</td>
+                            <td v-else>Not define</td>
+                            <td v-if="data.type ==='outgoing'">{{Math.abs(data.amount)}}</td>
+                            <td v-else>0</td>
+                            <td v-if="data.type ==='due'">{{Math.abs(data.amount)}}</td>
+                            <td v-else>0</td>
+                            <td >{{Math.abs(data.balance)}}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
             </Col>
 
         </Row>

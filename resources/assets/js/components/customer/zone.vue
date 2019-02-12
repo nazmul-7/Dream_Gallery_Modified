@@ -1,67 +1,78 @@
 <template>
     <div>
-        <Row>
-            <Col class="dream-input-main" span="13" offset="1">
-                <Form ref="formInline" inline>
-                    <FormItem prop="user">
-                        <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
-                        </Input>
+        <div class="_content">
+             <div class="row">
+                <div class="col-12 col-md-8 col-lg-8">
+                    <div class="dream-input-main _b_color _b_r border">
+                        <Form ref="formInline" inline>
+                            <FormItem prop="user">
+                                <Input type="text" v-model="search" placeholder="Search">
+                                    <Icon type="ios-search" slot="prepend"></Icon>
+                                </Input>
+                            </FormItem>
+                        </Form>
+                        <div class="_table_div zone_table _pa_table">
+                            <Table :columns="columns1" :data="searchData"></Table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-4 ">
+                    <div class=" _b_color _b_r border dream-input-main">
+                        <Input class="mr_b20" type="text" placeholder="Zone Name" v-model="formValue.zoneName" @on-enter="zoneAdd"></Input>
+                        <button class="all_button btn"  @click="zoneAdd">Add</button>
+                    </div>
+                </div>
+            </div>
+
+
+         
+
+            <Modal v-model="editModal" width="360">
+                <p slot="header" style="color:#369;text-align:center">
+                    <Icon type="edit"></Icon>
+                    <span> Edit {{UpdateValue.zoneName}}</span>
+                </p>
+                <div >
+                    <Form>
+                <Col span="24">
+                        <FormItem >
+                            <Input type="text" placeholder="Zone Name" 
+                            v-model="editObj.zoneName" @on-enter="edit"></Input>
+                        </FormItem>
+                        <FormItem >
+                        <InputNumber  placeholder="Delivery" :max="100" :min="0" :formatter="value => `${value}`"
+                :parser="value => value.replace('', '')"
+                        v-model="editObj.delivery" @on-enter="edit"></InputNumber>
                     </FormItem>
+                    </Col>
                 </Form>
-                <Table :columns="columns1" :data="searchData"></Table>
-            </Col>
-            <Col class="dream-input-main" span="8" offset="1">
-            <Input type="text" placeholder="Zone Name" v-model="formValue.zoneName" @on-enter="zoneAdd"></Input>
-            <Button type="primary" @click="zoneAdd">Add</Button>
-              
-            </Col>
-        </Row>
 
-        <Modal v-model="editModal" width="360">
-            <p slot="header" style="color:#369;text-align:center">
-                <Icon type="edit"></Icon>
-                <span> Edit {{UpdateValue.zoneName}}</span>
-            </p>
-            <div >
-                <Form>
-            <Col span="24">
-                    <FormItem >
-                        <Input type="text" placeholder="Zone Name" 
-                        v-model="editObj.zoneName" @on-enter="edit"></Input>
-                    </FormItem>
-                    <FormItem >
-                    <InputNumber  placeholder="Delivery" :max="100" :min="0" :formatter="value => `${value}`"
-            :parser="value => value.replace('', '')"
-                    v-model="editObj.delivery" @on-enter="edit"></InputNumber>
-                </FormItem>
-                </Col>
-            </Form>
+                </div>
+                <div slot="footer">
+                    <Button type="primary" size="large" long :loading="sending" @click="edit">
+                        <span v-if="!loading">Update</span>
+                        <span v-else>Updating...</span>
+                    </Button>
+                </div>
+            </Modal>
+            <Modal v-model="deleteModal" width="360">
+                <p slot="header" style="color:#f60;text-align:center">
+                    <Icon type="close"></Icon>
+                    <span> Delete {{UpdateValue.zoneName}}</span>
+                </p>
+                <div style="text-align:center">
+                    Are you sure you want delete {{UpdateValue.zoneName}}
 
-            </div>
-            <div slot="footer">
-                <Button type="primary" size="large" long :loading="sending" @click="edit">
-                    <span v-if="!loading">Update</span>
-                    <span v-else>Updating...</span>
-                </Button>
-            </div>
-        </Modal>
-        <Modal v-model="deleteModal" width="360">
-            <p slot="header" style="color:#f60;text-align:center">
-                <Icon type="close"></Icon>
-                <span> Delete {{UpdateValue.zoneName}}</span>
-            </p>
-            <div style="text-align:center">
-                Are you sure you want delete {{UpdateValue.zoneName}}
-
-            </div>
-            <div slot="footer">
-                <Button type="error" size="large" long :loading="sending" @click="remove">
-                    <span v-if="!loading">Delete</span>
-                    <span v-else>Deleting...</span>
-                </Button>
-            </div>
-        </Modal>
+                </div>
+                <div slot="footer">
+                    <Button type="error" size="large" long :loading="sending" @click="remove">
+                        <span v-if="!loading">Delete</span>
+                        <span v-else>Deleting...</span>
+                    </Button>
+                </div>
+            </Modal>
+        </div>
     </div>
 </template>
 

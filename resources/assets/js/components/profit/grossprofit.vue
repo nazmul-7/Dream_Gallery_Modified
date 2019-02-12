@@ -1,198 +1,202 @@
 <template>
     <div>
-        <Row>
-            
-            <Col class="dream-input-main" span="22" offset="1">
-            <Form ref="formInline" inline>
-                <FormItem label="Search">
-                    <Input type="text" v-model="search" placeholder="Search">
-                    <Icon type="ios-search" slot="prepend"></Icon>
-                    </Input>
-                </FormItem>
+         <div class="_content">
+            <div class="row">
+                
+                <div class="dream-input-main col-12 col-md-12 col-lg-12  _b_color _b_r border">
+                <Form ref="formInline" inline>
+                    <FormItem label="Search">
+                        <Input type="text" v-model="search" placeholder="Search">
+                        <Icon type="ios-search" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
 
-                <FormItem label="Product">
-                    <Input class="dropbtn" v-model="filterProduct" placeholder="Search Product" style="width:200px"     />
-                </FormItem>
-                <FormItem label="Admin">
-                        <Select v-model="filterAdmin" placeholder="Select Admin"  filterable clearable>
-                                <Option v-for="(admin,i) in dataAdmin" :value="admin.name" :key="i">{{ admin.name }}</Option>
-                            </Select>
-                </FormItem>
-                <!-- <FormItem label="Customer">
-                    <Select v-model="filterCustomer" placeholder="Select Customer" filterable clearable>
-                        <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
-                    </Select>
-                </FormItem> -->
-                <FormItem label="Zone">
-                    <Select v-model="filterZone" placeholder="Select Zone" filterable clearable>
-                        <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem label="Date">
-                    <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
-                </FormItem>
-            </Form>
+                    <FormItem label="Product">
+                        <Input class="dropbtn" v-model="filterProduct" placeholder="Search Product" style="width:200px"     />
+                    </FormItem>
+                    <FormItem label="Admin">
+                            <Select v-model="filterAdmin" placeholder="Select Admin"  filterable clearable>
+                                    <Option v-for="(admin,i) in dataAdmin" :value="admin.name" :key="i">{{ admin.name }}</Option>
+                                </Select>
+                    </FormItem>
+                    <!-- <FormItem label="Customer">
+                        <Select v-model="filterCustomer" placeholder="Select Customer" filterable clearable>
+                            <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
+                        </Select>
+                    </FormItem> -->
+                    <FormItem label="Zone">
+                        <Select v-model="filterZone" placeholder="Select Zone" filterable clearable>
+                            <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem label="Date">
+                        <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
+                    </FormItem>
+                </Form>
 
-            <div class="total_cost text_right">
-                <div class="total_cost_top d b_color">
-                    <div class="total_cost_main dis">
-                        <div class="total_cost_main_left flex_space">
-                            <p class="total_cost_main_left_text">Total Sales Amount</p>
+                <div class="total_cost text_right">
+                    <div class="total_cost_top d b_color">
+                        <div class="total_cost_main dis">
+                            <div class="total_cost_main_left flex_space">
+                                <p class="total_cost_main_left_text">Total Sales Amount</p>
+                            </div>
+                            <div class="total_cost_main_right">
+                                <p class="total_cost_main_left_text">{{totalSale.toFixed(2)}}</p>
+                            </div>
                         </div>
-                        <div class="total_cost_main_right">
-                            <p class="total_cost_main_left_text">{{totalSale.toFixed(2)}}</p>
+
+                        <div class="total_cost_main dis">
+                            <div class="total_cost_main_left  flex_space">
+                                <p class="total_cost_main_left_text">Total Purchase Cost</p>
+                            </div>
+                            <div class="total_cost_main_right">
+                                <p class="total_cost_main_left_text">{{totalCost.toFixed(2)}}</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="total_cost_main dis">
-                        <div class="total_cost_main_left  flex_space">
-                            <p class="total_cost_main_left_text">Total Purchase Cost</p>
-                        </div>
-                        <div class="total_cost_main_right">
-                            <p class="total_cost_main_left_text">{{totalCost.toFixed(2)}}</p>
+                    <div class="total_cost_bottom d b_color">
+                        <div class="total_cost_main dis">
+                            <div class="total_cost_main_left flex_space">
+                                <p class="total_cost_main_left_text">Total Profit</p>
+                            </div>
+                            <div class="total_cost_main_right">
+                                <p class="total_cost_main_left_text">{{totalProfit.toFixed(2)}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                 <div class="total_cost_bottom d b_color">
-                    <div class="total_cost_main dis">
-                        <div class="total_cost_main_left flex_space">
-                            <p class="total_cost_main_left_text">Total Profit</p>
+                        <!-- new table -->
+                <div class="buyer_tables">
+                        <!-- items -->
+                    <div class="buyer_tables_all" v-if="searchData.length" v-for="(item,index) in searchData" :key="index" >
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Buyer Name</p>
+                            <p class="buyer_tables_all_name"> {{item.customerName}}</p>
                         </div>
-                        <div class="total_cost_main_right">
-                            <p class="total_cost_main_left_text">{{totalProfit.toFixed(2)}}</p>
+
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Invoice No</p>
+                            <p class="buyer_tables_all_name"> {{item.invoice_id}}</p>
                         </div>
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Date</p>
+                            <p class="buyer_tables_all_name"> {{item.date}}</p>
+                        </div>
+                        <div class="buyer_tables_all_name_all dis">
+                            <p class="buyer_tables_all_title">Admin</p>
+                            <p class="buyer_tables_all_name"> {{item.adminName}}</p>
+                        </div>
+                        
+                        <div class="_table_div ">
+                            <div class="buyer_tables_main buyer_tables_main_overflow_three">
+                                    <!-- title -->
+                                <div class="buyer_tables_main_all table_title_bg dis b_color">
+                                    <div class="buyer_tables_main_name b_color flex_space">
+                                        <p class="buyer_tables_main_title">Product Name</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Sales Unit</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Sales Price</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Cost</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Profit</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_title">Profit(%)</p>
+                                    </div>
+                                </div>
+                                    <!-- title -->
+
+                                    <!-- Items -->
+                                <div class="buyer_tables_main_all dis b_color" v-if="item.selling.length"  v-for="(productItem,productIndex) in item.selling" :key="productIndex" >
+                                    <div class="buyer_tables_main_name b_color flex_space">
+                                        <p class="buyer_tables_main_text">{{productItem.product.productName}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem.quantity}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem.product.sellingPrice}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem.product.averageBuyingPrice}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{(productItem.product.sellingPrice-productItem.product.averageBuyingPrice)*productItem.quantity}}</p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="buyer_tables_main_text">{{productItem | findProfitPercent}}</p>
+                                    </div>
+                                </div>
+                                    <!-- Items -->
+
+                                    
+
+                                    <!-- Total Sales -->
+                                <div class="Total_Sales dis">
+                                    <div class="buyer_tables_main_name b_color flex_space">
+                                    
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalUnit }}</span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                    <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalSalesPrice }}</span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalCost}}</span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                    <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalProfit}}</span></p>
+                                    </div>
+
+                                    <div class="buyer_tables_main_num b_color">
+                                        <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ totalProfitPercent(item.selling)}}</span></p>
+                                    </div>
+                                </div>
+                                    <!-- Total Sales -->
+                            </div>
+                        </div>
+                            <!-- items -->
                     </div>
+                </div>
+                        <!-- new table -->
+
+
+
+                <!-- <Row>
+                    <Col span="11">
+                    <Button align="left" @click="showPrint">Print</Button>
+                    </Col>
+                    <Col span="11" offset="1">
+                    <h3>Total Sales: {{totalSale}} | Total Cost: {{totalCost}} | Total Profit: {{totalProfit}}</h3>
+                    </Col>
+                </Row>
+                <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table> -->
                 </div>
             </div>
-
-                    <!-- new table -->
-            <div class="buyer_tables">
-                    <!-- items -->
-                <div class="buyer_tables_all" v-if="searchData.length" v-for="(item,index) in searchData" :key="index" >
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Buyer Name</p>
-                        <p class="buyer_tables_all_name"> {{item.customerName}}</p>
-                    </div>
-
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Invoice No</p>
-                        <p class="buyer_tables_all_name"> {{item.invoice_id}}</p>
-                    </div>
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Date</p>
-                        <p class="buyer_tables_all_name"> {{item.date}}</p>
-                    </div>
-                    <div class="buyer_tables_all_name_all dis">
-                        <p class="buyer_tables_all_title">Admin</p>
-                        <p class="buyer_tables_all_name"> {{item.adminName}}</p>
-                    </div>
-
-                    <div class="buyer_tables_main">
-                            <!-- title -->
-                        <div class="buyer_tables_main_all table_title_bg dis b_color">
-                            <div class="buyer_tables_main_name b_color flex_space">
-                                <p class="buyer_tables_main_title">Product Name</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Sales Unit</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Sales Price</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Cost</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Profit</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_title">Profit(%)</p>
-                            </div>
-                        </div>
-                            <!-- title -->
-
-                            <!-- Items -->
-                        <div class="buyer_tables_main_all dis b_color" v-if="item.selling.length"  v-for="(productItem,productIndex) in item.selling" :key="productIndex" >
-                            <div class="buyer_tables_main_name b_color flex_space">
-                                <p class="buyer_tables_main_text">{{productItem.product.productName}}</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem.quantity}}</p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem.product.sellingPrice}}</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem.product.averageBuyingPrice}}</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{(productItem.product.sellingPrice-productItem.product.averageBuyingPrice)*productItem.quantity}}</p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="buyer_tables_main_text">{{productItem | findProfitPercent}}</p>
-                            </div>
-                        </div>
-                            <!-- Items -->
-
-                            
-
-                            <!-- Total Sales -->
-                        <div class="Total_Sales dis">
-                            <div class="buyer_tables_main_name b_color flex_space">
-                               
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalUnit }}</span></p>
-                            </div>
-
-                            <div class="buyer_tables_main_num b_color">
-                               <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ item.selling | totalSalesPrice }}</span></p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalCost}}</span></p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                               <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{item.selling | totalProfit}}</span></p>
-                            </div>
-
-                             <div class="buyer_tables_main_num b_color">
-                                <p class="Total_Sales_text"><span class="Total_Sales_text_span">{{ totalProfitPercent(item.selling)}}</span></p>
-                             </div>
-                        </div>
-                            <!-- Total Sales -->
-                    </div>
-                </div>
-                    <!-- items -->
-            </div>
-                     <!-- new table -->
-
-
-
-            <!-- <Row>
-                <Col span="11">
-                <Button align="left" @click="showPrint">Print</Button>
-                </Col>
-                <Col span="11" offset="1">
-                <h3>Total Sales: {{totalSale}} | Total Cost: {{totalCost}} | Total Profit: {{totalProfit}}</h3>
-                </Col>
-            </Row>
-            <Table :columns="columns1" :data="searchData" @on-row-click="rowSelect"></Table> -->
-            </Col>
-        </Row>
+        </div>
 
         <Modal v-model="editModal" width="740" style="margin-top:20px;">
             <div class="print">
