@@ -31,4 +31,8 @@ class Invoice extends Model
     {
        return $this->belongsTo('App\User', 'admin_id');
     } 
+    public function bonus()
+    {
+       return $this->hasMany('App\Bonus')->where('type','withdraw');
+    } 
 }

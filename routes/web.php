@@ -101,14 +101,16 @@ Route::post('/app/exchangeProduct','InvoiceController@exchangeProduct');
 Route::get('/app/returnAll/{id}','InvoiceController@returnAll');
 
 //list
+
 Route::get('/app/sellitemlist','SellingController@sellitemlist');
 Route::get('/app/getProductProfit','ReportController@getProductProfit');
 Route::get('/app/paymentList','ReportController@paymentList');
 Route::get('/app/cash','ReportController@cash');
 Route::get('/app/filterSale/{from}/{to}','SellingController@filterSale');
+Route::get('/app/filterSaleNet/{from}/{to}','SellingController@filterSaleNet');
 Route::get('/app/filterSaleItem/{from}/{to}','SellingController@filterSaleItem');
 Route::get('/app/filterCash/{from}/{to}','ReportController@filterCash');
-Route::get('/app/filterProfit/{from}/{to}','ReportController@filterProfit');
+Route::get('/app/filterProfit/{from}/{to}','ReportController@filterProfit'); 
 Route::get('/app/filterPurchase/{from}/{to}','PurchaseController@filterPurchase');
 Route::get('/app/filterPurchaseItem/{from}/{to}','PurchaseController@filterPurchaseItem');
 Route::get('/app/getStockList/{id}','StockController@getStockList');

@@ -3,32 +3,32 @@
         <Row>
            <Col  class="dream-input-main" span="22" offset="1" >
                 <Form ref="formInline" inline>
-                    <FormItem label="Search">
+                    <!-- <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
-                    </FormItem>
-                    <FormItem label="Customer">
+                    </FormItem> -->
+                    <!-- <FormItem label="Customer">
                         <Select v-model="filterCustomer" placeholder="Select Customer"  filterable clearable>
                                 <Option v-for="(customer,i) in dataCustomer" :value="customer.customerName" :key="i">{{ customer.customerName }}</Option>
                             </Select>
-                    </FormItem>
-                    <FormItem label="Zone">
+                    </FormItem> -->
+                    <!-- <FormItem label="Zone">
                         <Select v-model="filterZone" placeholder="Select Zone"  filterable clearable>
                                 <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{ zone.zoneName }}</Option>
                             </Select>
-                    </FormItem>
-                    <FormItem label="Date">
+                    </FormItem> -->
+                    <FormItem label="Date" >
                         <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
                     </FormItem>
                 </Form>
                 <Row>
-                    <Col span="11" >
+                    <!-- <Col span="11" >
                         <Button  align="left" @click="showPrint">Print</Button>
                     </Col>
                     <Col span="11" offset="1" >
                         <h3>Total Sales: {{totalSale}} | Total Cost: {{totalCost}} | Total Profit: {{totalProfit}}</h3>
-                    </Col>
+                    </Col> -->
                 </Row>
                 <Table :columns="columns1" :data="totalNetProfitData"></Table>
             </Col>
@@ -39,7 +39,7 @@
                 <h2 style="text-align:center">Dreams Gallery</h2>
                 <h3>Profit List</h3>
                 <h3>Date: {{ filterDate[0] }} to {{ filterDate[1] }}</h3>
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="dataInvoice"></Table>
             </div>
             <div slot="footer">
                 
@@ -160,6 +160,8 @@
                 dataSearch:[],
                 dataCustomer: [],
                 dataInvoice:[],
+                dataExpense:[],
+                dataIncome:[],
                 dataZone:[],
                 formInvoice:
                 {
@@ -234,14 +236,20 @@
                         title: 'Total Expense',
                         key: 'totalExpense'
                     },
+                    {
+                        title: 'Net Profit',
+                        key: 'totalNetProfit'
+                    },
                    
 
                 ],
                 netProfitData :[
                     {totalSalesAmount : this.totalSale,
                     totalGrossProfit : this.totalProfit,
-                    totalIncome : null,
-                    totalExpense : this.totalCost},
+                    totalIncome : this.totalIncome,
+                    totalExpense : this.totalCost,
+                    totalNetProfit : this.NetProfit,
+                    },
                 ],
 
                 
@@ -270,17 +278,43 @@
             {
 
                 var tF=0
-                for (let d of this.searchData)
+                for (let d of this.dataExpense)
                 {
-                    var sF=0
-                    for(let dd of d.selling)
-                    {
-                        sF=(sF+((dd.unitPrice-dd.profit)*dd.quantity))
-                    }
-                tF=tF+sF
-
+                    tF+=d.amount
+                    console.log(tF)
                 }
-                return tF
+
+                for (let d of this.dataInvoice)
+                {
+                   if(d.bonus.length>0){
+                       console.log("i have bonus")
+                       for(let dp of d.bonus){
+                               tF+=dp.amount
+                                console.log(tF)
+                       }
+                   }
+                }
+
+                return (tF*(-1))
+                
+            },
+            totalIncome()
+            {
+
+                var tF=0
+                for (let d of this.dataIncome)
+                {
+                    tF+=d.amount
+                    console.log(d.amount)
+                }
+                return (tF)
+                
+            },
+            NetProfit()
+            {
+
+               let profit = (this.totalProfit-this.totalCost)+this.totalIncome
+               return profit
                 
             },
 
@@ -298,10 +332,11 @@
             },
             totalNetProfitData(){
                 
-                    this.netProfitData[0].totalSalesAmount = this.totalSale;
-                    this.netProfitData[0].totalGrossProfit = this.totalProfit;
-                    this.netProfitData[0].totalIncome = null;
-                    this.netProfitData[0].totalExpense = this.totalCost;
+                    this.netProfitData[0].totalSalesAmount = this.totalSale.toFixed(2);
+                    this.netProfitData[0].totalGrossProfit = this.totalProfit.toFixed(2);
+                    this.netProfitData[0].totalIncome = this.totalIncome.toFixed(2);
+                    this.netProfitData[0].totalExpense = this.totalCost.toFixed(2);
+                    this.netProfitData[0].totalNetProfit = this.NetProfit.toFixed(2);
 
                     return this.netProfitData;
                 
@@ -365,17 +400,18 @@
 
                 }
                 else{
-                return this.dataInvoice.filter((data)=>{                    
-                    return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
-                     data.id.toString().match(this.search) ||
-                     data.totalPrice.toString().match(this.search) ||
-                     data.totalQuantity.toString().match(this.search) ||
-                     data.discount.toString().match(this.search) ||
-                     data.paidAmount.toString().match(this.search)
+                     return this.dataInvoice
+                // return this.dataInvoice.filter((data)=>{                    
+                //     return data.adminName.toUpperCase().match(this.search.toUpperCase()) ||
+                //      data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
+                //      data.id.toString().match(this.search) ||
+                //      data.totalPrice.toString().match(this.search) ||
+                //      data.totalQuantity.toString().match(this.search) ||
+                //      data.discount.toString().match(this.search) ||
+                //      data.paidAmount.toString().match(this.search)
         
-                    }
-                );
+                //     }
+                // );
 
                 }
             },
@@ -425,7 +461,7 @@
                     })
                     this.viewSelling=data
                 }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('1Oops!','Something went wrong, please try again!')
                 }
             },
             async showPrint (index) {
@@ -449,11 +485,11 @@
                 try{
                     let {data} =await  axios({
                         method: 'get',
-                        url:`/app/filterSale/${k[0]}/${k[1]}`
+                        url:`/app/filterSaleNet/${k[0]}/${k[1]}`
 
                     })
                     //
-                    for(let d of data){
+                    for(let d of data.data){
                         d.adminName=d.admin.name
                         d.invoice_id="INV-SO-DG-"+d.id
                         d.costPrice=0
@@ -467,11 +503,13 @@
                         d.customerName=d.customer.customerName
                     }
                     //
-                    this.dataInvoice=data
+                    this.dataInvoice=data.data
+                    this.dataExpense=data.expense
+                    this.dataIncome=data.income
                     this.lf();
 
                 }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('2Oops!','Something went wrong, please try again!')
                 this.le();
                 }
                 console.log(k);
@@ -491,7 +529,7 @@
 
                 this.lf();
                 }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('3Oops!','Something went wrong, please try again!')
                 this.le();
                 }
 
@@ -552,7 +590,7 @@
                     this.lf();
 
                 }catch(e){
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('4Oops!','Something went wrong, please try again!')
                     this.le();
                 }
             },
@@ -588,7 +626,7 @@
                         this.loading=false
                     }catch(e){
                         this.loading=false
-                        this.e('Oops!','Something went wrong, please try again!')
+                        this.e('5Oops!','Something went wrong, please try again!')
                     }
 
                 }
@@ -626,7 +664,7 @@
                 }catch(e){
                     this.sending=false
                     this.editModal=false
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('6Oops!','Something went wrong, please try again!')
                 }
             },
             async remove(){
@@ -644,7 +682,7 @@
                 }catch(e){
                     this.sending=false
                     this.deleteModal=false
-                    this.e('Oops!','Something went wrong, please try again!')
+                    this.e('7Oops!','Something went wrong, please try again!')
                 }
             }
         },
@@ -662,11 +700,11 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:`/app/filterSale/${date2}/${date2}`
+                    url:`/app/filterSaleNet/${date2}/${date2}` 
 
                 })
-                for(let d of data){
-                    d.adminName=d.admin.name
+                for(let d of data.data){
+                    d.adminName=d.admin.namefilterSale
                     d.invoice_id="INV-SO-DG-"+d.id
                     d.costPrice=0
                     d.profitPrice=0
@@ -678,11 +716,13 @@
                     if(d.customer)
                     d.customerName=d.customer.customerName
                 }
-                this.dataInvoice=data
+                this.dataInvoice=data.data
+                this.dataExpense=data.expense
+                this.dataIncome=data.income
                 this.lf();
 
             }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
+                this.e('8Oops!','Something went wrong, please try again!')
             this.le();
             }
             try{
@@ -694,7 +734,7 @@
                 this.lf();
 
             }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
+                this.e('9Oops!','Something went wrong, please try again!')
             this.le();
             }
             try{
@@ -706,7 +746,7 @@
                 this.lf();
 
             }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
+                this.e('99Oops!','Something went wrong, please try again!')
             this.le();
             }
             try{
@@ -718,7 +758,7 @@
             this.lf();
 
             }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
+                this.e('88Oops!','Something went wrong, please try again!')
             this.le();
             }
 

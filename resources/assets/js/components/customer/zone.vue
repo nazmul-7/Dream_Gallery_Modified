@@ -89,13 +89,13 @@
                 editObj: {
                     id:null,
                     zoneName:'',
-                    delivery:'',
+                    delivery:0,
                     
                 },
                 UpdateValue: {
                     indexNumber:null,
                     zoneName:'',
-                    delivery:'',
+                    delivery:0,
                     id:null,
                     
                 },

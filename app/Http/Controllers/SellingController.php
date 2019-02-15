@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Product;
 use App\Purchase;
 use App\Payment;
+use App\Voucher;
 use App\Invoice;
 use App\Paymentsheet;
 use App\Selling;
@@ -242,10 +243,19 @@ class SellingController extends Controller
             ]);
 
         }        // make  purchase details 
+        $discountFlag = false;
+        $productDiscount = 0;
         foreach ($input['productDetails'] as $key => $value) {
-            if(!$value['discount'])
-            $value['discount']=0;
+            if(!$value['discount']){
+                $value['discount']=0;
+            }
+            else{
+                $discountFlag= true;
+                $productDiscount+=(($value['sellingPrice']*$value['discount'])/100);
+            }
+            
 
+           // $profit= $value['discountedPrice'] - $value['averageBuyingPrice'];
             $profit= $value['sellingPrice'] - $value['averageBuyingPrice'];
             $sell=Selling::create([
                 'admin_id' => $admin_id,
@@ -259,6 +269,19 @@ class SellingController extends Controller
                 
             ]);
         }
+        if($discountFlag){
+            $paymentSheet=Paymentsheet::create([
+                'admin_id' => $admin_id,
+                'invoice_id' => $invoice->id,
+                'type' => 'discount',// incoming is profit, outgoing expense, due => due for supplier , due for customer 
+                'paymentFor'=> 'customer',//  customer mean, I am selling to customer, supllier mean buying from suplier 
+                'uid' => $input['customer_id'],
+                'amount' => (($productDiscount)*(-1)),
+                'paymentMethod' => 'cash',
+                'remarks' => 'Discount To Customer',
+                'date' => $input['date'],
+            ]);
+        }
         // $created=Invoice::create($request->all());
         $data=Invoice::where('type', 'sell')
         ->where('id', $invoice->id)
@@ -270,6 +293,38 @@ class SellingController extends Controller
                  'msg' => 'Inserted',
                  'data'=> $data,
             ],200);
+    }
+
+    public function filterSaleNet($from,$to)
+    {
+        $data=Invoice::where('type','sell')
+        ->whereBetween('date', array($from, $to))
+        ->with('admin')
+        ->with('selling.product')
+        ->with('customer')
+        ->with('bonus')
+        ->orderBy('id', 'asc') 
+        ->get();
+
+        $expense = Paymentsheet::whereBetween('date', array($from, $to))
+        ->whereIn('type',['discount','outgoingVoucher'])
+        ->get();
+
+       
+        $income = Paymentsheet::whereBetween('date', array($from, $to))
+        ->whereIn('type',['incomingVoucher'])
+        ->get();
+
+        Log::info('I am data');
+        Log::info($data);
+
+        return response()->json([
+            'data'=> $data,
+            'expense'=> $expense,
+            'income'=> $income,
+            ],200);
+
+       
     }
 
     /**
