@@ -7,6 +7,7 @@ use App\Setting;
 use App\Paymentsheet;
 use App\Customer;
 use App\Supplier;
+use App\Gallery;
 use App\User;
 use Auth;
 use Hash;
@@ -136,16 +137,15 @@ class SettingController extends Controller
 
     public function upload(Request $request)
     {
-       
+       \Log::info($request->all());
         
         request()->file('img')->store('uploads');
         $pic= $request->img->hashName();
+        $pic= "/uploads/$pic";
         /*update the profile pic*/
-        Setting::where('id', $request->id)->update([
-            'companyLogo' => $pic
-        ]);
+        //return Gallery::create($data);
         return response()->json([
-            'companyLogo'=> $pic
+            'imageUrl'=> $pic
         ],200);
     }
     public function setup()

@@ -30,6 +30,8 @@ class Product extends Model
        return $this->hasOne('App\Group');
     } 
 
+
+
     //public function 
 
 

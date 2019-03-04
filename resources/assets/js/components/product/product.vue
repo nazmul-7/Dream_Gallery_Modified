@@ -121,6 +121,35 @@
                     </Col>
 
                 </Row>
+                <Row>
+                <FormItem  style="text-align:center" label="Image">
+                             <Col span="24" class="dream-input-main" >
+                                <Upload
+                                    ref="upload"
+                                    type="drag"
+                                    name="img"
+                                    :show-upload-list="listMethod" 
+                                    :with-credentials="true"
+                                    :headers="crfObj"
+                                    :data="{id:1}"
+                                    :on-success="handleSuccess"
+                                    :format="['jpg','jpeg','png']"
+                                    :max-size="2048"
+                                    action="/app/setting/upload">
+                                    <div style="padding: 20px 0">
+                                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                                        <p>Click or drag image here to upload Product Image</p>
+                                    </div>
+                                </Upload>
+                                <Card  span="10" offset="1">
+                                    <div style="text-align:center">
+                                        <img  style="width: 500px;height: 300px;" v-if="imageData.imageUrl" :src="imageData.imageUrl" >
+                                    </div>
+                                </Card>
+                            </Col>
+                        </FormItem >
+
+                </Row>
             </Form>
         </div>
         <div slot="footer">
@@ -273,6 +302,7 @@
                 barcodeModal:false,
                 addProductModal:false,
                 editModal:false,
+                imageModal:false,
                 deleteModal:false,
                 loading:false,
                 sending:false,
@@ -294,6 +324,10 @@
                 formCategory: {
                    
                 },
+                crfObj: {
+                    'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                listMethod:true,
                 editObj: {
                     id:null,
                     productName:'',
@@ -329,6 +363,11 @@
                     productImage:'',
                     barCode:null,
                     
+                    
+                },
+                imageData:{
+                    id:'',
+                    imageUrl:'',
                 },
                 columns1: [
                     {
@@ -359,6 +398,31 @@
                                         {
                         title: 'Selling Price',
                         key: 'sellingPrice'
+                    },
+                    {   
+                        title: 'Image',
+                        key: 'image',
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showBarcode(params.index)
+                                        }
+                                    }
+                                }, 'Image'),
+                                
+                                
+                            ]);
+                        }
                     },
                     {   
                         title: 'Action',
@@ -477,10 +541,15 @@
             }
         },
         methods: {
+            handleSuccess(res, file){
+                console.log(res);
+                this.imageData.imageUrl=res.imageUrl
+                this.formValue.productImage = res.imageUrl;
+            },
             onFileChange() {
                 const files = this.$refs.image.files
                 const data = new FormData()
-                // data.append('logo', files[0])
+                // data.append('imageData.imageUrl', files[0])
                 // console.log(data)
                 // console.log(files[0])
                 this.formValue.productImage=files[0]
@@ -524,6 +593,7 @@
                     this.s('Great!','Product has been added successfully!')
                     this.loading=false
                     this.addProductModal=false
+                    this.imageData.imageUrl = ''
                     // this.formValue=null
                 }catch(e){
                     this.loading=false
