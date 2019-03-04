@@ -17,7 +17,7 @@ import zone from './components/customer/zone.vue'
 import customer from './components/customer/customer.vue'
 import voucher from './components/voucher/voucher.vue'
 import ledgerhead from './components/voucher/ledgerhead.vue'
-import stock from './components/stock/stock.vue'
+import productledger from './components/stock/productledger.vue' 
 
 import paytosupplier from './components/payment/paytosupplier.vue'
 
@@ -196,9 +196,9 @@ export default new Router({
 				}
 			},
     	{
-	      path: '/stock',
-	      name: 'stock',
-	      component: stock,
+	      path: '/productledger',
+	      name: 'productledger',
+	      component: productledger,
 				meta: {
 					allowed: adminAndEditor
 				}

@@ -742,6 +742,11 @@ overflow: auto;
     width: 78px;
 }
 }
+.title-sett_left {
+    float: right;
+    font-size: 20px;
+    padding: 0 10px;
+}
 
 
 @media only screen and (min-width: 750px) and (max-width: 1050px) {

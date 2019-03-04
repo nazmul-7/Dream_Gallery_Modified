@@ -156,7 +156,7 @@
                                 <template slot="title">
                                     Stock Report
                                 </template>
-                                <MenuItem name="stock" :to="handleGoToMenu('/stock')">Product Ledger</MenuItem>
+                                <MenuItem name="productledger" :to="handleGoToMenu('/productledger')">Product Ledger</MenuItem>
                                 <MenuItem name="currentstock" :to="handleGoToMenu('/currentstock')">Current Stock</MenuItem>
                             </Submenu>
                         </MenuItem>
@@ -287,7 +287,11 @@
             <Layout>
                 <Header :style="{padding: 0}" class="layout-header-bar">
                     <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '20px 20px 0'}" type="navicon-round" size="24"></Icon>
-                    <p class="title-sett">DreamGallery</p>
+                    <p class="title-sett">{{headerName}}</p>
+                    
+                    <p class="title-sett_left"><a href="/logout">Logout</a></p>
+                    <p class="title-sett_left">{{authUser.name}}</p>
+                    
                 </Header>
                 <Content :style="{minHeight: '220px'}">
                     <div class="dream-input">

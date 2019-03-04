@@ -1126,7 +1126,7 @@
 
         },
         async created(){
-
+            this.$store.dispatch('updateHeader','Sale');
             let nd = new Date(this.toDayDate)
 			this.toDayDate = `${nd.getFullYear()}-${nd.getMonth()+1}-${nd.getDate()}`
                 

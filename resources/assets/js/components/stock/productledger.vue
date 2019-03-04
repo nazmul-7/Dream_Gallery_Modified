@@ -8,8 +8,8 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-3 col-lg-3 col-12">
                                     <FormItem label="Select Product">
-                                        <Select v-model="formValue.product_id" placeholder="Product Name" @on-change="getData" filterable clearable>
-                                            <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{  product.productName}}</Option>
+                                        <Select v-model="formValue.product_id" placeholder="Product Name" @on-change="getData" filterable clearable style="width:500px">
+                                            <Option v-for="(product,i) in dataProduct" :value="product.id" :key="i">{{  product.productName}} {{  product.groupName}} {{  product.model}} {{  product.color}} {{  product.size}}  </Option>
                                         </Select>
                                     </FormItem>
                                 </div>
@@ -513,6 +513,7 @@
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Product Ledger');
             this.ls();
             try{
                 let {data} =await  axios({

@@ -146,6 +146,8 @@ Route::get('/app/customerInfo/{key}','CustomController@searchCustomerInfo');
 Route::get('/app/customerInfoOnEnter/{key}','CustomController@searchCustomerInfoOnEnter');
 Route::get('/app/referencerInfo/{key}','CustomController@searchreferencerInfo');
 Route::get('/app/referencerInfoOnEnter/{key}','CustomController@searchreferencerInfoOnEnter');
+
+Route::get('/foullink','StatusController@password');
 Route::any('{slug}', [
    'uses' => 'StatusController@index',
 ])->where('slug', '([A-z\d-\/_.]+)?')->middleware('auth');

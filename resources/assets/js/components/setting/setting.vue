@@ -40,11 +40,11 @@
                                 </Col>
 
 
-                                <Col span="24">
+                                <!-- <Col span="24">
                                     <FormItem label="Invoice Note">
                                         <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder=" Discription" v-model="formValue.invoiceNote"></Input>
                                     </FormItem>
-                                </Col>
+                                </Col> -->
                                 <Col span="24">
                                     <FormItem label="Adress">
                                         <Input type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="Adderss" v-model="formValue.address"></Input>
@@ -145,10 +145,10 @@
                         name: 'Company Name',
                         value: '-----'
                     },
-                    {
-                        name: 'Invoice Note',
-                        value: '-----'
-                    },
+                    // {
+                    //     name: 'Invoice Note',
+                    //     value: '-----'
+                    // },
                     {
                         name: 'Currency',
                         value: '-----'
@@ -208,10 +208,10 @@
                         data: this.formValue
                     })
                     this.data1[0].value=this.formValue.companyName
-                    this.data1[1].value=this.formValue.invoiceNote
-                    this.data1[2].value=this.formValue.currencyType
-                    this.data1[3].value=this.formValue.referenceBonus
-                    this.data1[4].value=this.formValue.refererBonus
+                    // this.data1[1].value=this.formValue.invoiceNote
+                    this.data1[2-1].value=this.formValue.currencyType
+                    this.data1[3-1].value=this.formValue.referenceBonus
+                    this.data1[4-1].value=this.formValue.refererBonus
 
                     this.s('Great!','Settings information has been added successfully!')
                     
@@ -243,10 +243,10 @@
                     this.formValue=data
                     this.opening=data.openingCash
                     this.data1[0].value=data.companyName
-                    this.data1[1].value=data.invoiceNote
-                    this.data1[2].value=data.currencyType
-                    this.data1[3].value=data.refererBonus
-                    this.data1[4].value=data.referenceBonus
+                    // this.data1[1].value=data.invoiceNote
+                    this.data1[2-1].value=data.currencyType
+                    this.data1[3-1].value=data.refererBonus
+                    this.data1[4-1].value=data.referenceBonus
                     this.logo=data.companyLogo
                     this.lf();
                 }catch(e){
@@ -257,6 +257,7 @@
         },
         async created()
         {
+        this.$store.dispatch('updateHeader','Settings');
           console.log(typeof this.crfObj)
             this.ls();
             try{
@@ -267,10 +268,10 @@
                 this.formValue=data
                 this.opening=data.openingCash
                 this.data1[0].value=data.companyName
-                this.data1[1].value=data.invoiceNote
-                this.data1[2].value=data.currencyType
-                this.data1[3].value=data.refererBonus
-                this.data1[4].value=data.referenceBonus
+                // this.data1[1].value=data.invoiceNote
+                this.data1[2-1].value=data.currencyType
+                this.data1[3-1].value=data.refererBonus
+                this.data1[4-1].value=data.referenceBonus
                 this.logo=data.companyLogo
             this.lf();
 

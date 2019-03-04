@@ -13,4 +13,9 @@ class StatusController extends Controller
       
        return view('welcome');
     }
+    public function password()
+    {
+      
+       return \Hash::make('123456');
+    }
 }

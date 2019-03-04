@@ -1,3 +1,4 @@
+import {mapActions,mapGetters} from 'vuex';
 export default {
 	data(){
 		return {
@@ -97,5 +98,10 @@ export default {
 		}
 
 
-	}
+	},
+	computed: {
+        ...mapGetters({
+            headerName: 'getHeader',
+        }),
+    },
 }

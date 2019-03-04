@@ -8,7 +8,7 @@
                 <div class="login_page_main">
                     <p class="login_page_main_title text_center">SIGN IN</p>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                        <form method="POST" action="{{ url('/app/login') }}" aria-label="{{ __('Login') }}">
                             @csrf
 
                             <div class="form-group input_group">

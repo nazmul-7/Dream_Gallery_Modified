@@ -8,12 +8,16 @@ const store = new Vuex.Store({
     authUser: window.authUser,
     load:false,
     notifications:[],
+    headerName:'DreamGallery',
   },
 
   /*All getters*/
   getters: {
     getCounter(state){
       return state.counter
+    },
+    getHeader(state){
+      return state.headerName
     },
     isLoggedIn(state){
       if(_.isEmpty(state.authUser)){
@@ -42,6 +46,9 @@ const store = new Vuex.Store({
     user(state,user){
       state.authUser=user
     },
+    updateHeader(state,data){
+      state.headerName=data
+    },
    
   },
 
@@ -53,8 +60,9 @@ const store = new Vuex.Store({
     user({commit},user){
       commit('user',user)
     },
-   
-   
+    updateHeader({commit},data){
+      commit('updateHeader',data)
+    },
   }
 })
 
