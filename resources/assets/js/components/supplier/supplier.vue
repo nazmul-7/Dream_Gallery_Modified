@@ -307,6 +307,7 @@
         },
         async created()
         {
+             this.$store.dispatch('updateHeader','Supplier');
             this.ls();
             try{
                 let {data} =await  axios({

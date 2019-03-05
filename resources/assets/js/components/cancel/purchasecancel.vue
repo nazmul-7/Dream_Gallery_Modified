@@ -556,6 +556,7 @@
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Purchase Cancle');
             this.ls();
             const end = new Date();
 			const start = new Date();

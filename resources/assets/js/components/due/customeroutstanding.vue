@@ -306,6 +306,7 @@
         },
         async created()
         {
+            this.$store.dispatch('updateHeader','Customer Outstanding');
             this.ls();
             try{
                 let {data} =await  axios({

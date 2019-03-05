@@ -115,40 +115,34 @@
                             </InputNumber>
                         </FormItem >
                     </Col>
-                    <Col span="12">
-                        <FormItem  label="Image">
-                        </FormItem >
-                    </Col>
-
                 </Row>
                 <Row>
-                <FormItem  style="text-align:center" label="Image">
-                             <Col span="24" class="dream-input-main" >
-                                <Upload
-                                    ref="upload"
-                                    type="drag"
-                                    name="img"
-                                    :show-upload-list="listMethod" 
-                                    :with-credentials="true"
-                                    :headers="crfObj"
-                                    :data="{id:1}"
-                                    :on-success="handleSuccess"
-                                    :format="['jpg','jpeg','png']"
-                                    :max-size="2048"
-                                    action="/app/setting/upload">
-                                    <div style="padding: 20px 0">
-                                        <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-                                        <p>Click or drag image here to upload Product Image</p>
-                                    </div>
-                                </Upload>
-                                <Card  span="10" offset="1">
-                                    <div style="text-align:center">
-                                        <img  style="width: 500px;height: 300px;" v-if="imageData.imageUrl" :src="imageData.imageUrl" >
-                                    </div>
-                                </Card>
-                            </Col>
-                        </FormItem >
-
+                    <FormItem  style="text-align:center" label="Image">
+                        <Col span="24" class="dream-input-main" >
+                            <Upload
+                                ref="upload"
+                                type="drag"
+                                name="img"
+                                :show-upload-list="listMethod" 
+                                :with-credentials="true"
+                                :headers="crfObj"
+                                :data="{id:1}"
+                                :on-success="handleSuccess"
+                                :format="['jpg','jpeg','png']"
+                                :max-size="2048"
+                                action="/app/setting/upload">
+                                <div style="padding: 20px 0">
+                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                                    <p>Click or drag image here to upload Product Image</p>
+                                </div>
+                            </Upload>
+                            <Card  span="10" offset="1">
+                                <div style="text-align:center">
+                                    <img  style="width: 500px;height: 300px;" v-if="imageUrl" :src="imageUrl" >
+                                </div>
+                            </Card>
+                        </Col>
+                    </FormItem >
                 </Row>
             </Form>
         </div>
@@ -227,10 +221,35 @@
                     </FormItem >
                 </Col>
                 <Col span="12">
-                    <FormItem  label="Image X">
-                        
+                    <FormItem >
                     </FormItem >
                 </Col>
+                  <FormItem  style="text-align:center" label="Image">
+                        <Col span="24" class="dream-input-main" >
+                            <Upload
+                                ref="upload"
+                                type="drag"
+                                name="img"
+                                :show-upload-list="listMethod" 
+                                :with-credentials="true"
+                                :headers="crfObj"
+                                :data="{id:1}"
+                                :on-success="handleSuccessEdit"
+                                :format="['jpg','jpeg','png']"
+                                :max-size="2048"
+                                action="/app/setting/upload">
+                                <div style="padding: 20px 0">
+                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                                    <p>Click or drag image here to upload Product Image</p>
+                                </div>
+                            </Upload>
+                            <Card  span="10" offset="1">
+                                <div style="text-align:center">
+                                    <img  style="width: 500px;height: 300px;" v-if="imageUrl" :src="imageUrl" >
+                                </div>
+                            </Card>
+                        </Col>
+                    </FormItem >
             </Form>
         </div>
         <div slot="footer">
@@ -281,6 +300,19 @@
                 </Button>
             </div> -->
         </div>
+    </Modal>
+   <Modal class="product_image" v-model="imageModal" width="900">
+            <p slot="header" style="color:#19be6b;text-align:center">
+                <span>Image </span>
+            </p>
+            
+            <div class="product_image_main">
+                <img class="product_image_main_img" v-if="imageUrl" :src="imageUrl" >
+            </div>
+
+            <div slot="footer">
+                <Button type="success" @click="imageModal=false" >Close</Button>
+            </div>
     </Modal>
 
     </div>
@@ -365,10 +397,10 @@
                     
                     
                 },
-                imageData:{
-                    id:'',
-                    imageUrl:'',
-                },
+                
+                    
+                imageUrl:'',
+                
                 columns1: [
                     {
                         title: 'Product Name',
@@ -415,7 +447,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.showBarcode(params.index)
+                                            this.showImage(params.index)
                                         }
                                     }
                                 }, 'Image'),
@@ -543,13 +575,18 @@
         methods: {
             handleSuccess(res, file){
                 console.log(res);
-                this.imageData.imageUrl=res.imageUrl
+                this.imageUrl=res.imageUrl
                 this.formValue.productImage = res.imageUrl;
+            },
+            handleSuccessEdit(res, file){
+                console.log(res);
+                this.imageUrl=res.imageUrl
+                this.editObj.productImage = res.imageUrl;
             },
             onFileChange() {
                 const files = this.$refs.image.files
                 const data = new FormData()
-                // data.append('imageData.imageUrl', files[0])
+                // data.append('imageUrl', files[0])
                 // console.log(data)
                 // console.log(files[0])
                 this.formValue.productImage=files[0]
@@ -593,7 +630,7 @@
                     this.s('Great!','Product has been added successfully!')
                     this.loading=false
                     this.addProductModal=false
-                    this.imageData.imageUrl = ''
+                    this.imageUrl = ''
                     // this.formValue=null
                 }catch(e){
                     this.loading=false
@@ -614,6 +651,7 @@
                 this.editObj.model=this.dataProduct[index].model
                 this.editObj.sellingPrice=parseInt(this.dataProduct[index].sellingPrice)
                 this.editObj.productImage=this.dataProduct[index].productImage
+                this.imageUrl=this.dataProduct[index].productImage
                 this.UpdateValue.id=this.dataProduct[index].id
                 this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index
@@ -637,6 +675,11 @@
                 this.UpdateValue.id=this.dataProduct[index].id
                 this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index
+            },
+            showImage (index) {
+               this.imageUrl = "";
+               this.imageUrl = this.dataProduct[index].productImage;
+               this.imageModal = true;
             },
             async edit(){
                 this.sending=true
@@ -737,6 +780,7 @@
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Products');
             this.getProduct()
 
             try{

@@ -950,6 +950,7 @@ export default {
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Sales Report');
             this.ls();
             const end = new Date();
 			const start = new Date();

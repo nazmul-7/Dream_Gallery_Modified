@@ -286,6 +286,7 @@
         },
         async created()
         {
+            this.$store.dispatch('updateHeader','Discount Report');
             this.ls();
             try{
                 let {data} =await  axios({

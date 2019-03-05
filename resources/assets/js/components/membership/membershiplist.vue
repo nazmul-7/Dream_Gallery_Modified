@@ -289,6 +289,7 @@
         },
         async created()
         {
+            this.$store.dispatch('updateHeader','Membership List');
             this.ls();
             try{
                 let {data} =await  axios({

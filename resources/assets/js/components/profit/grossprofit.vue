@@ -901,7 +901,7 @@
 
 
         async created() {
-           
+           this.$store.dispatch('updateHeader','Gross Profit');
             this.ls();
             const end = new Date();
             const start = new Date();

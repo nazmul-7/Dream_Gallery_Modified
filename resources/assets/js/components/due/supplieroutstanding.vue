@@ -305,6 +305,7 @@
         },
         async created()
         {
+            this.$store.dispatch('updateHeader','Supplier Outstanding');
             this.ls();
             try{
                 let {data} =await  axios({

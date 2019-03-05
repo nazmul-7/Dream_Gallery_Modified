@@ -282,6 +282,8 @@
         },
         async created()
         {
+            
+            this.$store.dispatch('updateHeader','Bonus Ledger');
             this.ls();
             try{
                 let {data} =await  axios({

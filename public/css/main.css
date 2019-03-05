@@ -455,6 +455,12 @@ body{
     font-size: 12px;
     line-height: 16px;
 }
+.product_image{}
+.product_image_main{}
+.product_image_main_img {
+    max-width: 100%;
+    min-width: 100%;
+}
 /*===== Memu css ======*/
 
 

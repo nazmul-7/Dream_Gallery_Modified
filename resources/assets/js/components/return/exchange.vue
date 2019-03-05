@@ -547,7 +547,7 @@
         {
 
            
-
+            this.$store.dispatch('updateHeader','Exchange');
             this.ls();
             const start = new Date();
             this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();

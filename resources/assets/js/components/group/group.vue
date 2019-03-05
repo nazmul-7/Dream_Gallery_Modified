@@ -263,6 +263,7 @@
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Group');
             this.ls();
             try{
                 let {data} =await  axios({

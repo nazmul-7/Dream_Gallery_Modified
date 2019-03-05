@@ -259,6 +259,7 @@
 
         async created()
         {
+             this.$store.dispatch('updateHeader','Zone');
             this.ls();
             try{
                 let {data} =await  axios({

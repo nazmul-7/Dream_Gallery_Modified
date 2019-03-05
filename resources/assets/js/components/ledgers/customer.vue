@@ -370,6 +370,7 @@
         },
         async created()
         {
+            this.$store.dispatch('updateHeader','Customer Ledger');
             this.ls();
             try{
                 let {data} =await  axios({

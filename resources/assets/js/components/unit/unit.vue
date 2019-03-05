@@ -243,9 +243,10 @@
 
         async created()
         {
+             this.$store.dispatch('updateHeader','Unit Type');
             this.ls();
             try{
-                let {data} =await  axios({
+                let {data} =await  axios({ 
                     method: 'get',
                     url:'/app/unit_type'
                 })

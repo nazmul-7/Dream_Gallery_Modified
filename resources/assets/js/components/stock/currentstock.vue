@@ -574,6 +574,7 @@
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Current Stock');
             this.ls();
 
             try{

@@ -1,6 +1,6 @@
 
 <template>
-
+ 
  <div class="layout">
         <Layout>
             <Sider width="250" ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">

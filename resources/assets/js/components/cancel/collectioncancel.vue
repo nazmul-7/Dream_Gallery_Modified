@@ -483,6 +483,7 @@
 
         async created()
         {
+            this.$store.dispatch('updateHeader','Collection Cancle');
             this.ls();
             const end = new Date();
 			const start = new Date();

@@ -222,6 +222,7 @@
         },
         async created()
         {
+            this.$store.dispatch('updateHeader','Change Password');
             this.ls();
             try{
                 let {data} =await  axios({
