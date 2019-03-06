@@ -696,7 +696,7 @@
             const end = new Date();
 			const start = new Date();
 			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate(); 
             let date2=end.getFullYear()+'-'+(end.getMonth()+1)+'-'+end.getDate();
             try{
                 let {data} =await  axios({

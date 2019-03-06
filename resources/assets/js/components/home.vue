@@ -209,25 +209,25 @@
 			},
 			async dateConverter(k)
 			{
+                this.chartData = [ ['Year', 'Sales', 'Profit']];
+                console.log(this.chartData)
                 console.log(k)
 				 try{
                     let {data} =await  axios({
                         method: 'get',
                         url:`/app/salesData/${k[0]}/${k[1]}`
                     })
-                    this.chartData.splice(1,this.chartData.length)
-                        console.log(this.chartData)
+                   
                     let i=0;
                     let array=[]
-                    for(let d of data.sales){
-                        array[0]=d.date
-                        array[1]=d.total_sale*d.total_quantity
-                        array[2]=data.profit[i].total_profit*data.profit[i].total_quantity
-                        this.chartData.push(array)
-                        array=[]
-                        i++
-                        console.log(k)
-                    }
+                   for(let d of data.chart){
+                    array[0]=d.date
+                    array[1]=d.total_cost
+                    array[2]=d.total_profit
+					this.chartData.push(array)
+					array=[]
+					i++
+				}
                         
                     this.lf();
 
@@ -285,10 +285,10 @@
 				this.menuData.supplierOutstanding=Math.abs(data.supplierOutstanding)
 				let i=0;
 				let array=[]
-				for(let d of data.sales){
+				for(let d of data.chart){
                     array[0]=d.date
-                    array[1]=d.total_sale*data.profit[i].total_quantity
-                    array[2]=data.profit[i].total_profit*data.profit[i].total_quantity
+                    array[1]=d.total_cost
+                    array[2]=d.total_profit
 					this.chartData.push(array)
 					array=[]
 					i++

@@ -8,7 +8,7 @@ use App\Paymentsheet;
 use App\Invoice;
 use App\Selling;
 
-class DashboardController extends Controller
+class DashboardController extends Controller 
 {
     public function salesData($from,$to)
     {
@@ -54,6 +54,11 @@ class DashboardController extends Controller
         ->groupBy('date')
         ->get();
 
+        $chart = Selling::whereBetween('date', array($from, $to)) 
+                ->select('date', DB::raw('SUM(profit*quantity) as total_profit'),DB::raw('SUM(quantity*unitPrice) as total_cost'))
+                ->groupBy('date')
+                ->get();
+
         return response()->json([
                 'msg' => 'Inserted',
                 'date' => $date,
@@ -66,6 +71,7 @@ class DashboardController extends Controller
                 'sales' => $sales,
                 'profit' => $profit,
                 'quantity' => $quantity,
+                'chart' => $chart,
             ],200);
 
     }
