@@ -796,8 +796,8 @@
             },
 
             async changedCustomer(customerPass){
-
-                console.log(customerPass.customerName)
+               
+                
                 this.tempCustomerInof=customerPass.customerName;
                
                 this.ls();
@@ -806,26 +806,27 @@
                     method: 'get',
                     url:`/app/payment/getOutstandingCustomer/${customerPass.id}`
                 })
+                
                 this.setCustomer(customerPass)
-                console.log('leder')
-                console.log(data.ledger)
+                console.log(data)
               //  this.setCustomer(this.formValue.customer_id)
 
-
+                
                 this.currentCustomer.outStanding=Math.abs(data.outStanding)
+                 console.log(" i am running ChangeCustomer")
                 if(data.ledger[0].customer.barcode)
                 {
-                    console.log(data.ledger[0])
+                 //   console.log(data.ledger[0])
                     this.formValue.discount=10
                     this.currentCustomer.bonusAmount=data.bonus
                     this.currentCustomer.status=true
                 }
                 else
                 {
-                    console.log(data.ledger[0])
+                  //  console.log(data.ledger[0])
                     this.currentCustomer.status=false
                 }
-
+                
                 this.lf();
                 }catch(e){
                     this.e('(1)Oops!','Something went wrong, please try again!')
@@ -850,7 +851,7 @@
                 }
 
                 console.log(k);
-                console.log(this.formValue.customer_id);
+                console.log("id "+this.formValue.customer_id);
                 this.ls();
                 try{
                 let {data} =await  axios({
@@ -958,7 +959,6 @@
                 //     i++;
                 // }
                 console.log(" i am customer Pass");
-                console.log(customerPass)
                 this.formValue.customer_id=customerPass.id
                 this.currentCustomer.customerName=customerPass.customerName
                 this.currentCustomer.zone=customerPass.zone

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-           <Col  class="dream-input-main" span="22" offset="1" >
+           <Col  class="dream-input-main" span="22" offset="1" > 
                 <Form ref="formInline" inline>
                     <!-- <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">

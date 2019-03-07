@@ -21,7 +21,7 @@ class CreateCustomersTable extends Migration
             $table->string('email')->nullable();
             $table->string('zone');
             $table->string('barcode')->nullable();
-            $table->integer('zoneId');
+            $table->integer('zoneId')->default(1);
             $table->string('opening')->nullable()->default(0);
             $table->string('balance')->default(0);
             $table->timestamps();

@@ -263,6 +263,7 @@
         async created()
         {
             this.$store.dispatch('updateHeader','Dashboard');
+            
 			const end = new Date();
 			const start = new Date();
 			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);

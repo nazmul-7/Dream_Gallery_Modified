@@ -313,9 +313,26 @@
             }
         },
         methods: {
-            dateRangeConverter(key)
+            async dateRangeConverter(key)
             {
-                this.dateRange=key
+                console.log(key)
+                 try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:`/app/voucherdata/${key[0]}/${key[1]}`
+                }) 
+                for(let d of data)
+                {
+                    d.voucherID="INV-VO-DG-"+d.id
+                }
+                this.dataVoucher=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+                //this.dateRange=key
 
             },
             dateConverter(key)
@@ -434,9 +451,14 @@
         {
             this.$store.dispatch('updateHeader','Voucher Posting');
              this.ls();
-             const start = new Date();
+             const end = new Date();
+			const start = new Date();
             this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
             this.editObj.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            
+			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            let date1=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+            let date2=end.getFullYear()+'-'+(end.getMonth()+1)+'-'+end.getDate();
             // try{
             //     let {data} =await  axios({
             //         method: 'get',
@@ -452,8 +474,8 @@
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/voucher'
-                })
+                    url:`/app/voucherdata/${date1}/${date2}`
+                }) 
                 for(let d of data)
                 {
                     d.voucherID="INV-VO-DG-"+d.id

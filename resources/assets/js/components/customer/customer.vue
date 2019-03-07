@@ -28,8 +28,8 @@
                         </Col>
                         <Col span="24">
                             <FormItem label="Zone">
-                                <Select v-model="formValue.zone" placeholder="Select group" filterable>
-                                    <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
+                                <Select v-model="tempZone" placeholder="Select group" filterable>
+                                    <Option v-for="(zone,i) in dataZone" :value="i" :key="i">{{zone.zoneName}}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
@@ -100,8 +100,8 @@
                     </Col>
                     <Col span="12">
                         <FormItem label="Zone">
-                            <Select v-model="editObj.zone" placeholder="Select group" filerable>
-                                <Option v-for="(zone,i) in dataZone" :value="zone.zoneName" :key="i">{{zone.zoneName}}</Option>
+                            <Select v-model="tempZone" placeholder="Select group" filerable>
+                                <Option v-for="(zone,i) in dataZone" :value="i" :key="i">{{zone.zoneName}}</Option>
                             </Select>
                         </FormItem>
                     </Col>
@@ -145,6 +145,7 @@
                 loading:false,
                 sending:false,
                 isCollapsed: false,
+                tempZone:'',
                 editObj: {
                     id:null,
                     customerName:'',
@@ -152,6 +153,7 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    zoneId:'',
 
                     
                 },
@@ -163,6 +165,7 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    zoneId:'',
 
 
                     
@@ -273,8 +276,17 @@
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
+            
             async customerAdd(){
+                if(this.tempZone==""){
+                    this.i("Zone is Required!");
+                    return;
+                }
+                
                 this.loading=true
+                this.formValue.zone = this.dataZone[this.tempZone].zoneName
+                this.formValue.zoneId = this.dataZone[this.tempZone].id
+                this.tempZone=''
                 try{
                     let {data} =await  axios({
                         method: 'post',
@@ -315,7 +327,15 @@
                 this.deleteModal=true
             },
             async edit(){
+                  
                 this.sending=true
+                if(this.tempZone!=""){
+                    this.editObj.zone = this.dataZone[this.tempZone].zoneName
+                    this.editObj.zoneId = this.dataZone[this.tempZone].id
+                    this.tempZone = ''
+                }
+                
+                
                 try{
                     let {data} =await  axios({
                         method: 'post',

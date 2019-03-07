@@ -191,4 +191,15 @@ class VoucherController extends Controller
         
         return $data;
     }
+    public function voucherData($from,$to)
+    {
+        date_default_timezone_set('Asia/Dhaka');
+        
+
+        $voucher = Voucher::whereBetween('date', array($from, $to)) 
+                ->orderBy('id', 'desc')
+                ->get();
+            return $voucher;
+
+    }
 }

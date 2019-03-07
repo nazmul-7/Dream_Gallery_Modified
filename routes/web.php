@@ -84,6 +84,7 @@ Route::get('/php/test','HomeController@phptest');
 //uploads
 Route::post('/app/setting/upload','SettingController@upload');
 
+Route::get('/app/voucherdata/{from}/{to}','VoucherController@voucherData');
 //purchase
 Route::post('/app/purchaseInvoice','PurchaseController@purchaseInvoice');
 Route::get('/app/getinvoice/{id}','InvoiceController@getInvoice');
