@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <p class="copy_right">COPYRIGHTS DREAM GALLERY</p>
+            <p class="copy_right">COPYRIGHTS DREAMS GALLERY</p>
         </div>
     </div>
 </div>

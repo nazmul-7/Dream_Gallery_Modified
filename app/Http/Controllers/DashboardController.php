@@ -39,6 +39,7 @@ class DashboardController extends Controller
         $supplierOutstanding = Paymentsheet::orderBy('id', 'desc')
         ->whereIn('type',['due','opening','outgoing'])
         ->where('paymentFor','supplier')
+        ->where('paymentMethod','due')
         ->sum('amount');
 
         $sales = Selling::whereBetween('date', array($from, $to))        

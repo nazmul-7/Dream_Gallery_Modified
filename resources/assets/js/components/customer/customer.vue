@@ -1,18 +1,33 @@
 <template>
     <div>
         <Row>
-            <Col class="dream-input-main" span="13" offset="1">
+            <Col class="dream-input-main" span="20" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
+                    <FormItem label="Add">
+                         <Button type="primary" @click="addModal=true" >Add New Customer</Button>
+                    </FormItem>
                 </Form>
+                
                 <Table :columns="columns1" :data="searchData"></Table>
             </Col>
-            <Col class="dream-input-main" span="8" offset="1">
-                <Form >
+            <!-- <Col class="dream-input-main" span="8" offset="1">
+                
+            </Col> -->
+        </Row>
+
+
+      <Modal v-model="addModal" width="600">
+        <p slot="header" style="color:#369;text-align:center">
+            <Icon type="edit"></Icon>
+            <span> Add New Customer</span>
+        </p>
+        <div>
+           <Form >
                     <Row :gutter="24">
                         <Col span="24">
                             <FormItem  label="Customer Name">
@@ -46,18 +61,17 @@
                                 v-model="formValue.opening"  @on-enter="customerAdd"></Input>
                             </FormItem >
                         </Col>
-                         <Col span="24">
-                            <Button type="success" :loading="loading" @click="customerAdd">
-                                <span v-if="!loading">Add</span>
-                                <span v-else>Loading...</span>
-                            </Button>
-                        </Col>
+                        
                     </Row>
                 </Form>
-            </Col>
-        </Row>
-
-
+        </div>
+        <div slot="footer">
+            <Button type="success" :loading="loading" @click="customerAdd">
+                <span v-if="!loading">Add</span>
+                <span v-else>Loading...</span>
+            </Button>
+        </div>
+    </Modal>
       <Modal v-model="editModal" width="600">
         <p slot="header" style="color:#369;text-align:center">
             <Icon type="edit"></Icon>
@@ -141,6 +155,7 @@
             return {
                 search:'',
                 editModal:false,
+                addModal:false,
                 deleteModal:false,
                 loading:false,
                 sending:false,
@@ -178,6 +193,7 @@
                     {
                         title: 'Address',
                         key: 'address',
+                        width:350
                     },
                     {
                         title: 'Contact',
@@ -194,7 +210,7 @@
                     {   
                         title: 'Action',
                         key: 'action',
-                        width: 150,
+                        width: 250,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -233,7 +249,7 @@
                 formValue: {
                     customerName:'',
                     address:'',
-                    contact:'+880',
+                    contact:'',
                     email:'',
                     zone:'',
                     opening:0,
@@ -278,8 +294,12 @@
             },
             
             async customerAdd(){
-                if(this.tempZone==""){
+                if(this.tempZone===""){
                     this.i("Zone is Required!");
+                    return;
+                }
+                if(this.formValue.contact.length!=11){
+                    this.i("Number length is not valid!");
                     return;
                 }
                 
@@ -303,6 +323,7 @@
                     this.formValue.email=''
                     this.formValue.zone=''
                     this.formValue.opening=0
+                    this.addModal = false
                 }catch(e){
                     this.loading=false
                     this.e('Oops!','Something went wrong, please try again!')
@@ -314,7 +335,9 @@
                 this.editObj.address=this.dataCustomer[index].address
                 this.editObj.contact=this.dataCustomer[index].contact
                 this.editObj.email=this.dataCustomer[index].email
-                this.editObj.zone=this.dataCustomer[index].zone
+                // this.editObj.zone=this.dataCustomer[index].zone
+                let tData = this.dataZone.findIndex(x => x.zoneName == this.dataCustomer[index].zone )
+                this.tempZone =  tData
                 this.editObj.barcode=this.dataCustomer[index].barcode
                 this.UpdateValue.customerName=this.dataCustomer[index].customerName
                 this.UpdateValue.indexNumber=index
@@ -329,11 +352,11 @@
             async edit(){
                   
                 this.sending=true
-                if(this.tempZone!=""){
-                    this.editObj.zone = this.dataZone[this.tempZone].zoneName
-                    this.editObj.zoneId = this.dataZone[this.tempZone].id
-                    this.tempZone = ''
-                }
+               
+                this.editObj.zone = this.dataZone[this.tempZone].zoneName
+                this.editObj.zoneId = this.dataZone[this.tempZone].id
+                this.tempZone = ''
+                
                 
                 
                 try{

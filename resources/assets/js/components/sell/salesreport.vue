@@ -99,7 +99,12 @@
                                     <!-- Items -->
                                 <div class="buyer_tables_main_all dis b_color" v-if="item.selling.length"  v-for="(productItem,productIndex) in item.selling" :key="productIndex" >
                                     <div class="buyer_tables_main_name b_color flex_space">
-                                        <p class="buyer_tables_main_text">{{productItem.product.productName}}</p>
+                                        <p class="buyer_tables_main_text">{{productItem.product.productName}}
+                                            <span v-if="productItem.product.model" >|  {{productItem.product.model}}</span>
+                                            <span v-if="productItem.product.size" > | {{productItem.product.size}} </span>
+                                            <span v-if="productItem.product.color" > | {{productItem.product.color}} </span>
+                                             
+                                        </p>
                                     </div>
 
                                     <div class="buyer_tables_main_num b_color">
@@ -186,7 +191,7 @@
 
             </Modal> -->
 
-            <Modal class="print_all" v-model="viewModal"  :styles="{top: '5px', width:'288px'}" >
+        <Modal class="print_all" v-model="viewModal"  :styles="{top: '5px', width:'288px'}" >
                 
             <div  class="print">
         
@@ -255,60 +260,6 @@
                         </div>
                     </div>
                     
-                    <!-- <div class="memu_list_main dis">
-                        <div class="memu_list_all sl">
-                            <p class="memu_list_num">1</p>
-                        </div>
-                        <div class="memu_list_all items flex_space">
-                            <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                        </div>
-                        <div class="memu_list_all MRP">
-                            <p class="memu_list_title ">120000</p>
-                        </div>
-                        <div class="memu_list_all QTy">
-                            <p class="memu_list_title">2</p>
-                        </div>
-                        <div class="memu_list_all Total">
-                            <p class="memu_list_title">240000</p>
-                        </div>
-                    </div>
-                    
-                    <div class="memu_list_main dis">
-                        <div class="memu_list_all sl">
-                            <p class="memu_list_num">2</p>
-                        </div>
-                        <div class="memu_list_all items flex_space">
-                            <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                        </div>
-                        <div class="memu_list_all MRP">
-                            <p class="memu_list_title ">120000</p>
-                        </div>
-                        <div class="memu_list_all QTy">
-                            <p class="memu_list_title">2</p>
-                        </div>
-                        <div class="memu_list_all Total">
-                            <p class="memu_list_title">240000</p>
-                        </div>
-                    </div>
-                    
-                    <div class="memu_list_main dis b_color">
-                        <div class="memu_list_all sl">
-                            <p class="memu_list_num">3</p>
-                        </div>
-                        <div class="memu_list_all items flex_space">
-                            <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                        </div>
-                        <div class="memu_list_all MRP">
-                            <p class="memu_list_title ">1200</p>
-                        </div>
-                        <div class="memu_list_all QTy">
-                            <p class="memu_list_title">99</p>
-                        </div>
-                        <div class="memu_list_all Total">
-                            <p class="memu_list_title">2400</p>
-                        </div>
-                    </div> -->
-                    
                 </div>
                 
                 <div class="memu_total b_color">
@@ -337,7 +288,7 @@
                     </div>
                 </div>
                 
-                <!-- <div class="space b_color"></div> -->
+                
                 <div class="memu_thanks text_center">
                     <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
                 </div>

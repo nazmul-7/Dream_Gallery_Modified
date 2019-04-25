@@ -308,6 +308,10 @@
                 },
                 columns1: [
                     {
+                        title: 'ID',
+                        key: 'id'
+                    },
+                    {
                         title: 'Product Name',
                         key: 'productName'
                     },
@@ -326,6 +330,10 @@
                     {
                         title: 'Size',
                         key: 'size'
+                    },
+                    {
+                        title: 'Color',
+                        key: 'color'
                     },
                     {
                         title: 'Stock',
@@ -353,7 +361,7 @@
             {
                 if(this.filterGroup)
                 {
-                   console.log(this.search)   
+                   
                 return this.dataProduct.filter((data)=>{                    
                     return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
                   
@@ -389,8 +397,11 @@
                 var tF=0
                 for (let d of this.searchData)
                 {
-                    tF=tF+d.totalCost
-
+                    let tempstock = parseInt(d.totalCost)
+                     if(tempstock>0){
+                        tF+= parseInt(d.totalCost)
+                    }
+                    
                 }
                 return tF
                 
@@ -402,8 +413,12 @@
                 for (let d of this.searchData)
                 {
                     console.log(d.currentStock)
+                    let tempstock = parseInt(d.currentStock)
+                     if(tempstock>0){
+                         tF+= parseInt(d.currentStock)
+                     }
                     
-                    tF+= parseInt(d.currentStock)
+                    
 
                 }
                 return tF
@@ -574,6 +589,7 @@
 
         async created()
         {
+           
             this.$store.dispatch('updateHeader','Current Stock');
             this.ls();
 

@@ -337,7 +337,7 @@
                
                <!-- <div class="space b_color"></div> -->
                <div class="memu_thanks text_center">
-                  <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
+                  <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please visit www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
                </div>
 
    
