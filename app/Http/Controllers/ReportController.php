@@ -136,9 +136,10 @@ class ReportController extends Controller
             return $orders;
 
     }
-    public function discountReport()
+    public function discountReport($from,$to) 
     {
-        $data = Paymentsheet::with('customer')
+        $data = Paymentsheet::with('customer') 
+                ->whereBetween('date', array($from, $to))
                 ->with('admin')
                 ->with('invoice')
                 ->where('type','discount')

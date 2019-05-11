@@ -1,5 +1,18 @@
 <template>
     <div>
+        <div class="total_cost text_right">
+            <div class="total_cost_top d b_color">
+                <div class="total_cost_main dis">
+                    <div class="total_cost_main_left flex_space">
+                        <p class="total_cost_main_left_text">Total Discount Amount</p>
+                    </div>
+                    <div class="total_cost_main_right">
+                        <!-- <p class="total_cost_main_left_text">{{totalSale.toFixed(2)}}</p> -->
+                        <p class="total_cost_main_left_text">{{totalDiscount}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <Row>
             <Col class="dream-input-main" span="22" offset="1">
                 <Form ref="formInline" inline>
@@ -7,6 +20,9 @@
                         <Input type="text" v-model="search" placeholder="Search">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
+                    </FormItem>
+                    <FormItem label="Date">
+                        <DatePicker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" @on-change="getData" style="width: 200px"></DatePicker>
                     </FormItem>
                 </Form>
                 <Table :columns="columns1" :data="searchData"></Table>
@@ -16,7 +32,7 @@
 
 
       <Modal v-model="editModal" width="600">
-        <p slot="header" style="color:#369;text-align:center">
+        <p slot="header" style="color:#369;text-align:center"> 
             <Icon type="edit"></Icon>
             <span> Edit {{UpdateValue.customerName}}</span>
         </p>
@@ -124,6 +140,36 @@
 
                     
                 },
+                 options2: {
+                    shortcuts: [{
+                            text: '1 week',
+                            value() {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '1 month',
+                            value() {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '3 months',
+                            value() {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                return [start, end];
+                            }
+                        }
+                    ]
+                },
                 columns1: [
                     {
                         title: 'Date',
@@ -174,12 +220,19 @@
 
                 return this.dataBonus.filter((data)=>{                    
                     return data.customerName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.amount.toUpperCase().match(this.search.toUpperCase())
+                    || data.amount.toString().toUpperCase().match(this.search.toString().toUpperCase())
                     ;
                     }
                 );
 
 
+            },
+             totalDiscount() {
+                var total = 0
+                for (var i = 0; i < this.searchData.length; i++) {
+                    total += parseInt(this.searchData[i].amount)
+                }
+                return total
             },
             rotateIcon () {
                 return [
@@ -195,6 +248,41 @@
             }
         },
         methods: {
+              async getData(k) {
+                if (!k[0]) {
+                    return
+                }
+                this.filterDate = k
+                if (k)
+                    this.date = true
+                else
+                    this.date = false
+
+                try {
+                    let {
+                        data
+                    } = await axios({
+                        method: 'get',
+                        url: `/app/discountReport/${k[0]}/${k[1]}`
+
+                    })
+                    //
+                    for(let d of data)
+                {
+                    d.customerName=d.customer.customerName   
+                    d.adminName=d.admin.name   
+                    d.salesAmount=d.invoice.totalPrice
+                    d.amount=Math.abs(d.amount)
+                }
+                this.dataBonus=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+               
+            },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
@@ -288,10 +376,15 @@
         {
             this.$store.dispatch('updateHeader','Discount Report');
             this.ls();
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            let date1 = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate();
+            let date2 = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();
             try{
                 let {data} =await  axios({
                     method: 'get',
-                    url:'/app/discountReport'
+                    url:`/app/discountReport/${date2}/${date2}`
                 })
                 for(let d of data)
                 {

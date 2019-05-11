@@ -125,7 +125,7 @@ Route::get('/app/paymentList/{from}/{to}','PaymentController@paymentList');
 Route::get('/app/collectionList/{from}/{to}','PaymentController@collectionList');
 Route::get('/app/collectionCancel/{id}','PaymentController@collectionCancel');
 Route::get('/app/paymentCancel/{id}','PaymentController@paymentCancel');
-Route::get('/app/discountReport/','ReportController@discountReport');
+Route::get('/app/discountReport/{from}/{to}','ReportController@discountReport');
 
 
 

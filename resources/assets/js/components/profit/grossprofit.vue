@@ -122,7 +122,12 @@
                                     <!-- Items -->
                                 <div class="buyer_tables_main_all dis b_color" v-if="item.selling.length"  v-for="(productItem,productIndex) in item.selling" :key="productIndex" >
                                     <div class="buyer_tables_main_name b_color flex_space">
-                                        <p class="buyer_tables_main_text">{{productItem.product.productName}}</p>
+                                         <p class="buyer_tables_main_text">{{productItem.product.productName}}
+                                            <span v-if="productItem.product.model" >|  {{productItem.product.model}}</span>
+                                            <span v-if="productItem.product.size" > | {{productItem.product.size}} </span>
+                                            <span v-if="productItem.product.color" > | {{productItem.product.color}} </span>
+                                             
+                                        </p>
                                     </div>
 
                                     <div class="buyer_tables_main_num b_color">

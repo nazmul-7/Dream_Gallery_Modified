@@ -21,6 +21,9 @@
                 </Row>
 
                 <Table :columns="columns1" :data="searchData"></Table>
+                
+                    <Page :current="1" :total="paginateInfo.total" @on-change="getpaginate" :page-size="20" />
+                
             </Col>
         </Row>
       <Modal v-model="addProductModal" width="600">
@@ -244,6 +247,7 @@
     export default {
         data () {
             return {
+                paginateInfo:{},
                 search:'',
                 filterGroup:'',
                 barcodeModal:false,
@@ -412,7 +416,6 @@
                 var tF=0
                 for (let d of this.searchData)
                 {
-                    console.log(d.currentStock)
                     let tempstock = parseInt(d.currentStock)
                      if(tempstock>0){
                          tF+= parseInt(d.currentStock)
@@ -438,12 +441,37 @@
             }
         },
         methods: {
+            async getpaginate(page = 1){
+
+                const res = await this.callApi('get',`/app/getStockItem?page=${page}`)
+                if(res.status===200){
+                    let i =0
+                    for(let d of res.data.product.data)
+                    {
+                        d.currentStock=0;
+                        if(d.purchase_stock){
+                            if(d.sell_stock!==null){
+                                d.currentStock=d.purchase_stock.stock-d.sell_stock.stock
+                            }
+                            else{
+                                d.currentStock=d.purchase_stock.stock
+                            }
+                        }
+                        d.totalCost=d.currentStock*d.averageBuyingPrice
+                        i++
+                    }
+                    this.dataProduct=res.data.product.data;
+                    this.paginateInfo = res.data.product
+                    this.lf();
+                }
+                else{
+                    this.swr('stock')
+                }
+            },
             onFileChange() {
                 const files = this.$refs.image.files
                 const data = new FormData()
                 // data.append('logo', files[0])
-                // console.log(data)
-                // console.log(files[0])
                 this.formValue.productImage=files[0]
             },
             async changed (k) {
@@ -474,7 +502,6 @@
             },
             async productAdd(){
                 this.loading=true
-              //  console.log(this.formValue)
                 try{
                     let {data} =await  axios({
                         method: 'post',
@@ -592,47 +619,46 @@
            
             this.$store.dispatch('updateHeader','Current Stock');
             this.ls();
-
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/getStockItem'
-                })
+            const res = await this.callApi('get','/app/getStockItem')
+            if(res.status===200){
                 let i =0
-                for(let d of data.product)
+                for(let d of res.data.product.data)
                 {
                     d.currentStock=0;
-                    if(d.purchase_stock)
-                    {
-                        if(d.sell_stock!==null)
-                        {
+                    if(d.purchase_stock){
+                        if(d.sell_stock!==null){
                             d.currentStock=d.purchase_stock.stock-d.sell_stock.stock
                         }
-                        else
-                        {
+                        else{
                             d.currentStock=d.purchase_stock.stock
-
                         }
-
                     }
-
+                     d.totalCost=d.currentStock*d.averageBuyingPrice
                     if(d.currentStock<1){
                          data.product.splice(i,1)
                     }
-                   
-
-                    d.totalCost=d.currentStock*d.averageBuyingPrice
-                    i++
-
+                    else {
+                        i++
+                    }
                 }
-
-                this.dataProduct=data.product;
+                this.dataProduct=res.data.product.data;
+                this.paginateInfo = res.data.product
                 this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
             }
+            else{
+                this.swr('stock')
+            }
+
+            // try{
+            //     let {data} =await  axios({
+            //         method: 'get',
+            //         url:'/app/getStockItem'
+            //     })
+                
+            // }catch(e){
+            //     this.e('Oops!','Something went wrong, please try again!')
+            // this.le();
+            // }
 
             try{
                 let {data} =await  axios({

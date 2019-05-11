@@ -108,12 +108,6 @@
             <Form>
                <Col span="22" offset="1">
                <FormItem label="Customer">
-                  <!-- <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
-                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
-                         <span>{{customer.customerName}}</span>
-                         <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
-                     </Option>
-                     </Select>  @on-change="changedCustomer"--> 
                   <div class="dropdown">
                      <Input class="dropbtn" v-model="tempCustomerInof" placeholder="Customer" @on-keyup="changedCustomerV2"      />
                      <div class="dropdown-content">

@@ -247,7 +247,7 @@
                             <p class="memu_list_num">{{index+1}}</p>
                         </div>
                         <div class="memu_list_all items flex_space">
-                            <p class="memu_list_title">{{item.product.productName }}</p>
+                            <p class="memu_list_title">{{item.product.productName  }}<br> {{item.product.model  }} {{item.product.color }}  {{item.product.size }}</p>
                         </div>
                         <div class="memu_list_all MRP">
                             <p class="memu_list_title ">{{item.product.sellingPrice}}</p>
@@ -257,6 +257,10 @@
                         </div>
                         <div class="memu_list_all Total">
                             <p class="memu_list_title">{{item.product.sellingPrice*item.quantity}} </p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title" v-if="item.discount>0" ><del>{{item.product.sellingPrice*item.quantity}}</del></p>
+                            <p class="memu_list_title">{{item.product.sellingPrice*item.quantity}}</p>
                         </div>
                     </div>
                     
@@ -271,6 +275,7 @@
                         <p class="memu_list_title flex_space">Discount:</p>
                         <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].discount}}</p>
                     </div>
+                    
                     <div class="memu_total_main dis text_right">
                         <p class="memu_list_title flex_space">Net Payable:</p>
                         <p class="memu_list_title memu_total_num">{{ dataInvoice[dataInvoiceIndex].sellingPrice}}</p>
@@ -292,88 +297,18 @@
                 <div class="memu_thanks text_center">
                     <p class="memu_thanks_text">Thank you for shopping with </br>{{shopData.companyName}}</br> Please vist www.dreamsgallerybd.com for Home Delivery. Purchase of Defected item must be exchanged by 24 hours with invoice.</p>
                 </div>
-                </div>
-                <!-- <h2 style="text-align:center">{{ shopData.companyName }}</h2>
-                <p style="text-align:center"> 
-                    {{ shopData.address }}</br>
-                    world_first@yahoo.com</br>
-                    {{ shopData.contact }}</br>
-                </p>
-                <hr/>
-                <p> 
-                    Sold by Bokor Talukder</br>
-                    Invoice ID: INV1000002</br>
-                    Date: 25/01/2018 13:22</br>
-                </p>
-                
-                    <div id="table">
-                        <table>
-                            <tr class="tabletitle">
-                                <td class="item"><h2>SL</h2></td>
-                                <td class="item"><h2>Item</h2></td>
-                                <td class="Hours"><h2>Qty</h2></td>
-                                <td class="Rate"><h2>Sub Total</h2></td>
-                            </tr>
-                
-                            <tr v-for="(item,i) in formValue.productDetails" :key="i" class="service">
-                                <td class="tableitem"><p class="itemtext">{{ i+1 }}</p></td>
-                                <td class="tableitem"><p class="itemtext">{{ item.productName }}</p></td>
-                                <td class="tableitem"><p class="itemtext">{{ item.quantity }}</p></td>
-                                <td class="tableitem"><p class="itemtext">{{ item.discountedPrice*item.quantity }}</p></td>
-                            </tr>
-                
-                        
-                
-                
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Sub-total</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.totalTotal }}</h2></td>
-                            </tr>
-                
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Discount %(-)</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.discount}}</h2></td>
-                            </tr>
-                            <tr class="tabletitleDown">
-                                <td></td>
-                                <td class="Rate"><h2>Total</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.total }}</h2></td>
-                            </tr>
-                            </hr>
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Cash Paid</h2></td>
-                                <td></td>
-                                <td class="payment"><h2>{{ formValue.cashPaid }}</h2></td>
-                            </tr>
-                            <tr class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Cash Change</h2></td>
-                                <td></td>
-                                    <td class="payment"><h2>{{ formValue.cashPaid-formValue.paidAmount }}</h2></td>
-                            </tr>
-                            <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Delivery Charge</h2></td>
-                                <td></td>
-                                    <td class="payment"><h2>40</h2></td>
-                            </tr>
-                            <tr v-if='(homeDelivery) && currentCustomer.id!=1' class="tabletitle">
-                                <td></td>
-                                <td class="Rate"><h2>Total with Delivery Charge</h2></td>
-                                <td></td>
-                                    <td class="payment"><h2>{{ (formValue.total)+40 }}</h2></td>
-                            </tr>
-                        </table>
+                <div class="spaceBerCode">
+                    <div class="print barcode_main_memu">
+                        <div class="barcode_code">
+                            <barcode v-bind:value="dataInvoice[dataInvoiceIndex].id" :options="options">
+                                Sorry Cant Load now
+                            </barcode>
+                        </div>
+                         <p class="barcode_num">INV-SO-DG-{{dataInvoice[dataInvoiceIndex].id}}</p>
                     </div>
-                    <p class="legal"> 
-                        {{ shopData.invoiceNote }}
-                    </p> -->
+                </div>
+                </div>
+                
             </div>
             <div slot="footer">
                 <Button type="primary" size="large"  @click="clearForm">
@@ -405,6 +340,7 @@ export default {
                 filterCustomer:'',
                 filterZone:'',
                 filterAdmin:'',
+                height: 25,
                 searchValue:'',
                 clearModel:false,
                 editModal:false,
@@ -533,6 +469,12 @@ export default {
             },
          },
         computed: {
+            options() {
+              return {
+                height: this.height,
+                 displayValue: false,
+              }
+            },
                 totalSale() {
 
                 var tF = 0

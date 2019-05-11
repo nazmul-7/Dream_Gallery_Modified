@@ -29,7 +29,7 @@ class SellingController extends Controller
         ->orderBy('id', 'desc')->get();
         return $data;
     }
-    public function filterSale($from,$to)
+    public function filterSale($from,$to) 
     {
         $data=Invoice::where('type','sell')
         ->whereBetween('date', array($from, $to))

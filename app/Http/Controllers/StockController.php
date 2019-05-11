@@ -71,7 +71,7 @@ class StockController extends Controller
 
 
         }))
-        ->get();
+        ->paginate(20);
 
         return response()->json([
                      'msg' => 'Found Stock',
