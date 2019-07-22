@@ -7,11 +7,11 @@
             <p>Product Code</p>
             <Row>
                <Col span="17">
-               <Input type="text" placeholder="Barcode" @on-enter="setData" 
+               <Input type="text" placeholder="Barcode" @on-enter="setData"  autofocus="true" onfocus="this.select()"
                   v-model="temp.Barcode"></Input>  
                </Col>
                <Col span="5" offset="1">
-               <DatePicker type="date" @on-change="dateConverter" placeholder="Select date"></DatePicker>
+               <DatePicker type="date" format="dd-MM-yyyy" @on-change="dateConverter" placeholder="Select date" ></DatePicker>
                </Col>
             </Row>
          </Card>
@@ -108,6 +108,12 @@
             <Form>
                <Col span="22" offset="1">
                <FormItem label="Customer">
+                  <!-- <Select v-model="formValue.customer_id" placeholder="Customer" @on-change="changedCustomer" filterable clearable>
+                     <Option v-for="(customer,i) in dataCustomer" :value="customer.id"  :key="i">
+                         <span>{{customer.customerName}}</span>
+                         <span style="float:right;color:#ccc">{{customer.contact}} | {{customer.barcode}}</span>
+                     </Option>
+                     </Select>  @on-change="changedCustomer"--> 
                   <div class="dropdown">
                      <Input class="dropbtn" v-model="tempCustomerInof" placeholder="Customer" @on-keyup="changedCustomerV2"      />
                      <div class="dropdown-content">
@@ -191,7 +197,7 @@
                </div>
                <div class="memu_sold dis">
                   <p class="memu_text flex_space">Sold By : {{authUser.name}}</p>
-                  <p class="memu_text">Date: {{toDayDate}}</p>
+                  <p class="memu_text">Date: {{formValue.date}}</p>
                </div>
                <p class="RETAIL text_center"><span class="RETAIL_sapn">RETAIL INVOICE</span></p>
                <div class="memu_CUS_ADRESS">
@@ -305,7 +311,7 @@
                      <p class="memu_list_title memu_total_num">{{ formValue.totalTotal }}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
-                     <p class="memu_list_title flex_space">Discount:</p>
+                     <p class="memu_list_title flex_space">Discount (%):</p>
                      <p class="memu_list_title memu_total_num">{{ formValue.discount}}</p>
                   </div>
                   <div class="memu_total_main dis text_right" v-if="homeDelivery" >
@@ -314,14 +320,15 @@
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Net Payable:</p>
-                     <p class="memu_list_title memu_total_num">{{(formValue.total)+(currentCustomer.delivery)}}</p>
+                     <p class="memu_list_title memu_total_num" v-if="homeDelivery" >{{(formValue.total)+(currentCustomer.delivery)}}</p>
+                     <p class="memu_list_title memu_total_num" v-else >{{(formValue.total)}}</p>
                   </div>
                </div>
               
-               <div class="CASH_total">
+               <div class="CASH_total" v-if="!homeDelivery" >
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">CASH PAID:</p>
-                     <p class="memu_list_title memu_total_num">{{ formValue.cashPaid }}</p>
+                     <p class="memu_list_title memu_total_num" >{{ formValue.cashPaid }}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">CHANGE AMOUNT:</p>
@@ -721,12 +728,13 @@
                 this.formValue.supplier_id=''
                 this.formValue.customer_id=''
                 this.formValue.reference_id=''
+                this.formValue.date=''
                 this.formValue.productDetails.splice(0,this.formValue.productDetails.length)
                 this.currentCustomer={}
                 this.currentReferenceInfo={}
                 this.editModal=false
-                const start = new Date();
-                this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+               // const start = new Date();
+                //this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
                 
 
             },
@@ -750,6 +758,8 @@
             },
             dateConverter(key)
             {
+                const start = new Date(key);
+                this.formValue.date=start.getDate()+'-'+(start.getMonth()+1)+'-'+start.getFullYear();
                 this.formValue.date=key
 
             },

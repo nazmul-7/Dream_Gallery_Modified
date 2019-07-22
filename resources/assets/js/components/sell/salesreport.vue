@@ -59,7 +59,7 @@
                         </div>
                         <div class="buyer_tables_all_name_all dis">
                             <p class="buyer_tables_all_title">Date</p>
-                            <p class="buyer_tables_all_name"> {{item.date}}</p>
+                            <p class="buyer_tables_all_name"> {{item.date}} ({{item.created_at}})</p>
                         </div>
                         <div class="buyer_tables_all_name_all dis">
                             <p class="buyer_tables_all_title">Admin</p>

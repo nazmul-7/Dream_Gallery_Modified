@@ -368,7 +368,7 @@
                    
                 return this.dataProduct.filter((data)=>{                    
                     return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
-                  
+                    && (data.isShow)
                     && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
                     || data.model.toUpperCase().match(this.search.toUpperCase())
                     || data.color.toUpperCase().match(this.search.toUpperCase()) 
@@ -382,13 +382,13 @@
                 }
                 else{
                 return this.dataProduct.filter((data)=>{                    
-                    return data.productName.toUpperCase().match(this.search.toUpperCase()) 
+                    return (data.isShow) && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
                     || data.model.toUpperCase().match(this.search.toUpperCase())
                     || data.color.toUpperCase().match(this.search.toUpperCase()) 
                     || data.groupName.toUpperCase().match(this.search.toUpperCase())
                     || data.color.toUpperCase().match(this.search.toUpperCase()) 
                     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase())
+                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
                     ;
                     }
                 );
@@ -458,7 +458,13 @@
                             }
                         }
                         d.totalCost=d.currentStock*d.averageBuyingPrice
-                        i++
+                        if(d.currentStock<1){
+                            d.isShow = false
+                            
+                        }
+                        else {
+                        d.isShow = true
+                        }
                     }
                     this.dataProduct=res.data.product.data;
                     this.paginateInfo = res.data.product
@@ -635,10 +641,11 @@
                     }
                      d.totalCost=d.currentStock*d.averageBuyingPrice
                     if(d.currentStock<1){
-                         data.product.splice(i,1)
+                        d.isShow = false
+                        
                     }
                     else {
-                        i++
+                       d.isShow = true
                     }
                 }
                 this.dataProduct=res.data.product.data;

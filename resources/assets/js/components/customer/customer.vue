@@ -11,9 +11,19 @@
                     <FormItem label="Add">
                          <Button type="primary" @click="addModal=true" >Add New Customer</Button>
                     </FormItem>
+                    <FormItem label="Add">
+                         <p>Total Customer : {{dataCustomer.length}}</p>
+                    </FormItem>
                 </Form>
                 
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="searchData">
+                    <template slot-scope="{ row }" slot="customerName">
+                        <strong>{{ row.customerName }}</strong>
+                    </template>
+                    <template slot-scope="{row, index}" slot="links">
+                        <Button type="primary" size="small"  >{{index}} view</Button>
+                    </template>
+                </Table>
             </Col>
             <!-- <Col class="dream-input-main" span="8" offset="1">
                 
@@ -168,6 +178,8 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    facebook:'',
+                    instagram:'',
                     zoneId:'',
 
                     
@@ -180,12 +192,18 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    facebook:'',
+                    instagram:'',
                     zoneId:'',
 
 
                     
                 },
                 columns1: [
+                    {
+                        title: 'ID',
+                        key: 'id'
+                    },
                     {
                         title: 'Customer Name',
                         key: 'customerName'
@@ -208,9 +226,14 @@
                         key: 'opening'
                     },
                     {   
+                        title: 'Social Links',
+                        key: 'links',
+                        width: 100,
+                    },
+                    {   
                         title: 'Action',
                         key: 'action',
-                        width: 250,
+                        width: 150,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -335,6 +358,8 @@
                 this.editObj.address=this.dataCustomer[index].address
                 this.editObj.contact=this.dataCustomer[index].contact
                 this.editObj.email=this.dataCustomer[index].email
+                this.editObj.facebook=this.dataCustomer[index].facebook
+                this.editObj.instagram=this.dataCustomer[index].instagram
                 // this.editObj.zone=this.dataCustomer[index].zone
                 let tData = this.dataZone.findIndex(x => x.zoneName == this.dataCustomer[index].zone )
                 this.tempZone =  tData
