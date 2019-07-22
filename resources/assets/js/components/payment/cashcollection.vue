@@ -62,7 +62,7 @@
                             </FormItem >
                         </Col>
                         <Col span="22" offset="1">
-                            <Button type="error" size="large"  @click="showClear">
+                            <Button type="error" size="large"  @click="clearForm">
                                 Clear
                             </Button>
 
@@ -198,6 +198,7 @@
             },
             async changed (k) {
                 console.log(this.formValue.customer_id)
+                if(this.formValue.customer_id == '') return
                 this.ls();
                 try{
                 let {data} =await  axios({

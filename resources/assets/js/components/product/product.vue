@@ -290,7 +290,8 @@
                     <barcode v-bind:value="UpdateValue.barCode" :options="options">
                         Sorry Cant Load now
                     </barcode>
-                    <p class="barcode_main_model">MRP Tk. {{barcodePrice}} </p>
+                    <!-- <p class="barcode_main_model">MRP Tk. {{barcodePrice}} </p> -->
+                    <p class="barcode_main_model">{{barcodeValue}} </p>
                 </div>
             </div>
             <!-- <div slot="footer">
@@ -328,6 +329,7 @@
                 filterGroup:'',
                 barcodeName:'',
                 barcodeModel:'',
+                barcodeValue:'',
                 barcodeColor:'',
                 barcodeSize:'',
                 barcodePrice:'',
@@ -636,47 +638,48 @@
                 }
             },
             showEdit (index) {
-                this.groupNameToId(this.dataProduct[index].groupName)
-                this.changed(this.dataProduct[index].groupName)
-                this.editObj.id=this.dataProduct[index].id
-                this.editObj.productName=this.dataProduct[index].productName
-                this.editObj.groupName=this.dataProduct[index].groupName
-                this.editObj.catName=this.dataProduct[index].catName
-                this.editObj.brand=this.dataProduct[index].brand
-                this.editObj.unit=this.dataProduct[index].unit
-                this.editObj.size=this.dataProduct[index].size
-                this.editObj.color=this.dataProduct[index].color
-                this.editObj.model=this.dataProduct[index].model
-                this.editObj.sellingPrice=parseInt(this.dataProduct[index].sellingPrice)
-                this.editObj.productImage=this.dataProduct[index].productImage
-                this.imageUrl=this.dataProduct[index].productImage
-                this.UpdateValue.id=this.dataProduct[index].id
-                this.UpdateValue.productName=this.dataProduct[index].productName
+                this.groupNameToId(this.searchData[index].groupName)
+                this.changed(this.searchData[index].groupName)
+                this.editObj.id=this.searchData[index].id
+                this.editObj.productName=this.searchData[index].productName
+                this.editObj.groupName=this.searchData[index].groupName
+                this.editObj.catName=this.searchData[index].catName
+                this.editObj.brand=this.searchData[index].brand
+                this.editObj.unit=this.searchData[index].unit
+                this.editObj.size=this.searchData[index].size
+                this.editObj.color=this.searchData[index].color
+                this.editObj.model=this.searchData[index].model
+                this.editObj.sellingPrice=parseInt(this.searchData[index].sellingPrice)
+                this.editObj.productImage=this.searchData[index].productImage
+                this.imageUrl=this.searchData[index].productImage
+                this.UpdateValue.id=this.searchData[index].id
+                this.UpdateValue.productName=this.searchData[index].productName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
 
             },
             showRemove (index) {
                 this.deleteModal=true
-                this.UpdateValue.productName=this.dataProduct[index].productName
-                this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.productName=this.searchData[index].productName
+                this.UpdateValue.id=this.searchData[index].id
                 this.UpdateValue.indexNumber=index
             },
             showBarcode (index) {
-                this.UpdateValue.barCode= parseInt(this.dataProduct[index].barCode)
+                this.UpdateValue.barCode= parseInt(this.searchData[index].barCode)
                 this.barcodeModal=true
-                this.barcodeName=this.dataProduct[index].productName
-                this.barcodeModel=this.dataProduct[index].model
-                this.barcodeColor=this.dataProduct[index].color
-                this.barcodeSize=this.dataProduct[index].size
-                this.barcodePrice=this.dataProduct[index].sellingPrice
-                this.UpdateValue.id=this.dataProduct[index].id
-                this.UpdateValue.productName=this.dataProduct[index].productName
+                this.barcodeName=this.searchData[index].productName
+                this.barcodeModel=this.searchData[index].model
+                this.barcodeValue=this.searchData[index].barCode
+                this.barcodeColor=this.searchData[index].color
+                this.barcodeSize=this.searchData[index].size
+                this.barcodePrice=this.searchData[index].sellingPrice
+                this.UpdateValue.id=this.searchData[index].id
+                this.UpdateValue.productName=this.searchData[index].productName
                 this.UpdateValue.indexNumber=index
             },
             showImage (index) {
                this.imageUrl = "";
-               this.imageUrl = this.dataProduct[index].productImage;
+               this.imageUrl = this.searchData[index].productImage;
                this.imageModal = true;
             },
             async edit(){
