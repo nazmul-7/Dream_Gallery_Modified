@@ -370,9 +370,9 @@
                     return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
                     && (data.isShow)
                     && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.model.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.size.toUpperCase().match(this.search.toUpperCase()) 
+                   // || data.model.toUpperCase().match(this.search.toUpperCase())
+                    //|| data.color.toUpperCase().match(this.search.toUpperCase()) 
+                    //|| data.size.toUpperCase().match(this.search.toUpperCase()) 
                     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
                     || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
                     ;
@@ -383,10 +383,10 @@
                 else{
                 return this.dataProduct.filter((data)=>{                    
                     return (data.isShow) && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.model.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                   // || data.model.toUpperCase().match(this.search.toUpperCase())
+                    //|| data.size.toUpperCase().match(this.search.toUpperCase()) 
                     || data.groupName.toUpperCase().match(this.search.toUpperCase())
-                    || data.color.toUpperCase().match(this.search.toUpperCase()) 
+                   // || data.color.toUpperCase().match(this.search.toUpperCase()) 
                     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
                     || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
                     ;

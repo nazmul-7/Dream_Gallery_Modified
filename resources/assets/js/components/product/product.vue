@@ -690,16 +690,16 @@
                         url:'/app/productUpdate',
                         data: this.editObj
                     })
-                    this.dataProduct[this.UpdateValue.indexNumber].productName=data.productName
-                    this.dataProduct[this.UpdateValue.indexNumber].groupName=data.groupName
-                    this.dataProduct[this.UpdateValue.indexNumber].catName=data.catName
-                    this.dataProduct[this.UpdateValue.indexNumber].brand=data.brand
-                    this.dataProduct[this.UpdateValue.indexNumber].unit=data.unit
-                    this.dataProduct[this.UpdateValue.indexNumber].size=data.size
-                    this.dataProduct[this.UpdateValue.indexNumber].color=data.color
-                    this.dataProduct[this.UpdateValue.indexNumber].model=data.model
-                    this.dataProduct[this.UpdateValue.indexNumber].sellingPrice=data.sellingPrice
-                    this.dataProduct[this.UpdateValue.indexNumber].productImage=data.productImage
+                    this.searchData[this.UpdateValue.indexNumber].productName=data.productName
+                    this.searchData[this.UpdateValue.indexNumber].groupName=data.groupName
+                    this.searchData[this.UpdateValue.indexNumber].catName=data.catName
+                    this.searchData[this.UpdateValue.indexNumber].brand=data.brand
+                    this.searchData[this.UpdateValue.indexNumber].unit=data.unit
+                    this.searchData[this.UpdateValue.indexNumber].size=data.size
+                    this.searchData[this.UpdateValue.indexNumber].color=data.color
+                    this.searchData[this.UpdateValue.indexNumber].model=data.model
+                    this.searchData[this.UpdateValue.indexNumber].sellingPrice=data.sellingPrice
+                    this.searchData[this.UpdateValue.indexNumber].productImage=data.productImage
                     this.s('Great!','Product information has been updated successfully!')
                     
                     this.sending=false

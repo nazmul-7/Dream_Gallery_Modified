@@ -188,15 +188,15 @@
               
             },
             showEdit (index) {
-                this.editObj.id=this.data1[index].id
-                this.editObj.unitName=this.data1[index].unitName
-                this.UpdateValue.unitName=this.data1[index].unitName
+                this.editObj.id=this.searchData[index].id
+                this.editObj.unitName=this.searchData[index].unitName
+                this.UpdateValue.unitName=this.searchData[index].unitName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.unitName=this.data1[index].unitName
-                this.UpdateValue.id=this.data1[index].id
+                this.UpdateValue.unitName=this.searchData[index].unitName
+                this.UpdateValue.id=this.searchData[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -208,7 +208,7 @@
                         url:'/app/unitUpdate',
                         data: this.editObj
                     })
-                    this.data1[this.UpdateValue.indexNumber].unitName=this.editObj.unitName
+                    this.searchData[this.UpdateValue.indexNumber].unitName=this.editObj.unitName
                     this.s('Great!','Unit information has been updated successfully!')
                     
                     this.sending=false
@@ -226,7 +226,7 @@
                         method: 'delete',
                         url:`/app/unit_type/${this.UpdateValue.id}`,
                     })
-                    this.data1.splice( this.UpdateValue.indexNumber, 1)
+                    this.searchData.splice( this.UpdateValue.indexNumber, 1)
                     this.s('Great!','Unit information has been removed successfully!')
                     
                     this.sending=false

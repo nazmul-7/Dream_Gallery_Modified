@@ -202,17 +202,17 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.data1[index].id
-                this.editObj.delivery=this.data1[index].delivery
-                this.editObj.zoneName=this.data1[index].zoneName
-                this.UpdateValue.zoneName=this.data1[index].zoneName
+                this.editObj.id=this.searchData[index].id
+                this.editObj.delivery=this.searchData[index].delivery
+                this.editObj.zoneName=this.searchData[index].zoneName
+                this.UpdateValue.zoneName=this.searchData[index].zoneName
                 this.UpdateValue.indexNumber=index
                 
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.zoneName=this.data1[index].zoneName
-                this.UpdateValue.id=this.data1[index].id
+                this.UpdateValue.zoneName=this.searchData[index].zoneName
+                this.UpdateValue.id=this.searchData[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -224,9 +224,9 @@
                         url:'/app/zoneUpdate',
                         data: this.editObj
                     })
-                    this.data1[this.UpdateValue.indexNumber].zoneName=this.editObj.zoneName
-                     this.data1[this.UpdateValue.indexNumber].discount=this.editObj.discount
-                     this.data1[this.UpdateValue.indexNumber].delivery=this.editObj.delivery
+                    this.searchData[this.UpdateValue.indexNumber].zoneName=this.editObj.zoneName
+                     this.searchData[this.UpdateValue.indexNumber].discount=this.editObj.discount
+                     this.searchData[this.UpdateValue.indexNumber].delivery=this.editObj.delivery
                     this.s('Great!','Zone information has been updated successfully!')
                     
                     this.sending=false
@@ -244,7 +244,7 @@
                         method: 'delete',
                         url:`/app/zone/${this.UpdateValue.id}`,
                     })
-                    this.data1.splice( this.UpdateValue.indexNumber, 1)
+                    this.searchData.splice( this.UpdateValue.indexNumber, 1)
                     this.s('Great!','Zone information has been removed successfully!')
                     
                     this.sending=false

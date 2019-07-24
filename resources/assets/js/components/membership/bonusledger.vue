@@ -12,9 +12,9 @@
                         <DatePicker type="daterange" style="width: 200px"></DatePicker>
                     </FormItem>
                 </Form>
-                <left>
+                <div>
                     <Button  align="left" @click="showPrint">Print</Button>
-                </left>
+                </div>
                 <div  class="print">
                     <h2>Membership Ledger</h2>
                     <table style="width:100%">

@@ -227,17 +227,17 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.dataCategory[index].id
-                this.editObj.catName=this.dataCategory[index].catName
-                this.editObj.group_id=this.dataCategory[index].group_id
-                this.UpdateValue.group_id=this.dataCategory[index].group_id
-                this.UpdateValue.catName=this.dataCategory[index].catName
+                this.editObj.id=this.category[index].id
+                this.editObj.catName=this.category[index].catName
+                this.editObj.group_id=this.category[index].group_id
+                this.UpdateValue.group_id=this.category[index].group_id
+                this.UpdateValue.catName=this.category[index].catName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.catName=this.dataCategory[index].catName
-                this.UpdateValue.id=this.dataCategory[index].id
+                this.UpdateValue.catName=this.category[index].catName
+                this.UpdateValue.id=this.category[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -249,9 +249,9 @@
                         url:'/app/categoryUpdate',
                         data: this.editObj
                     })
-                    this.dataCategory[this.UpdateValue.indexNumber].catName=data.catName
-                    this.dataCategory[this.UpdateValue.indexNumber].group_id=data.group_id
-                    this.dataCategory[this.UpdateValue.indexNumber].groupName=data.group.groupName
+                    this.category[this.UpdateValue.indexNumber].catName=data.catName
+                    this.category[this.UpdateValue.indexNumber].group_id=data.group_id
+                    this.category[this.UpdateValue.indexNumber].groupName=data.group.groupName
                     this.s('Great!','Category information has been updated successfully!')
                     
                     this.sending=false
@@ -269,7 +269,7 @@
                         method: 'delete',
                         url:`/app/category/${this.UpdateValue.id}`,
                     })
-                    this.dataCategory.splice( this.UpdateValue.indexNumber, 1)
+                    this.category.splice( this.UpdateValue.indexNumber, 1)
                     this.s('Great!','Category information has been removed successfully!')
                     
                     this.sending=false

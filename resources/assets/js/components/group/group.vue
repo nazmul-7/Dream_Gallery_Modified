@@ -206,16 +206,16 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.data1[index].id
-                this.editObj.discount=this.data1[index].discount
-                this.editObj.groupName=this.data1[index].groupName
-                this.UpdateValue.groupName=this.data1[index].groupName
+                this.editObj.id=this.searchData[index].id
+                this.editObj.discount=this.searchData[index].discount
+                this.editObj.groupName=this.searchData[index].groupName
+                this.UpdateValue.groupName=this.searchData[index].groupName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.groupName=this.data1[index].groupName
-                this.UpdateValue.id=this.data1[index].id
+                this.UpdateValue.groupName=this.searchData[index].groupName
+                this.UpdateValue.id=this.searchData[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
@@ -227,8 +227,8 @@
                         url:'/app/groupUpdate',
                         data: this.editObj
                     })
-                    this.data1[this.UpdateValue.indexNumber].groupName=this.editObj.groupName
-                    this.data1[this.UpdateValue.indexNumber].discount=this.editObj.discount
+                    this.searchData[this.UpdateValue.indexNumber].groupName=this.editObj.groupName
+                    this.searchData[this.UpdateValue.indexNumber].discount=this.editObj.discount
                     this.s('Great!','Group information has been updated successfully!')
                     
                     this.sending=false

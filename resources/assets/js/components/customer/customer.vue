@@ -11,19 +11,12 @@
                     <FormItem label="Add">
                          <Button type="primary" @click="addModal=true" >Add New Customer</Button>
                     </FormItem>
-                    <FormItem label="Add">
-                         <p>Total Customer : {{dataCustomer.length}}</p>
+                    <FormItem label="Total Customer">
+                         <p style="text-align: center"> {{dataCustomer.length}}</p>
                     </FormItem>
                 </Form>
                 
-                <Table :columns="columns1" :data="searchData">
-                    <template slot-scope="{ row }" slot="customerName">
-                        <strong>{{ row.customerName }}</strong>
-                    </template>
-                    <template slot-scope="{row, index}" slot="links">
-                        <Button type="primary" size="small"  >{{index}} view</Button>
-                    </template>
-                </Table>
+                <Table :columns="columns1" :data="searchData"></Table>
             </Col>
             <!-- <Col class="dream-input-main" span="8" offset="1">
                 
@@ -49,6 +42,18 @@
                             <FormItem  label="Contact Number">
                             <Input type="text" placeholder="Number" 
                             v-model="formValue.contact"  @on-enter="customerAdd"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Facebook Link">
+                            <Input type="text" placeholder="Facebook" 
+                            v-model="formValue.facebook"></Input>
+                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem  label="Instagram Link">
+                            <Input type="text" placeholder="Instagram" 
+                            v-model="formValue.instagram"></Input>
                             </FormItem >
                         </Col>
                         <Col span="24">
@@ -106,6 +111,18 @@
                         <FormItem  label="Contact Number">
                         <Input type="text" placeholder="Number" 
                         v-model="editObj.contact"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="24">
+                        <FormItem  label="Facebook Link">
+                        <Input type="text" placeholder="Facebook" 
+                        v-model="editObj.facebook"></Input>
+                        </FormItem >
+                    </Col>
+                    <Col span="24">
+                        <FormItem  label="Instagram Link">
+                        <Input type="text" placeholder="Instagram" 
+                        v-model="editObj.instagram"></Input>
                         </FormItem >
                     </Col>
                     <Col span="12">
@@ -201,10 +218,6 @@
                 },
                 columns1: [
                     {
-                        title: 'ID',
-                        key: 'id'
-                    },
-                    {
                         title: 'Customer Name',
                         key: 'customerName'
                     },
@@ -228,12 +241,42 @@
                     {   
                         title: 'Social Links',
                         key: 'links',
-                        width: 100,
+                        width: 250,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.goToLink(params.index,'facebook')
+                                        }
+                                    }
+                                }, 'Facebook'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.goToLink(params.index,'instagram')
+                                        }
+                                    }
+                                }, 'Instagram')
+                            ]);
+                        }
                     },
                     {   
                         title: 'Action',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -312,6 +355,10 @@
             }
         },
         methods: {
+            goToLink (index,item){
+                if(item == 'facebook') window.open(this.searchData[index].facebook);
+                else  window.open(this.searchData[index].instagram);
+            },
             collapsedSider () {
                 this.$refs.side1.toggleCollapse();
             },
@@ -397,6 +444,8 @@
                     this.dataCustomer[this.UpdateValue.indexNumber].address=data.address
                     this.dataCustomer[this.UpdateValue.indexNumber].contact=data.contact
                     this.dataCustomer[this.UpdateValue.indexNumber].email=data.email
+                    this.dataCustomer[this.UpdateValue.indexNumber].facebook=data.facebook
+                    this.dataCustomer[this.UpdateValue.indexNumber].instagram=data.instagram
                     this.dataCustomer[this.UpdateValue.indexNumber].zone=data.zone
                     this.s('Great!','Customer information has been updated successfully!')
                     
