@@ -119,6 +119,7 @@ Route::get('/app/getStockUnion/{id}','StockController@getStockUnion');
 Route::get('/app/dueList','ReportController@dueList');
 Route::get('/app/dueListSupplier','ReportController@dueListSupplier');
 Route::get('/app/getStockItem','StockController@getStockItem');
+Route::get('/app/getTotalStockItem','StockController@getTotalStockItem');
 Route::get('/app/bonusLedger/{id}','MembershipController@bonusLedger');
 
 Route::get('/app/paymentList/{from}/{to}','PaymentController@paymentList');

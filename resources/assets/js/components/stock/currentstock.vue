@@ -656,16 +656,12 @@
                 this.swr('stock')
             }
 
-            // try{
-            //     let {data} =await  axios({
-            //         method: 'get',
-            //         url:'/app/getStockItem'
-            //     })
-                
-            // }catch(e){
-            //     this.e('Oops!','Something went wrong, please try again!')
-            // this.le();
-            // }
+            const [res1] = Promise.all([
+                this.callApi('get','/app/getTotalStockItem')
+            ]);
+            if(res1.status == 200){
+                console.log('this is cool')
+            }
 
             try{
                 let {data} =await  axios({

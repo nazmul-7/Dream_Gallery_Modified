@@ -307,13 +307,11 @@
         {
             this.$store.dispatch('updateHeader','Supplier Outstanding');
             this.ls();
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/dueListSupplier'
-                })
+
+            const res = await this.callApi('get','/app/dueListSupplier')
+            if(res.status==200){
                 let totalDue=0
-                for(let d of data)
+                for(let d of res.data)
                 {
                     d.supplierName=d.supplier.supplierName
                     totalDue=totalDue+d.total_due
@@ -321,13 +319,24 @@
                     d.total_due=0
                 }
                 this.totalDue=totalDue
-                this.dataCustomer=data;
+                this.dataCustomer=res.data;
                 this.lf();
-
-            }catch(e){
-                this.e('(5)Oops!','Something went wrong, please try again!')
-            this.le();
             }
+            else{
+                this.swr()
+            }
+
+            // try{
+            //     let {data} =await  axios({
+            //         method: 'get',
+            //         url:''
+            //     })
+                
+
+            // }catch(e){
+            //     this.e('(5)Oops!','Something went wrong, please try again!')
+            // this.le();
+            // }
             
         }
 
