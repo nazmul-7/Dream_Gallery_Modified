@@ -332,11 +332,9 @@
 
                 return this.dataCustomer.filter((data)=>{                    
                     return data.customerName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.address.toUpperCase().match(this.search.toUpperCase())
                     || data.contact.toString().match(this.search.toString()) 
                     || data.zone.toUpperCase().match(this.search.toUpperCase()) 
-                    ;
-                    }
+                    ;}
                 );
 
 
@@ -364,13 +362,16 @@
             },
             
             async customerAdd(){
+                if(this.customerName===""){
+                   return this.i("Customer Name is Required!");
+                    
+                }
                 if(this.tempZone===""){
-                    this.i("Zone is Required!");
-                    return;
+                    return this.i("Zone is Required!");
+                    
                 }
                 if(this.formValue.contact.length!=11){
-                    this.i("Number length is not valid!");
-                    return;
+                   return this.i("Number length is not valid!");
                 }
                 
                 this.loading=true

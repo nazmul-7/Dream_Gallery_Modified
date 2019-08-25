@@ -98,26 +98,29 @@ class StockController extends Controller
         $totalPrice = 0;
         //$product->toArray();
         foreach ($product as $d) {
-           // return $d->purchaseStock;
-         //   $d['currentStock']=0;
-            \Log::info($d);
-            // if($d['purchase_stock']){
-            //     if($d['sell_stock']!==null){
-            //         $d['currentStock']= $d['purchase_stock']['stock']-$d['sell_stock']['stock'];
-            //     }
-            //     else{
+          
+           $d['currentStock']=0;
+            //\Log::info($d);
+            if($d['purchaseStock']){
+                if($d['sellStock']!==null){
+                    $d['currentStock']= $d['purchaseStock']['stock']-$d['sellStock']['stock'];
+                }
+                else{
                     
-            //         $d['currentStock']= $d['purchase_stock']['stock'];
-            //     }
-                
-            // }
-            //     $d['totalCost']= $d['currentStock']*$d['averageBuyingPrice'];
+                    $d['currentStock']= $d['purchaseStock']['stock'];
+                }
                
-            // if($d['currentStock']<1){
-            //    $totalStock = $totalStock + $d['currentStock'];
-            //    $totalPrice = $totalPrice + $d['totalCost'];
                 
-            // }
+            }
+                $d['totalCost']= $d['currentStock']*$d['averageBuyingPrice'];
+                
+               
+            if($d['currentStock']>0){
+                \Log::info($d['currentStock']);
+               $totalStock = $totalStock + $d['currentStock'];
+               $totalPrice = $totalPrice + $d['totalCost'];
+                
+            }
         }
 
         return response()->json([

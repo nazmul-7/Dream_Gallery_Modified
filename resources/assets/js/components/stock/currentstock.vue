@@ -16,7 +16,7 @@
                 </Form>
                 <Row>
                     <Col span="10" offset="14" >
-                        <h3>Total Stock Unit: {{totalStockUnit}} | Total Stock Amount: {{totalStockAmount}}</h3>
+                        <h3>Total Stock Unit: {{totalStockAll}} | Total Stock Amount: {{totalPriceAll}}</h3>
                     </Col>
                 </Row>
 
@@ -293,6 +293,8 @@
                 dataCategory: [],
                 groupFilter: [],
                 dataUnit: [],
+                totalStockAll:0,
+                totalPriceAll:0,
                 UpdateValue: {
                     indexNumber:null,
                     id:null,
@@ -656,11 +658,15 @@
                 this.swr('stock')
             }
 
-            const [res1] = Promise.all([
-                this.callApi('get','/app/getTotalStockItem')
-            ]);
+            // const [res1] = Promise.all([
+            //     this.callApi('get','/app/getTotalStockItem')
+            // ]);
+            const res1 = await this.callApi('get','/app/getTotalStockItem')
             if(res1.status == 200){
-                console.log('this is cool')
+                console.log(res1.data)
+               this.totalStockAll = res1.data.totalStock
+               var num = res1.data.totalPrice
+               this.totalPriceAll = num.toFixed(2)
             }
 
             try{

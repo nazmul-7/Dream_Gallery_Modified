@@ -550,6 +550,7 @@
                     
                     || data.groupName.toUpperCase().match(this.search.toUpperCase())
                     || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+                    || data.model.match(this.search) 
                    
                     ;
                     }
