@@ -70,7 +70,7 @@ class StockController extends Controller
 
 
         }))
-        ->paginate(20);
+        ->orderBy('productName','ASC')->paginate(20);
 
         return response()->json([
                      'msg' => 'Found Stock',

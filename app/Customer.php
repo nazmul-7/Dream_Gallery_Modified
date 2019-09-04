@@ -8,7 +8,7 @@ class Customer extends Model
 {
 
     protected $fillable = [
-        'customerName', 'address', 'contact','email', 'zone', 'balance','opening','barcode','zoneId'
+        'customerName', 'address', 'contact','email', 'zone', 'balance','opening','barcode','zoneId','facebook','instagram'
     ];
     public function dueAmount()
     {

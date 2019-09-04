@@ -45,6 +45,20 @@
                             </FormItem >
                         </Col>
                         <Col span="24">
+                            <FormItem  label="Address">
+                            <Input type="textarea"
+                             :autosize="{minRows: 4,maxRows: 5}"
+                              placeholder=" Address" 
+                              v-model="formValue.address"></Input>                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem label="Zone">
+                                <Select v-model="tempZone" placeholder="Select group" filterable>
+                                    <Option v-for="(zone,i) in dataZone" :value="i" :key="i">{{zone.zoneName}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span="24">
                             <FormItem  label="Facebook Link">
                             <Input type="text" placeholder="Facebook" 
                             v-model="formValue.facebook"></Input>
@@ -56,20 +70,7 @@
                             v-model="formValue.instagram"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="24">
-                            <FormItem label="Zone">
-                                <Select v-model="tempZone" placeholder="Select group" filterable>
-                                    <Option v-for="(zone,i) in dataZone" :value="i" :key="i">{{zone.zoneName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="Address">
-                            <Input type="textarea"
-                             :autosize="{minRows: 4,maxRows: 5}"
-                              placeholder=" Address" 
-                              v-model="formValue.address"></Input>                            </FormItem >
-                        </Col>
+                        
                         <Col span="24">
                             <FormItem  label="Opening Balance">
                                 <Input type="text" placeholder="Amount" 
@@ -219,7 +220,8 @@
                 columns1: [
                     {
                         title: 'Customer Name',
-                        key: 'customerName'
+                        key: 'customerName',
+                        width:200
                     },
                     {
                         title: 'Address',
@@ -233,16 +235,18 @@
                     },
                     {
                         title: 'Zone',
-                        key: 'zone'
+                        key: 'zone',
+                        width:120
                     },
                     {
-                        title: 'Opening Balance',
-                        key: 'opening'
+                        title: 'Balance',
+                        key: 'opening',
+                        width:120
                     },
                     {   
                         title: 'Social Links',
                         key: 'links',
-                        width: 250,
+                        width: 210,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -277,7 +281,7 @@
                     {   
                         title: 'Action',
                         key: 'action',
-                        width: 200,
+                        width: 180,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -319,6 +323,8 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    facebook:'https://www.facebook.com/',
+                    instagram:'https://www.instagram.com/',
                     opening:0,
 
 
@@ -418,8 +424,8 @@
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
-                this.UpdateValue.id=this.dataCustomer[index].id
+                this.UpdateValue.customerName=this.searchData[index].customerName
+                this.UpdateValue.id=this.searchData[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
