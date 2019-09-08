@@ -45,6 +45,20 @@
                             </FormItem >
                         </Col>
                         <Col span="24">
+                            <FormItem  label="Address">
+                            <Input type="textarea"
+                             :autosize="{minRows: 4,maxRows: 5}"
+                              placeholder=" Address" 
+                              v-model="formValue.address"></Input>                            </FormItem >
+                        </Col>
+                        <Col span="24">
+                            <FormItem label="Zone">
+                                <Select v-model="tempZone" placeholder="Select group" filterable>
+                                    <Option v-for="(zone,i) in dataZone" :value="i" :key="i">{{zone.zoneName}}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span="24">
                             <FormItem  label="Facebook Link">
                             <Input type="text" placeholder="Facebook" 
                             v-model="formValue.facebook"></Input>
@@ -56,20 +70,7 @@
                             v-model="formValue.instagram"></Input>
                             </FormItem >
                         </Col>
-                        <Col span="24">
-                            <FormItem label="Zone">
-                                <Select v-model="tempZone" placeholder="Select group" filterable>
-                                    <Option v-for="(zone,i) in dataZone" :value="i" :key="i">{{zone.zoneName}}</Option>
-                                </Select>
-                            </FormItem>
-                        </Col>
-                        <Col span="24">
-                            <FormItem  label="Address">
-                            <Input type="textarea"
-                             :autosize="{minRows: 4,maxRows: 5}"
-                              placeholder=" Address" 
-                              v-model="formValue.address"></Input>                            </FormItem >
-                        </Col>
+                        
                         <Col span="24">
                             <FormItem  label="Opening Balance">
                                 <Input type="text" placeholder="Amount" 
@@ -219,7 +220,8 @@
                 columns1: [
                     {
                         title: 'Customer Name',
-                        key: 'customerName'
+                        key: 'customerName',
+                        width:200
                     },
                     {
                         title: 'Address',
@@ -228,20 +230,23 @@
                     },
                     {
                         title: 'Contact',
-                        key: 'contact'
+                        key: 'contact',
+                        width: 150,
                     },
                     {
                         title: 'Zone',
-                        key: 'zone'
+                        key: 'zone',
+                        width:120
                     },
                     {
-                        title: 'Opening Balance',
-                        key: 'opening'
+                        title: 'Balance',
+                        key: 'opening',
+                        width:120
                     },
                     {   
                         title: 'Social Links',
                         key: 'links',
-                        width: 250,
+                        width: 210,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -276,7 +281,7 @@
                     {   
                         title: 'Action',
                         key: 'action',
-                        width: 200,
+                        width: 180,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -318,6 +323,8 @@
                     contact:'',
                     email:'',
                     zone:'',
+                    facebook:'https://www.facebook.com/',
+                    instagram:'https://www.instagram.com/',
                     opening:0,
 
 
@@ -332,11 +339,9 @@
 
                 return this.dataCustomer.filter((data)=>{                    
                     return data.customerName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.address.toUpperCase().match(this.search.toUpperCase())
                     || data.contact.toString().match(this.search.toString()) 
                     || data.zone.toUpperCase().match(this.search.toUpperCase()) 
-                    ;
-                    }
+                    ;}
                 );
 
 
@@ -364,13 +369,16 @@
             },
             
             async customerAdd(){
+                if(this.customerName===""){
+                   return this.i("Customer Name is Required!");
+                    
+                }
                 if(this.tempZone===""){
-                    this.i("Zone is Required!");
-                    return;
+                    return this.i("Zone is Required!");
+                    
                 }
                 if(this.formValue.contact.length!=11){
-                    this.i("Number length is not valid!");
-                    return;
+                   return this.i("Number length is not valid!");
                 }
                 
                 this.loading=true
@@ -400,24 +408,24 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.dataCustomer[index].id
-                this.editObj.customerName=this.dataCustomer[index].customerName
-                this.editObj.address=this.dataCustomer[index].address
-                this.editObj.contact=this.dataCustomer[index].contact
-                this.editObj.email=this.dataCustomer[index].email
-                this.editObj.facebook=this.dataCustomer[index].facebook
-                this.editObj.instagram=this.dataCustomer[index].instagram
-                // this.editObj.zone=this.dataCustomer[index].zone
-                let tData = this.dataZone.findIndex(x => x.zoneName == this.dataCustomer[index].zone )
+                this.editObj.id=this.searchData[index].id
+                this.editObj.customerName=this.searchData[index].customerName
+                this.editObj.address=this.searchData[index].address
+                this.editObj.contact=this.searchData[index].contact
+                this.editObj.email=this.searchData[index].email
+                this.editObj.facebook=this.searchData[index].facebook
+                this.editObj.instagram=this.searchData[index].instagram
+                // this.editObj.zone=this.searchData[index].zone
+                let tData = this.dataZone.findIndex(x => x.zoneName == this.searchData[index].zone )
                 this.tempZone =  tData
-                this.editObj.barcode=this.dataCustomer[index].barcode
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
+                this.editObj.barcode=this.searchData[index].barcode
+                this.UpdateValue.customerName=this.searchData[index].customerName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.customerName=this.dataCustomer[index].customerName
-                this.UpdateValue.id=this.dataCustomer[index].id
+                this.UpdateValue.customerName=this.searchData[index].customerName
+                this.UpdateValue.id=this.searchData[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },
