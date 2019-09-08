@@ -4,7 +4,7 @@
             <Col class="dream-input-main" span="20" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
+                        <Input type="text" v-model="search" placeholder="Search"  @on-keyup="getCoustomer">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
@@ -16,7 +16,7 @@
                     </FormItem>
                 </Form>
                 
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="dataCustomer"></Table>
             </Col>
             <!-- <Col class="dream-input-main" span="8" offset="1">
                 
@@ -474,37 +474,41 @@
                     this.deleteModal=false
                     this.e('Oops!','Something went wrong, please try again!')
                 }
+            },
+            async getCoustomer(){
+                this.$store.dispatch('updateHeader','Customer');
+                this.ls();
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:'/app/zone'
+                    })
+                    this.dataZone=data;
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+                try{
+                    let {data} =await  axios({
+                        method: 'get',
+                        url:`/app/customer?searchData=${this.search}`
+                    })
+                    
+                    this.dataCustomer=data;
+                    this.lf();
+
+                }catch(e){
+                    this.e('Oops!','Something went wrong, please try again!')
+                this.le();
+                }
+
             }
         },
         async created()
         {
-            this.$store.dispatch('updateHeader','Customer');
-            this.ls();
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/zone'
-                })
-                this.dataZone=data;
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
-            try{
-                let {data} =await  axios({
-                    method: 'get',
-                    url:'/app/customer'
-                })
-                
-                this.dataCustomer=data;
-                this.lf();
-
-            }catch(e){
-                this.e('Oops!','Something went wrong, please try again!')
-            this.le();
-            }
+         await this.getCoustomer()
         }
 
     }

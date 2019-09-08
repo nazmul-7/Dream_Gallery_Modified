@@ -14,14 +14,13 @@
         <script>
    
         (function () {
-            window.Laravel = {
+         window.Laravel = {
                 csrfToken: '{{ csrf_token() }}'
             };
 
 
-            @if(Auth::check()){
-               window.authUser={!! Auth::user() !!}
-            }
+            @if(Auth::check())
+              window.authUser={!! Auth::user() !!}
              @else
                 window.authUser=false
              @endif

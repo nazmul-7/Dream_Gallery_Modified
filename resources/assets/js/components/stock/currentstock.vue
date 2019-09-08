@@ -4,7 +4,7 @@
             <Col  class="dream-input-main" span="22" offset="1">
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
-                        <Input type="text" v-model="search" placeholder="Search">
+                        <Input type="text" v-model="search" placeholder="Search" @on-keyup="serchalldata">
                             <Icon type="ios-search" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
@@ -20,9 +20,9 @@
                     </Col>
                 </Row>
 
-                <Table :columns="columns1" :data="searchData"></Table>
+                <Table :columns="columns1" :data="dataProduct"></Table>
                 
-                    <Page :current="1" :total="paginateInfo.total" @on-change="getpaginate" :page-size="20" />
+                    <Page :current="1" :total="paginateInfo.total" @on-change="getpaginate" :page-size="paginateInfo.per_page" />
                 
             </Col>
         </Row>
@@ -361,45 +361,46 @@
             
         },
         computed: {
-            searchData()
-            {
-                if(this.filterGroup)
-                {
+            // searchData()
+            // {
+                
+            //     if(this.filterGroup)
+            //     {
                    
-                return this.dataProduct.filter((data)=>{                    
-                    return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
-                    && (data.isShow)
-                    && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                   // || data.model.toUpperCase().match(this.search.toUpperCase())
-                    //|| data.color.toUpperCase().match(this.search.toUpperCase()) 
-                    //|| data.size.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
-                    ;
-                    }
-                );
+            //     return this.dataProduct.filter((data)=>{                    
+            //         return data.groupName.toUpperCase().match(this.filterGroup.toUpperCase()) 
+            //         && (data.isShow)
+            //         && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
+            //        // || data.model.toUpperCase().match(this.search.toUpperCase())
+            //         //|| data.color.toUpperCase().match(this.search.toUpperCase()) 
+            //         //|| data.size.toUpperCase().match(this.search.toUpperCase()) 
+            //         || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+            //         || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
+            //         ;
+            //         }
+            //     );
 
-                }
-                else{
-                return this.dataProduct.filter((data)=>{                    
-                    return (data.isShow) && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
-                   // || data.model.toUpperCase().match(this.search.toUpperCase())
-                    //|| data.size.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.groupName.toUpperCase().match(this.search.toUpperCase())
-                   // || data.color.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.catName.toUpperCase().match(this.search.toUpperCase()) 
-                    || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
-                    ;
-                    }
-                );
+            //     }
+            //     else{
+            //     return this.dataProduct.filter((data)=>{                    
+            //         return (data.isShow) && (data.productName.toUpperCase().match(this.search.toUpperCase()) 
+            //        // || data.model.toUpperCase().match(this.search.toUpperCase())
+            //         //|| data.size.toUpperCase().match(this.search.toUpperCase()) 
+            //         || data.groupName.toUpperCase().match(this.search.toUpperCase())
+            //        // || data.color.toUpperCase().match(this.search.toUpperCase()) 
+            //         || data.catName.toUpperCase().match(this.search.toUpperCase()) 
+            //         || data.sellingPrice.toUpperCase().match(this.search.toUpperCase()))
+            //         ;
+            //         }
+            //     );
 
-                }
-            },
+            //     }
+            // },
             totalStockAmount()
             {
 
                 var tF=0
-                for (let d of this.searchData)
+                for (let d of this.dataProduct)
                 {
                     let tempstock = parseInt(d.totalCost)
                      if(tempstock>0){
@@ -414,7 +415,7 @@
             {
 
                 var tF=0
-                for (let d of this.searchData)
+                for (let d of this.dataProduct)
                 {
                     let tempstock = parseInt(d.currentStock)
                      if(tempstock>0){
@@ -616,6 +617,73 @@
                 
             },
 
+           async serchalldata(){
+             const res = await this.callApi('get',`/app/getStockItem?serchData=${this.search}`)
+
+            if(res.status===200){
+                let i =0
+                for(let d of res.data.product.data)
+                {
+                    d.currentStock=0;
+                    if(d.purchase_stock){
+                        if(d.sell_stock!==null){
+                            d.currentStock=d.purchase_stock.stock-d.sell_stock.stock
+                        }
+                        else{
+                            d.currentStock=d.purchase_stock.stock
+                        }
+                    }
+                     d.totalCost=d.currentStock*d.averageBuyingPrice
+                    if(d.currentStock<1){
+                        d.isShow = false
+                        
+                    }
+                    else {
+                       d.isShow = true
+                    }
+                }
+                this.dataProduct=res.data.product.data;
+                this.paginateInfo = res.data.product
+                this.lf();
+            }
+            else{
+                this.swr('stock')
+            }
+
+            const [res1] = Promise.all([
+                this.callApi('get','/app/getTotalStockItem')
+            ]);
+            if(res1.status == 200){
+                console.log('this is cool')
+            }
+
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/unit_type'
+                })
+                this.dataUnit=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/group'
+                })
+                this.dataGroup=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+        }
+
 
 
         },
@@ -625,7 +693,7 @@
            
             this.$store.dispatch('updateHeader','Current Stock');
             this.ls();
-            const res = await this.callApi('get','/app/getStockItem')
+            const res = await this.callApi('get',`/app/getStockItem?serchData=${this.search}`)
             if(res.status===200){
                 let i =0
                 for(let d of res.data.product.data)
@@ -690,6 +758,8 @@
             }
 
         },
+ 
+  
 
 
     }

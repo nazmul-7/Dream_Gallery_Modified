@@ -13,19 +13,19 @@
                 <div  class="dream-input-main  _b_color _b_r border">
                     <Form ref="formInline" inline>
                         <FormItem label="Search">
-                            <Input type="text" v-model="search" placeholder="Search" @on-enter="searchProducts"> 
+                            <Input type="text" v-model="search" placeholder="Search" @on-keyup="searchProducts"> 
                                 <Icon type="ios-search" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         <FormItem label="Group">
-                            <Select v-model="filterGroup" placeholder="Select group"  filterable clearable>
+                            <Select v-model="filterGroup" placeholder="Select group"  filterable clearable @on-change="searchProducts">
                                     <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
                                 </Select>
                         </FormItem>
                     </Form>
 
                     <div class="_table_div product_div _pa_table">
-                        <Table min-width="1150" :columns="columns1" :data="searchData"></Table>
+                        <Table min-width="1150" :columns="columns1" :data="dataProduct"></Table>
                     </div>
                 </div>
             </div>
@@ -523,13 +523,7 @@
                  displayValue: false,
               }
             },
-            searchData()
-            {
-                console.log(this.search)
-                
-
-
-                //search should be done from server instead of front end... 
+            searchData(){
                 if(this.filterGroup)
                 {
                 return this.dataProduct.filter((data)=>{                    

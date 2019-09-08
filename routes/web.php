@@ -66,7 +66,7 @@ Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');
 Route::resource('/app/product','ProductController');
 Route::resource('/app/supplier','SupplierController');
-Route::resource('/app/customer','CustomerController');
+Route::get('/app/customer','CustomerController@getSearchData');
 Route::resource('/app/zone','ZoneController');
 Route::resource('/app/ledger','LedgerController');
 Route::resource('/app/voucher','VoucherController');
