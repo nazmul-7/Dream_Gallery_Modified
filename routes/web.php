@@ -48,7 +48,7 @@ Route::post('/app/productUpdate','ProductController@productUpdate');
 
 
 // product searching 
-Route::post('/app/search/products', 'ProductController@search');
+Route::post('/app/search/products', 'ProductController@search'); 
 
 
 

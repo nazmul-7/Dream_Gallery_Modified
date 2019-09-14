@@ -134,7 +134,7 @@
                <Col span="11" offset="1" v-if="currentCustomer.status">
                <FormItem label="Useing Bonus Amount">
                   <br/>
-                  <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.totalTotal))" @on-change="discount" ></InputNumber >
+                  <InputNumber   v-model="formValue.bonusAmount" :min="0" :max="Math.min(parseInt(currentCustomer.bonusAmount), parseInt(formValue.totalTotal))" @on-change="discountV2" ></InputNumber >
                </FormItem>
                </Col>
                <Col span="22" offset="1">
@@ -253,7 +253,7 @@
                <div class="memu_total">
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Sub Total:</p>
-                     <p class="memu_list_title memu_total_num">{{ formValue.totalTotal }}</p>
+                     <p class="memu_list_title memu_total_num">{{ formValue.totalTotal  }}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Discount (%):</p>
@@ -265,7 +265,7 @@
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Net Payable:</p>
-                     <p class="memu_list_title memu_total_num" v-if="formValue.homeDelivery" >{{(formValue.total)+(currentCustomer.delivery)}}</p>
+                     <p class="memu_list_title memu_total_num" v-if="formValue.homeDelivery" >{{(formValue.total)+(currentCustomer.delivery) }}</p>
                      <p class="memu_list_title memu_total_num" v-else >{{(formValue.total)}}</p>
                   </div>
                </div>
@@ -275,13 +275,9 @@
                      <p class="memu_list_title flex_space">CASH PAID:</p>
                      <p class="memu_list_title memu_total_num" >{{ formValue.cashPaid }}</p>
                   </div>
-                  <div class="memu_total_main dis text_right" v-if="(formValue.paidAmount + formValue.bonusAmount)< formValue.total" >
+                  <div class="memu_total_main dis text_right" v-if="(formValue.paidAmount + bonusAmount)< formValue.total" >
                      <p class="memu_list_title flex_space">Due Amount:</p>
                      <p class="memu_list_title memu_total_num" >{{ (formValue.paidAmount + formValue.bonusAmount) - formValue.total}}</p>
-                  </div>
-                  <div class="memu_total_main dis text_right" v-if="formValue.bonusAmount > 0" >
-                     <p class="memu_list_title flex_space">Bonus Amount used:</p>
-                     <p class="memu_list_title memu_total_num" >{{ formValue.bonusAmount}}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">CHANGE AMOUNT:</p>
@@ -292,10 +288,14 @@
                <div class="CASH_total" v-if="currentCustomer.outStanding" style="border-top: 1px dashed #000;" >
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Total Outstanding</p>
-                     <p class="memu_list_title memu_total_num" >{{ currentCustomer.outStanding + ((formValue.paidAmount + formValue.bonusAmount) - formValue.total) }}</p>
+                     <p class="memu_list_title memu_total_num" >{{ currentCustomer.outStanding + ((formValue.total) - (formValue.paidAmount + formValue.bonusAmount)) }}</p>
                   </div>
                </div>
                <div class="CASH_total" v-if="currentCustomer.bonusAmount" style="border-top: 1px dashed #000;" >
+                  <div class="memu_total_main dis text_right"  v-if="formValue.bonusAmount > 0">
+                     <p class="memu_list_title flex_space">Bonus Amount used:</p>
+                     <p class="memu_list_title memu_total_num" >{{ formValue.bonusAmount}}</p>
+                  </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Avaiable Bonus Amount</p>
                      <p class="memu_list_title memu_total_num" >{{ currentCustomer.bonusAmount  - formValue.bonusAmount }}</p>
@@ -681,7 +681,19 @@
                 this.formValue.total=afterDiscount
                 this.formValue.paidAmount=afterDiscount
                 this.paidAmountChange()
-        },
+            },
+            discountV2(){
+                var totalOld = this.formValue.subTotal
+                var discountAmount = (this.formValue.discount*this.formValue.subTotal)/100
+                var afterDiscount = totalOld - discountAmount
+                afterDiscount= Math.round(afterDiscount-(this.formValue.bonusAmount+0)).toFixed(2)*1
+
+                console.log(afterDiscount);
+                
+              
+                this.formValue.paidAmount=afterDiscount
+                this.paidAmountChange()
+            },
             total(){
                 var totalOld = this.formValue.subTotal
                 var discountAmount = totalOld - this.formValue.total
@@ -1063,7 +1075,7 @@
             
             makeSell(){
                 
-                if(Math.round(this.formValue.paidAmount + this.formValue.bonusAmount) != Math.round(this.formValue.total) ){
+                if(Math.round(this.formValue.paidAmount + this.formValue.bonusAmount ) != Math.round(this.formValue.total) ){
                     this.i('Due Alart','This invoice will add due amount')
                     if(!this.formValue.customer_id)
                     {

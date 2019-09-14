@@ -18,8 +18,13 @@
                             </Input>
                         </FormItem>
                         <FormItem label="Group">
-                            <Select v-model="filterGroup" placeholder="Select group"  filterable clearable @on-change="searchProducts">
+                            <Select v-model="filterGroup" placeholder="Select Group"  filterable clearable @on-change="searchProducts">
                                     <Option v-for="(group,i) in dataGroup" :value="group.groupName" :key="i">{{group.groupName}}</Option>
+                                </Select>
+                        </FormItem>
+                        <FormItem label="Category">
+                            <Select v-model="filterCategory" placeholder="Select Category"  filterable clearable @on-change="searchProducts">
+                                     <Option v-for="(group,i) in dataCategory" :value="group.catName" :key="i">{{group.catName}}</Option>
                                 </Select>
                         </FormItem>
                     </Form>
@@ -327,6 +332,7 @@
                 search:'',
                 height: 30,
                 filterGroup:'',
+                filterCategory:'',
                 barcodeName:'',
                 barcodeModel:'',
                 barcodeValue:'',
@@ -633,48 +639,48 @@
                 }
             },
             showEdit (index) {
-                this.groupNameToId(this.searchData[index].groupName)
-                this.changed(this.searchData[index].groupName)
-                this.editObj.id=this.searchData[index].id
-                this.editObj.productName=this.searchData[index].productName
-                this.editObj.groupName=this.searchData[index].groupName
-                this.editObj.catName=this.searchData[index].catName
-                this.editObj.brand=this.searchData[index].brand
-                this.editObj.unit=this.searchData[index].unit
-                this.editObj.size=this.searchData[index].size
-                this.editObj.color=this.searchData[index].color
-                this.editObj.model=this.searchData[index].model
-                this.editObj.sellingPrice=parseInt(this.searchData[index].sellingPrice)
-                this.editObj.productImage=this.searchData[index].productImage
-                this.imageUrl=this.searchData[index].productImage
-                this.UpdateValue.id=this.searchData[index].id
-                this.UpdateValue.productName=this.searchData[index].productName
+                this.groupNameToId(this.dataProduct[index].groupName)
+                this.changed(this.dataProduct[index].groupName)
+                this.editObj.id=this.dataProduct[index].id
+                this.editObj.productName=this.dataProduct[index].productName
+                this.editObj.groupName=this.dataProduct[index].groupName
+                this.editObj.catName=this.dataProduct[index].catName
+                this.editObj.brand=this.dataProduct[index].brand
+                this.editObj.unit=this.dataProduct[index].unit
+                this.editObj.size=this.dataProduct[index].size
+                this.editObj.color=this.dataProduct[index].color
+                this.editObj.model=this.dataProduct[index].model
+                this.editObj.sellingPrice=parseInt(this.dataProduct[index].sellingPrice)
+                this.editObj.productImage=this.dataProduct[index].productImage
+                this.imageUrl=this.dataProduct[index].productImage
+                this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
 
             },
             showRemove (index) {
                 this.deleteModal=true
-                this.UpdateValue.productName=this.searchData[index].productName
-                this.UpdateValue.id=this.searchData[index].id
+                this.UpdateValue.productName=this.dataProduct[index].productName
+                this.UpdateValue.id=this.dataProduct[index].id
                 this.UpdateValue.indexNumber=index
             },
             showBarcode (index) {
-                this.UpdateValue.barCode= parseInt(this.searchData[index].barCode)
+                this.UpdateValue.barCode= parseInt(this.dataProduct[index].barCode)
                 this.barcodeModal=true
-                this.barcodeName=this.searchData[index].productName
-                this.barcodeModel=this.searchData[index].model
-                this.barcodeValue=this.searchData[index].barCode
-                this.barcodeColor=this.searchData[index].color
-                this.barcodeSize=this.searchData[index].size
-                this.barcodePrice=this.searchData[index].sellingPrice
-                this.UpdateValue.id=this.searchData[index].id
-                this.UpdateValue.productName=this.searchData[index].productName
+                this.barcodeName=this.dataProduct[index].productName
+                this.barcodeModel=this.dataProduct[index].model
+                this.barcodeValue=this.dataProduct[index].barCode
+                this.barcodeColor=this.dataProduct[index].color
+                this.barcodeSize=this.dataProduct[index].size
+                this.barcodePrice=this.dataProduct[index].sellingPrice
+                this.UpdateValue.id=this.dataProduct[index].id
+                this.UpdateValue.productName=this.dataProduct[index].productName
                 this.UpdateValue.indexNumber=index
             },
             showImage (index) {
                this.imageUrl = "";
-               this.imageUrl = this.searchData[index].productImage;
+               this.imageUrl = this.dataProduct[index].productImage;
                this.imageModal = true;
             },
             async edit(){
@@ -685,16 +691,16 @@
                         url:'/app/productUpdate',
                         data: this.editObj
                     })
-                    this.searchData[this.UpdateValue.indexNumber].productName=data.productName
-                    this.searchData[this.UpdateValue.indexNumber].groupName=data.groupName
-                    this.searchData[this.UpdateValue.indexNumber].catName=data.catName
-                    this.searchData[this.UpdateValue.indexNumber].brand=data.brand
-                    this.searchData[this.UpdateValue.indexNumber].unit=data.unit
-                    this.searchData[this.UpdateValue.indexNumber].size=data.size
-                    this.searchData[this.UpdateValue.indexNumber].color=data.color
-                    this.searchData[this.UpdateValue.indexNumber].model=data.model
-                    this.searchData[this.UpdateValue.indexNumber].sellingPrice=data.sellingPrice
-                    this.searchData[this.UpdateValue.indexNumber].productImage=data.productImage
+                    this.dataProduct[this.UpdateValue.indexNumber].productName=data.productName
+                    this.dataProduct[this.UpdateValue.indexNumber].groupName=data.groupName
+                    this.dataProduct[this.UpdateValue.indexNumber].catName=data.catName
+                    this.dataProduct[this.UpdateValue.indexNumber].brand=data.brand
+                    this.dataProduct[this.UpdateValue.indexNumber].unit=data.unit
+                    this.dataProduct[this.UpdateValue.indexNumber].size=data.size
+                    this.dataProduct[this.UpdateValue.indexNumber].color=data.color
+                    this.dataProduct[this.UpdateValue.indexNumber].model=data.model
+                    this.dataProduct[this.UpdateValue.indexNumber].sellingPrice=data.sellingPrice
+                    this.dataProduct[this.UpdateValue.indexNumber].productImage=data.productImage
                     this.s('Great!','Product information has been updated successfully!')
                     
                     this.sending=false
@@ -736,18 +742,19 @@
                 
             },
             async searchProducts(){
-                if(this.search==''){
-                   this.getProduct()
-                   return
-                }
-                console.log(this.filterGroup)
+                // if(this.search==''){
+                //    this.getProduct()
+                //    return
+                // }
+               
                 let obj = {
                     search : this.search,
                     group: this.filterGroup,
+                    category: this.filterCategory,
                 }
                 const res = await this.callApi('post', '/app/search/products',obj)
                 if(res.status===200){
-                    console.log(res.data)
+                  
                     this.dataProduct = res.data
                 }else{
                     this.swr('search')
@@ -798,6 +805,18 @@
                     url:'/app/group'
                 })
                 this.dataGroup=data;
+                this.lf();
+
+            }catch(e){
+                this.e('Oops!','Something went wrong, please try again!')
+            this.le();
+            }
+            try{
+                let {data} =await  axios({
+                    method: 'get',
+                    url:'/app/category'
+                })
+                this.dataCategory=data;
                 this.lf();
 
             }catch(e){

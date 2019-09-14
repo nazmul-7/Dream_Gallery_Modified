@@ -408,24 +408,24 @@
                 }
             },
             showEdit (index) {
-                this.editObj.id=this.searchData[index].id
-                this.editObj.customerName=this.searchData[index].customerName
-                this.editObj.address=this.searchData[index].address
-                this.editObj.contact=this.searchData[index].contact
-                this.editObj.email=this.searchData[index].email
-                this.editObj.facebook=this.searchData[index].facebook
-                this.editObj.instagram=this.searchData[index].instagram
-                // this.editObj.zone=this.searchData[index].zone
-                let tData = this.dataZone.findIndex(x => x.zoneName == this.searchData[index].zone )
+                this.editObj.id=this.dataCustomer[index].id
+                this.editObj.customerName=this.dataCustomer[index].customerName
+                this.editObj.address=this.dataCustomer[index].address
+                this.editObj.contact=this.dataCustomer[index].contact
+                this.editObj.email=this.dataCustomer[index].email
+                this.editObj.facebook=this.dataCustomer[index].facebook
+                this.editObj.instagram=this.dataCustomer[index].instagram
+                // this.editObj.zone=this.dataCustomer[index].zone
+                let tData = this.dataZone.findIndex(x => x.zoneName == this.dataCustomer[index].zone )
                 this.tempZone =  tData
-                this.editObj.barcode=this.searchData[index].barcode
-                this.UpdateValue.customerName=this.searchData[index].customerName
+                this.editObj.barcode=this.dataCustomer[index].barcode
+                this.UpdateValue.customerName=this.dataCustomer[index].customerName
                 this.UpdateValue.indexNumber=index
                 this.editModal=true
             },
             showRemove (index) {
-                this.UpdateValue.customerName=this.searchData[index].customerName
-                this.UpdateValue.id=this.searchData[index].id
+                this.UpdateValue.customerName=this.dataCustomer[index].customerName
+                this.UpdateValue.id=this.dataCustomer[index].id
                 this.UpdateValue.indexNumber=index
                 this.deleteModal=true
             },

@@ -87,7 +87,7 @@ class SellingController extends Controller
         $input['customer_id']=1;
         
         // create invoice 
-        $paidAmount=$input['paidAmount']+$input['bonusAmount'];
+        $paidAmount=$input['paidAmount'];
         $invoice=Invoice::create([
             'admin_id' => $admin_id,
             'type' => 'sell',
@@ -95,7 +95,7 @@ class SellingController extends Controller
             'totalPrice' => $input['totalPrice'],
             'customer_id' => $input['customer_id'],
             'discount' => $input['discount'],
-            'sellingPrice' => $input['total']+$input['bonusAmount'],
+            'sellingPrice' => $input['total'],
             'paidAmount' => $input['paidAmount'],
             'bonusAmount' => $input['bonusAmount'],
             'homeDelivery' => $input['homeDelivery'],

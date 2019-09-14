@@ -128,28 +128,25 @@ class ProductController extends Controller
     public function search(Request $request){
          $searchString = $request->search;
          $groupName=  $request->group;
+         $catName=  $request->category;
         
        
         
           $query =  Product::where(function ($query) use ($searchString){
-                $query->where('averageBuyingPrice', 'like', "$searchString%")
-                    ->orWhere('barCode',  'like', "$searchString%")
-                    ->orWhere('brand',  'like', "$searchString%")
-                    ->orWhere('catName',  'like', "$searchString%")
-                    ->orWhere('color',  'like', "$searchString%")
-                    ->orWhere('groupName', 'like', "$searchString%")
-                    ->orWhere('id', 'like', "$searchString%")
-                    ->orWhere('model',  'like', "$searchString%")
-                    ->orWhere('openingQuantity', 'like', "$searchString%")
-                    ->orWhere('openingUnitPrice',  'like', "$searchString%")
-                    ->orWhere('productName', 'like', "$searchString%")
-                    ->orWhere('sellingPrice', 'like', "$searchString%")
-                    ->orWhere('size', 'like', "$searchString%")
-                    ->orWhere('unit', 'like', "$searchString%");
+                $query->orWhere('brand',  'like', "%$searchString%")
+                    ->orWhere('catName',  'like', "%$searchString%")
+                    ->orWhere('color',  'like', "%$searchString%")
+                    ->orWhere('groupName', 'like', "%$searchString%")
+                    ->orWhere('model',  'like', "%$searchString%")
+                    ->orWhere('productName', 'like', "%$searchString%")
+                    ->orWhere('size', 'like', "%$searchString%");
             });
 
             if($groupName){
                 $query->where('groupName', $groupName);
+            }
+            if($catName){
+                $query->where('catName', $catName);
             }
         $data = $query->get();
         return $data;
