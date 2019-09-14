@@ -7,11 +7,11 @@
             <p>Product Code</p>
             <Row>
                <Col span="17">
-               <Input type="text" placeholder="Barcode" @on-enter="setData"  autofocus="true" onfocus="this.select()"
+               <Input type="text" placeholder="Barcode" @on-enter="setData"  :autofocus="autoValue" onfocus="this.select()"
                   v-model="temp.Barcode"></Input>  
                </Col>
                <Col span="5" offset="1">
-               <DatePicker type="date" format="dd-MM-yyyy" @on-change="dateConverter" placeholder="Select date" ></DatePicker>
+               <DatePicker type="date" format="dd-MM-yyyy" @on-change="dateConverter" v-model="tempDate" placeholder="Select date" ></DatePicker>
                </Col>
             </Row>
          </Card>
@@ -88,7 +88,7 @@
          <div class="submits_form">
             <div class="submits_form_all">
                <div class="submits_form_checkbox">
-                  <input type="checkbox" id="checkbox" v-model="homeDelivery">
+                  <input type="checkbox" id="checkbox" v-model="formValue.homeDelivery">
                   <label for="homeDelivery">Home Delivery</label>
                </div>
                <div class="submits_button">
@@ -197,7 +197,7 @@
                </div>
                <div class="memu_sold dis">
                   <p class="memu_text flex_space">Sold By : {{authUser.name}}</p>
-                  <p class="memu_text">Date: {{formValue.date}}</p>
+                  <p class="memu_text">Date: {{formValue.date | changeInoiveDate}}</p>
                </div>
                <p class="RETAIL text_center"><span class="RETAIL_sapn">RETAIL INVOICE</span></p>
                <div class="memu_CUS_ADRESS">
@@ -248,61 +248,6 @@
                         <p class="memu_list_title">{{item.discountedPrice*item.quantity}}</p>
                      </div>
                   </div>
-                 
-                  <!-- <div class="memu_list_main dis">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">1</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">120000</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">2</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">240000</p>
-                     </div>
-                  </div>
-                 
-                  <div class="memu_list_main dis">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">2</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">120000</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">2</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">240000</p>
-                     </div>
-                  </div>
-                 
-                  <div class="memu_list_main dis b_color">
-                     <div class="memu_list_all sl">
-                        <p class="memu_list_num">3</p>
-                     </div>
-                     <div class="memu_list_all items flex_space">
-                        <p class="memu_list_title">Ladies Flat Shose DRSV-01</p>
-                     </div>
-                     <div class="memu_list_all MRP">
-                        <p class="memu_list_title ">1200</p>
-                     </div>
-                     <div class="memu_list_all QTy">
-                        <p class="memu_list_title">99</p>
-                     </div>
-                     <div class="memu_list_all Total">
-                        <p class="memu_list_title">2400</p>
-                     </div>
-                  </div> -->
-                 
                </div>
               
                <div class="memu_total">
@@ -314,25 +259,46 @@
                      <p class="memu_list_title flex_space">Discount (%):</p>
                      <p class="memu_list_title memu_total_num">{{ formValue.discount}}</p>
                   </div>
-                  <div class="memu_total_main dis text_right" v-if="homeDelivery" >
+                  <div class="memu_total_main dis text_right" v-if="formValue.homeDelivery" >
                      <p class="memu_list_title flex_space">Delivery Charge:</p>
                      <p class="memu_list_title memu_total_num">{{ currentCustomer.delivery}}</p>
                   </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">Net Payable:</p>
-                     <p class="memu_list_title memu_total_num" v-if="homeDelivery" >{{(formValue.total)+(currentCustomer.delivery)}}</p>
+                     <p class="memu_list_title memu_total_num" v-if="formValue.homeDelivery" >{{(formValue.total)+(currentCustomer.delivery)}}</p>
                      <p class="memu_list_title memu_total_num" v-else >{{(formValue.total)}}</p>
                   </div>
                </div>
               
-               <div class="CASH_total" v-if="!homeDelivery" >
+               <div class="CASH_total" v-if="!formValue.homeDelivery" >
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">CASH PAID:</p>
                      <p class="memu_list_title memu_total_num" >{{ formValue.cashPaid }}</p>
                   </div>
+                  <div class="memu_total_main dis text_right" v-if="(formValue.paidAmount + formValue.bonusAmount)< formValue.total" >
+                     <p class="memu_list_title flex_space">Due Amount:</p>
+                     <p class="memu_list_title memu_total_num" >{{ (formValue.paidAmount + formValue.bonusAmount) - formValue.total}}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right" v-if="formValue.bonusAmount > 0" >
+                     <p class="memu_list_title flex_space">Bonus Amount used:</p>
+                     <p class="memu_list_title memu_total_num" >{{ formValue.bonusAmount}}</p>
+                  </div>
                   <div class="memu_total_main dis text_right">
                      <p class="memu_list_title flex_space">CHANGE AMOUNT:</p>
                      <p class="memu_list_title memu_total_num">{{ formValue.cashPaid-formValue.paidAmount }}</p>
+                  </div>
+               </div>
+
+               <div class="CASH_total" v-if="currentCustomer.outStanding" style="border-top: 1px dashed #000;" >
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">Total Outstanding</p>
+                     <p class="memu_list_title memu_total_num" >{{ currentCustomer.outStanding + ((formValue.paidAmount + formValue.bonusAmount) - formValue.total) }}</p>
+                  </div>
+               </div>
+               <div class="CASH_total" v-if="currentCustomer.bonusAmount" style="border-top: 1px dashed #000;" >
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">Avaiable Bonus Amount</p>
+                     <p class="memu_list_title memu_total_num" >{{ currentCustomer.bonusAmount  - formValue.bonusAmount }}</p>
                   </div>
                </div>
                
@@ -461,8 +427,10 @@
                 toDayDate:new Date(),
                 searchValue:'',
                 tempBarcode:'',
+                tempDate:'',
                 height: 25,
                 clearModel:false,
+                autoValue:true,
                 loading:false,
                 sending:false,
                 homeDelivery:false,
@@ -534,7 +502,8 @@
                      reference_id: '',
                      productDetails: [],
                      cashPaid:0,
-                     bonusAmount:0
+                     bonusAmount:0,
+                     homeDelivery:false
                 },
                 // options2: {
                 //         shortcuts: [
@@ -649,6 +618,21 @@
             },
 
         },
+        filters:{
+            changeInoiveDate(item){
+                const start = new Date();
+                var hours = start.getHours();
+                var minutes = start.getMinutes();
+                var ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0'+minutes : minutes;
+                var time = hours + ':' + minutes + ' ' + ampm;
+                return time+' '+start.getDate()+'-'+(start.getMonth()+1)+'-'+start.getFullYear();
+              
+
+            }
+        },
         methods: {
             bonusChange()
             {
@@ -726,6 +710,7 @@
                 this.formValue.cashPaid=0
                 this.formValue.bonusAmount=0
                 this.formValue.supplier_id=''
+                this.tempDate=''
                 this.formValue.customer_id=''
                 this.formValue.reference_id=''
                 this.formValue.date=''
@@ -759,7 +744,7 @@
             dateConverter(key)
             {
                 const start = new Date(key);
-                this.formValue.date=start.getDate()+'-'+(start.getMonth()+1)+'-'+start.getFullYear();
+                this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
                 this.formValue.date=key
 
             },
@@ -1078,8 +1063,7 @@
             
             makeSell(){
                 
-                if(Math.round(this.formValue.paidAmount) != Math.round(this.formValue.total) )
-                {
+                if(Math.round(this.formValue.paidAmount + this.formValue.bonusAmount) != Math.round(this.formValue.total) ){
                     this.i('Due Alart','This invoice will add due amount')
                     if(!this.formValue.customer_id)
                     {
@@ -1087,6 +1071,11 @@
                         return                         
                     }
 
+                }
+                if(this.tempDate == '') {
+                    let start = new Date();
+                    this.formValue.date=start.getFullYear()+'-'+(start.getMonth()+1)+'-'+start.getDate();
+               
                 }
                 this.sellProduct ()
             },
@@ -1129,6 +1118,7 @@
             },
 
         },
+        
         async created(){
             this.$store.dispatch('updateHeader','Sale');
             let nd = new Date(this.toDayDate)

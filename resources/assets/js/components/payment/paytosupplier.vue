@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <!-- <Col class="dream-input-main" span="14" offset="1"> 
+            <!-- <Col class="dream-input-main" span="14" offset="1">  
                 <h2>Product List</h2>
 
                 <table style="width:100%">
@@ -241,6 +241,7 @@
             },
             async changed (k) {
                 console.log(this.formValue.supplier_id)
+                 if(this.formValue.supplier_id == '') return
                 this.ls();
                 try{
                 let {data} =await  axios({

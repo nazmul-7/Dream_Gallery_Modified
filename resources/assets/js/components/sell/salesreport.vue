@@ -3,7 +3,7 @@
        <div class="_content">
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
-                    <div class="dream-input-main _b_color _b_r border">
+                    <div class="dream-input-main _b_color _b_r border"> 
                     <Form ref="formInline" inline>
                         <FormItem label="Search">
                             <Input type="text" v-model="search" placeholder="Search"> 
@@ -191,11 +191,10 @@
 
             </Modal> -->
 
-        <Modal class="print_all" v-model="viewModal"  :styles="{top: '5px', width:'288px'}" >
+        <!-- <Modal class="print_all" v-model="viewModal"  :styles="{top: '5px', width:'288px'}" >
                 
             <div  class="print">
         
-                <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
                 <div class="memu" v-if="dataInvoice[dataInvoiceIndex]" >
                 <div class="memu_email text_center">
                     <p class="memu_text">For any queries, complanints or suggestion please</p>
@@ -315,8 +314,142 @@
                 <span>Clear and Exit</span>
                 </Button>
             </div>
-        </Modal>
+        </Modal> -->
             <!-- <pagination :list-data="createFakeData()"/>   -->
+            <Modal class="print_all"  v-model="viewModal"  :styles="{top: '5px', width:'288px'}"  >
+         <div  class="print">
+       
+            <!-- <Table :columns="columns1" :data="formValue.productDetails"></Table> -->
+            <div class="memu"  v-if="searchData[dataInvoiceIndex]">
+               <div class="memu_email text_center">
+                  <p class="memu_text">For any queries, complanints or suggestion please</p>
+                  <p class="memu_text">Call: {{shopData.contact}}</p>
+                  <p class="memu_text">Email: info@greamsgallerybd.com</p>
+               </div>
+               <div class="memu_Address text_center">
+                  <p class="memu_text">{{shopData.companyName}}</p>
+                  <p class="memu_text">{{shopData.address}}</p>
+                  
+               </div>
+               <div class="memu_sold dis">
+                  <p class="memu_text flex_space">Sold By : {{(searchData[dataInvoiceIndex].admin.name)? searchData[dataInvoiceIndex].admin.name : ''}}</p>
+                  <p class="memu_text">Date: {{searchData[dataInvoiceIndex].created_at | changeInoiveDate}}</p>
+               </div>
+               <p class="RETAIL text_center"><span class="RETAIL_sapn">RETAIL INVOICE</span></p>
+               <div class="memu_CUS_ADRESS">
+                  <p class="memu_text">Customer: {{searchData[dataInvoiceIndex].customerName}}</p>
+                  <p class="memu_text" v-if="searchData[dataInvoiceIndex].customer_id!=1" >Address: {{searchData[dataInvoiceIndex].customer.address}}</p>
+                  <p class="memu_text" v-if="searchData[dataInvoiceIndex].customer_id!=1" >Mob: {{searchData[dataInvoiceIndex].customer.contact}}</p>
+               </div>
+               <div class="to_Enjoy">
+                  <p class="memu_text">To Enjoy special Discounts Please register as a loyalty Customer</p>
+               </div>
+               
+              
+               <div class="memu_list">
+                 
+                  <div class="memu_list_main dis align">
+                     <div class="memu_list_all sl">
+                        <p class="memu_list_title">SL</p>
+                     </div>
+                     <div class="memu_list_all items flex_space text_center">
+                        <p class="memu_list_title">Item Description</p>
+                     </div>
+                     <div class="memu_list_all MRP">
+                        <p class="memu_list_title ">MRP</p>
+                     </div>
+                     <div class="memu_list_all QTy">
+                        <p class="memu_list_title">Qty</p>
+                     </div>
+                     <div class="memu_list_all Total">
+                        <p class="memu_list_title">Total</p>
+                     </div>
+                  </div>
+                 
+                 <div class="memu_list_main dis" v-for="(item,index) in searchData[dataInvoiceIndex].selling" :key="index" >
+                        <div class="memu_list_all sl">
+                            <p class="memu_list_num">{{index+1}}</p>
+                        </div>
+                        <div class="memu_list_all items flex_space">
+                            <p class="memu_list_title">{{item.product.productName  }}<br> {{item.product.model  }} {{item.product.color }}  {{item.product.size }}</p>
+                        </div>
+                        <div class="memu_list_all MRP">
+                            <p class="memu_list_title ">{{item.product.sellingPrice}}</p>
+                        </div>
+                        <div class="memu_list_all QTy">
+                            <p class="memu_list_title">{{item.quantity}}</p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title">{{item.product.sellingPrice*item.quantity}} </p>
+                        </div>
+                        <div class="memu_list_all Total">
+                            <p class="memu_list_title" v-if="item.discount>0" ><del>{{item.product.sellingPrice*item.quantity}}</del></p>
+                            <p class="memu_list_title">{{item.product.sellingPrice*item.quantity}}</p>
+                        </div>
+                    </div>
+               </div>
+              
+                <div class="memu_total b_color">
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">Sub Total:</p>
+                        <p class="memu_list_title memu_total_num">{{ searchData[dataInvoiceIndex].totalPrice }}</p>
+                    </div>
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">Discount (%):</p>
+                        <p class="memu_list_title memu_total_num">{{ searchData[dataInvoiceIndex].discount}}</p>
+                    </div>
+                     <div class="memu_total_main dis text_right" v-if="searchData[dataInvoiceIndex].homeDelivery" >
+                        <p class="memu_list_title flex_space">Delivery Charge:</p>
+                        <p class="memu_list_title memu_total_num">{{ searchData[dataInvoiceIndex].customer.delivery}}</p>
+                    </div>
+                    <div class="memu_total_main dis text_right">
+                        <p class="memu_list_title flex_space">Net Payable:</p>
+                        <p class="memu_list_title memu_total_num">{{ searchData[dataInvoiceIndex].sellingPrice}}</p>
+                    </div>
+                </div>
+              
+               <div class="CASH_total" v-if="!searchData[dataInvoiceIndex].homeDelivery" >
+                  <div class="memu_total_main dis text_right">
+                     <p class="memu_list_title flex_space">CASH PAID:</p>
+                     <p class="memu_list_title memu_total_num" >{{ searchData[dataInvoiceIndex].paidAmount - searchData[dataInvoiceIndex].bonusAmount}}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right" v-if="(searchData[dataInvoiceIndex].sellingPrice - searchData[dataInvoiceIndex].paidAmount)>  0" >
+                     <p class="memu_list_title flex_space">Due Amount:</p>
+                     <p class="memu_list_title memu_total_num" >{{ searchData[dataInvoiceIndex].sellingPrice - searchData[dataInvoiceIndex].paidAmount}}</p>
+                  </div>
+                  <div class="memu_total_main dis text_right" v-if="searchData[dataInvoiceIndex].bonusAmount > 0" >
+                     <p class="memu_list_title flex_space">Bonus Amount used:</p>
+                     <p class="memu_list_title memu_total_num" >{{ searchData[dataInvoiceIndex].bonusAmount}}</p>
+                  </div>
+               </div>
+              
+
+   
+
+
+                <div class="spaceBerCode">
+                    <div class="print barcode_main_memu">
+                        <div class="barcode_code">
+                            <!-- <barcode v-bind:value="sellResponseId" style="margin-left: 60px;"> >
+                                Sorry Cant Load now
+                            </barcode> -->
+                            <barcode v-bind:value="searchData[dataInvoiceIndex].id" :options="options">
+                                Sorry Cant Load now
+                            </barcode>
+                        </div>
+                         <p class="barcode_num">INV-SO-DG-{{searchData[dataInvoiceIndex].id}}</p>
+                    </div>
+                </div>
+
+                
+            </div>
+         </div>
+         <div slot="footer">
+                <Button type="primary" size="large"  @click="viewModal = false">
+                <span> Exit</span>
+                </Button>
+            </div>
+      </Modal>
         </div>
     </div>
 </template>
@@ -467,6 +600,19 @@ export default {
                 }
                 return p
             },
+            changeInoiveDate(item){
+                const start = new Date(item);
+                var hours = start.getHours();
+                var minutes = start.getMinutes();
+                var ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0'+minutes : minutes;
+                var time = hours + ':' + minutes + ' ' + ampm;
+                return time+' '+start.getDate()+'-'+(start.getMonth()+1)+'-'+start.getFullYear();
+              
+
+            }
          },
         computed: {
             options() {
@@ -523,7 +669,7 @@ export default {
 
                 }
                 else if(this.filterZone){
-                    console.log(this.filterZone);
+                   
                     return this.dataInvoice.filter((data)=>{                    
                         return data.customer.zone.toUpperCase().match(this.filterZone.toUpperCase()) 
                         &&
@@ -541,7 +687,7 @@ export default {
 
                 }
                 else{
-                    console.log('okkk')
+                   
                     return this.dataInvoice.filter((data)=>{                    
                         return    data.customerName.toUpperCase().match(this.search.toUpperCase()) ||
                             data.invoice_id.toUpperCase().match(this.search.toUpperCase()) ||
@@ -629,12 +775,12 @@ export default {
                   return data;
                 },
             async showPrint (index) {
-                console.log(index)
+               
                 this.dataInvoiceIndex=index
                 this.viewModal=true
                 // this.editModal=true
                 await new Promise(resolve => setTimeout(resolve, 500));
-                console.log("Print")
+               
                 window.print();
             },
             async getData(k)
@@ -668,12 +814,12 @@ export default {
                     this.e('Oops!','Something went wrong, please try again!')
                 this.le();
                 }
-                console.log(k);
+               
             },
             async changedSupplier(k)
             {
-                console.log(k);
-                console.log(this.formValue.supplier_id);
+               
+             
                 this.ls();
                 try{
                 let {data} =await  axios({
@@ -713,13 +859,6 @@ export default {
             {
                 
                 this.formValue.productDetails.splice(index,1)
-            },
-            clearForm()
-            {
-                this.formValue.supplier_id=''
-                this.formValue.productDetails.splice(0,this.formValue.productDetails.length)
-                this.clearModel=false
-
             },
             dateConverter(key)
             {

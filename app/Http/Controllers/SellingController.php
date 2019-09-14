@@ -97,6 +97,8 @@ class SellingController extends Controller
             'discount' => $input['discount'],
             'sellingPrice' => $input['total']+$input['bonusAmount'],
             'paidAmount' => $input['paidAmount'],
+            'bonusAmount' => $input['bonusAmount'],
+            'homeDelivery' => $input['homeDelivery'],
             'date' => $input['date'],
         ]);
         $payment=Payment::create([

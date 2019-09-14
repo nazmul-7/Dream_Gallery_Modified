@@ -24,9 +24,9 @@ class CustomerController extends Controller
 
         $search = $request->searchData;
         if($search){
-           return $data=Customer::whereNotIn('id',[1])->where('customerName','like',$search.'%')->orWhere('address','like',$search.'%')
-           ->orWhere('contact','like',$search.'%')->orWhere('email','like',$search.'%')->orWhere('zone','like',$search.'%')
-           ->orWhere('opening','like',$search.'%') ->orderBy('customerName', 'asc')->get();;
+           return $data=Customer::whereNotIn('id',[1])->where('customerName','like', '%'.$search.'%')->orWhere('address','like', '%'.$search.'%')
+           ->orWhere('contact','like','%'.$search.'%')->orWhere('email','like', '%'.$search.'%')->orWhere('zone','like', '%'.$search.'%')
+           ->orWhere('opening','like', '%'.$search.'%') ->orderBy('customerName', 'asc')->get();;
         }
         $data=Customer::whereNotIn('id',[1])
         ->orderBy('customerName', 'asc')->get();

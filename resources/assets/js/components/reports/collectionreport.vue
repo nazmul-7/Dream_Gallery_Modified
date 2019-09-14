@@ -5,7 +5,7 @@
                 <Form ref="formInline" inline>
                     <FormItem label="Search">
                         <Input type="text" v-model="search" placeholder="Search">
-                            <Icon type="ios-search" slot="prepend"></Icon>
+                            <Icon type="ios-search" slot="prepend"></Icon> 
                         </Input>
                     </FormItem>
                     <!-- <FormItem label="Customer">

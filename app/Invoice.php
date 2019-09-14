@@ -8,7 +8,7 @@ class Invoice extends Model
 {
 
 	protected $fillable = [
-        'admin_id','type', 'totalQuantity','totalPrice', 'discount','sellingPrice', 'paidAmount','customer_id','supplier_id','date',
+        'admin_id','type', 'totalQuantity','totalPrice', 'discount','sellingPrice', 'paidAmount','customer_id','supplier_id','date','homeDelivery'
     ];
    
     public function customer()

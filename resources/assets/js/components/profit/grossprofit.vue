@@ -1,6 +1,6 @@
 <template>
     <div>
-         <div class="_content">
+         <div class="_content"> 
             <div class="row">
                 
                 <div class="dream-input-main col-12 col-md-12 col-lg-12  _b_color _b_r border">
