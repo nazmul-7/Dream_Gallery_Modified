@@ -413,9 +413,9 @@
                      <p class="memu_list_title flex_space">CASH PAID:</p>
                      <p class="memu_list_title memu_total_num" >{{ searchData[dataInvoiceIndex].paidAmount }}</p>
                   </div>
-                  <div class="memu_total_main dis text_right" v-if="(searchData[dataInvoiceIndex].sellingPrice - searchData[dataInvoiceIndex].paidAmount)>  0" >
+                  <div class="memu_total_main dis text_right" v-if="(searchData[dataInvoiceIndex].sellingPrice -( searchData[dataInvoiceIndex].paidAmount + searchData[dataInvoiceIndex].bonusAmount ))>  0" >
                      <p class="memu_list_title flex_space">Due Amount:</p>
-                     <p class="memu_list_title memu_total_num" >{{ searchData[dataInvoiceIndex].sellingPrice - searchData[dataInvoiceIndex].paidAmount}}</p>
+                     <p class="memu_list_title memu_total_num" >{{ searchData[dataInvoiceIndex].sellingPrice - (searchData[dataInvoiceIndex].paidAmount + searchData[dataInvoiceIndex].bonusAmount)}}</p>
                   </div>
                   <div class="memu_total_main dis text_right" v-if="searchData[dataInvoiceIndex].bonusAmount > 0" >
                      <p class="memu_list_title flex_space">Bonus Amount used:</p>
