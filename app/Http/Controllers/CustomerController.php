@@ -14,14 +14,8 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index()
-    // {
-    //     $data=Customer::whereNotIn('id',[1])
-    //     ->orderBy('customerName', 'asc')->get();
-    //     return $data;
-    // }
-    public function getSearchData(Request $request){
-
+    public function index(Request $request)
+    {
         $search = $request->searchData;
         if($search){
            return $data=Customer::whereNotIn('id',[1])->where('customerName','like', '%'.$search.'%')->orWhere('address','like', '%'.$search.'%')
@@ -31,9 +25,7 @@ class CustomerController extends Controller
         $data=Customer::whereNotIn('id',[1])
         ->orderBy('customerName', 'asc')->get();
         return $data;
-
     }
-
     /**
      * Show the form for creating a new resource.
      *

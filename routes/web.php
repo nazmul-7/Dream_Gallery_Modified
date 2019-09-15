@@ -66,7 +66,7 @@ Route::resource('/app/unit_type','UnitController');
 Route::resource('/app/group','GroupController');
 Route::resource('/app/product','ProductController');
 Route::resource('/app/supplier','SupplierController');
-Route::get('/app/customer','CustomerController@getSearchData');
+Route::resource('/app/customer','CustomerController');
 Route::resource('/app/zone','ZoneController');
 Route::resource('/app/ledger','LedgerController');
 Route::resource('/app/voucher','VoucherController');
@@ -80,7 +80,6 @@ Route::get('/app/ledgerFiltered/{id}','VoucherController@ledgerFiltered');
 Route::get('/app/searchProduct/{id}','PurchaseController@searchProduct');
 Route::get('/app/searchInvoice/{id}','InvoiceController@searchInvoice');
 Route::get('/php/test','HomeController@phptest');
-
 //uploads
 Route::post('/app/setting/upload','SettingController@upload');
 
